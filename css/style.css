@@ -1,0 +1,191 @@
+:root{
+ --bg: #ddd9d9;
+ --co: #000;
+ --ho: rgba(67, 22, 228, 0.844);    
+ --ac: rgba(50, 159, 192, 0.844);
+ --inp: rgb(214, 211, 211);
+ --blue: #007bff;
+ --indigo: #6610f2;
+ --purple: #6f42c1;
+ --pink: #e83e8c;
+ --red: #dc3545;
+ --orange: #fd7e14;
+ --yellow: #ffc107;
+ --green: #28a745;
+ --teal: #20c997;
+ --cyan: #17a2b8;
+ --white: #fff;
+ --gray: #6c757d;
+ --gray-dark: #343a40;
+ --primary: #007bff;
+ --secondary: #6c757d;
+ --success: #28a745;
+ --info: #17a2b8;
+ --warning: #ffc107;
+ --danger: #dc3545;
+ --light: #f8f9fa;
+ --dark: #333333;
+ --font: arial;
+ --font1: firasans-light;
+ --font2: verdana;
+ --font3: georgia;
+ --font4: san serif;
+ --font5: times;
+ --box-shadow: 0 0 5px var(--dark); 
+} 
+
+body{
+    padding: 0;
+    margin: 0;
+    background: var(--bg);
+    font-family:  monospace;   
+}
+
+
+nav{  
+    position: -webkit-sticky;
+    position: sticky;    
+    background-color: var(--white);
+    border: none;
+    outline: none;
+    box-shadow: var(--box-shadow); 
+    top: 0; 
+   
+} 
+ 
+nav img{
+    height: 50px;
+    width: 50px;     
+}
+
+nav ul{    
+  list-style: none;         
+}   
+
+nav ul a{ 
+    position: relative;
+    color: #000; 
+    margin: 0 9px; 
+    outline: none;
+    border: none;
+    text-decoration: none;    
+} 
+ 
+.header-right{
+   display: flex;
+   align-items: center;
+   padding: 0 6px;   
+
+} 
+
+.btn{ 
+    border: none;
+    outline: none; 
+    width: 100px; 
+    height: 60%; 
+    box-shadow: var(--box-shadow); 
+    border-radius: 12px;
+    color: #fff; 
+    background: rgba(67, 22, 228, 0.844);
+}
+
+button:hover{
+   background-image: linear-gradient(to left, var(--ho), var(--ac) );
+
+}
+
+button:active{
+    background: var(--ac);
+}
+
+
+.form{
+    margin: 12px auto; 
+    width: 250px;
+    height: auto; 
+    border-radius: 7px; 
+    background: #fff;
+    text-align: center;
+    border: none;
+    outline: none;
+    box-shadow: var(--box-shadow); 
+    font-family: var(--font); 
+}
+
+.form > form > *{ 
+ margin: 9px; 
+
+}
+
+input[type=text], 
+input[type=email],
+input[type=password]{
+    height: 36px;
+    outline: none;
+    border: none;
+    color: var(--co);   
+    background: var(--inp);  
+    border-bottom: 2px solid var(--dark);
+    font-family: var(--font) ;  
+}
+
+
+.msg{
+    text-align: center; 
+    font-size: large;
+    width: 300px;
+    height: 30px;
+    background-color: rgb(165, 159, 159);
+    margin: 0 auto;
+}
+
+.fa:hover{
+    color:var(--ho);  
+}
+.profile-card{   
+    margin: 0 auto; 
+    width: 94%;  
+    min-width: 200px;
+    border-radius: 9px;    
+} 
+
+.profile-pic{
+  margin: 7px auto; 
+  border: none;
+  outline: none;
+}
+.profile-pic:hover{
+  opacity: .7;   
+}
+
+#profile-name{
+  font-family: var(--font);
+  color: var(--ho); 
+}
+.profile-opt{
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: space-around;  
+}
+
+
+
+.postform{
+    width: 90%;
+    min-height: 120px; 
+
+}
+
+.textinput{
+  width: 90%;
+  outline: none;
+  background: var(--inp); 
+}
+
+.lone-p{
+  text-align: left; 
+  font-size: 2em;
+  font-family: var(--font); 
+}
+
+ 

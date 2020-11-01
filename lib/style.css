@@ -1,0 +1,123 @@
+::root{
+ --bg: #ddd9d9;
+ --co: #000;
+ --font: firasans;
+ --ho: rgba(67, 22, 228, 0.844); 
+
+} 
+
+body{
+    padding: 0;
+    margin: 0;
+    background:  
+    font: 200 monospace;  
+}
+
+nav{ 
+    position: sticky; 
+    display: flex;  
+    background-color: #fff;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px #000; 
+
+    
+} 
+ 
+nav img{
+    height: 50px;
+    width: 50px;     
+}
+
+nav ul{ 
+  position: relative; 
+  display: inline-flex;  
+  list-style: none;
+   margin: 12px; 
+  align-items: center;     
+  align-content: right;    
+  width: 86%;      
+  padding: 0; 
+
+}   
+
+nav ul a{ 
+    position: relative;
+    color: #000; 
+    margin: 0 9px; 
+    outline: none;
+    border: none;
+    text-decoration: none;    
+} 
+ 
+.header-right{
+   display: flex;
+   align-items: center;
+   padding: 0 6px;   
+
+} 
+
+
+
+.btn{ 
+    border: none;
+    outline: none; 
+    width: 100px; 
+    height: 60%; 
+    box-shadow: 0 0 5px #000; 
+    border-radius: 12px;
+    color: #fff; 
+    background: rgba(67, 22, 228, 0.844);
+}
+
+button:hover{
+   background-image: linear-gradient(to left,rgba(67, 22, 228, 0.844), rgba(50, 159, 192, 0.844) );
+
+}
+
+button:active{
+    background: rgba(50, 159, 192, 0.844);
+}
+
+.form{
+    margin: 0 auto;
+    width: 250px;
+    height: auto; 
+    border-radius: 7px; 
+    background: #fff;
+    text-align: center;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px #000; 
+}
+
+.form > form > *{ 
+ margin: 9px; 
+
+}
+
+
+input[type=text], 
+input[type=email],
+input[type=password]{
+    height: 29px;
+    outline: none;
+    border: none;
+    color: black;  
+    background: rgb(214, 211, 211);  
+    border-bottom: 2px solid #000;   
+}
+
+
+.msg{
+    text-align: center; 
+    font-size: large;
+    width: 300px;
+    height: 30px;
+    background-color: rgb(165, 159, 159);
+    margin: 0 auto;
+}
+
+.fa:hover{
+    color:var(--ho); 
+}
