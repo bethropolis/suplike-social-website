@@ -15,13 +15,15 @@ if (isset($_SESSION['userId'])) {
         <input type="text" name="mailuid" placeholder="username or email..." autofocus>
         <input type="password" name="pwd" placeholder="password...">
         <button class="login-btn btn" style="height: 45px; width: 140px;" type="submit" name="login-submit">login</button>
-      </form>don't have an account?<a href="signup.php">signup</a> 
+      </form>don't have an account?<a href="signup.php" style="color: var(--ac);">signup</a>  
    </div>
  </main>
  <?php
 
 require "footer.php"
  ?>
+
+
 
 
 

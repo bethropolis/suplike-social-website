@@ -10,30 +10,10 @@ if (isset($_POST['signup-submit'])){
  $passwordRepeat = $_POST['pwd-repeat'];
  $firstname = $_POST['firstname'];
  $lastname = $_POST['lastname'];
- $age = $_POST['age']; 
+ $age = $_POST['age'];  
 
-if ($_FILES['profile-pic']['name']) { 
- $image = $_FILES['profile-pic']['name'];
- $file_size =$_FILES['profile-pic']['size'];
- $file_tmp =$_FILES['profile-pic']['tmp_name'];
- $dot = explode('.', $_FILES['profile-pic']['name']); 
- $file_ext=strtolower(end($dot));  
- $extensions= array("jpeg","jpg","png", ""); 
- 
- if(!in_array($file_ext, $extensions)){
- header("Location: ../signup.php?error=imgnotsupported&uid=".$username."&mail=".$email); 
- exit(); 
- }
-  if($file_size > 2097152){   
-    header("Location: ../signup.php?error=imgtoobig&uid=".$username."&mail=".$email); 
-    exit();
-  }else{  
-   $target = "../img/".$image;  
-   move_uploaded_file($file_tmp, $target);  
-  }
-}
 
- if (empty($username)||empty($email)||empty($password)||empty($passwordRepeat)){
+if (empty($username)||empty($email)||empty($password)||empty($passwordRepeat)){
     header("Location: ../signup.php?error=emptyfields&uid=".$username."&mail=".$email); 
     exit();
  }
@@ -73,7 +53,7 @@ if ($_FILES['profile-pic']['name']) {
             exit();
 
         }else{
-                 $sql = "INSERT INTO users (uidusers, emailusers, pwdUsers, usersFirstname, usersSecondname, usersAge, profile_picture) VALUES (?, ?, ?, ?, ?,?,?)";
+                 $sql = "INSERT INTO users (uidusers, emailusers, pwdUsers, usersFirstname, usersSecondname, usersAge) VALUES (?, ?, ?, ?, ?,?)";
                  $stmt = mysqli_stmt_init($conn); 
                  if (!mysqli_stmt_prepare($stmt, $sql)){ 
                  header("Location: ../signup.php?error=sqlerror");
@@ -81,11 +61,12 @@ if ($_FILES['profile-pic']['name']) {
         }else{
             $hashedpwd = password_hash($password, PASSWORD_DEFAULT);  
             
-            mysqli_stmt_bind_param($stmt, "sssssss", $username, $email, $hashedpwd, $firstname, $lastname, $age, $image);  
+            mysqli_stmt_bind_param($stmt, "ssssss", $username, $email, $hashedpwd, $firstname, $lastname, $age);  
             mysqli_stmt_execute($stmt); 
             mysqli_stmt_store_result($stmt);
-            echo "<h1>sign up success <h1> <br/> you can now login to your account  <a href='../login.php'>click here</a>"; 
-        }
+            echo "<h1>sign up success <h1> <br/> welcome ".$username." please login to your account  <a href='../login.php'>click here</a>"; 
+            exit();
+        }  
     }
    }  
  }
@@ -96,5 +77,7 @@ if ($_FILES['profile-pic']['name']) {
     header("location: ../signup.php");
         exit();   
 }
+
+
 
 //i will add some more soon
