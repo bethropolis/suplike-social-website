@@ -39,9 +39,10 @@ body{
     margin: 0;
     background: var(--bg);
     font-family:  monospace;   
-}
-
-
+} 
+ 
+a{color: var(--dark);} a:hover{color: var(--ho);} a:foccus{color: var(--ho);} a:visited{color: var(--dark);} 
+  
 nav{  
     position: -webkit-sticky;
     position: sticky;    
@@ -85,6 +86,7 @@ nav ul a{
     height: 60%; 
     box-shadow: var(--box-shadow); 
     border-radius: 12px;
+    font-size: 95%; 
     color: #fff; 
     background: rgba(67, 22, 228, 0.844);
 }
@@ -101,7 +103,9 @@ button:active{
 
 .form{
     margin: 12px auto; 
-    width: 250px;
+    width: 72%;  
+    max-width: 360px; 
+    min-width: 250px;
     height: auto; 
     border-radius: 7px; 
     background: #fff;
@@ -188,4 +192,79 @@ input[type=password]{
   font-family: var(--font); 
 }
 
+/*------------following/followers page----------*/
+
+.follower-div{
+  position: relative;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  height:60px;
+  width: 90%;
+  max-width: 880px;
+  border-radius: 12em;
+}
+
+.follower-div img{
+  height: 100%;
+  width: 60px;
+  border-radius: 12em;
+}
+.follower-div .user{
+  height: 100%; 
+  width: 43%;           
+  margin: 0 12px;  
+  overflow: hidden; 
+  
+}
+.follower-div .user a{
+ text-decoration: none; 
+}
+
+.follower-div .user h2{
+  margin: 5px 0;
+  font-size: 19px;
+  color: var(--ho);   
+}
+
+.follower-btn{
+  position: absolute;
+  right: 20px;
+  border-radius: 12em;
+  
+}
+
+/*------------settins page------------*/
+.settings-main{
+  text-align: center;
+}
+
+.settings-sidebar{
+background: var(--white);   
+}  
+.settings-option{ 
+text-align: center;
+border-bottom: 1px solid var(--dark); 
+} 
+
+.setting-form{
+  height: auto; 
+  background: var(--white); 
+    border-radius: 12px;
+    margin: 10px 0;  
+}
+.setting-form > *{
+ margin: 7px 0;   
+}
+.profile-card{
+position: relative;
+}
+.profile-card{
+
+}
+   
+.settings-sidebar a{  
+ text-decoration: none;
+} 
  

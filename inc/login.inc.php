@@ -22,8 +22,8 @@ if (isset($_POST['login-submit'])){
          mysqli_stmt_bind_param($stmt, "ss", $mailuid, $uidusers);  
          mysqli_stmt_execute($stmt);
          $result = mysqli_stmt_get_result($stmt);
-
-         if ($row = mysqli_fetch_assoc($result)){ 
+       
+       if ($row = mysqli_fetch_assoc($result)){ 
              $pwdCheck = password_verify($password, $row['pwdUsers']); 
 
              if ($pwdCheck === false){
@@ -43,7 +43,10 @@ if (isset($_POST['login-submit'])){
                 header("Location: ../login.php?error=wrongpwd");
                 exit(); 
              }
-         }
+         }else if(is_null(mysqli_fetch_assoc($result))){
+              header("Location: ../login.php?noUser");  
+              exit(); 
+         } 
      }
  }
 }else{
