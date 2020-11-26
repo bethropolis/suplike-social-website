@@ -1,0 +1,92 @@
+ :root{
+ --bg: #ddd9d9;
+ --co: #000;
+ --ho: rgba(67, 22, 228, 0.844);    
+ --ac: rgba(50, 159, 192, 0.844);
+ --inp: rgb(214, 211, 211);
+ --light: #f8f9fa;
+ --dark: #333333;
+}
+
+body{
+      margin: 0;
+      padding: 0;
+      overflow: hidden; 
+      font-family: roboto; 
+      box-sizing: border-box;
+    }
+
+nav{
+  position: relative;
+	width: 100%;
+	height: 40px;  
+	display: flex;
+	align-items: center; 
+  box-shadow: 0 0 5px #333; 
+}
+nav img{
+  cursor: pointer; 
+}
+nav ul{
+  position: absolute;
+  list-style: none;
+  color: var(--ho); 
+  right: 8px;   
+} 
+nav a{
+  text-decoration: none;
+  font-family: Monaco, Consolas, "Lucida Console", monospace; 
+  font-size: 1.2rem; 
+  font-weight: 700;   
+}
+
+
+
+
+.messages{
+      height: 80vh; 
+      overflow-x: hidden;
+      padding: 10px;
+      background: #ccc;
+
+}
+form{
+      display: flex;
+} 
+
+  input{ 
+      font-size: 1.2rem; 
+      padding: 10px;   
+     margin:10px 5px;
+     appearance: none;
+     --webkit-appearance: none;
+     border: 1px solid #333;
+     border-radius: 5px;
+    } 
+    #message{
+      flex: 2; 
+    }
+    .msg{   
+      position: relative; 
+      padding: 5px 10px;
+      border-radius: 5px;
+      margin-bottom: 8px;
+
+      -moz-width: fit-content; 
+      width: fit-content;  
+    }
+    .msg-from{ 
+      background: var(--inp); 
+    } 
+    .msg-to{ 
+        background: var(--ho);
+    }
+
+    .msg p{
+      margin: 0;
+      font-weight: bold; 
+    }
+    .msg span{
+    font-size: .7rem;
+    margin-left: 25px;  
+} 
