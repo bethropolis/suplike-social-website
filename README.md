@@ -42,4 +42,5 @@ so far bug free and everything works fine.
 <li>profile page</li>
 <li>settings page</li>
 <li>login/signup system </li>
-<li>search page<li>
+<li>search page</li>
+<li>followers page</li> 
