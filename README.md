@@ -138,7 +138,7 @@ Hi I am bethuel(bethropolis) and happy to say I survived the bugs.<br>
 I love programming and especially working with API's which you will see most in this project
 and my spirit animal is the 🐺. 
  
- <img src="img/myicon.jpg" width="100px"> 
+<img src="https://avatars0.githubusercontent.com/u/66518866?s=460&u=fe90ad789f5d95573d42037b56b4985b913fb79c&v=4" width="100px">   
 
 [bethropolis](https://github.com/bethropolis) 
 
