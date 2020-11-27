@@ -4,7 +4,7 @@ require "header.php";
 
  <main>
 
- 
+ <p class="status"></p>
 
  </main>
  <?php
@@ -14,17 +14,25 @@ require "footer.php"
 url = "./inc/social.inc.php?user="+<?=$_SESSION['userId']?>;
 
 $.get(url, function(result) {
-  result.following.forEach(user => {
+
+  if (result.following) {  
+     result.following.forEach(user => {
      name = user.usersFirstname +" "+user.usersSecondname; 
-    $("main").append(following_func(user.uidusers, name, user.idusers)); 
-  });
-  follow(); 
+    $("main").append(following_func(user.uidusers, name, user.idusers, user.profile_picture)); 
+  }); 
+  follow();
+  }else if(!result.following){ 
+      $('.status').text("you are following no one :(");   
+  }   
 }); 
 
-function following_func(user, name, id) {
+function following_func(user, name, id, img) {
+  if (img == null){
+    img = 'M.jpg'; 
+  }
   return `
 <div class="follower-div">
- <img src="img/1605205155000.webp" alt="this">
+ <img src="img/${img}" alt="this"> 
     <div class="user">
     <a href="profile.php?id=${id}"><h2>${name}</h2></a>   
     <p>${user}</p>
@@ -33,18 +41,25 @@ function following_func(user, name, id) {
   
   </div> `; 
 };  
+
+
 function follow() {
 	 
 
 $('.follow-btn').on('click', function () {  
         var key;
         /*---------------------improvise-------------*/  
-        if ($(this).text() == 'follow') {
-            key = 'true';            
+        switch ($(this).text()) {
+            case 'following':
+            key = 'false';  
+            break;
+            case 'follow':
+            key = 'true'; 
+            break;
+           default:   
+            break;
         }
-        if ($(this).text() == 'following') {  
-            key = 'false';   
-        } 
+ 
         if (key === 'true') { 
            $(this).text('following')
          }else{
@@ -62,6 +77,6 @@ $('.follow-btn').on('click', function () {
           $.ajax(settings).done(function (follow) {
             console.log(follow);   
         })
- })	;
+ })	;  
 } 
  </script> 

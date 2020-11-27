@@ -67,8 +67,9 @@ function load(){
 </script>   
 </head>
 <body>
-    <nav>   
+    <nav><a href="./">    
       <img src="img/logo.png" alt="logo" style="width:35px; height: 35px;">
+    </a>
       <ul>
         <a href="inc/logout.inc.php"><li>logout</li></a> 
       </ul>

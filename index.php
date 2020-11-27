@@ -97,22 +97,22 @@ if (!isset($_SESSION['userId'])) {
  	</div>  
  </div>
 
-<!-- -------------------------------------------this is the posting area --------------------------------------------------------------->
+<!-- -------------------------------------------this is the posting area  --------------------------------------------------------------->
  
- <div class="col-sm-7">    
+ <div class="col-sm-9">    
 
-  <div class="container-lg" >    
-  	<form action="inc/post.inc.php" class="form  postform" style="padding: .7em;"  method="POST" enctype="multipart/form-data">  
-      <img src="" alt="">
-  	 <input type="file" name="image" id="image_post"  style="display: none;"> 
-  	   <input type="text" id="time_of_post" name="time_of_post" style="display: none;" readonly>   
-  	    <input type="text" id="time_posted" name="time_posted" style="display: none;" readonly>      
+  <div class="container-lg" >     
+  	<form action="inc/post.inc.php" class="form  postform" style="padding: .7em;"   method="POST" enctype="multipart/form-data">  
+      <img src="" id="imagedisp"alt="" style="height: 172px; width: auto; margin: 7px;">   
+  	    <input type="file" name="image" id="image_post"  style="display: none;"> 
+  	    <input type="text" id="time_of_post" name="time_of_post" style="display: none;" readonly><!--I used this to find the post date so that the image would have different images-->   
+  	    <input type="text" id="time_posted" name="time_posted" style="display: none;" readonly>   <!--also this -->    
   	 <textarea id="text"cols="40" class="textinput" rows="4" name="posttext" placeholder="what would you like to post about.." oninvalid="this.setCustomValidity('Please you have to write something about this, text cannnot be empty')"  oninput="setCustomValidity('')" required></textarea>   
   	  <div class=" ml-auto mr-1 post-options">
   	   <label for="image_post"><i class="fa fa-image fa-2x"></i></label>      
   	  </div>
-  	 <button class="btn post-btn" name="upload">post</button>    
-   </form>
+  	 <button class="btn post-btn" name="upload">post</button>     
+   </form> 
   </div >
      <div> 
     <?php
@@ -120,8 +120,8 @@ if (!isset($_SESSION['userId'])) {
       while ($row = mysqli_fetch_array($result)) {  
       echo '<div class="post-div">';    
       echo '<div class="post-head">';
-      echo '<img  class="profile_picture" src="http://localhost/files/php%20db%20test/img/logo.PNG" alt="image" style="width:30px; height: 30px;  border-radius: 50%;">';
-      echo '<i class="fa fa-ellipsis-h right  fa-2x"></i>';
+      echo '<img  class="profile_picture" src="./img/logo.PNG" alt="image" style="width:30px; height: 30px;  border-radius: 50%;">';
+      echo '<p class="right">'.$row['date_posted'].'</p>';   
       echo '</div> ';
       if (!empty($row['image'])){   
       echo '<img class="post_image my-3" src="img/'.$row['date_of_upload'].'">';  
@@ -137,24 +137,27 @@ if (!isset($_SESSION['userId'])) {
       }else{ 
         echo '<i title="like" id="'.$row['id'].'" class="fa fa-heart this-click like fa-2x">'.$row['post_likes'].'</i>';  
       }  
-      echo '<i title="comment" id="comment" class="fa fa-comment-o comment fa-2x"></i>';
-      echo '<i title="share it with your friends" id="share" class="fa fa-share fa-2x"></i>'; 
+      echo '<i title="comment" id="comment" class="fa fa-comment-o comment tocome fa-2x"></i>';
+      echo '<i title="share it with your friends" id="share" class="fa fa-share tocome fa-2x"></i>'; 
       echo '</div>';
-      echo '</div> '; 
+      echo '</div> ';  
       echo '</div>';     
      
-     }  
+     }   
    ?> 
+
+
    </div> 
 
  </div>
 <!--  ----------------------------------------------------------------this is the 3rd view or something-------------------------------------- -->
- <div class="col-sm-2" >
-   <i class="fa fa-spinner"></i> 
- </div>
 </div> 
-
-
+ 
+<ul style="display: flex; font-size: 16px; text-align: center; justify-content: space-around;">  
+     <a href="https://github.com/bethropolis/suplike-social-website">github</a> 
+     <a href="info/about.html">about</a> 
+     <a href="https://www.bethropolis.ga">creator</a>
+</ul>  
  </main>
 <?php
 require "footer.php"
@@ -176,10 +179,11 @@ require "footer.php"
 
          $('#image_post').on('change', function (e) {     
           e.preventDefault();
-          console.log(event.target.files)
+          
          var m = URL.createObjectURL(event.target.files[0]);
-         $('#image_post').attr("src", m); 
-
+         $('#imagedisp').attr("src", m); 
+         $('.fa-image').css('color','var(--green)');   
+          console.log(m) 
          });       
           $('.this-click').click(function(like){ 
                    
@@ -207,7 +211,7 @@ require "footer.php"
                
          }) 
                
-        }; 
+        };  
 
                
           } else{   
@@ -228,12 +232,15 @@ require "footer.php"
               }     
               
             $.ajax(settings).done(function (response) {
-              console.log(response);                              
+              console.log(response);                               
          })
         };  
          }
       });       
- 	  });  
+ 	  });   
 
+   $('.tocome').click(function () {
+     alert("I am still working on this...")
+   })
 
  </script> 

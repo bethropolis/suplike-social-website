@@ -1,12 +1,12 @@
 <?php 
 session_start(); 
 require 'dbh.inc.php';
-if (isset($_PUT['profile_btn'])){
-	$user = $_PUT['username'];
-	$mail = $_PUT['email'];
-	$fname = $_PUT['firstname'];
-	$lname = $_PUT['lastname'];
-  $bio = $_PUT['bio'];
+if (isset($_POST['profile_btn'])){
+	$user = $_POST['username'];
+	$mail = $_POST['email']; 
+	$fname = $_POST['firstname'];
+	$lname = $_POST['lastname'];
+  $bio = $_POST['bio'];
  
 if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
        header("Location: ../settings.php?profile&error=invalidmail");
@@ -31,9 +31,9 @@ if (!is_null($result)) {
     exit(); 
 }  
 
-if (isset($_PUT['password_change'])){
-    $new = $_PUT['newpass'];
-    $old = $_PUT['current'];
+if (isset($_POST['password_change'])){
+    $new = $_POST['newpass'];
+    $old = $_POST['current'];
 
     $query = "SELECT * FROM `users` WHERE `idusers`='".$_SESSION['userId']."'";
 	$result = $conn->query($query)->fetch_assoc();
@@ -47,5 +47,5 @@ if (isset($_PUT['password_change'])){
      $query = "UPDATE `users` SET `pwdUsers` = '$hashedpwd' WHERE `users`.`idusers` = '".$_SESSION['userId']."'"; 
      $result = $conn->query($query); 
      header('Location: ../settings.php?password&success=passwordchanged');
-     } 
+     }  
 }

@@ -4,7 +4,7 @@ require 'inc/dbh.inc.php';
 
 $query = "SELECT `emailusers` FROM `users` WHERE `idusers`=".$_SESSION['userId'].""; 
 $result = $conn->query($query)->fetch_assoc();  
- 
+  
  ?>  
 <div class="row">
 	<div class="col-sm-3 settings-sidebar">
@@ -35,7 +35,7 @@ if (isset($_GET['profile'])) {
         <h5 class="text-center userName">'."@".$_SESSION['userUid'].'</h5>
         <i class="fa fa-edit fa-2x"></i>      
         </div>   
-        <form action="inc/settings.inc.php" method="PUT" class="setting-form">        
+        <form action="inc/settings.inc.php" method="POST" class="setting-form">        
         change username:<input type="text"  class="input" value="'.$_SESSION['userUid'].'" name="username"> <br/> 
         change email: <input type="text"  class="input" value="'.$result['emailusers'].'" name="email"><br/>  
         change first name: <input type="text"  class="input" name="firstname" value="'.$_SESSION['firstname'].'"><br/>
@@ -45,11 +45,11 @@ if (isset($_GET['profile'])) {
          </form>   
   
  	';   
- }
+ } 
 
   if (isset($_GET['password'])) {
   	echo '
-          <form action="inc/settings.inc.php" method="PUT" class="setting-form">
+          <form action="inc/settings.inc.php" method="POST" class="setting-form">
   	      <h1>change password</h1><br> 
           <input type="text" class="input" name="current" placeholder="current password..."><br/>
           <input type="text"  class="input" name="newpass" placeholder="new password"> <br/>
@@ -60,7 +60,7 @@ if (isset($_GET['profile'])) {
  } 
 
 
-
+ 
   if (isset($_GET['delete'])) {
   	 echo '<div class="setting-form">   
       <h1>delete account</h1>
