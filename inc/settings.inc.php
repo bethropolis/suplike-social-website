@@ -49,3 +49,5 @@ if (isset($_POST['password_change'])){
      header('Location: ../settings.php?password&success=passwordchanged');
      }  
 }
+ 
+

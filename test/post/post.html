@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../../lib/font-awesome/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .post-div {
+                position: relative;
+                padding: 0;
+                margin: 12px auto;
+                width: 90%;
+                min-width: 220px;
+                max-width: 550px;
+                height: auto;
+                background: #fff;
+                border: none;
+                outline: none;
+                box-shadow: 2px 2px 5px #333;
+                font-family: monospace;
+            }
+         
+            .post-head {
+                display: flex;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                height: 38px;
+                background: #f8f9fc;
+                align-items: center;
+            }
+
+            .profile_picture {
+                position: absolute;
+                border: 2px dotted purple;
+                left: 6px;
+            }
+
+            .post_image {
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                height: auto;
+                border-radius: 0;
+            }
+
+            .social-opt {
+                width: 100%;
+                height: 58px;
+                background: var(--white);
+            }
+
+            .post-text {
+                margin-left: 19px;
+                text-align: left;
+                font-size: 18px;
+                font-weight: 700;
+                font-family: monospace;
+            }
+
+            .social-act {
+                position: absolute;
+                margin: 4px;
+                width: 150px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .right {
+                position: absolute;
+                right: 13px;
+            }
+
+            .like {
+                color: var(--ho);
+            }
+
+            .lone {
+                font-size: 18px;
+            }
+            .dropdown-toggle::after{
+                display: none; 
+            }
+            .dropdown-item:active{
+              background: var(--indigo);  
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="post-div shadow">
+            <div class="post-head  py-3 d-flex flex-row align-items-center justify-content-between">
+                <a href="profile.php?id=${_user.id}">
+                    <h5 class="text-left text-muted py-2 ml-1">@test</h5> 
+                </a>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v fa-sm fa-fw text-dark"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" id="${post.id}" href="#">report <i class="fa fa-report fa-sm"></i></a>  
+                        <a class="dropdown-item" href="#"> </a> 
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="profile.php?id=${_user.id}">visit profile</a>
+                    </div>
+                </div>
+            </div> 
+            <p class="lone px-1">this is a post test</p>
+            <div class="social-opt">
+                <div class="social-act">
+                    <i title="like" id="${post.id}" class="fa ${l} this-click  fa-2x">5</i>
+                    <i title="comment" id="comment" class="fa fa-comment-o comment tocome fa-2x"></i>
+                    <i title="share it with your friends" id="share" class="fa fa-share tocome fa-2x"></i>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="../../lib/jquery/jquery.js"></script>
+        <script src="../../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

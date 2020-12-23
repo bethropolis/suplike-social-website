@@ -1,19 +1,13 @@
 <?php 
 require 'dbh.inc.php';  
+require 'errors/error.inc.php'; 
 header('content-type: application/json');
 
 if(isset($_GET['id'])){
-
-if (empty($_GET['user'])||empty($_GET['like'])||empty($_GET['key'])) { 
-	 	print_r(
- 		json_encode(
-         array( 
-           'code' => 32,  
-           'message'=> 'missing parameters in request'           
- 		)  
-     )
-     
- 	); 
+$u = isset($_GET['user'])?$_GET['user']:'unkown';
+if (!isset($_GET['user'])||!isset($_GET['like'])||!isset($_GET['key'])) { 
+	 	$err = new Err(8);
+    $err->err($u);      
 	 	die(); 
 }
 
@@ -24,72 +18,36 @@ $like = $_GET['like'];
 $key = $_GET['key'];  
  
 if (!($key == 'false'||$key == 'true')){  
-	print_r(
- 		json_encode(
-         array( 
-           'code' => 32,  
-           'message'=> 'key parameter should be boolean'              
- 		)  
-     )
-     
- 	); 
-
+    $err = new Err(9);
+    $err->err($u);      
 die();  
-}
+} 
 
 if(!is_numeric($post)||!is_numeric($user)||!is_numeric($like)){
-	 	print_r(
- 		json_encode(
-         array( 
-           'code' => 32,  
-           'message'=> 'invalid value in parameter'             
- 		)  
-     )
-     
- 	); 
+    $err = new Err(10);
+    $err->err($u); 	 	 
  	die(); 	
-}
+} 
 
 $sql = "SELECT * FROM `users` WHERE `idusers`='$user'"; 
 $result = $conn->query($sql)->fetch_assoc();  
 if (is_null($result)) {
- 	print_r(
- 		json_encode(
-         array( 
-           'code' => 33,
-           'message'=> 'user does not exist'          
- 		)  
-     )
-
- 	); 
+    $err = new Err(1);
+    $err->err($u);    
  	die();  
  } 
 
 $sql = "SELECT * FROM `posts` WHERE `posts`.`id`='$post'"; 
 $result = $conn->query($sql)->fetch_assoc(); 
 if (is_null($result)) {
- 	print_r(
- 		json_encode(
-         array( 
-           'code' => 33,
-           'message'=> 'post does not exist'          
- 		)  
-     )
-
- 	); 
+    $err = new Err(3);
+    $err->err($u);  
  	die();  
  } 
 
 if (($result['post_likes'] - $like) > 1||($result['post_likes']-$like) < -1) { 
-   	print_r(
- 		json_encode(
-         array( 
-           'code' => 35,
-           'message'=> 'illigal action performed'           
- 		)  
-     )
-
- 	);
+    $err = new Err(11); 
+    $err->err($u);  
  	die();          	
   }         
 
@@ -109,31 +67,17 @@ if (!is_null($result)&&$key =='false') {
  } 
 
 if (!is_null($result)&&$key == 'true') {
- 	print_r(
- 		json_encode( 
-         array( 
-           'code' => 34,
-           'message'=> 'already liked this'          
- 		)  
-     )
-
- 	); 
+    $err = new Err(12);  
+    $err->err($u);  	
  	die();  
  }  
 
-if (is_null($result)&&$key == 'false') {
- 	print_r(
- 		json_encode(
-         array( 
-           'code' => 33, 
-           'message'=> 'post does not exist'          
- 		)  
-     )
-
- 	); 
+if (is_null($result)&&$key == 'false') {  
+   $err = new Err(3);  
+    $err->err($u);   
  	die();  
  }
-
+ 
 
 
 $sql = "UPDATE `posts` SET `post_likes` = '$like' WHERE `posts`.`id` = '$post';"; 

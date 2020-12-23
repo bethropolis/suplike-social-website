@@ -29,16 +29,17 @@ if (isset($_POST['login-submit'])){
              if ($pwdCheck === false){
                 header("Location: ../login.php?error=wrongpwd"); 
                 exit();
-             }else if ($pwdCheck === true){
-                 session_start();
+             }else if ($pwdCheck === true){  
+                 session_start();            
                  $_SESSION['userId'] = $row['idusers'];
                  $_SESSION['userUid'] = $row['uidusers']; 
                  $_SESSION['firstname'] = $row['usersFirstname'];
                  $_SESSION['lastname'] = $row['usersSecondname'];
                  $_SESSION['age'] = $row['usersAge']; 
-                 $_SESSION['profile-pic'] = $row['profile_picture'];
-                 header("Location: ../index.php?login=success");  
-                 exit();
+                 $_SESSION['profile-pic'] = $row['profile_picture'];  
+                 $_SESSION['isAdmin'] = $row['isAdmin'];  
+                 header("Location: ../index.php?login=success"); 
+                 exit(); 
              }else{
                 header("Location: ../login.php?error=wrongpwd");
                 exit(); 

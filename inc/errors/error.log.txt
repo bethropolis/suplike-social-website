@@ -1,0 +1,5 @@
+ user: 1 error occurred Error: post does not exist    2020-12-22 20:19:58  on  F:/xampp/htdocs/suplike/inc/like.inc.php
+user: 1 error occurred Error: post does not exist    2020-12-22 20:22:13  on  F:/xampp/htdocs/suplike/inc/like.inc.php
+user: unkown error occurred Error: missing parameters in request    2020-12-22 20:22:41  on  F:/xampp/htdocs/suplike/inc/like.inc.php
+user: unkown error occurred Error: missing parameters in request    2020-12-22 20:22:42  on  F:/xampp/htdocs/suplike/inc/like.inc.php
+user: 5 error occurred Error: already liked this    2020-12-23 23:44:25  on  F:/xampp/htdocs/suplike/inc/like.inc.php

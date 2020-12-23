@@ -1,92 +1,184 @@
- :root{
- --bg: #ddd9d9;
- --co: #000;
- --ho: rgba(67, 22, 228, 0.844);    
- --ac: rgba(50, 159, 192, 0.844);
- --inp: rgb(214, 211, 211);
- --light: #f8f9fa;
- --dark: #333333;
+:root {
+  --bg: #ddd9d9;
+  --co: #000;
+  --ho: rgba(67, 22, 228, 0.844);
+  --ac: rgba(50, 159, 192, 0.844);
+  --inp: rgb(214, 211, 211);
+  --light: #f8f9fa;
+  --dark: #333333;
 }
 
-body{
-      margin: 0;
-      padding: 0;
-      overflow: hidden; 
-      font-family: roboto; 
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  box-sizing: border-box;
+}
 
-nav{
+nav {
   position: relative;
-	width: 100%;
-	height: 40px;  
-	display: flex;
-	align-items: center; 
-  box-shadow: 0 0 5px #333; 
+  width: 100%;
+  height: 60px;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 5px #333;
+  z-index:10;
 }
-nav img{
-  cursor: pointer; 
+
+nav img {
+  height: 50px;
+  cursor: pointer;
 }
-nav ul{
-  position: absolute;
+
+nav .nav-content > * {
+  margin: 0 5px; 
+}
+
+.fas:hover {
+  color: var(--ho);
+}
+
+a {
+  color: #333;
+}
+
+.btn {
+  text-transform: uppercase;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.messages {
+  height: 82vh;
+  overflow-x: hidden;
+  padding: 10px;
+  background: #ccc;
+}
+
+form {
+  display: flex;
+}
+
+.bg{
+  background: var(--ho); 
+  color:#fff;  
+}
+
+.bg:hover{
+   opacity: .9;  
+}
+input {
+  font-size: 1.2rem;
+  padding: 8px;
+  margin: 10px 5px;
+  appearance: none;
+  --webkit-appearance: none;
+  border: 1px solid #333;
+  z-index: 5;  
+}
+
+ul {
   list-style: none;
-  color: var(--ho); 
-  right: 8px;   
-} 
-nav a{
-  text-decoration: none;
-  font-family: Monaco, Consolas, "Lucida Console", monospace; 
-  font-size: 1.2rem; 
-  font-weight: 700;   
+}
+
+.users {
+  font-family: var(--font-family-monospace);
+  font-size: 18px;
+}
+
+.message-form {
+  position: relative;
+}
+
+.form-input {
+  outline: none;
+  border: none;
+  border-bottom: 2px solid var(--ho);
+  z-index: 5; 
+}
+
+.text {
+  padding: 2px;
+  font-family: Arial, Helvetica, sans-serif;
+  min-width: 140px;
+  max-width: 160px;
+  border-radius: 4px;
+}
+
+.text.b {
+  background: #d1c4e9;
+}
+
+.text.a {
+  background: #b39ddb;
+}
+
+.time {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.btn-send {
+  position: absolute;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--ho);
+  color: var(--light);
+  border-radius: 50%;
+  z-index: 100;   
+}
+
+.center {
+  text-align: center;
+}
+
+.toShow {
+  display: none;
+}
+
+.toHide {
+  display: block;
+}
+
+@media screen and (max-width: 950px) { 
+  .messages .offset-10{
+      margin-left: 75%;   
+  }
 }
 
 
+@media screen and (max-width: 604px) {
+  .toShow {
+    display: inline;  
+  }
 
+  .toHide {
+    display: none;
+  }
 
-.messages{
-      height: 80vh; 
-      overflow-x: hidden;
-      padding: 10px;
-      background: #ccc;
-
+  .direct-message {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .messages .offset-10{
+     margin-left: 66%;
+  }  
 }
-form{
-      display: flex;
-} 
 
-  input{ 
-      font-size: 1.2rem; 
-      padding: 10px;   
-     margin:10px 5px;
-     appearance: none;
-     --webkit-appearance: none;
-     border: 1px solid #333;
-     border-radius: 5px;
-    } 
-    #message{
-      flex: 2; 
-    }
-    .msg{   
-      position: relative; 
-      padding: 5px 10px;
-      border-radius: 5px;
-      margin-bottom: 8px;
+@media screen and (max-width: 476px) {
+  .messages .offset-10 {
+     margin-left: 58%; 
+  }
+}
 
-      -moz-width: fit-content; 
-      width: fit-content;  
-    }
-    .msg-from{ 
-      background: var(--inp); 
-    } 
-    .msg-to{ 
-        background: var(--ho);
-    }
 
-    .msg p{
-      margin: 0;
-      font-weight: bold; 
-    }
-    .msg span{
-    font-size: .7rem;
-    margin-left: 25px;  
-} 
+@media screen and (max-width: 330px) { 
+  .messages .offset-10 {
+       margin-left: 44%;   
+  }
+}
+
+

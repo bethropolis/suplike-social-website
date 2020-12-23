@@ -28,17 +28,17 @@ if(isset($_POST['searchSubmit'])){
   }	
 }
 
-?> 
-<link rel="stylesheet" type="text/css" href="css/search.css?k">  
+?>
+<!--<link rel="stylesheet" type="text/css" href="css/search.css?k">  -->
 
 
 <!-- Search form -->
-<form method="post" action="">  
- <div class="search_input"> 
-   <input type="text" class="search_box " name="keyword" value="<?php echo $searchKeyword; ?>" placeholder="Search by keyword..." > 
-   <input type="submit" class="search_button btn" name="searchSubmit" value="Search">
- </div>
-</form>
+<form method="post" class="mx-auto my-4" action="">  
+    <div class="search_input mx-auto row my-2">  
+        <input type="text" class="search_box mx-1 col-8" name="keyword" value="<?php echo $searchKeyword; ?>" placeholder="Search by keyword...">
+        <input type="submit" class="search_button mx-1 col-3 bg btn" name="searchSubmit" value="Search"> 
+    </div>
+</form>  
 
 <?php   
 
@@ -59,48 +59,24 @@ if (!empty($searchKeyword)) {
  } 
  
 ?>
-<div class="search-list-item">
-
-<a href="profile.php?id=<?=$row['idusers']?>" class="prof-link">    
- <h4><?php echo $title; ?></h4></a> 
- <p><?php echo '@'.$contnet; ?></p>
- <button id="<?=$row['idusers']?>" class="btn search-btn follow-btn"><?=$follow?></button> 
-</div> 
+<div class="search-list-item bg-light my-4 mx-auto shadow py-2 w-75 row">       
+    <div class="col-md-6 text-left">   
+        <a href="profile.php?id=<?=$row['idusers']?>" class="prof-link">
+            <h4><?php echo $title; ?></h4>
+        </a>
+        <p><?php echo '@'.$contnet; ?></p>
+    </div>
+    <div class="col-md-6 text-right pr-4">         
+    <button id="<?=$row['idusers']?>" class="btn col-5 p-2 bg follow-btn"><?=$follow?></button>    
+    </div> 
+</div>
 <?php } }else{ ?>
 <p>No user(s) found...</p>
 <?php }   
 ?>
-  
-<?php require 'footer.php'; ?> 
-<script type="text/javascript">
-   
-$('.follow-btn').click(function () {   
-        var key;
-        /*---------------------improvise-------------*/  
-        if ($(this).text() == 'follow') {
-            key = 'true';            
-        }
-        if ($(this).text() == 'following') {  
-            key = 'false';   
-        } 
-        if (key === 'true') { 
-           $(this).text('following')
-         }else{
-           $(this).text('follow')         
-         }
 
-      url = "./inc/follow.inc.php?user="+<?=$_SESSION['userId']?>+"&following="+this.id+"&key="+key;   
-      console.log(url)  
-       var settings = {
-                 "async": true,
-                "crossDomain": false,  
-                "url": url,       
-                "method": "GET",    
-              }     
-              
-          $.ajax(settings).done(function (follow) {
-            console.log(follow);   
-        })
-     })
-
+<?php require 'footer.php'; ?>
+<script>
+ let user = <?=$_SESSION['userId']?> ; 
+ follow(user);   
 </script>

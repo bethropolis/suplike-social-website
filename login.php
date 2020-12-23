@@ -7,17 +7,17 @@ if (isset($_SESSION['userId'])) {
 }
 ?> 
  <main>
-   <div class="form"> 
-
-    <h1>login</h1>
-
-        <form class="" action="inc/login.inc.php" method="post"> 
-        <input type="text" name="mailuid" placeholder="username or email..." autofocus>
-        <input type="password" name="pwd" placeholder="password...">
-        <button class="login-btn btn" style="height: 45px; width: 140px;" type="submit" name="login-submit">login</button>
-      </form>don't have an account?<a href="signup.php" style="color: var(--ac);">signup</a>  
-   </div>
- </main>
+   <div class="center">  
+    <h1>login</h1> 
+        <form class="form mx-auto" action="inc/login.inc.php" method="post"> 
+        <label for="user">username or email:</label><br/>  
+        <input type="text" id="user" name="mailuid" placeholder="username or email..." autofocus><br/><br/>
+        <label for="pwd">password:</label> <br/>  
+        <input type="password" id="pwd" name="pwd" placeholder="password..."> <br/><br/> 
+        <button class="login-btn my-1 bg btn" style="height: 45px; width: 140px;" type="submit" name="login-submit">login</button>
+      </form><h5 class="my-1">don't have an account?<a href="./signup.php" style="color: var(--ac);">signup</a> </h5> 
+   </div>  
+ </main> 
  <?php
 
 require "footer.php"

@@ -12,7 +12,7 @@ if (isset($_GET['user'])) {
     $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture` FROM `users` WHERE `idusers`=".$row['following'];       
     $response = $conn->query($sql);
     while ($resp = mysqli_fetch_assoc($response)) {
-    	$arr['following'][$i]= $resp; 
+    	$arr[$i]= $resp; 
     	$i++; 
     }
     

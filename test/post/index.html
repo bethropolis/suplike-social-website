@@ -1,0 +1,33 @@
+<style>
+  form{
+      width: 70%;
+      margin: 0 auto;
+      padding: 1.4em;
+  }
+  input{ 
+    padding: 5px; 
+    outline: none; 
+  }
+</style>
+
+
+<form action="post.test.php" class="form" method="post">  
+<input type="text" name ='text' class="text" placeholder="enter some text..."> 
+<input type="submit">
+<input type="submit" id="btn" value="get json"> 
+</form>
+<p id="text"></p>  
+<script>
+ // first of all, I had to use jquery
+ 
+document.querySelector('#btn').addEventListener('click', function(){ 
+document.querySelector('.form').addEventListener('submit', e=>{
+     e.preventDefault();  
+ })
+
+   fetch('post.test.php',{text: $('.text').val()},function(respose){
+       console.log(response); 
+   })
+} 
+// that was easier Right!
+</script>

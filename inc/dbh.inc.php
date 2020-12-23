@@ -1,9 +1,9 @@
 <?php
-
 $servername = "localhost";
 $dBUsername = "root";
 $dBPassword = ""; 
-$dBName = "suplike";  
+$dBName = "suplike";
+$timeZone = new DateTimeZone('Africa/Nairobi');   
 
 
 $conn = mysqli_connect($servername, $dBUsername, $dBPassword, $dBName);

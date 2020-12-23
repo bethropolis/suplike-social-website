@@ -1,5 +1,6 @@
 <?php 
 require 'dbh.inc.php';  
+require 'errors/error.inc.php';  
 header('content-type: application/json');
 
 # this was a 100% copy from like.inc.php,
@@ -7,15 +8,8 @@ header('content-type: application/json');
 if(isset($_GET['following'])){
 
 if (empty($_GET['user'])||empty($_GET['key'])) { 
-	 	print_r(
- 		json_encode(
-         array( 
-           'code' => 32,  
-           'message'=> 'missing parameters in request'           
- 		)  
-     )
-     
- 	); 
+	 	   $err = new Err(8);
+    $err->err($_GET['user']||'NaN');  
 	 	die(); 
 }
  
@@ -24,16 +18,8 @@ $followed = $_GET['following'];
 $key = $_GET['key']; 
 
 if (!($key == 'false'||$key == 'true')){  
-	print_r(
- 		json_encode(
-         array( 
-           'code' => 32,  
-           'message'=> 'key parameter should be boolean'              
- 		)  
-     )
-     
- 	); 
-
+    $err = new Err(9);
+    $err->err($_GET['user']);  
 die();  
 }
 
@@ -52,30 +38,16 @@ die();
 }
 
 if(!is_numeric($followed)||!is_numeric($following)){
-	 	print_r(
- 		json_encode(
-         array( 
-           'code' => 32,  
-           'message'=> 'invalid value in parameter'             
- 		)  
-     )
-     
- 	); 
+    $err = new Err(10);
+    $err->err($_GET['user']);    
  	die(); 	
 } 
 
 $sql = "SELECT * FROM `users` WHERE `idusers`='$following'"; 
 $result = $conn->query($sql)->fetch_assoc();  
 if (is_null($result)) {
- 	print_r(
- 		json_encode(
-         array( 
-           'code' => 33,
-           'message'=> 'user does not exist'          
- 		)  
-     )
-
- 	);  
+ 	  $err = new Err(1);
+    $err->err($_GET['user']);   
  	die();  
  }else{
  	$following_user_follows = $result['following'];
@@ -85,15 +57,8 @@ if (is_null($result)) {
 $sql = "SELECT * FROM `users` WHERE `idusers`='$followed'"; 
 $result = $conn->query($sql)->fetch_assoc();  
 if (is_null($result)) {
- 	print_r(
- 		json_encode(
-         array( 
-           'code' => 33,
-           'message'=> 'user does not exist'          
- 		)  
-     )
-
- 	);  
+    $err = new Err(1);
+    $err->err($_GET['user']);     
  	die();  
  }else{
  	$followed_user_followers= $result['followers']; 
@@ -122,28 +87,14 @@ if (!is_null($result)&&$key =='false') {
  } 
 
 if (!is_null($result)&&$key == 'true') {
- 	print_r(
- 		json_encode( 
-         array( 
-           'code' => 34,
-           'message'=> 'already followed this user'          
- 		)  
-     )
-
- 	); 
+    $err = new Err(13);
+    $err->err($_GET['user']);  
  	die();  
  }  
 
 if (is_null($result)&&$key == 'false') {
- 	print_r(
- 		json_encode(
-         array( 
-           'code' => 33, 
-           'message'=> 'user does not exist'          
- 		)  
-     )
-
- 	); 
+    $err = new Err(1);
+    $err->err($_GET['user']);   
  	die();  
  }
 

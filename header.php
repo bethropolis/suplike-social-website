@@ -1,7 +1,6 @@
 
 <?php
-session_start();
-
+session_start(); 
 ?>
 
 <!DOCTYPE html>
@@ -14,11 +13,13 @@ session_start();
     <meta name="msapplication-navbutton-color" content="rgba(67, 22, 228, 0.844)">
   <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-status-bar-style" content="rgba(67, 22, 228, 0.844)">
-    <title>bethropolis social</title>    
+    <title>suplike</title>     
     <link rel="icon" type="image/png" href="img/logo.png">   
     <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css"> 
-    <link rel="stylesheet" href="./css/bootstrap.min.css">    
-    <link rel="stylesheet" href="./css/style.css?a">    
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="./css/style.css?hhy">  
+    <script type="text/javascript" src="./lib/jquery/jquery.js"></script>  
+    <script src="./js/online.js"></script>     
  </head> 
 <body> 
     <header>
@@ -32,9 +33,16 @@ session_start();
         <div class="navbar-collapse justify-content-right collapse" id="navbarSupportedContent" > 
         <?php 
         if (isset($_SESSION['userId'])){   
-          echo '  
-        <ul class="navbar-nav ml-auto mr-1">  
-          <a href="./"><i title="home" class="fa fa-home fa-2x"></i></a>  
+          echo '<ul class="navbar-nav ml-auto mr-1">';  
+          echo '<a href="./"><i title="home" class="fa fa-home fa-2x"></i></a> ';
+            
+        echo '<div id="header-addons">';   
+            if ($_SESSION['isAdmin'] == true){   
+                  echo '<a href="./dashboard/"><i title="dashboard" class="fa fa-bar-chart fa-2x"></i></a> ';   
+              }        
+        echo '</div>';          
+            
+        echo '  
           <a href="social.php"><i title="friends" class="fa fa-users fa-2x"></i></a>    
           <a href="message.php"><i title="direct inbox" class="fa fa-envelope fa-2x"></i></a>    
           <a href="search.php"><i title="search for users or post" class="fa fa-search fa-2x" ></i></a>
