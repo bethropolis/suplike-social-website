@@ -198,7 +198,7 @@ if you like to contribute please don't mind sending a pull request I will
 check it out the see if I can merge it, all ideas aloud. 
 
  
- <img src="img/myicon.jpg" width="100px"> 
+ <img src="https://avatars1.githubusercontent.com/u/66518866" width="100px">   
 
 [bethropolis](https://github.com/bethropolis) 
 
