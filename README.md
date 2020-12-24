@@ -183,7 +183,7 @@ your analytics. The dashboard is one the biggest features of v1.2 and currently 
 > you can show support to this project by staring this repo, it really means alot to me.   
  
 # inspiration
-my biggest inspiration to make this website was was the [KLIK social website](https://) on github 
+my biggest inspiration to make this website was was the [KLIK social website](https://github.com/msaad1999/KLiK-SocialMediaWebsite) on github  
 whom I also made > 50% of the Readme from and also top social websites like [facebook](https://facebook.com) gave me some tips.
 
 # behind it all 
