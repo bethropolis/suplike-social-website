@@ -172,11 +172,16 @@ your analytics. The dashboard is one the biggest features of v1.2 and currently 
 # Future Improvements
 ---
 * making the whole system depend on ajax api requests for speed on page load and easier for expansion (`social.php` would be a great example);
-* `laravel` and `vue,js` would really make this even easier;
+* `laravel` and `vue.js` would really make this even easier;
 * adding lazy loading to the posts would make load time quicker
 * improving the UI
 * implementing PHPmailer to send emails e.g forgot password system
 * admin dashboard [✔] 
+* Admin intergrations/addons  
+* Profile page upgrade  
+* Settings update
+* Adding authentication
+* adding PWA features
 * youtube video posting and more formarts
 * Continuous Bug fixes and improvements
 
