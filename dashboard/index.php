@@ -44,10 +44,10 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             }
         </style>
         <script src="../lib/jquery/jquery.js"></script>
-        <script src="http://localhost/lib/chart.js/Chart.min.js"></script>
-        <script src="http://localhost/lib/datatables/jquery.dataTables.js"></script>
-        <script src="http://localhost/lib/datatables/dataTables.bootstrap4.js "></script>
-        <script src="http://localhost/lib/vue/vue.js"></script>
+        <script src="../lib/chart.js/Chart.min.js"></script>
+        <script src="../lib/datatables/jquery.dataTables.js"></script>
+        <script src="../lib/datatables/dataTables.bootstrap4.js "></script>
+        <script src="../lib/vue/vue.js"></script>
     </head>
     <body onload="app.load()">
         <div id="app">
