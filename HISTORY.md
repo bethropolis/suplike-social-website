@@ -1,5 +1,12 @@
 # timeline
-
+## v1.214
+<p>5 may 2021<p>
+  
+### about
+   * bug fix - message page doubling sent mesage
+   * added a demo site. try [demo](https://bethro.alwaysdata.net/)
+     
+  
 ## v1.2 
 <p>24 December 2020<p>
 this is a whole new look on everything, this was where the whole code from every page was rewritten to reduce user interactivity with the php engine using
