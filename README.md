@@ -151,7 +151,7 @@ the search page is where you can search for users for now.
  The following page is where you can vue the users you follow (for now);
 
 ## post page (new)
-<img src="./_githubasserts/8.png" align="center" style="width: 70%"><br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/8.png" align="center" style="width: 70%"><br> 
 the post page is new in v1.2, this is where you can make a post other than the main page it self
 
  
