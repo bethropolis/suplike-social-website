@@ -118,7 +118,7 @@ like system is fully working together with the follow system and
 bothare perfect and most secure. 
   
 ## live messaging/chat system (whole new look)
-<img src="./_githubasserts/messages.webp" align="center" style="width: 70%"><br/> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/messages.webp" align="center" style="width: 70%"><br/> 
 in previous version, one of the issues was that the messaging page was just 
 a page. Live messaging was not well supported and you could not choose who to chat with until
 you clicked message on their profile page. But in the new version, the entire code was re writen and the 
@@ -126,28 +126,28 @@ whole of that is gone, you can chat with the people you follow
 and it is more mobile responsive than previous and the only client page that uses Vuejs.
 
 ## home page 
-<img src="./_githubasserts/3.png" align="center" style="width: 70%"><br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/3.png" align="center" style="width: 70%"><br> 
 the home page is the main page where you can see post from some of the people you follow 
 and the first page you will land on.
 
 ## profile page
-<img src="./_githubasserts/10.png" align="center" style="width: 70%"><br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/10.png" align="center" style="width: 70%"><br> 
 the profile page is still in my future update plans, still needs more work.
 
 ## settings page
-<img src="./_githubasserts/5.png" align="center" style="width: 70%"> <br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/5.png" align="center" style="width: 70%"> <br> 
 also needs more work 
 
 ## login/signup system  
-<img src="./_githubasserts/7.png" align="center" style="width: 70%"><br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/7.png" align="center" style="width: 70%"><br> 
 you will have login or sign up to use the site.
 
 ## search page
-<img src="./_githubasserts/6.png" align="center" style="width: 70%"><br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/6.png" align="center" style="width: 70%"><br> 
 the search page is where you can search for users for now.
  
 ## following page  
-<img src="./_githubasserts/4.png" align="center" style="width: 70%"><br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/4.png" align="center" style="width: 70%"><br> 
  The following page is where you can vue the users you follow (for now);
 
 ## post page (new)
@@ -156,7 +156,7 @@ the post page is new in v1.2, this is where you can make a post other than the m
 
  
 ## dashboard (new)
-<img src="./_githubasserts/dashboard.webp" align="center" style="width: 70%"><br> 
+<img src="https://raw.githubusercontent.com/bethropolis/suplike-social-website/major/_githubasserts/dashboard.webp" align="center" style="width: 70%"><br> 
 The Admin Dashboard is a whole new upgrade in v1.2, The dashboard is where you can view 
 your analytics. The dashboard is one the biggest features of v1.2 and currently undergoing alot of modifications<br>
 
