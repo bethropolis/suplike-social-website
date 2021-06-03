@@ -1,4 +1,12 @@
 # timeline
+
+## v1.224
+ ### about
+ * emoji on message
+ * font change
+ * bug fix
+
+
 ## v1.214
 <p>5 may 2021<p>
   
