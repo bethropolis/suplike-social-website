@@ -6,7 +6,7 @@ class Err{
     private $time; 
     private $user; 
     private $error; 
-    private $log = 'errors/error.log.txt';     
+    private $log = 'errors/error.log.txt';      
     public function __construct($status = null){ 
        $this->code = $status;   
        $this->time = new DateTime(null, new DateTimeZone('Africa/Nairobi')); # I am from nairobi but you can chage it to your own timezone 
@@ -15,7 +15,7 @@ class Err{
       $this->log = $file; 
    }
 
-   public function err($user, $err = null){      
+   public function err($user, $err = null, $msg = null){      
    	   $this->code == null ? $this->code = $err:''; 
        $this->user = $user;    	
        $status = $this->code ;  
@@ -27,16 +27,18 @@ class Err{
        	'username already exist',//4
        	'can not send message',//5
        	'wrong password',//6
-       	'you are not autorised',//7
+       	'user is not autorised',//7 
        	'missing parameters in request',//8
        	'key parameter should be boolean',//9
        	'invalid value in parameter',//10
        	'illigal action performed',//11
        	'already liked this',//12 
        	'already followed this user',//13
-       	'unknown request'//14 
+          'unknown request',//14 
+          'failed to execute request'//15
        ];
-       $this->error = $error_array[$status];
+        $this->code == null ? $this->code = $err:'';
+        $msg == null ? $this->error = $error_array[$status]: $this->error = $msg; 
        $this->print = print_r( 
              json_encode(  
                 array(

@@ -1,0 +1,56 @@
+[
+    {
+        "private": false,
+        "type": "user",
+        "id": 1, 
+        "description": "access your username"
+    },
+    {
+        "private": true,
+        "type": "user",
+        "id": 2,
+        "description": "allow to access your email"
+    },
+    {
+        "private": false,
+        "type": "user",
+        "id": 3,
+        "description": "allow to see all your posts"
+    },
+    {
+        "private": false,
+        "type": "user",
+        "id": 4,
+        "description": "can see who you follow and who else follows you"
+    },
+    {
+        "private": true,
+        "type": "user",
+        "id": 5,
+        "description": "can see all of your messages"
+    },
+    {
+        "private": true,
+        "type": "user",
+        "id": 6,
+        "description": "can see all of your data including private data"
+    },
+    {
+        "private": true,
+        "type": "access",
+        "id": 7,
+        "description": "can write a post on your profile and edit profile"
+    },
+    {
+        "private": true,
+        "type": "access",
+        "id": 8,
+        "description": "can post, delete and share post"
+    },
+    {
+        "private": true,
+        "type": "",
+        "id": 9,
+        "description": "will act as you and has all privilage edit, post and even delete account"
+    } 
+]

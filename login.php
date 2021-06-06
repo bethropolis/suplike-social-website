@@ -17,9 +17,13 @@ if (isset($_SESSION['userId'])) {
         <button class="login-btn my-1 bg btn" style="height: 45px; width: 140px;" type="submit" name="login-submit">login</button>
       </form><h5 class="my-1">don't have an account?<a href="./signup.php" style="color: var(--ac);">signup</a> </h5> 
    </div>  
- </main> 
- <?php
+ </main>
+<script>
+   $(".form").on
+</script> 
 
+
+ <?php
 require "footer.php"
  ?>
 

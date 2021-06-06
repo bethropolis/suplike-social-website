@@ -24,7 +24,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
         <link rel="stylesheet" href="../lib/font-awesome/font-awesome.min.css">
         <!-- Bootstrap core CSS -->
         <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://localhost/lib/datatables/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
         <!-- Custom styles for this template -->
         <link href="dashboard.css?b4" rel="stylesheet">
         <style>
@@ -37,17 +37,16 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                 user-select: none;
             }
 
-            @media (min-width: 768px) {
+            @media (min-width: 768px) { 
                 .bd-placeholder-img-lg {
                     font-size: 3.5rem;
                 }
             }
         </style>
         <script src="../lib/jquery/jquery.js"></script>
-        <script src="../lib/chart.js/Chart.min.js"></script>
-        <script src="../lib/datatables/jquery.dataTables.js"></script>
-        <script src="../lib/datatables/dataTables.bootstrap4.js "></script>
-        <script src="../lib/vue/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>       
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="../lib/vue/vue.min.js"></script>
     </head>
     <body onload="app.load()">
         <div id="app">
@@ -460,6 +459,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     data: null,
                     reports: [],
                     user: sessionStorage.getItem('name') || 'Unknown',
+                    token:  sessionStorage.getItem('user') || 'Unknown' 
 
                 },
                 methods: {
@@ -477,7 +477,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         }
                         )
 
-                        $.get('../inc/data/data.a.inc.php?type=all&key=OytsaB78Ze5Y912027', (data)=>{
+                        $.get('../inc/data/data.a.inc.php?type=all&key='+this.token, (data)=>{ 
                             this.data = data;
                         }
                         )

@@ -1,18 +1,20 @@
 <?php
 require 'header.php';
+require 'inc/dbh.inc.php' ;
+require 'inc/Auth/auth.php';
 require 'inc/dbh.inc.php';
 
-if (!isset($_SESSION['userId'])) {
+if (!isset($_SESSION['token'])) {
   header('Location: ./login.php');
   exit();
 }
 
 
-$profile = isset($_GET['id']) ? $_GET['id'] : $_SESSION['userId'];
+$profile = isset($_GET['id']) ? $_GET['id'] : $_SESSION['token'];
 $follow = 'follow';
-$query = "SELECT * FROM `following` WHERE user=" . $_SESSION['userId'] . " AND `following`='$profile'";
+$query = "SELECT * FROM `following` WHERE user=" . $un_ravel->_getUser($profile) . " AND `following`='$profile'";  
 $result = $conn->query($query)->fetch_assoc();
-if (!is_null($result)) {
+if (!is_null($result)) { 
   $follow = 'following';
 }
 
@@ -22,7 +24,7 @@ if (!is_null($result)) {
 <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>        
 <script type="text/javascript" src="js/index.js?v1.2"></script>   
 <script>        
-   profile = <?=$profile?>;
+   profile = "<?= $profile ?>"; 
    // took me long to debug but it is here where the post are rendered
    profile_request(profile);      
 

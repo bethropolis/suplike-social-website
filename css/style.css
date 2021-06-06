@@ -1,5 +1,5 @@
 :root{
- --bg: #ddd9d9;
+ --bg: #fff; 
  --co: #000;
  --ho: rgba(67, 22, 228, 0.844); 
  --ac: rgba(50, 159, 192, 0.844);
@@ -9,6 +9,10 @@
 
 /*
 @params */
+
+html {
+  scroll-behavior: smooth;
+}
 body{
     padding: 0;
     margin: 0;
