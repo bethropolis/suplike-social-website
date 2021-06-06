@@ -1,6 +1,8 @@
 <?php
+$servername = "localhost";
 $dBUsername = "root";
 $dBPassword = ""; 
+$dBName = "suplike";
 $timeZone = new DateTimeZone('Africa/Nairobi');   
 
 
