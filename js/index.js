@@ -5,17 +5,23 @@ function mainload() {
     $('#image_post').on('change', function(e) {
         e.preventDefault();
         var m = URL.createObjectURL(event.target.files[0]);
-        $('#type').val('img');
-        $('#imagedisp').attr("src", m);
+        $('#type').val('img'); 
+        $('#imagedisp').attr("src", m); 
     });
     function getUsers() {
          $.get('./inc/post.inc.php?user=' + _user_id, function(posts) {
+             if(posts  instanceof Array){    
             posts.forEach(post=>{
                 $('#main-post').append(render(post));
      
             }
             )
-          addClick();                
+          addClick();  
+          }else{
+            $('#main-post').append("<div class='post-div shadow' class='text-center'><h4> you don't follow anyone</h4></div>");  
+          }
+          
+
         })  
     }
  getUsers();
@@ -47,7 +53,7 @@ function render(post) {
                     </div>
                 </div>
             </div>
-              <img class="post_image my-3" src="./img/${post.image}" /> 
+              <img class="post_image my-3" loading="lazy" src="./img/${post.image}" /> 
               <p class="post-text py-1 mx-1">${post.image_text}</p>
             <div class="social-opt">
                 <div class="social-act">
@@ -136,10 +142,14 @@ function profile_request(profile) {
         if (user.user) {
             $('#profile-name').text(user.user.usersFirstname + ' ' + user.user.usersSecondname);
             $('.userName').text('@' + user.user.uidusers);
-            $('.message-btn').attr('href', 'message.php?id=' + user.user.idusers);
+            $('.message-btn').attr('href', 'message.php?id=' + user.user.token); 
             $('#following').text('following: ' + user.user.following)
             $('#followers').text('followers: ' + user.user.followers)
             $('.bio').text(user.user.bio)
+            if(user.user.profile_picture !== null){
+                $(".profile-pic").attr('src', "img/"+user.user.profile_picture)  
+            }
+            
             if (user == user.user.uidusers) {
                 $('.btn').hide();
             }
@@ -188,3 +198,10 @@ function follow(user) {
         })
     })
 }
+
+
+$("#logout").click(function(){
+    sessionStorage.clear(); 
+})
+
+

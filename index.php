@@ -7,15 +7,15 @@ if (!isset($_SESSION['userId'])) {
 ?>  
 <script>
        if (sessionStorage.getItem('user') == null){ 
-          sessionStorage.setItem('user', "<?=isset($_SESSION['userId'])?$_SESSION['userId']:null?>");  
-          sessionStorage.setItem('name', "<?=isset($_SESSION['userUid'])?$_SESSION['userUid']: null?>");       
+          sessionStorage.setItem('user', "<?=isset($_SESSION['token'])?$_SESSION['token']:null?>");  
+          sessionStorage.setItem('name', "<?=isset($_SESSION['userUid'])?$_SESSION['userUid']: null?>");        
        };
 </script>   
 <main>
     <!--  <div class="loader">
     <progress-ring stroke="4" radius="60" progress="0"></progress-ring>
   </div> -->
-    <link rel="stylesheet" href="./css/post.css?ly">
+    <link rel="stylesheet" href="./css/post.css">
     <div class="row">
         <div class="col-sm-3 sidebar-sticky pt-3">
             <div class="card card-profile text-center profile-card sidebar-content sticky-top" style="width: 94%;">
@@ -68,6 +68,6 @@ require "footer.php"
  ?>
 
 <!--------- main script----->
-<script> 
+<script defer>  
    mainload();     
 </script>

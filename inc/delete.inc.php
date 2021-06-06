@@ -1,5 +1,6 @@
 <?php 
 require 'dbh.inc.php';
+require 'errors/error.inc.php';  
 header('content-type: application/json'); 
 
 if (isset($_GET['user'])){     
@@ -28,4 +29,8 @@ if (isset($_GET['user'])){
 	     )
 	 )
  );  
-}  
+}else{ 
+	$err = new Err(15); 
+    $err->err($u);  
+ 	die();     
+} 

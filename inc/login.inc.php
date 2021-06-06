@@ -1,11 +1,12 @@
-<?php 
-
+<?php   
 if (isset($_POST['login-submit'])){
 
     require 'dbh.inc.php' ;
+    require 'Auth/auth.php'; 
 
     $mailuid = $_POST['mailuid'];  
     $password = $_POST['pwd'];
+    $auth = new Auth();
 
  if (empty($mailuid)|| empty($password)){
     header("Location: ../login.php?error=emptyfields");     
@@ -30,8 +31,15 @@ if (isset($_POST['login-submit'])){
                 header("Location: ../login.php?error=wrongpwd"); 
                 exit();
              }else if ($pwdCheck === true){  
+                 
+                
+                 
                  session_start();            
                  $_SESSION['userId'] = $row['idusers'];
+                 $auth->_queryUser($row['idusers'],1);  
+                 $_SESSION["token"] = $auth->user; 
+                 $auth->_queryUser($row['idusers'],2);   
+                 $_SESSION["chat_token"] = $auth->user;                  
                  $_SESSION['userUid'] = $row['uidusers']; 
                  $_SESSION['firstname'] = $row['usersFirstname'];
                  $_SESSION['lastname'] = $row['usersSecondname'];

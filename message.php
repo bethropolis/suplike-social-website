@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['userId'])) {
+if (!isset($_SESSION['token'])) { 
   header('Location: ./login.php');
   exit();
 }
@@ -23,7 +23,7 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
   <link rel="stylesheet" href="./css/chat.css?hs"> 
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script> 
-  <script src="./lib/vue/vue.js"></script>   
+  <script src="./lib/vue/vue.min.js"></script>    
 </head>
 
 <body onload="app.WhoIsOnline();app.getMessage()">
@@ -86,8 +86,8 @@ if (isset($_GET['id'])) {
     const app = new Vue({
       el: '#app',
       data: {
-        chatwith: <?= $to ?>,
-        user: <?= $_SESSION['userId'] ?>,
+        chatwith: "<?= $to ?>" ,
+        user: "<?= $_SESSION['chat_token'] ?>",    
         online: [],
         messages: []
       },
@@ -120,7 +120,7 @@ if (isset($_GET['id'])) {
             if (vm.chatwith != null) {
               setTimeout(function() {
                 sendRequest()
-              }, 2000)
+              }, 5000)
             };
           }
           sendRequest();
@@ -132,7 +132,7 @@ if (isset($_GET['id'])) {
             areOnline.forEach(function(isOnline) { 
               app.online.push({
                 name: isOnline.uidusers,
-                id: parseInt(isOnline.idusers)
+                id: isOnline.chat_auth  
               })
             })
           });

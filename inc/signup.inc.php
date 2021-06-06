@@ -3,15 +3,15 @@
 if (isset($_POST['signup-submit'])){
    
  require 'dbh.inc.php' ;
-
- $username = $_POST['uid'];
+ require 'Auth/auth.php';  
+ $username = $_POST['uid']; 
  $email = $_POST['mail'];
  $password = $_POST['pwd'];
  $passwordRepeat = $_POST['pwd-repeat'];
  $firstname = $_POST['firstname'];
  $lastname = $_POST['lastname'];
  $age = $_POST['age'];  
-
+ $oauth = new Auth(); 
 
 if (empty($username)||empty($email)||empty($password)||empty($passwordRepeat)){
     header("Location: ../signup.php?error=emptyfields&uid=".$username."&mail=".$email); 
@@ -64,6 +64,10 @@ if (empty($username)||empty($email)||empty($password)||empty($passwordRepeat)){
             mysqli_stmt_bind_param($stmt, "ssssss", $username, $email, $hashedpwd, $firstname, $lastname, $age);  
             mysqli_stmt_execute($stmt); 
             mysqli_stmt_store_result($stmt);
+            $getId = "SELECT `idusers` FROM `users` WHERE `uidusers`='$username'";   
+            $response = (mysqli_fetch_assoc($conn->query($getId)))['idusers'];    
+            $outhsql = "INSERT INTO `auth_key` (`user`,`user_auth`,`chat_auth`,`browser_auth`,`token`,`api_key`) VALUES ($response,'$oauth->user_auth','$oauth->chat_auth','$oauth->browser_auth','$oauth->token','$oauth->api_key') "; 
+           $conn->query($outhsql); 
             echo "<h1>sign up success <h1> <br/> welcome ".$username." please login to your account  <a href='../login.php'>click here</a>"; 
             exit();
         }  

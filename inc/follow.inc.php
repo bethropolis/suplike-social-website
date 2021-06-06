@@ -1,5 +1,6 @@
 <?php 
 require 'dbh.inc.php';  
+require 'Auth/auth.php';
 require 'errors/error.inc.php';  
 header('content-type: application/json');
 
@@ -13,7 +14,7 @@ if (empty($_GET['user'])||empty($_GET['key'])) {
 	 	die(); 
 }
  
-$following = $_GET['user'];  
+$following = $_GET['user'];    
 $followed = $_GET['following'];  
 $key = $_GET['key']; 
 

@@ -1,4 +1,3 @@
-
 <?php
 session_start(); 
 ?>
@@ -15,11 +14,11 @@ session_start();
     <meta name="apple-mobile-web-app-status-bar-style" content="rgba(67, 22, 228, 0.844)">
     <title>suplike</title>     
     <link rel="icon" type="image/png" href="img/logo.png">   
-    <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css"> 
+    <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css" defer> 
     <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">    
-    <link rel="stylesheet" href="./css/style.css?hhy">  
-    <script type="text/javascript" src="./lib/jquery/jquery.js"></script>  
-    <script src="./js/online.js"></script>     
+    <link rel="stylesheet" href="./css/style.css?kk">   
+    <script type="text/javascript" src="./lib/jquery/jquery.js"></script>   
+    <script src="./js/online.js" defer></script>     
  </head> 
 <body> 
     <header>
@@ -47,7 +46,7 @@ session_start();
           <a href="message.php"><i title="direct inbox" class="fa fa-envelope fa-2x"></i></a>    
           <a href="search.php"><i title="search for users or post" class="fa fa-search fa-2x" ></i></a>
           <a href="settings.php"><i title="settings" class="fa fa-cog fa-2x"></i></a>  
-          <a href="inc/logout.inc.php"><i title="logout" class="fa fa-sign-out fa-2x"></i></a>
+          <a href="inc/logout.inc.php"><i id="logout" title="logout" class="fa fa-sign-out fa-2x"></i></a>
           </ul>         
           <div class="header-right">';   
          }     

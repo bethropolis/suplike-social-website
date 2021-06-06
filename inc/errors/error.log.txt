@@ -3,3 +3,38 @@ user: 1 error occurred Error: post does not exist    2020-12-22 20:22:13  on  F:
 user: unkown error occurred Error: missing parameters in request    2020-12-22 20:22:41  on  F:/xampp/htdocs/suplike/inc/like.inc.php
 user: unkown error occurred Error: missing parameters in request    2020-12-22 20:22:42  on  F:/xampp/htdocs/suplike/inc/like.inc.php
 user: 5 error occurred Error: already liked this    2020-12-23 23:44:25  on  F:/xampp/htdocs/suplike/inc/like.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-06 23:35:24  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-06 23:35:27  on  /home/bethro/www/inc/follow.inc.php
+user: 10 error occurred Error: already liked this    2021-05-08 12:14:51  on  /home/bethro/www/inc/like.inc.php
+user: 10 error occurred Error: already liked this    2021-05-08 12:14:53  on  /home/bethro/www/inc/like.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:09  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:09  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:10  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:10  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:11  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:12  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:13  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:14  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:15  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:27:16  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:56:08  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:56:08  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:56:08  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:56:10  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:56:11  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 12:56:11  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:45:31  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:45:32  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:45:32  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:45:34  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:45:34  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:45:35  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:50:45  on  /home/bethro/www/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-05-08 13:50:45  on  /home/bethro/www/inc/follow.inc.php
+user: 5 error occurred Error: illigal action performed    2021-06-03 19:14:25  on  /home/bethro/www/inc/like.inc.php
+user: 5 error occurred Error: illigal action performed    2021-06-03 19:14:39  on  /home/bethro/www/inc/like.inc.php
+user: 5 error occurred Error: already liked this    2021-06-03 19:18:20  on  /home/bethro/www/inc/like.inc.php
+user: 5 error occurred Error: already liked this    2021-06-03 19:19:46  on  /home/bethro/www/inc/like.inc.php
+user: 7 error occurred Error: user does not exist    2021-06-03 19:20:07  on  /home/bethro/www/inc/like.inc.php
+user: 9 error occurred Error: already liked this    2021-06-03 19:20:15  on  /home/bethro/www/inc/like.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-06-04 10:54:54  on  /home/bethro/www/inc/follow.inc.php

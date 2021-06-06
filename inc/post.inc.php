@@ -2,6 +2,7 @@
 
 // Create database connection to database
 require 'dbh.inc.php';
+require 'Auth/auth.php';
 
 // Initialize message variable 
 // If upload button is clicked ...
@@ -71,17 +72,16 @@ if (isset($_POST['upload'])) {
 if (isset($_GET['user'])) {
     header('content-type: application/json');
     $result = [];
-    $user = $_GET['user'];
+    $user = $_GET['user']; 
     $param = ['user' => $user]; 
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . '/suplike/inc/social.inc.php?' . http_build_query($param);
+    $url = 'https://' . $_SERVER['SERVER_NAME'] . '/inc/social.inc.php?' . http_build_query($param);  
     $following = file_get_contents($url);
     $info = json_decode($following);
     $i = 0;
-    
     foreach ($info as $key) { 
         $acc = $key->idusers; 
         $usr= $key->uidusers; 
-        $sql = "SELECT * FROM `posts` WHERE `userid`='$acc' ORDER BY `posts`.`id` DESC ";
+        $sql = "SELECT * FROM `posts` WHERE `userid`='$acc' ORDER BY `posts`.`id` DESC";
         $ans = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($ans)) {
             //$foo = (int) $row['id'];    
@@ -116,17 +116,21 @@ if (isset($_GET['user'])) {
             } 
               $i++; 
         }
-      
+    if ($result == null) {
+       print_r(json_encode(null));     
+       die(); 
+    }
+
     print_r(json_encode($result)); 
 }
 
 if (isset($_GET['id'])) {
   $id = $_GET['id'];
   $arr = [];
-  $sql = "SELECT * FROM `posts` WHERE `id`='$id'"; 
+  $sql = "SELECT * FROM `posts` WHERE `id`='$id'";  
   $rsp = $conn->query($sql);
   // if ($rsp->fetch_assoc() != null){
      $arr = $rsp->fetch_assoc();   
   // }
-    print_r(json_encode($arr));     
+    print_r(json_encode($arr));      
 } 

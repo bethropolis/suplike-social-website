@@ -1,6 +1,7 @@
 <?php 
  require '../dbh.inc.php'; 
  require '../errors/error.inc.php'; 
+ require '../Auth/auth.php';
  header('content-type: application/json'); 
  $err = new Err();
  $err->_set_log('../errors/error.log.txt'); // set where errors will be writen 
@@ -10,8 +11,10 @@ if (empty($_GET['key'])){
     die();
  }
  
-$key = $_GET['key'];    
-$sql = "SELECT 'user' FROM `auth_key` WHERE `api_key`='$key'";      
+$key = $_GET['key'];   
+
+$sql = "SELECT 'user' FROM `auth_key` WHERE `token`='$key'";     
+
 $auth = $conn->query($sql);  
 if ($auth->fetch_assoc() == null){ 
    $err->err('unknown', 7);  
