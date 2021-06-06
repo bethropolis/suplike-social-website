@@ -1,8 +1,6 @@
 <?php
-$servername = "mysql-bethro.alwaysdata.net";
-$dBUsername = "bethro";
-$dBPassword = "cQ2Tn0jUj2SS"; 
-$dBName = "bethro_suplike";
+$dBUsername = "root";
+$dBPassword = ""; 
 $timeZone = new DateTimeZone('Africa/Nairobi');   
 
 
