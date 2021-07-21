@@ -8,7 +8,7 @@ if (!isset($_SESSION['token'])) {
 if (isset($_GET['id'])) {
   $_GET['id'] == '' ? $to = 'null' : $to = $_GET['id'];
 } else {
-  $to = 'null';
+  $to = null; 
 }
 
 ?>
@@ -18,7 +18,8 @@ if (isset($_GET['id'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>message</title>
+  <title>live chat</title> 
+  <link rel="icon" type="image/png" href="img/logo.png">   
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
   <link rel="stylesheet" href="./css/chat.css?hs"> 
@@ -86,7 +87,7 @@ if (isset($_GET['id'])) {
     const app = new Vue({
       el: '#app',
       data: {
-        chatwith: "<?= $to ?>" ,
+        chatwith: "<?= $to ?>"||null ,  
         user: "<?= $_SESSION['chat_token'] ?>",    
         online: [],
         messages: []
@@ -123,7 +124,8 @@ if (isset($_GET['id'])) {
               }, 5000)
             };
           }
-          sendRequest();
+
+          sendRequest(); 
         },
         WhoIsOnline: function() {
           //meant to get users who are online but the plan changed 

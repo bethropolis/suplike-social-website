@@ -55,7 +55,7 @@ class Auth
      return $this->user;
   }
 
-  public function _queryUser($id, $type){
+  public function _queryUser($id, $type){ 
     $sql = ''; 
     $ty = '';
       switch ($type) {
@@ -76,9 +76,9 @@ class Auth
           break; 
   
         case 4:
-          //user token 
+          //user token  
           $sql = "SELECT `user_auth` FROM `auth_key` WHERE `user` = '$id'";
-          $ty = "user_auth";
+          $ty = "user_auth"; 
           break;
   
         case 5:

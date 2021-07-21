@@ -1,10 +1,10 @@
 <?php
-require 'header.php';
+
 require 'inc/dbh.inc.php' ;
 require 'inc/Auth/auth.php';
-require 'inc/dbh.inc.php';
+require 'header.php';
 
-if (!isset($_SESSION['token'])) {
+if (!isset($_SESSION['token'])) { 
   header('Location: ./login.php');
   exit();
 }
@@ -12,7 +12,7 @@ if (!isset($_SESSION['token'])) {
 
 $profile = isset($_GET['id']) ? $_GET['id'] : $_SESSION['token'];
 $follow = 'follow';
-$query = "SELECT * FROM `following` WHERE user=" . $un_ravel->_getUser($profile) . " AND `following`='$profile'";  
+$query = "SELECT * FROM `following` WHERE user=" . $un_ravel->_getUser($_SESSION['token']) . " AND `following`=".$un_ravel->_getUser($profile);    
 $result = $conn->query($query)->fetch_assoc();
 if (!is_null($result)) { 
   $follow = 'following';
@@ -24,10 +24,9 @@ if (!is_null($result)) {
 <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>        
 <script type="text/javascript" src="js/index.js?v1.2"></script>   
 <script>        
-   profile = "<?= $profile ?>"; 
+   profile = "<?= $profile ?>";  
    // took me long to debug but it is here where the post are rendered
-   profile_request(profile);      
-
+   profile_request(profile);        
 </script> 
 
 <div class="col-sm-12 sidebar-sticky pt-3" style="max-width: 440px; margin: 0 auto">

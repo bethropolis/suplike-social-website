@@ -2,6 +2,8 @@
 
 require 'inc/dbh.inc.php';
 require 'header.php'; 
+include_once 'inc/Auth/auth.php'; 
+
 if ($conn->connect_error) {
  die("Connection failed: " . $conn->connect_error);
 }
@@ -61,7 +63,7 @@ if (!empty($searchKeyword)) {
 ?>
 <div class="search-list-item bg-light my-4 mx-auto shadow py-2 w-75 row">       
     <div class="col-md-6 text-left">   
-        <a href="profile.php?id=<?=$row['idusers']?>" class="prof-link">
+        <a href="profile.php?id=<?=$un_ravel->_queryUser($row['idusers'],4)?>" class="prof-link"> 
             <h4><?php echo $title; ?></h4>
         </a>
         <p><?php echo '@'.$contnet; ?></p>

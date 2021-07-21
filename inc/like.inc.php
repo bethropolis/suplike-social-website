@@ -1,5 +1,6 @@
 <?php 
 require 'dbh.inc.php';  
+require 'Auth/auth.php';
 require 'errors/error.inc.php'; 
 header('content-type: application/json');
 
@@ -12,7 +13,7 @@ if (!isset($_GET['user'])||!isset($_GET['like'])||!isset($_GET['key'])) {
 }
 
 
-$user = $_GET['user'];  
+$user = $un_ravel->_getUser($_GET['user']) ;   
 $post = $_GET['id'];  
 $like = $_GET['like'];
 $key = $_GET['key'];  

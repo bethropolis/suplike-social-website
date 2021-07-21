@@ -13,7 +13,7 @@ $sql = "SELECT `id`,`time`  FROM `likes` WHERE `time` > '$dt'";
 $result = $conn->query($sql);   
 
 while($row = $result->fetch_assoc()){ 
-        $arr['likes'][] = $row;    
+        $arr['likes'][] = $row;     
 }
   
 $sql = "SELECT `idusers`,`date_joined`  FROM `users` WHERE `date_joined` > '$dt'";  

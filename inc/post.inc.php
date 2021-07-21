@@ -71,57 +71,69 @@ if (isset($_POST['upload'])) {
 
 if (isset($_GET['user'])) {
     header('content-type: application/json');
-    $result = [];
-    $user = $_GET['user']; 
-    $param = ['user' => $user]; 
-    $url = 'https://' . $_SERVER['SERVER_NAME'] . '/inc/social.inc.php?' . http_build_query($param);  
-    $following = file_get_contents($url);
-    $info = json_decode($following);
+    # STAGE 1: GETTING THE USERS
+    $result_array = [];
+    $user = $un_ravel->_getUser($_GET['user']); 
+    $arr = [];
+    $query = "SELECT * FROM `following` WHERE `user`=$user"; 
+    $result = $conn->query($query);
+    $i =0; 
+    while ($row = mysqli_fetch_assoc($result)) {
+        $f = $row['following'];
+       $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token`,`chat_auth` FROM `users`,`auth_key` WHERE `users`.`idusers`=$f AND `auth_key`.`user` = $f "  ;       
+       $resp = $conn->query($sql)->fetch_assoc();
+           $arr[$i]= $resp;  
+           $i++;     
+   }
+
+    # STAGE 2:  GETTING THE POST FROM EACH USER
     $i = 0;
-    foreach ($info as $key) { 
-        $acc = $key->idusers; 
-        $usr= $key->uidusers; 
+    foreach ($arr as $key) {  
+        $acc = $key["idusers"]; 
+        $usr= $key["uidusers"];  
         $sql = "SELECT * FROM `posts` WHERE `userid`='$acc' ORDER BY `posts`.`id` DESC";
         $ans = mysqli_query($conn, $sql);
-        while ($row = mysqli_fetch_assoc($ans)) {
-            //$foo = (int) $row['id'];    
-            $result[$i] = $row;
-            $result[$i]['user'] = ['id'=>$acc,'name'=>$usr]; 
+       if ($ans){ 
+        while ($row = mysqli_fetch_assoc($ans)) { 
+            $result_array[$i] = $row;
+            $result_array[$i]['user'] = ['id'=>$un_ravel->_queryUser($acc,4) ,'name'=>$usr];   
             $id= $row['id'];
             $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";  
             $r = $conn->query($sql)->fetch_assoc();  
-            
+           
+        # STAGE 3: DETERMINING IF THE USER HAS LIKED IT    
             if (!is_null($r)){
-                $result[$i]['liked'] = true;
+                $result_array[$i]['liked'] = true;
             }else{
-              $result[$i]['liked'] = false;      
+              $result_array[$i]['liked'] = false;       
             } 
             
             $i++;
         }
+       }  
     }
-
+       # STAGE 4: SELECTING THE USERS OWN POST
          $sql = "SELECT * FROM `posts` WHERE `userid`='$user' ORDER BY `posts`.`id` DESC ";
         $ans = mysqli_query($conn, $sql);
           while ($row = mysqli_fetch_assoc($ans)) { 
-            $result[$i] = $row; 
-            $result[$i]['user'] = true;  
+            $result_array[$i] = $row; 
+            $result_array[$i]['user'] = true;  
             $id= $row['id']; 
             $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";  
             $r = $conn->query($sql)->fetch_assoc();  
             if (!is_null($r)){
-                $result[$i]['liked'] = true;
-            }else{
-              $result[$i]['liked'] = false;      
+                $result_array[$i]['liked'] = true;
+            }else{ 
+              $result_array[$i]['liked'] = false;      
             } 
               $i++; 
         }
-    if ($result == null) {
+    if ($result_array == null) {
        print_r(json_encode(null));     
        die(); 
     }
 
-    print_r(json_encode($result)); 
+    print_r(json_encode($result_array)); 
 }
 
 if (isset($_GET['id'])) {
@@ -134,3 +146,5 @@ if (isset($_GET['id'])) {
   // }
     print_r(json_encode($arr));      
 } 
+
+

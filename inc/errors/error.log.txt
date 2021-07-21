@@ -38,3 +38,22 @@ user: 5 error occurred Error: already liked this    2021-06-03 19:19:46  on  /ho
 user: 7 error occurred Error: user does not exist    2021-06-03 19:20:07  on  /home/bethro/www/inc/like.inc.php
 user: 9 error occurred Error: already liked this    2021-06-03 19:20:15  on  /home/bethro/www/inc/like.inc.php
 user: undefined error occurred Error: invalid value in parameter    2021-06-04 10:54:54  on  /home/bethro/www/inc/follow.inc.php
+user: unknown error occurred Error: user is not autorised    2021-07-21 16:41:00  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
+user: bb52c4b4e58125ed00aee861962fd201fc06e22669 error occurred Error: invalid value in parameter    2021-07-21 18:41:16  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-07-21 18:41:36  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-07-21 18:41:40  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-07-21 18:46:50  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-07-21 18:46:54  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: bb52c4b4e58125ed00aee861962fd201fc06e22669 error occurred Error: invalid value in parameter    2021-07-21 18:49:59  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: unknown error occurred Error: user is not autorised    2021-07-21 19:24:45  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-21 22:30:25  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-21 22:30:26  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-07-21 22:30:34  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: undefined error occurred Error: invalid value in parameter    2021-07-21 22:30:46  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-22 01:04:23  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-22 01:04:25  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-22 01:04:26  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-22 01:04:31  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-22 01:04:32  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-22 01:04:33  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: invalid value in parameter    2021-07-22 01:09:52  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
