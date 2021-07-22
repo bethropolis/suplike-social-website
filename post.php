@@ -63,22 +63,22 @@ let data;
         const m = URL.createObjectURL(event.target.files[0]);
         $('#imgprev').attr('src', m);
         $('#prev').show(); 
-//        
-//        let image_name = property.name;
-//        let img_ext = image_name.split('.').pop().toLowerCase();
-//        let img_size = property.size; 
+       
+       let image_name = property.name;
+       let img_ext = image_name.split('.').pop().toLowerCase();
+       let img_size = property.size;  
 
     })
  
-//    $('#btn').click(() => {
-//        $.post('./test/post/post.test.php',{
-//            image: data, 
-//            text: $('#txt').text(),          
-//        },function(dat){
-//               $('#uplinf').text('UPLOADED✔')
-//                console.log(dat)  
-//        })     
-//    })
+   $('#btn').click(() => {
+       $.post('./test/post/post.test.php',{
+           image: data, 
+           text: $('#txt').text(),          
+       },function(dat){
+              $('#uplinf').text('UPLOADED✔')
+               console.log(dat)  
+       })     
+   })
 </script>
 
 </main>

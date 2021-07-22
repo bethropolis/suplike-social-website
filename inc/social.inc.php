@@ -11,14 +11,11 @@ if (isset($_GET['user'])) {
  while ($row = mysqli_fetch_assoc($result)) {
      $f = $row['following'];
     $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token`,`chat_auth` FROM `users`,`auth_key` WHERE `users`.`idusers`=$f AND `auth_key`.`user` = $f "  ;       
-    $response = $conn->query($sql);
-    while ($resp = mysqli_fetch_assoc($response)) {
-    	$arr[$i]= $resp; 
-    	$i++; 
-    }
-    
+    $resp = $conn->query($sql)->fetch_assoc();
+    	$arr[$i]= $resp;  
+    	$i++;     
 }
-
+ 
        
  print_r(json_encode($arr));   
 header('content-type: application/json'); 

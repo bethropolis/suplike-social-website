@@ -156,11 +156,11 @@ switch ($type) {
    break;
 }
 
-$arr['users'] = $arru;
-$arr['posts'] = $arrp; 
-$arr['chat'] = $arrc;  
-$arr['like'] = $arrl;   
-$arr['follow'] = $arrf;    
+$arr['users'] = $arru || null;
+$arr['posts'] = $arrp || null; 
+$arr['chat'] =  $arrc || null;  
+$arr['like'] =  $arrl || null;   
+$arr['follow']= $arrf || null;     
 
 print_r(json_encode($arr)); 
 }else{

@@ -37,9 +37,9 @@ if (isset($_POST['login-submit'])){
                  session_start();            
                  $_SESSION['userId'] = $row['idusers'];
                  $auth->_queryUser($row['idusers'],1);  
-                 $_SESSION["token"] = $auth->user; 
+                 $_SESSION["token"] = $auth->user;      # check Auth/auth.php to understand  
                  $auth->_queryUser($row['idusers'],2);   
-                 $_SESSION["chat_token"] = $auth->user;                  
+                 $_SESSION["chat_token"] = $auth->user;  # check Auth/auth.php to understand                
                  $_SESSION['userUid'] = $row['uidusers']; 
                  $_SESSION['firstname'] = $row['usersFirstname'];
                  $_SESSION['lastname'] = $row['usersSecondname'];

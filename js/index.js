@@ -18,7 +18,9 @@ function mainload() {
             )
           addClick();  
           }else{
-            $('#main-post').append("<div class='post-div shadow' class='text-center'><h4> you don't follow anyone</h4></div>");  
+            $('#main-post').append(`<div class='post-div shadow' class='text-center'><h4> you need to follow someone in order to view post on your feed</h4>
+               <p> go to <b>search</b> and look for a user</p>
+            </div>`);  
           }
           
 
@@ -46,8 +48,9 @@ function render(post) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                         <div class="dropdown-header">Actions:</div>
+                        <div class="mj-actions">
                         <a class="dropdown-item report" id="${post.id}" href="#">report <i class="fa fa-report fa-sm"></i></a>  
-                        <a class="dropdown-item" href="#"> </a> 
+                       </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="profile.php?id=${_user.id}">visit profile</a>
                     </div>
@@ -79,8 +82,9 @@ function render(post) {
                     </a>  
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                         <div class="dropdown-header">Actions:</div>
+                        <div class="mj-actions">
                         <a class="dropdown-item report" id="${post.id}" href="#">report <i class="fa fa-report fa-sm"></i></a>  
-                        <a class="dropdown-item" href="#"> </a>  
+                       </div>  
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="profile.php?id=${_user.id}">visit profile</a>
                     </div>
@@ -138,8 +142,8 @@ function addClick() {
 
 function profile_request(profile) {
     url = './inc/profile.inc.php?id=' + profile + '&user=' + _user_id;
-    $.get(url, function(user) {
-        if (user.user) {
+    $.get(url, function(user) {     
+        if (user.user) {        
             $('#profile-name').text(user.user.usersFirstname + ' ' + user.user.usersSecondname);
             $('.userName').text('@' + user.user.uidusers);
             $('.message-btn').attr('href', 'message.php?id=' + user.user.token); 
@@ -153,9 +157,9 @@ function profile_request(profile) {
             if (user == user.user.uidusers) {
                 $('.btn').hide();
             }
+            follow(); 
             if (user.posts) {
-                user.posts.forEach(async post=>{
-                   console.log(post);  
+                user.posts.forEach(async post=>{ 
                     await $('#main-post').append(render(post));
 
                 }            
@@ -194,7 +198,9 @@ function follow(user) {
         }
         url = "./inc/follow.inc.php?user=" + user + "&following=" + profile + "&key=" + key;
         $.get(url, function(follow) {
-            console.log(follow);
+        //     if(follow.type == 'error'){ 
+        //     alert(follow.msg) 
+        // }
         })
     })
 }

@@ -12,9 +12,6 @@ if (!isset($_SESSION['userId'])) {
        };
 </script>   
 <main>
-    <!--  <div class="loader">
-    <progress-ring stroke="4" radius="60" progress="0"></progress-ring>
-  </div> -->
     <link rel="stylesheet" href="./css/post.css">
     <div class="row">
         <div class="col-sm-3 sidebar-sticky pt-3">

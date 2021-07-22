@@ -21,6 +21,11 @@ session_start();
     <script src="./js/online.js" defer></script>     
  </head> 
 <body> 
+<div class="loader"> 
+    <progress-ring stroke="4" radius="60" progress="0"></progress-ring> 
+    <h2>suplike</h2> 
+  </div> 
+  <script src="js/loader.js"></script>   
     <header>
         <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light ">  
         <a href="./">  
@@ -47,9 +52,16 @@ session_start();
           <a href="search.php"><i title="search for users or post" class="fa fa-search fa-2x" ></i></a>
           <a href="settings.php"><i title="settings" class="fa fa-cog fa-2x"></i></a>  
           <a href="inc/logout.inc.php"><i id="logout" title="logout" class="fa fa-sign-out fa-2x"></i></a>
-          </ul>         
-          <div class="header-right">';   
-         }     
+          </ul>';   
+         }
+         
+         if (!isset($_SESSION['userId'])){    
+           echo `<ul class="navbar-nav ml-auto mr-1">
+                 <a href="https://github.com/bethropolis/suplike-social-website"><i title="project on github" class="fa fa-github fa-2x" ></i></a>
+                 </ul>
+                `;   
+         } 
+
          ?></div>   
         </nav>  
     </header>
