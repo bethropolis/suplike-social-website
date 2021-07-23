@@ -56,4 +56,8 @@ class Err{
    	$txt .= "user: ".$this->user." error occurred Error: ".$this->error."    ".$this->time->format("Y-m-d H:i:s")."  on  ".$_SERVER['SCRIPT_FILENAME']."\n";   
    	file_put_contents($this->log, $txt);  
    }
-}   
+}  
+ 
+$error = new Err();
+
+

@@ -9,8 +9,5 @@
         $ql = $r["name"];
         $qr = $r["action"]["css-root"];
         $qc = file_get_contents($url.$ql."/".$qr); 
-
-        $s = file_get_contents($css);
-        $main = file_get_contents($main);
-        $main = $r.$qc; 
+        file_put_contents($main,$r.$qc); 
     }

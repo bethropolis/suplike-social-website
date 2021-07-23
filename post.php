@@ -22,6 +22,18 @@ require 'header.php';
                     </label>
                     <p>upload image</p>
                 </div>
+               <div class="col-4 my-2" aria-disabled>
+                    <label for="music"> 
+                        <i class="fa fa-music fa-3x" disabled></i>   
+                    </label>
+                    <p>upload music</p>
+                </div>
+             <div class="col-4 my-2" aria-disabled> 
+                    <label for="file">
+                        <i class="fa fa-file fa-3x" aria-disabled="true"></i>
+                    </label>
+                    <p>upload file</p>
+                </div>                
             </div>
 
             <form id="form" action="./inc/post.inc.php" method="post" enctype="multipart/form-data"> 

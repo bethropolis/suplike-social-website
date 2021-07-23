@@ -50,7 +50,7 @@ session_start();
           <a href="social.php"><i title="friends" class="fa fa-users fa-2x"></i></a>    
           <a href="message.php"><i title="direct inbox" class="fa fa-envelope fa-2x"></i></a>    
           <a href="search.php"><i title="search for users or post" class="fa fa-search fa-2x" ></i></a>
-          <a href="settings.php"><i title="settings" class="fa fa-cog fa-2x"></i></a>  
+          <a href="settings.php?profile"><i title="settings" class="fa fa-cog fa-2x"></i></a>   
           <a href="inc/logout.inc.php"><i id="logout" title="logout" class="fa fa-sign-out fa-2x"></i></a>
           </ul>';   
          }

@@ -12,9 +12,9 @@ if ($conn->connect_error) {
 $result = []; 
 // If the search form is submitted
 $searchKeyword = $whrSQL = '';
-if(isset($_POST['searchSubmit'])){
+if(isset($_GET['q'])){
 
- $searchKeyword = $_POST['keyword']; 
+ $searchKeyword = $_GET['q'];  
  if(!empty($searchKeyword)){ 
  // SQL query to filter records based on the search term
  $whrSQL = "WHERE (uidusers LIKE '%".$searchKeyword."%' OR usersFirstname LIKE '%".$searchKeyword."%')";
@@ -35,10 +35,10 @@ if(isset($_POST['searchSubmit'])){
 
 
 <!-- Search form -->
-<form method="post" class="mx-auto my-4" action="">  
+<form method="get" class="mx-auto my-4" action="">   
     <div class="search_input mx-auto row my-2">  
-        <input type="text" class="search_box mx-1 col-8" name="keyword" value="<?php echo $searchKeyword; ?>" placeholder="Search by keyword...">
-        <input type="submit" class="search_button mx-1 col-3 bg btn" name="searchSubmit" value="Search"> 
+        <input type="text" class="search_box mx-1 col-8" name="q" value="<?php echo $searchKeyword; ?>" placeholder="Search by keyword...">
+        <button type="submit" class="search_button mx-1 col-3 bg btn">Search</button> 
     </div>
 </form>  
 
@@ -48,7 +48,6 @@ if($result){
 
 
  while($row = $result->fetch_assoc()){ 
-   
  $title = !empty($searchKeyword)?highlightWords($row['uidusers'], $searchKeyword):$row['uidusers']; 
  $contnet = !empty($searchKeyword)?highlightWords($row['usersFirstname'], $searchKeyword):$row['usersFirstname'];
 if (!empty($searchKeyword)) {  
@@ -67,9 +66,9 @@ if (!empty($searchKeyword)) {
             <h4><?php echo $title; ?></h4>
         </a>
         <p><?php echo '@'.$contnet; ?></p>
-    </div>
+    </div> 
     <div class="col-md-6 text-right pr-4">         
-    <button id="<?=$row['idusers']?>" class="btn col-5 p-2 bg follow-btn"><?=$follow?></button>    
+    <button id="<?=$un_ravel->_queryUser($row['idusers'],1)?>" class="btn col-5 p-2 bg follow-btn"><?=$follow?></button>    
     </div> 
 </div>
 <?php } }else{ ?>
@@ -78,7 +77,6 @@ if (!empty($searchKeyword)) {
 ?>
 
 <?php require 'footer.php'; ?>
-<script>
- let user = <?=$_SESSION['userId']?> ; 
- follow(user);   
+<script> 
+ follow();   
 </script>

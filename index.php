@@ -2,7 +2,7 @@
 require "header.php"; 
 if (!isset($_SESSION['userId'])) {
   header('Location: ./login.php');
-  exit();    
+  exit();     
 }  
 ?>  
 <script>
@@ -24,9 +24,9 @@ if (!isset($_SESSION['userId'])) {
                 <ul class="profile-opt">
                     <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
                     <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-2x"></i></a>
-                    <a href="settings.php" style="color: #252130;"><i class="fa fa-cog fa-2x"></i></a>
+                    <a href="settings.php?profile" style="color: #252130;"><i class="fa fa-cog fa-2x"></i></a>
                 </ul>
-            </div>
+            </div> 
         </div> 
 
         <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
@@ -47,6 +47,7 @@ if (!isset($_SESSION['userId'])) {
                 </form>
             </div>
             <div id="main-post">
+                <noscript style="color:red">this site requires javascript to function</noscript> 
 
             </div>
 

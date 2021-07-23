@@ -4,7 +4,7 @@ const _user_name = sessionStorage.getItem('name');
 function mainload() {
     $('#image_post').on('change', function(e) {
         e.preventDefault();
-        var m = URL.createObjectURL(event.target.files[0]);
+        var m = URL.createObjectURL(event.target.files[0]); 
         $('#type').val('img'); 
         $('#imagedisp').attr("src", m); 
     });
@@ -18,8 +18,8 @@ function mainload() {
             )
           addClick();  
           }else{
-            $('#main-post').append(`<div class='post-div shadow' class='text-center'><h4> you need to follow someone in order to view post on your feed</h4>
-               <p> go to <b>search</b> and look for a user</p>
+            $('#main-post').append(`<div class='post-div shadow no-user' class='text-center'><h4> you need to follow someone in order to view post on your feed</h4>
+               <p> go to <b>search</b> and look for a user to follow</p>  
             </div>`);  
           }
           
@@ -34,7 +34,7 @@ function render(post) {
     post.user === true ? _user = {
         name: _user_name,
         id: _user_id
-    } : _user = post.user;
+    } : _user = post.user; 
     if (post.type == 'img') {
         return `
       <div class="post-div shadow">
@@ -61,7 +61,7 @@ function render(post) {
             <div class="social-opt">
                 <div class="social-act">
                     <i title="like" id="${post.id}" class="fa ${l} this-click  fa-2x">${post.post_likes}</i>
-                    <i title="comment" id="comment" class="fa fa-comment-o comment tocome fa-2x"></i>
+                    <a href="./comment.php?id=${post.post_id}"> <i title="comment" id="comment" class="fa fa-comment-o comment  fa-2x"></i></a>
                     <i title="share it with your friends" id="share" class="fa fa-share tocome fa-2x"></i>
                 </div>
             </div>
@@ -96,7 +96,7 @@ function render(post) {
             <div class="social-opt">
                 <div class="social-act">
                     <i title="like" id="${post.id}" class="fa ${l} this-click  fa-2x">${post.post_likes}</i>
-                    <i title="comment" id="comment" class="fa fa-comment-o comment tocome fa-2x"></i>
+                    <a href="./comment.php?id=${post.post_id}"> <i title="comment" id="comment" class="fa fa-comment-o comment  fa-2x"></i></a> 
                     <i title="share it with your friends" id="share" class="fa fa-share tocome fa-2x"></i>
                 </div>
             </div>
@@ -179,11 +179,12 @@ function profile_request(profile) {
 
 */
 //report api
-function report() {}
+function report() {} 
 //follow api 
 function follow(user) {
+    user = user || _user_id;
     $('.follow-btn').click(function() {
-        profile = this.id || profile;
+        profile = this.id || profile; 
         var key;
         /*---------------------improvise-------------*/
         switch ($(this).text()) {

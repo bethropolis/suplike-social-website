@@ -19,7 +19,7 @@ $.get(url, function(result) {
      name = user.usersFirstname +" "+user.usersSecondname; 
     $("main").append(following_func(user.uidusers, name, user.idusers, user.profile_picture,user.token)); 
   });
-    follow(); 
+    follow(sessionStorage.getItem('user'));  
   }else if(!result.following){ 
       $('.status').text("you are following no one :(");   
   }   
@@ -35,8 +35,8 @@ function following_func(user, name, id, img,token) {
     <div class="user">
     <a href="profile.php?id=${token}"><h2>${name}</h2></a>    
     <p>${user}</p>
- </div> 
- <button id="${id}" class="btn  bg follower-btn follow-btn">following</button>
+ </div>  
+ <button id="${token}" class="btn  bg follower-btn follow-btn">following</button>
   
   </div> `; 
 };  

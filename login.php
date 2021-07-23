@@ -10,8 +10,8 @@ if (isset($_SESSION['userId'])) {
    <div class="center">  
     <h1>login</h1> 
         <form class="form mx-auto" action="inc/login.inc.php" method="post"> 
-        <label for="user">username or email:</label><br/>  
-        <input type="text" id="user" name="mailuid" placeholder="username or email..." autofocus autocomplete="false"><br/><br/> 
+        <label for="user">username or email:</label><br/>   
+        <input type="text" id="user" name="mailuid" placeholder="username or email..." autocomplete="false"><br/><br/> 
         <label for="pwd">password:</label> <br/>  
         <input type="password" id="pwd" name="pwd" placeholder="password..."> <br/><br/> 
         <button class="login-btn my-1 bg btn" style="height: 45px; width: 140px;" type="submit" name="login-submit">login</button>
@@ -19,7 +19,8 @@ if (isset($_SESSION['userId'])) {
    </div>  
  </main>
 <script> 
-   $(".form").on
+   sessionStorage.clear() 
+   sessionStorage.setItem('load', true) 
 </script> 
 
 

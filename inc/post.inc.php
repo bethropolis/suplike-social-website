@@ -51,11 +51,11 @@ if (isset($_POST['upload'])) {
             die(); 
             }             
         // variables  
-        $sql = "INSERT INTO posts (`image_text`, `userid`,`type` ,`date_posted`, `day`) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO posts (`post_id`,`image_text`, `userid`,`type` ,`date_posted`, `day`) VALUES (?,?, ?, ?, ?, ?)"; 
         $stmt = $conn->prepare($sql);   
         $date = $d->format('j M');
-        $day = $d->format('l'); 
-        $stmt->bind_param("sssss", $image_text, $user, $type, $date, $day);         
+        $day = $d->format('l');   
+        $stmt->bind_param("ssssss",bin2hex(openssl_random_pseudo_bytes(4)), $image_text, $user, $type, $date, $day);         
         $stmt->execute(); 
         if ($_POST['upload'] == 'post'){ 
          header("Location: ../post.php?upload=success");           
@@ -88,7 +88,7 @@ if (isset($_GET['user'])) {
 
     # STAGE 2:  GETTING THE POST FROM EACH USER
     $i = 0;
-    foreach ($arr as $key) {  
+    foreach ($arr as $key) {   
         $acc = $key["idusers"]; 
         $usr= $key["uidusers"];  
         $sql = "SELECT * FROM `posts` WHERE `userid`='$acc' ORDER BY `posts`.`id` DESC";

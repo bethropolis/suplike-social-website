@@ -1,7 +1,7 @@
 :root{
  --bg: #fff; 
  --co: #000;
- --ho: rgba(67, 22, 228, 0.844); 
+ --ho: #6c5ce7;  
  --ac: rgba(50, 159, 192, 0.844);
  --inp: rgb(214, 211, 211);
  --box-shadow: 0 0 5px var(--dark); 
@@ -39,7 +39,6 @@ nav{
     outline: none;
     box-shadow: var(--box-shadow); 
     top: 0; 
-   
 } 
  
 nav img{
@@ -157,7 +156,11 @@ input[type=password]{
 .profile-pic:hover{
   opacity: .7;   
 }
-
+.no-user{
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center; 
+}
 #profile-name{
   font-family: var(--font);
   color: var(--ho); 
@@ -173,9 +176,8 @@ input[type=password]{
 .postform{
     width: 90%;
     min-height: 120px; 
-    
 }
-
+ 
 .textinput{
   width: 90%;
   outline: none;
@@ -251,8 +253,16 @@ border-bottom: 1px solid var(--dark);
     margin: 10px 0;  
 }
 .setting-form > *{
- margin: 7px 0;   
+ margin: 7px 0; 
+ padding: 5px;   
 }
+
+.setting-form textarea {
+    overflow: auto;
+    resize: vertical;
+    width: 700px;
+}
+
 .profile-card{
 position: relative;
 }

@@ -1,7 +1,10 @@
 <?php 
 require 'header.php';
 require 'inc/dbh.inc.php'; 
-
+if (!isset($_SESSION['userId'])) {
+  header('Location: ./login.php');
+  exit();    
+}  
 $query = "SELECT `emailusers` FROM `users` WHERE `idusers`=".$_SESSION['userId'].""; 
 $result = $conn->query($query)->fetch_assoc();  
   
@@ -15,10 +18,10 @@ $result = $conn->query($query)->fetch_assoc();
       <h3>delete acc</h3>
     </div></a> 
 		<a href="?password"><div class="settings-option">
-			<h3>password</h3>
-		</div></a> 
-		<a href="?about"><div class="settings-option">
-			<h3>about</h3>
+			<h3>password</h3> 
+		</div></a>  
+		<a href="inc/logout.inc.php" onclick="sessionStorage.clear();sessionStorage.setItem('load', true)"><div class="settings-option"> 
+			<h3>logout</h3> 
 		</div></a>  
 	</div>
 	<div class="col-sm-9 settings-main">   
@@ -65,15 +68,17 @@ if (isset($_GET['profile'])) {
   	 echo '<div class="setting-form">   
       <h1>delete account</h1>
       <p>enter username to delete acc</p> 
-      <input type="text" class="input delete-user" name="delete" placeholder="enter username..."> <br> 
-      <button class="btn delete-btn" name="delete_profile" style="background:red;" disabled>delete</button > 
-     </div>';  
+      <form action="./inc/delete.inc.php" method="post">
+      <input type="text" class="input delete-user" name="user" placeholder="enter username..."> <br> 
+      <button type="submit" class="btn delete-btn" name="delete_profile" style="background:red;" disabled>delete</button > 
+     </form> 
+     </div>
+     ';  
   }  
 ?>
 
 
 	</div>
-	
 </div>
 <?php  
 require 'footer.php';
@@ -93,6 +98,8 @@ username = '<?=$_SESSION['userUid']?>';
 $('.delete-user').on('input',function() {  
      if($('.delete-user').val() == username){    
       $('.delete-btn').attr('disabled',false);
+     }else{
+        $('.delete-btn').attr('disabled',true);      
      }
   })  
 </script>
