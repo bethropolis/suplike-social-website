@@ -8,9 +8,7 @@ require "header.php";
  <main>
    <div class="center">  
     <h1>sign up</h1>  
-    <form class="form mx-auto" action="inc/signup.inc.php"  method="post" enctype="multipart/form-data">        
-     <label for="profile-pic" id="profile-pic-label"   style="background:url('img/M.jpg'); background-size: cover; width: 70px;height: 70px; border-radius: 50%;"><i class="fa fa-edit-o fa-2x"></i></label>
-     <input type="file" name="profile-pic" id="profile-pic"  style="display: none;"> <br/>   
+    <form class="form mx-auto" action="inc/signup.inc.php"  method="post" enctype="multipart/form-data">          
      <label for="uid">username:</label><br/> 
      <input type="text" id="uid" name="uid" title="enter your username" placeholder="username..." autofocus required><br/> 
      <label for="mail">email:</label><br/>   
@@ -35,14 +33,4 @@ require "header.php";
 require "footer.php" 
  ?>
 
-  <script>
-    $(document).ready(function(){
-     var c = document.querySelector('#profile-pic');  
-     c.addEventListener('change', function (e) {     
-       e.preventDefault();
-        var m = URL.createObjectURL(event.target.files[0]);
-       $('#profile-pic-label').css({"background": "url("+m+")"});      
-      });
-   });
- </script>
 

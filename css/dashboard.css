@@ -1,7 +1,7 @@
 :root{
  --bg: #ddd9d9;
  --co: #000;
- --ho: rgba(67, 22, 228, 0.844);    
+ --ho: #6c5ce7;    
  --ac: rgba(50, 159, 192, 0.844);
  --inp: rgb(214, 211, 211);
  --box-shadow: 0 0 5px var(--dark); 

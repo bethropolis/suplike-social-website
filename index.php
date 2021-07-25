@@ -15,13 +15,13 @@ if (!isset($_SESSION['userId'])) {
     <link rel="stylesheet" href="./css/post.css">
     <div class="row">
         <div class="col-sm-3 sidebar-sticky pt-3">
-            <div class="card card-profile text-center profile-card sidebar-content sticky-top" style="width: 94%;">
+            <div class="card card-profile text-center profile-card sidebar-content" style="width: 94%;">
                 <a href="./profile.php">
                     <img class="profile-pic shadow-sm" <?php if(!is_null($_SESSION['profile-pic'])){  echo 'src="img/'.$_SESSION['profile-pic'].'"';}else{ echo 'src="img/M.jpg"';}  ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
                 </a>
-                <h4 id="profile-name"><?php echo $_SESSION['firstname']; echo " ".$_SESSION['lastname'];?></h4>
+                <a href="./profile.php" class="nameanchor"><h4 id="profile-name"><?php echo $_SESSION['firstname']; echo " ".$_SESSION['lastname'];?></h4></a>
                 <h5 class="text-center userName"><?php echo "@".$_SESSION['userUid']?></h5>
-                <ul class="profile-opt">
+                <ul class="profile-opt"> 
                     <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
                     <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-2x"></i></a>
                     <a href="settings.php?profile" style="color: #252130;"><i class="fa fa-cog fa-2x"></i></a>

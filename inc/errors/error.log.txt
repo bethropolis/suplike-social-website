@@ -107,3 +107,25 @@ user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: key param
 user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: user does not exist    2021-07-23 11:20:59  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
 user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: user does not exist    2021-07-23 11:21:02  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
 user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: already followed this user    2021-07-23 12:30:06  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: 0 error occurred Error: failed to connect    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
+user: unknown error occurred Error: user is not autorised    2021-07-25 17:00:19  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
