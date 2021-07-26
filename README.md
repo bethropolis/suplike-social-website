@@ -37,7 +37,7 @@ suplike is made with various ideas from all around social medias like Facebook, 
 > All of these requirements can be completed at once by simply installing a server stack like `Wamp` or `Xampp` etc.
  
 #### Installation Steps
-1. Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function.
+1. Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function or you can try to login, if the database is missing you will be prompted to enter you db credentians and the sql file will be imported automatically.
 
 2. Edit the `dbh.inc.php` file in the `inc` folder to create the database connection. Change the password and username to the ones being used within current installation of `phpMyAdmin`. There is no need to change anything else.
 
@@ -76,11 +76,6 @@ MySQL Database 8.0.13
 #### DBMS
 ```
 phpMyAdmin 4.8.3
-```
-
-#### API
-```
-MySQLi APIs
 ```
 
 #### Frameworks and Libraries
@@ -150,12 +145,14 @@ the search page is where you can search for users for now.
 <img src="./_githubasserts/4.png" align="center" style="width: 70%"><br> 
  The following page is where you can vue the users you follow (for now);
 
-## post page (new)
+## post page
 <img src="./_githubasserts/8.png" align="center" style="width: 70%"><br> 
 the post page is new in v1.2, this is where you can make a post other than the main page it self
-
  
-## dashboard (new)
+## comments page (new)
+users can now post their own comments about a post
+ 
+## dashboard
 <img src="./_githubasserts/dashboard.webp" align="center" style="width: 70%"><br> 
 The Admin Dashboard is a whole new upgrade in v1.2, The dashboard is where you can view 
 your analytics. The dashboard is one the biggest features of v1.2 and currently undergoing alot of modifications<br>
