@@ -37,7 +37,7 @@ suplike is made with various ideas from all around social medias like Facebook, 
 > All of these requirements can be completed at once by simply installing a server stack like `Wamp` or `Xampp` etc.
  
 #### Installation Steps
-1. Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function or you can try to login, if the database is missing you will be prompted to enter you db credentians and the sql file will be imported automatically.
+1. Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function or you can try to login, if the database is missing you will be prompted to enter you db credentials and the sql file will be imported automatically.
 
 2. Edit the `dbh.inc.php` file in the `inc` folder to create the database connection. Change the password and username to the ones being used within current installation of `phpMyAdmin`. There is no need to change anything else.
 
