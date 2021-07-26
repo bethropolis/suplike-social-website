@@ -27,7 +27,7 @@ let app = new Vue({
                 this.chat = data.chat.length;
                 this.post = data.posts.length;
                 this.follows = data.following.length;
-                this.likes = data.likes.length; 
+                this.likes = data.likes.length;
                 this.newUser = data.users.length;
             })
 
@@ -50,17 +50,29 @@ let app = new Vue({
         },
         getReports: function (a) {
             this.reports = null;
-            $.get('../inc/report.inc.php?report&type=' + a, (data) => {
-                this.reports = data;
+            url ='../inc/report.inc.php?report&type=' + a;
+            $.get(url, (data) => {
+                this.reports = data; 
             })
         },
         sendReport: function (a) {
-            a = this.reports[a].post_id;
-            $.post('../inc/report.inc.php', {
-                del: a
-            }, function (b) {
-                console.log(b)
-            })
+            var r = this.reports[a].post_id ;
+           var c = this.reports[a].comment_id;
+            if (this.reports[a].is_comment) {
+                $.post('../inc/report.inc.php', {
+                    delc: caches
+                }, function (b) {
+                    console.log(b)
+                })
+            } else {
+                $.post('../inc/report.inc.php', {
+                    del: r
+                }, function (b) {
+                    console.log(b)
+                })
+            }
+
+
             this.getReports('false');
         },
         getUsers: function () {

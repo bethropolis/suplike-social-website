@@ -14,9 +14,10 @@ if (empty($_GET['user'])||empty($_GET['key'])) {
 	 	die(); 
 }
  
-$following = $_GET['user'];    
-$followed = $_GET['following'];  
-$key = $_GET['key']; 
+
+$following = $un_ravel->_getUser($_GET['user']);     
+$followed = $un_ravel->_getUser($_GET['following']);  
+$key = $_GET['key'];   
 
 if (!($key == 'false'||$key == 'true')){  
     $err = new Err(9);

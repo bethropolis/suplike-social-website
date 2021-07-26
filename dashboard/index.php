@@ -221,7 +221,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                 <div class="card-body ml-4 w100">
                                     <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
                                         <div class="col-8">
-                                            <h6>Monday</h6>
+                                            <h6>Monday</h6> 
                                         </div>
                                         <div class="col-4 text-left">{{ postDayM }}</div>
                                     </div>
@@ -424,15 +424,15 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     <div class="" v-show="stage == 5">
                         <h1 class="h2">reports</h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group mr-2">
-                                <button type="button" @click="getReports('true')" class="btn btn-sm btn-outline-secondary">unsolved</button>
-                                <button type="button" @click="getReports('false')" class="btn btn-sm btn-outline-secondary">solved</button>
+                            <div class="btn-group mr-2"> 
+                                <button type="button" @click="getReports(false)" class="btn btn-sm btn-outline-secondary">unsolved</button>
+                                <button type="button" @click="getReports(true)" class="btn btn-sm btn-outline-secondary">solved</button>
                             </div>
                         </div>
                         <div class="row">
                             <h2>Posts</h2>
                             <div v-for="(report, index) in reports" class="col-12 row border p-2">
-                                <h4 class="col-8">{{report.post_id}}</h4>
+                                <h4 class="col-8">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4> 
                                 <div class="col-4 text-right">
                                     <button class="btn btn-danger" @click="sendReport(index)">
                                         <i class="fa fa-trash text-light fa-2x"></i>
@@ -450,7 +450,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
         </div>
     </div>
     <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="dashboard.js"></script> 
+    <script src="dashboard.js?opf"></script> 
 </body>
 
 </html>

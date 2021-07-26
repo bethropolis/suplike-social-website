@@ -51,7 +51,7 @@ class Auth
       default:
       die("auth Error"); 
     }
-     $this->user  = (mysqli_fetch_assoc($this->conn->query($sql)))['user'];   
+     $this->user  = (mysqli_fetch_assoc($this->conn->query($sql)))['user'];    
      return $this->user;
   }
 
@@ -95,6 +95,40 @@ class Auth
    return $this->user; 
 }
 
+ public function _isValid($var)
+{
+  $length =  strlen($var); 
+   $auth = '';
+  switch ($length) {
+    case 42:
+      //token
+      $auth = true;
+    
+      break;
+    case 16:
+      //chat token
+      $auth = true;
+      break;
+    case 32:
+      //browser token
+      $auth = true;    
+      break;
+
+    case 28:
+      //user token 
+      $auth = true;
+      break;
+
+    case 64:
+      //api key 
+      $auth = true;
+      break;
+    default:
+    $auth = false;
+  }
+  return $auth; 
 }
 
+}
+ 
 $un_ravel = new Auth(); 

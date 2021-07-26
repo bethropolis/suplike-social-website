@@ -87,7 +87,7 @@ print_r(
 	json_encode(
        array(
        	'code' => 21, 
-        'successful'
+        "type"=>'successful' 
          
        )   
 	)

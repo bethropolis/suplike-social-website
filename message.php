@@ -148,10 +148,9 @@ if (isset($_GET['id'])) {
           })
         },
         startChat: function(index) {
-          this.chatwith = this.online[index].id;
-          // $.get('./inc/setrequest.inc.php?user=' + this.user + "&to=" + this.online[index].id, function(data) {
-          //   notification.setNotification(data.msg, data.type)
-          // });
+          this.chatwith = this.online[index].id; 
+           history.pushState(null,null,"?id="+this.online[index].id)  
+           document.title = this.online[index].name
         },
         checkrequest: function() {
           // $.get('./inc/checkrequest.inc.php?user=' + this.user, function(data) {
@@ -176,8 +175,12 @@ if (isset($_GET['id'])) {
       },
       watch: {
         chatwith: function() {
+          if (this.chatwith == null) {
+            document.title = "messages";
+            history.pushState(null,null,"./message.php")    
+          }
           this.messages = [];
-          this.getMessage()
+          this.getMessage();
         },
         messages: function() {
           this.switchMsgdata();
