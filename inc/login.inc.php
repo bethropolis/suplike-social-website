@@ -23,7 +23,7 @@ if (isset($_POST['login-submit'])) {
                 header("Location: ../login.php?error=notset");
                 exit();
             }
-            
+
             header("Location: ../login.php?error=sqlerror");
             exit();
         } else {

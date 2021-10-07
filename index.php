@@ -1,33 +1,38 @@
 <?php
-require "header.php"; 
+require "header.php";
 if (!isset($_SESSION['userId'])) {
-  header('Location: ./login.php');
-  exit();     
-}  
-?>  
+    header('Location: ./login.php');
+    exit();
+}
+?>
 <script>
-       if (sessionStorage.getItem('user') == null){ 
-          sessionStorage.setItem('user', "<?=isset($_SESSION['token'])?$_SESSION['token']:null?>");  
-          sessionStorage.setItem('name', "<?=isset($_SESSION['userUid'])?$_SESSION['userUid']: null?>");        
-       };
-</script>   
+    if (sessionStorage.getItem('user') == null) {
+        sessionStorage.setItem('user', "<?= isset($_SESSION['token']) ? $_SESSION['token'] : null ?>");
+        sessionStorage.setItem('name', "<?= isset($_SESSION['userUid']) ? $_SESSION['userUid'] : null ?>");
+    };
+</script>
 <main>
     <link rel="stylesheet" href="./css/post.css">
     <div class="row">
         <div class="col-sm-3 sidebar-sticky pt-3">
-            <div class="card card-profile text-center profile-card sidebar-content" style="width: 94%;">
+            <div class="card card-profile text-center profile-card sidebar-content sticky-top" style="width: 94%;">
                 <a href="./profile.php">
-                    <img class="profile-pic shadow-sm" <?php if(!is_null($_SESSION['profile-pic'])){  echo 'src="img/'.$_SESSION['profile-pic'].'"';}else{ echo 'src="img/M.jpg"';}  ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
+                    <img class="profile-pic shadow-sm" <?php if (!is_null($_SESSION['profile-pic'])) {
+                                                            echo 'src="img/' . $_SESSION['profile-pic'] . '"';
+                                                        } else {
+                                                            echo 'src="img/M.jpg"';
+                                                        }  ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
                 </a>
-                <a href="./profile.php" class="nameanchor"><h4 id="profile-name"><?php echo $_SESSION['firstname']; echo " ".$_SESSION['lastname'];?></h4></a>
-                <h5 class="text-center userName"><?php echo "@".$_SESSION['userUid']?></h5>
-                <ul class="profile-opt"> 
+                <h4 id="profile-name"><?php echo $_SESSION['firstname'];
+                                        echo " " . $_SESSION['lastname']; ?></h4>
+                <h5 class="text-center userName"><?php echo "@" . $_SESSION['userUid'] ?></h5>
+                <ul class="profile-opt">
                     <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
                     <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-2x"></i></a>
                     <a href="settings.php?profile" style="color: #252130;"><i class="fa fa-cog fa-2x"></i></a>
                 </ul>
-            </div> 
-        </div> 
+            </div>
+        </div>
 
         <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
 
@@ -47,7 +52,7 @@ if (!isset($_SESSION['userId'])) {
                 </form>
             </div>
             <div id="main-post">
-                <noscript style="color:red">this site requires javascript to function</noscript> 
+                <noscript style="color:red">this site requires javascript to function</noscript>
 
             </div>
 
@@ -62,10 +67,10 @@ if (!isset($_SESSION['userId'])) {
     </ul>
 </main>
 <?php
-require "footer.php" 
- ?>
+require "footer.php"
+?>
 
 <!--------- main script----->
-<script defer>  
-   mainload();     
+<script defer>
+    mainload();
 </script>

@@ -51,5 +51,6 @@ if (isset($_SESSION['userId'])) {
 
 
 <?php
+
 require "footer.php"
 ?>

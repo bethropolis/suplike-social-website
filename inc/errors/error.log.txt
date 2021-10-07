@@ -129,3 +129,18 @@ user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on
 user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
 user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
 user: unknown error occurred Error: user is not autorised    2021-07-25 17:00:19  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: already followed this user    2021-10-01 16:58:34  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: 7e60342d67d0931c8931775ec064d902b24eeaef2b error occurred Error: already followed this user    2021-10-01 17:12:40  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
+user: API error occurred Error: unknown user    2021-10-05 15:20:03  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: unknown user    2021-10-05 15:22:51  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:39:28  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:39:28  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:40:12  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:40:12  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:40:45  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:40:45  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:41:17  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:41:21  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 15:42:13  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 16:44:00  on  D:/XAMPP/htdocs/suplike/api/v1/index.php
+user: API error occurred Error: wrong credentials given    2021-10-05 16:44:00  on  D:/XAMPP/htdocs/suplike/api/v1/index.php

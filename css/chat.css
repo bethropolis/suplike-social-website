@@ -1,7 +1,11 @@
 :root {
   --bg: #ddd9d9;
   --co: #000;
-  --ho: #6c5ce7; 
+  --ho: #6c5ce7;
+  --mauve-5: #deaaffff;
+  --chat-text-bg: #f1f2f6;
+  --theme-color: #0086ff;
+  --msg-date: #c0c7d2;
   --ac: rgba(50, 159, 192, 0.844);
   --inp: rgb(214, 211, 211);
   --light: #f8f9fa;
@@ -11,8 +15,9 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden; 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   box-sizing: border-box;
 }
 
@@ -25,7 +30,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 0 5px #333;
-  z-index:10;
+  z-index: 10;
 }
 
 nav img {
@@ -34,7 +39,7 @@ nav img {
 }
 
 nav .nav-content > * {
-  margin: 0 5px; 
+  margin: 0 5px;
 }
 
 .fas:hover {
@@ -54,20 +59,20 @@ a {
   height: 82vh;
   overflow-x: hidden;
   padding: 10px;
-  background: #ccc;
+  background: #fff;
 }
 
 form {
   display: flex;
 }
 
-.bg{
-  background: var(--ho); 
-  color:#fff;  
+.bg {
+  background: var(--ho);
+  color: #fff;
 }
 
-.bg:hover{
-   opacity: .9;  
+.bg:hover {
+  opacity: 0.9;
 }
 input {
   font-size: 1.2rem;
@@ -76,8 +81,82 @@ input {
   appearance: none;
   --webkit-appearance: none;
   border: 1px solid #333;
-  z-index: 5;  
+  z-index: 5;
 }
+
+.chat-msg-profile {
+  flex-shrink: 0;
+  margin-top: auto;
+  margin-bottom: -20px;
+  position: relative;
+}
+
+.chat-msg-date {
+  position: absolute;
+  left: calc(100% + 12px);
+  bottom: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--msg-date);
+  white-space: nowrap;
+}
+
+.chat-msg {
+  display: flex;
+  padding: 0 20px 45px;
+}
+
+.chat-msg-content {
+  margin-left: 12px;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.chat-msg-text {
+  background-color: #d1c4e9;
+  padding: 15px;
+  border-radius: 20px 20px 20px 0;
+  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chat-msg-text+.chat-msg-text {
+  margin-top: 10px;
+}
+
+.chat-msg-text {
+  color: var(--chat-text-color);
+}
+
+.owner {
+  flex-direction: row-reverse;
+}
+
+.owner .chat-msg-content {
+  margin-left: 0;
+  margin-right: 12px;
+  align-items: flex-end;
+}
+
+.owner .chat-msg-text {
+  background-color: var(--ho);
+  color: #fff;
+  border-radius: 20px 20px 0 20px;
+}
+
+.owner .chat-msg-date {
+  left: auto;
+  right: calc(100% + 12px);
+}
+
+.chat-msg-text img {
+  max-width: 300px;
+  width: 100%;
+}
+
 
 ul {
   list-style: none;
@@ -89,30 +168,27 @@ ul {
 }
 
 .message-form {
-  position: relative;
+  width: 100%;
+  height: 27px;
+  position: fixed;
+  padding: 1px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 10;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
 }
 
 .form-input {
   outline: none;
   border: none;
   border-bottom: 2px solid var(--ho);
-  z-index: 5; 
-}
-
-.text {
-  padding: 2px;
-  font-family: Arial, Helvetica, sans-serif;
-  min-width: 140px;
-  max-width: 160px;
-  border-radius: 4px;
-}
-
-.text.b {
-  background: #d1c4e9;
-}
-
-.text.a {
-  background: #b39ddb;
+  border-width: thin;
+  border-bottom-style: groove;
+  z-index: 5;
+  flex: 60%;
 }
 
 .time {
@@ -120,14 +196,21 @@ ul {
 }
 
 .btn-send {
-  position: absolute;
   right: 20px;
   width: 50px;
-  height: 50px;
+  text-align: center;
+  display: flex;
+  height: 49px;
+  box-shadow: 1px 18px 20px 2px #1f1f1f;
   background-color: var(--ho);
   color: var(--light);
-  border-radius: 50%;
-  z-index: 100;   
+  z-index: 100;
+  flex: 10%;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
 .center {
@@ -142,16 +225,15 @@ ul {
   display: block;
 }
 
-@media screen and (max-width: 950px) { 
-  .messages .offset-10{
-      margin-left: 75%;   
+@media screen and (max-width: 950px) {
+  .messages .offset-10 {
+    margin-left: 75%;
   }
 }
 
-
 @media screen and (max-width: 604px) {
   .toShow {
-    display: inline;  
+    display: inline;
   }
 
   .toHide {
@@ -163,22 +245,19 @@ ul {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .messages .offset-10{
-     margin-left: 66%;
-  }  
+  .messages .offset-10 {
+    margin-left: 66%;
+  }
 }
 
 @media screen and (max-width: 476px) {
   .messages .offset-10 {
-     margin-left: 58%; 
+    margin-left: 58%;
   }
 }
 
-
-@media screen and (max-width: 330px) { 
+@media screen and (max-width: 330px) {
   .messages .offset-10 {
-       margin-left: 44%;   
+    margin-left: 44%;
   }
 }
-
-
