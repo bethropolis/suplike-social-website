@@ -1,7 +1,6 @@
 <?php
 include_once 'dbh.inc.php';
 include_once 'Auth/auth.php';
-header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $result = [];
 $auth =  new Auth();

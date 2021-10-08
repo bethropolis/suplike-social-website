@@ -104,6 +104,7 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
 
         function postError(jqXHR, textStatus, errorThrown) {
             alert('could not post comment');
+            console.log(jqXHR);
         }
 
         $('#back').attr('href', document.referrer);

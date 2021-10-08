@@ -6,9 +6,9 @@ if (isset($_POST['id'])) {
     $post = $_POST['id'];
     $user = $_POST['user'];
     $sql = "SELECT `idusers` FROM `users` WHERE `uidusers`='$user'";
-    $token = $un_ravel->_queryUser(((mysqli_fetch_assoc($conn->query($sql)))['idusers']), 1);
-
-    $sql = "INSERT INTO `comments`(`comment_id`,`user`,`user_token`,`comment`) VALUES (?,?,?,?)";
+    $id = ((mysqli_fetch_assoc($conn->query($sql)))['idusers']);
+    $token = $un_ravel->_queryUser($id,1) ;
+    $sql = "INSERT INTO `comments`(`post_id`,`user`,`user_token`,`comment`) VALUES (?,?,?,?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssss", $post, $user, $token, $comment);
     $stmt->execute();

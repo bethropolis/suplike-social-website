@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 header('content-type: application/json');
 require '../../inc/dbh.inc.php';
 require '../../inc/Auth/Auth.php';
