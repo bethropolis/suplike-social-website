@@ -29,7 +29,11 @@ if (isset($_SESSION['userId'])) {
     echo '<h5>Database configurations have been set</h5>'; 
     echo '</div>';
   }
-
+ if (isset($_GET['acc'])) {
+    echo '<div class="alert alert-info text-center" role="alert">';
+    echo '<h5>Your account has been created. Please login</h5>'; 
+    echo '</div>';
+  }
 
   ?>
   <div class="center">

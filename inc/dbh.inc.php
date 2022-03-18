@@ -18,5 +18,12 @@ try {
 
   $conn->set_charset('utf8mb4');
 } catch (\Throwable $th) {
-  echo "error";
+    $isSetup = file_get_contents('./setup/setup.suplike.json');
+    $s = json_decode($isSetup);
+    if (!$s->setup) {
+      print_r(file_get_contents('./setup/setup.html'));
+      die();
+    }
+
+  echo $th;
 }

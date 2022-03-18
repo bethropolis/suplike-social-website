@@ -23,7 +23,7 @@ if (isset($_POST['login-submit'])) {
                 header("Location: ../login.php?error=notset");
                 exit();
             }
-            
+
             header("Location: ../login.php?error=sqlerror");
             exit();
         } else {
@@ -39,14 +39,12 @@ if (isset($_POST['login-submit'])) {
                     exit();
                 } else if ($pwdCheck === true) {
 
-
-
                     session_start();
                     $_SESSION['userId'] = $row['idusers'];
                     $auth->_queryUser($row['idusers'], 1);
-                    $_SESSION["token"] = $auth->user;      # check Auth/auth.php to understand  
+                    $_SESSION["token"] = $auth->user;      # check Auth/auth.php to understand
                     $auth->_queryUser($row['idusers'], 2);
-                    $_SESSION["chat_token"] = $auth->user;  # check Auth/auth.php to understand                
+                    $_SESSION["chat_token"] = $auth->user;  # check Auth/auth.php to understand
                     $_SESSION['userUid'] = $row['uidusers'];
                     $_SESSION['firstname'] = $row['usersFirstname'];
                     $_SESSION['lastname'] = $row['usersSecondname'];
