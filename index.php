@@ -15,7 +15,7 @@ if (!isset($_SESSION['userId'])) {
     <link rel="stylesheet" href="./css/post.css">
     <div class="row">
         <div class="col-sm-3 sidebar-sticky pt-3">
-            <div class="card card-profile text-center profile-card sidebar-content" style="width: 94%;">
+            <div class="card card-profile p-4 shadow white rounded text-center profile-card sidebar-content" style="width: 94%;">
                 <a href="./profile.php">
                     <img class="profile-pic shadow-sm" <?php if(!is_null($_SESSION['profile-pic'])){  echo 'src="img/'.$_SESSION['profile-pic'].'"';}else{ echo 'src="img/M.jpg"';}  ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
                 </a>

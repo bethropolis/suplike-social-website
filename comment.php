@@ -54,9 +54,9 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
             $result = $conn->query($sql);
             while ($row = $result->fetch_assoc()) {
                 if ($row) {
-                    echo       '<div class="comment">' .
+                    echo       '<hr><div class="comment">' .
                         '<a href="./profile.php?id=' . $row["user_token"] . '">' .
-                        '<h5>' . $row['user'] . '</h5>' .
+                        '<h5>@' . $row['user'] . '</h5>' .
                         '</a>' .
                         '<p>' . $row['comment'] . '</p> ' .
                         '<div class="comment-action">' .
@@ -72,6 +72,7 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
             }
 
             ?>
+            <hr>
         </main>
     </div>
     <script src="./lib/jquery/jquery.js"></script>
@@ -99,7 +100,8 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
         }
 
         function postSuccess(data, textStatus, jqXHR) {
-            alert('sent');
+            $('#comm').val(" ")
+            window.location.reload();
         }
 
         function postError(jqXHR, textStatus, errorThrown) {

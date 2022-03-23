@@ -30,16 +30,27 @@
 </form>
 <p id="text"></p>  
 <script>
- // first of all, I had to use jquery
- 
-document.querySelector('#btn').addEventListener('click', function(){ 
-document.querySelector('.form').addEventListener('submit', e=>{
-     e.preventDefault();  
- })
+         var wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: '#D9DCFF',
+            barWidth: 3,
+            height: 50,
+            barWidth: 3,
+            barHeight: 1,
+            progressColor: '#6c5ce7',
+            fillParent: true,
+            hideScrollbar: true,
+            responsive: true,
+            barRadius: 3,
+            barGap: 3,
+            cursorColor: 'transparent',
+        });
 
-   fetch('post.test.php',{text: $('.text').val()},function(respose){
-       console.log(response); 
-   })
-} 
+        wavesurfer.load('../../inc/song/9eb7efef0c4120e9dc8fe75285098249.mp3');
+        
+        document.querySelector(".fa").addEventListener("click", function () {
+            wavesurfer.playPause();
+        })
+
 // that was easier Right!
 </script>

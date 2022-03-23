@@ -8,6 +8,7 @@ $auth =  new Auth();
 
 if (isset($_POST['from'])) {
 	$message = $_POST['message'];
+	$type = $_POST['type'];
 	$from =  $auth->_getUser($_POST['from']);
 	$to =  $auth->_getUser($_POST['to']);
 

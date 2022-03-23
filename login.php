@@ -34,7 +34,11 @@ if (isset($_SESSION['userId'])) {
     echo '<h5>Your account has been created. Please login</h5>'; 
     echo '</div>';
   }
-
+ if (isset($_GET['fol'])) {
+    echo '<div class="alert alert-info text-center" role="alert">';
+    echo '<h5>Users you follow were saved please confirm login to continue</h5>'; 
+    echo '</div>';
+  }
   ?>
   <div class="center">
     <h1>login</h1>

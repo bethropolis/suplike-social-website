@@ -59,7 +59,7 @@ if (isset($_POST['signup-submit'])) {
                     $response = (mysqli_fetch_assoc($conn->query($getId)))['idusers'];
                     $outhsql = "INSERT INTO `auth_key` (`user`,`user_auth`,`chat_auth`,`browser_auth`,`token`,`api_key`) VALUES ($response,'$oauth->user_auth','$oauth->chat_auth','$oauth->browser_auth','$oauth->token','$oauth->api_key') ";
                     $conn->query($outhsql);
-                   header("Location: ../login.php?acc");
+                    header("Location: ../search.php?q=e&id=$response&token=$oauth->token");
                     exit();
                 }
             }

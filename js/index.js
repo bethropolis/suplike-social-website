@@ -16,11 +16,11 @@ function mainload() {
                     $("#main-post").append(render(post));
                 });
                 addClick();
-                $('body').append('<script defer src="./lib/lightbox/lightbox.min.js"></script>  ')
+                add_lightbox();
             } else {
                 $("#main-post")
                     .append(`<div class='post-div shadow no-user' class='text-center'><h4> you need to follow someone in order to view post on your feed</h4>
-               <p> go to <b>search</b> and look for a user to follow</p>  
+               <p> go to <a href="search.php"><b>search</b></a> and look for a user to follow</p>  
             </div>`);
             }
         });
@@ -50,7 +50,10 @@ function render(post) {
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                         <div class="dropdown-header">Actions:</div>
                         <div class="mj-actions">
-                        <a class="dropdown-item report" id="${post.id}" href="#">report <i class="fa fa-report fa-sm"></i></a>  
+                        <a class="dropdown-item share" id="${post.id}" href="#">share</i></a>  
+                       </div>
+                        <div class="mj-actions">
+                        <a class="dropdown-item report" id="${post.id}" href="#">report </a>  
                        </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="profile.php?id=${_user.id}">visit profile</a>
@@ -86,7 +89,10 @@ function render(post) {
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                         <div class="dropdown-header">Actions:</div>
                         <div class="mj-actions">
-                        <a class="dropdown-item report" id="${post.id}" href="#">report <i class="fa fa-report fa-sm"></i></a>  
+                        <a class="dropdown-item share" id="${post.id}" href="#">share</a>  
+                       </div>
+                        <div class="mj-actions">
+                        <a class="dropdown-item report" id="${post.id}" href="#">report</a>  
                        </div>  
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="profile.php?id=${_user.id}">visit profile</a>
@@ -128,8 +134,21 @@ function addClick() {
                 console.log(response);
             });
         }
-
-
+    });
+    $(".share").click(async function (e) {
+        e.preventDefault;
+        const shareData = { url: window.location.origin + window.location.pathname + "comment.php?id=" + this.id };
+        console.log(shareData)
+        try {
+            await navigator.share(shareData)
+            $.post(
+                "./inc/share.inc.php",
+                {
+                    id: _user_id,
+                })
+        } catch (err) {
+            console.log("couldn't share");
+        }
     });
     $(".report").click(function (e) {
         e.preventDefault;
@@ -217,6 +236,12 @@ function follow(user) {
             // }
         });
     });
+}
+
+function add_lightbox() {
+    $("body").append(
+        '<script defer src="./lib/lightbox/lightbox.min.js"></script>  '
+    );
 }
 
 $("#logout").click(function () {

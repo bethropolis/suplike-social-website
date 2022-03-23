@@ -1,4 +1,4 @@
- user: 1 error occurred Error: post does not exist    2020-12-22 20:19:58  on  F:/xampp/htdocs/suplike/inc/like.inc.php
+user: 1 error occurred Error: post does not exist    2020-12-22 20:19:58  on  F:/xampp/htdocs/suplike/inc/like.inc.php
 user: 1 error occurred Error: post does not exist    2020-12-22 20:22:13  on  F:/xampp/htdocs/suplike/inc/like.inc.php
 user: unkown error occurred Error: missing parameters in request    2020-12-22 20:22:41  on  F:/xampp/htdocs/suplike/inc/like.inc.php
 user: unkown error occurred Error: missing parameters in request    2020-12-22 20:22:42  on  F:/xampp/htdocs/suplike/inc/like.inc.php
@@ -128,4 +128,6 @@ user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on
 user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
 user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
 user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on  D:/XAMPP/htdocs/suplike/inc/setup/setup.inc.php
-user: unknown error occurred Error: user is not autorised    2021-07-25 17:00:19  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
+user: unknown error occurred Error: user is not autorised    -07-25 17:202100:19  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
+user: 16c78b8e0c126b30749f8d93ad9de7479f7decb572 error occurred Error: already liked this    2022-03-19 15:38:22  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: unknown error occurred Error: not authorised user    2022-03-22 21:18:53  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
