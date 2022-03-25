@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://bethro.alwaysdata.net/api/v1/
+HOST: https://bethro.alwaysdata.net/api/v1
 
 # suplike
 
@@ -13,12 +13,7 @@ simply work with suplike social website.
 
         {
             "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "question": "Favourite programming language?",
         }
 
 + Response 200 (application/json)
@@ -31,39 +26,32 @@ simply work with suplike social website.
 
 ### Login to an existing account [POST]
 
-  this enebles you to login to suplike using an existing account
+this enebles you to login to suplike using an existing account.
+Please note that you are required to store the information and use it to send later requests.
 
-+ Request (application/json)
+ + Request (application/json)
 
         {
             "usermail": "username", // can also be email
             "userpass": "password"  // the users password
         }
 
-+ Response 201 (application/json)
+ + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /login
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+               "username": "test",
+               "profile_picture": "http://localhost/suplike/img/download.jpg",
+               "full_name": "fname lname",
+               "user_token": "fb787eb1d2a7b234866b912b8e14191260b8f3e5fb2dc6ea53a53104ee",
+               "chat_key": "3e1630d6e3e"
             }
+     
+## Questions Collection [/post]
+ 
+### this is for getting posts [GET]
