@@ -1,0 +1,69 @@
+FORMAT: 1A
+HOST: https://bethro.alwaysdata.net/api/v1/
+
+# suplike
+
+simply work with suplike social website.
+
+## Questions Collection [/signup]
+
+### Signup a new user [POST]
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 200 (application/json)
+
+        [
+        ]
+
+
+## Questions Collection [/login]
+
+### Login to an existing account [POST]
+
+  this enebles you to login to suplike using an existing account
+
++ Request (application/json)
+
+        {
+            "usermail": "username", // can also be email
+            "userpass": "password"  // the users password
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
