@@ -3,38 +3,53 @@ HOST: https://bethro.alwaysdata.net/api/v1
 
 # suplike
 
+# Welcome to the suplike API documentation
 simply work with suplike social website.
 
-## Questions Collection [/signup]
+the API allows you to connect and use some off the suplike features such as;
+* signup
+* login
+* posting
+* fetching post
+* search
+* chat
+* like
+* follow
 
+if a feature isn't there, it is still being added.
+
+## User sign up [/signup]
+create a new account on suplike.
+the account must have `username`,`email` and `password`.
 ### Signup a new user [POST]
 
 + Request (application/json)
 
-        {
-            "question": "Favourite programming language?",
-            "question": "Favourite programming language?",
-        }
+            {
+               "uid": "username",
+               "mail": "email",
+               "mail": "password",               
+            }
 
 + Response 200 (application/json)
 
-        [
-        ]
+            [
+            ]
 
 
-## Questions Collection [/login]
-
-### Login to an existing account [POST]
-
+## User Login [/login]
 this enebles you to login to suplike using an existing account.
 Please note that you are required to store the information and use it to send later requests.
 
+### Login to an existing account [POST]
+
+
  + Request (application/json)
 
-        {
-            "usermail": "username", // can also be email
-            "userpass": "password"  // the users password
-        }
+            {
+                "usermail": "username", // can also be email
+                "userpass": "password"  // the users password
+            }
 
  + Response 201 (application/json)
 
@@ -52,6 +67,38 @@ Please note that you are required to store the information and use it to send la
                "chat_key": "3e1630d6e3e"
             }
      
-## Questions Collection [/post]
- 
-### this is for getting posts [GET]
+## User Posts [/post]
+ this is for getting all the post from the user and the people the user follows.
+ you will be needed to send `user_token` as a parameter in the url.
+
+### This is for getting posts [GET]
+
+ + Request (application/json)
+
+            {
+                "user_key": "/user_token/", //this is the token from login
+            }
+
+ + Response 201 (application/json)
+
+    + Headers
+
+            Location: /post
+
+    + Body
+
+            {
+                "id": "172",
+                "post_id": "a4479fb9",
+                "image": "1089.png",
+                "image_text": "still at school and this is the only image on the computer",
+                "userid": "5",
+                "type": "img",
+                "repost": "a421d86b",
+                "date_posted": "20 Mar",
+                "post_likes": "1",
+                "day": "Sunday",
+                "time": "2022-03-20 12:39:53",
+                "user": true,
+                "liked": true
+            }
