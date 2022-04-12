@@ -11,7 +11,7 @@ if (isset($_POST['upload'])) {
     session_start();
     $type = $_POST['type'];
     $user = $_SESSION['userId'];
-    $d = new DateTime(null, $timeZone);
+    $d = new DateTime("now", $timeZone);
     $image_text = mysqli_real_escape_string($conn, $_POST['posttext']);
 
     if ($_POST['type'] == 'img') {
@@ -86,6 +86,7 @@ if (isset($_GET['user'])) {
     }
 
     # STAGE 2:  GETTING THE POST FROM EACH USER
+    
     $i = 0;
     foreach ($arr as $key) {
         $acc = $key["idusers"];

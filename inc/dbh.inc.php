@@ -7,6 +7,7 @@ $timeZone = new DateTimeZone('Africa/Nairobi');
 
 try {
   $conn = mysqli_connect($servername, $dBUsername, $dBPassword, $dBName) or print_r('Unable to connect to DB');;
+ 
   if (!$conn) {
     $isSetup = file_get_contents('./setup/setup.suplike.json');
     $s = json_decode($isSetup);

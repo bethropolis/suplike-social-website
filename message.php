@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
   <link rel="stylesheet" href="./css/chat.css?hs">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
-  <script src="./lib/vue/vue.js"></script>
+  <script src="./lib/vue/vue.min.js"></script>
   <script src="./lib/wavesurfer/wavesurfer.js"></script>
 </head>
 
@@ -74,7 +74,7 @@ if (isset($_GET['id'])) {
       <div class="col-11 direct-message">
         <div class="messages purple lighten-4">
           <ul v-for="(msg, index) in messages" :class="msg.to? 'offset-10 text  b':'text a'">
-            <li class="msg" v-show="msg.type == 'txt'">{{msg.message}}</li>
+            <li class="msg" v-show="msg.type == 'txt'">{{msg.message||msg}}</li>
             <div class="row" v-show="msg.type == 'mus'">
               <div id="waveform" class="col-10 msg"></div>
               <i @click="load(msg.message)" class="fa my-auto col-2" :class="this.player?'fa-pause':'fa-play'"></i>
@@ -116,6 +116,7 @@ if (isset($_GET['id'])) {
           barGap: 3,
           cursorColor: 'transparent',
         }
+        
       },
       methods: {
         getMessage: function() {
@@ -125,8 +126,8 @@ if (isset($_GET['id'])) {
           function sendRequest() {
 
             $.get('./inc/message.inc.php?start=' + start + "&from=" + vm.user + "&to=" + vm.chatwith, function(data) {
-              if (data.items) {
-                data.items.forEach(item => {
+              if (data.data) {
+                data.data.forEach(item => {
                   start = item.id;
                   const t = new Date(item.time);
                   const time = `${t.getHours()}:${t.getMinutes() < 10? '0': ''}${t.getMinutes()}`;
@@ -213,22 +214,30 @@ if (isset($_GET['id'])) {
           //   notification.setNotification(data.msg, data.type, data.id);
           // });
         },
-        sendMessage: function(type) {
-          $.post('./inc/message.inc.php', {
-            message: $('#msg-form').val(),
-            type: type || 'txt',
+        sendMessage: function(type = 'txt') {
+          console.log('sending')
+          // send message to database
+          const vm = this;
+          const msg = $('#msg-form').val();
+          const time = new Date();
+          const timeString = `${time.getHours()}:${time.getMinutes() < 10? '0': ''}${time.getMinutes()}`;
+          const data = {
+            message: msg,
             from: this.user,
             to: this.chatwith
-          }, function(data) {
-            if (data.type == 'error') {
-              alert('there was an error')
-            };
+          }
+          $.post('./inc/message.inc.php', data, function(data) {
+            console.log(data);
+            $('#msg-form').val('');
+            $('.messages').animate({
+              scrollTop: $('.messages')[0].scrollHeight
+            });
           });
-          $('#msg-form').val(' ');
         },
         goBack: function() {
           this.chatwith = null
         }
+
       },
       watch: {
         chatwith: function() {

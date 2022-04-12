@@ -131,3 +131,18 @@ user: 0 error occurred Error: failed to connect to db    2021-07-25 15:18:04  on
 user: unknown error occurred Error: user is not autorised    -07-25 17:202100:19  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
 user: 16c78b8e0c126b30749f8d93ad9de7479f7decb572 error occurred Error: already liked this    2022-03-19 15:38:22  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
 user: unknown error occurred Error: not authorised user    2022-03-22 21:18:53  on  D:/XAMPP/htdocs/suplike/inc/data/data.a.inc.php
+user: API error occurred Error: wrong credentials given    2022-03-25 12:13:52  on  D:/XAMPP/htdocs/suplike/api/v1/login/index.php
+user: API error occurred Error: wrong credentials given    2022-03-25 12:13:52  on  D:/XAMPP/htdocs/suplike/api/v1/login/index.php
+user: API error occurred Error: wrong credentials given    2022-03-25 12:14:32  on  D:/XAMPP/htdocs/suplike/api/v1/login/index.php
+user: API error occurred Error: wrong credentials given    2022-03-25 12:14:32  on  D:/XAMPP/htdocs/suplike/api/v1/login/index.php
+user: API error occurred Error: missing infomation    2022-03-25 12:15:21  on  D:/XAMPP/htdocs/suplike/api/v1/login/index.php
+user: API error occurred Error: missing infomation    2022-03-25 12:16:59  on  D:/XAMPP/htdocs/suplike/api/v1/login/index.php
+user: API error occurred Error: missing infomation    2022-03-25 12:18:30  on  D:/XAMPP/htdocs/suplike/api/v1/login/index.php
+user: API error occurred Error: missing infomation    2022-03-25 12:46:47  on  D:/XAMPP/htdocs/suplike/api/v1/post/index.php
+user: API error occurred Error: missing infomation    2022-03-25 12:48:17  on  D:/XAMPP/htdocs/suplike/api/v1/post/index.php
+user: API error occurred Error: missing infomation    2022-03-25 12:48:27  on  D:/XAMPP/htdocs/suplike/api/v1/post/index.php
+user: API error occurred Error: missing infomation    2022-03-25 12:50:53  on  D:/XAMPP/htdocs/suplike/api/v1/post/index.php
+user: API error occurred Error: missing data in parameter    2022-03-25 13:46:31  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-03-25 20:27:52  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-03-25 20:28:03  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-03-25 20:28:08  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
