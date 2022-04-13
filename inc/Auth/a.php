@@ -1,99 +1,58 @@
 <?php
 require '../dbh.inc.php';
-# require '../errors/error.inc.php'; 
-require 'auth.php';
-?>
+require '../Auth/auth.php';
+header("Content-Type: application/json");
+session_start();
 
-<html>
-
-<head></head>
-
-<head>
-  <style type="text/css">
-    #loader {
-      background-color: #996bfd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      position: relative;
-    } 
-  </style>
-</head>
-
-<body>
-  <div class="loader">
-    <progress-ring stroke="4" radius="60" progress="0"></progress-ring>
-  </div>
-  <script type="text/javascript">
-    class ProgressRing extends HTMLElement {
-      constructor() {
-        super();
-        const stroke = this.getAttribute('stroke');
-        const radius = this.getAttribute('radius');
-        const normalizedRadius = radius - stroke * 2;
-        this._circumference = normalizedRadius * 2 * Math.PI;
-
-        this._root = this.attachShadow({
-          mode: 'open'
-        });
-        this._root.innerHTML = `
-      <svg
-        height="${radius * 2}"
-        width="${radius * 2}"
-       >
-         <circle
-           stroke="white"
-           stroke-dasharray="${this._circumference} ${this._circumference}"
-           style="stroke-dashoffset:${this._circumference}"
-           stroke-width="${stroke}"
-           fill="transparent"
-           r="${normalizedRadius}"
-           cx="${radius}"
-           cy="${radius}"
-        />
-      </svg>
-
-      <style>
-        circle {
-          transition: stroke-dashoffset 0.35s;
-          transform: rotate(-90deg);
-          transform-origin: 50% 50%;
-        }
-      </style>
-    `;
-      }
-
-      setProgress(percent) {
-        const offset = this._circumference - (percent / 100 * this._circumference);
-        const circle = this._root.querySelector('circle');
-        circle.style.strokeDashoffset = offset;
-      }
-
-      static get observedAttributes() {
-        return ['progress'];
-      }
-
-      attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'progress') {
-          this.setProgress(newValue);
-        }
-      }
+if(!isset($_SESSION['userId'])) {
+    die(json_encode(
+        [
+            'code' => 4,
+            'msg' => "You are not logged in",
+            'type' => 'error'
+        ]
+      ));
     }
+// cannot change token if an hour has not passed
+$id = $_SESSION['userId'];
+$current_time = time();
+$subtract_an_hour = $current_time - 3600;
+$time = date('Y-m-d H:i:s', $subtract_an_hour);
+$sql = "SELECT * FROM `api` WHERE `user` = $id AND `date` > '$time'";
+if(mysqli_num_rows(mysqli_query($conn, $sql)) > 0) {
+    die(json_encode(
+        [
+            'code' => 4,
+            'msg' => "You can only change your token once an hour",
+            'type' => 'error'
+        ]
+    ));
+}
 
-    window.customElements.define('progress-ring', ProgressRing);
+$token = bin2hex(random_bytes(32));
+try{
+// check if token already exists else update
+$sql = "SELECT * FROM `api` WHERE `user` = $id";
+if(mysqli_num_rows(mysqli_query($conn, $sql)) > 0) {
+    $sql = "UPDATE `api` SET `key` = '$token', `date` = NOW() WHERE `user` = $id";
+} else {
+    $sql = "INSERT INTO `api` (`user`, `key`, `date`) VALUES ($id, '$token', NOW())";
+}
+mysqli_query($conn, $sql);
+} catch(Exception $e) {
+    die(json_encode(
+        [
+            'code' => 4,
+            'msg' => "Something went wrong",
+            'type' => 'error'
+        ]
+    ));
+}
 
-    // emulate progress attribute change
-    let progress = 0;
-    const el = document.querySelector('progress-ring');
-
-    const interval = setInterval(() => {
-      progress += 10;
-      el.setAttribute('progress', progress);
-      if (progress === 100)
-        clearInterval(interval);
-    }, 1000);
-  </script>
-</body>
-
-</html>
+die(json_encode(
+    [
+        'code' => 1,
+        'msg' => "Success",
+        'token' => $token
+    ]
+));

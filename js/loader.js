@@ -61,14 +61,14 @@ const el = document.querySelector('progress-ring')
 if (!sessionStorage.getItem('load')) {  
 $('.loader').css('display', 'flex');  
 const interval = setInterval(() => {
-  progress += 10;
+  progress += 20;
   el.setAttribute('progress', progress);
   if (progress === 100) {
     sessionStorage.setItem('load', true) 
     clearInterval(interval);
     hideDiv()
   }
-}, 750);
+}, 360);
 }
 
 function hideDiv() {

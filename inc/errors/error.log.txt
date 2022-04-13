@@ -146,3 +146,4 @@ user: API error occurred Error: missing data in parameter    2022-03-25 13:46:31
 user: API error occurred Error: missing data in parameter    2022-03-25 20:27:52  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
 user: API error occurred Error: missing data in parameter    2022-03-25 20:28:03  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
 user: API error occurred Error: missing data in parameter    2022-03-25 20:28:08  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user:  error occurred Error: failed to execute request    2022-04-12 20:55:44  on  D:/XAMPP/htdocs/suplike/inc/profile.inc.php

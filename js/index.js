@@ -20,7 +20,7 @@ function mainload() {
             } else {
                 $("#main-post")
                     .append(`<div class='post-div shadow no-user' class='text-center'><h4> you need to follow someone in order to view post on your feed</h4>
-               <p> go to <a href="search.php"><b>search</b></a> and look for a user to follow</p>  
+               <p> go to <a href="search.php?q=e"><b>search</b></a> and look for a user to follow</p>  
             </div>`);
             }
         });
@@ -30,12 +30,12 @@ function mainload() {
 
 function render(post) {
     post.liked ? (l = "fa-heart like") : (l = "fa-heart-o");
-    post.user === true
-        ? (_user = {
+    post.user === true ?
+        (_user = {
             name: _user_name,
             id: _user_id,
-        })
-        : (_user = post.user);
+        }) :
+        (_user = post.user);
     if (post.type == "img") {
         return `
       <div class="post-div shadow">
@@ -137,13 +137,14 @@ function addClick() {
     });
     $(".share").click(async function (e) {
         e.preventDefault;
-        const shareData = { url: window.location.origin + window.location.pathname + "comment.php?id=" + this.id };
+        const shareData = {
+            url: window.location.origin + window.location.pathname + "comment.php?id=" + this.id
+        };
         console.log(shareData)
         try {
             await navigator.share(shareData)
             $.post(
-                "./inc/share.inc.php",
-                {
+                "./inc/share.inc.php", {
                     id: _user_id,
                 })
         } catch (err) {
@@ -153,8 +154,7 @@ function addClick() {
     $(".report").click(function (e) {
         e.preventDefault;
         $.post(
-            "./inc/report.inc.php",
-            {
+            "./inc/report.inc.php", {
                 id: this.id,
             },
             function (data) {
@@ -205,7 +205,7 @@ function profile_request(profile) {
 
 */
 //report api
-function report() { }
+function report() {}
 //follow api
 function follow(user) {
     user = user || _user_id;

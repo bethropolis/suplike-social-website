@@ -277,3 +277,6 @@ input[type="password"] {
 .no-h:hover {
   color: inherit;
 }
+.img-profile {
+  background-image: url('img/M.jpg');
+}

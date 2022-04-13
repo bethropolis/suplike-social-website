@@ -31,11 +31,11 @@ require "footer.php"
     }
     return `
 <div class="follower-div">
- <img src="img/${img}" alt="${user}">   
+ <img src="img/${img}" class="img-profile" onerror="this.error = null; this.src ='img/M.jpg' " alt="${user}">   
     <div class="user">
-    <a href="profile.php?id=${token}"><h2>${name}</h2></a>    
+    <a href="profile.php?id=${token}"><h2>${name}</h2></a>
     <p>${user}</p>
- </div>  
+ </div>
  <button id="${token}" class="btn  bg follower-btn follow-btn">following</button>
   
   </div> `;

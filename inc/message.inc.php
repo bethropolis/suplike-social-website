@@ -50,7 +50,7 @@ if (isset($_SESSION['userId'])) {
 		$start = intval($_GET['start']);
 		$from =  $un_ravel->_getUser($_GET['from']);
 		$to =  $un_ravel->_getUser($_GET['to']);
-		$query = "SELECT * FROM chat WHERE id>$start AND ((who_from = '$from' AND who_to = '$to') OR (who_from = '$to' AND who_to = '$from'))  ORDER BY id ASC LIMIT 10";
+		$query = "SELECT * FROM chat WHERE `id`>$start AND ((who_from = '$from' AND who_to = '$to') OR (who_from = '$to' AND who_to = '$from'))  ORDER BY id DESC LIMIT 10";
 		$result = $conn->query($query);
 		if ($result->num_rows > 0) {
 			while ($row = $result->fetch_assoc()) {
@@ -58,6 +58,11 @@ if (isset($_SESSION['userId'])) {
 				$row["who_to"] = $un_ravel->_queryUser($row["who_to"], 2);
 				$result_array[] = $row;
 			}
+
+			// sort the array by id in ascending order
+			usort($result_array, function($a, $b) {
+				return $a['id'] - $b['id'];
+			});
 			print_r(
 				json_encode(
 					[

@@ -17,7 +17,7 @@ if (!isset($_SESSION['userId'])) {
         <div class="col-sm-3 sidebar-sticky pt-3">
             <div class="card card-profile p-4 shadow white rounded text-center profile-card sidebar-content" style="width: 94%;">
                 <a href="./profile.php">
-                    <img class="profile-pic shadow-sm" <?php if(!is_null($_SESSION['profile-pic'])){  echo 'src="img/'.$_SESSION['profile-pic'].'"';}else{ echo 'src="img/M.jpg"';}  ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
+                    <img class="profile-pic img-profile shadow-sm" <?php if(!is_null($_SESSION['profile-pic'])){  echo 'src="img/'.$_SESSION['profile-pic'].'"';}else{ echo 'src="img/M.jpg"';}  ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
                 </a>
                 <a href="./profile.php" class="nameanchor"><h4 id="profile-name"><?php echo $_SESSION['firstname']; echo " ".$_SESSION['lastname'];?></h4></a>
                 <h5 class="text-center userName"><?php echo "@".$_SESSION['userUid']?></h5>
@@ -54,12 +54,6 @@ if (!isset($_SESSION['userId'])) {
         </div>
         <!--  ----------------------------------------------------------------this is the 3rd view or something-------------------------------------- -->
     </div>
-
-    <ul style="display: flex; font-size: 16px; text-align: center; justify-content: space-around;">
-        <a href="https://github.com/bethropolis/suplike-social-website">github</a>
-        <a href="info/about.html">about</a>
-        <a href="https://www.bethropolis.ga">creator</a>
-    </ul>
 </main>
 <?php
 require "footer.php" 

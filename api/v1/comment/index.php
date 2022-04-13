@@ -3,10 +3,9 @@ require '../r.php';
 // comment on a post only
 // Path: api\v1\comment\index.php
 // Compare this snippet from ../../../inc/comment.inc.php
-if('POST' === $_SERVER['REQUEST_METHOD']) {
     if(isset($_POST['comment'])) {
         $post_id = $_POST['comment'];
-        $user_id = $_SESSION['user_id'];
+        $user_id = $_POST['user_id'];
         $comment = $_POST['comment_text'];
         $sql = "INSERT INTO comments (post_id, user_id, comment) VALUES ('$post_id', '$user_id', '$comment')";
         $result = $conn->query($sql);
@@ -27,8 +26,8 @@ if('POST' === $_SERVER['REQUEST_METHOD']) {
                 ]
             ));
         }
-    }
 }
+
 
 
 ?>
