@@ -17,6 +17,7 @@ body {
   padding: 0;
   margin: 0;
   background: var(--bg); 
+  overflow-x: hidden;
 }
 
 a {
@@ -43,8 +44,8 @@ nav {
 }
 
 nav img {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
 }
 
 nav ul {
@@ -145,7 +146,6 @@ input[type="password"] {
   min-width: 200px;
   border-radius: 9px;
 }
-
 .profile-pic {
   margin: 7px auto;
   border: none;
@@ -194,7 +194,9 @@ input[type="password"] {
   font-size: 2em;
   font-family: var(--font);
 }
-
+.highlight{
+  color: var(--ho);
+}
 /*------------following/followers page----------*/
 
 .follower-div {

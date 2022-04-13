@@ -5,9 +5,8 @@ header('content-type: application/json');
 if (isset($_POST['user'])) {
   $user=$_SESSION['userId'];
   $sql = "UPDATE `users` SET `last_online`=CURRENT_TIMESTAMP WHERE `idusers`='$user'";
-  print_r($sql);
   $conn->query($sql);
-  die('set');
+  die(json_encode(['status' => 'success']));
 }
 
 if (isset($_GET['all'])) {

@@ -43,6 +43,9 @@ function render(post) {
                 <a href="profile.php?id=${_user.id}"> 
                     <h5 class="text-left text-muted usn py-2 ml-1">@${_user.name}</h5>
                 </a>
+                <div id='date' class="d-flex flex-row align-items-center justify-content-between">
+                    <p class="text-muted">${post.date_posted}</p>
+                    </div>        
                 <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-v fa-sm fa-fw text-dark"></i>
@@ -82,6 +85,9 @@ function render(post) {
                 <a href="profile.php?id=${_user.id}">
                     <h5 class="text-left text-muted usn py-2 ml-1">@${_user.name}</h5>
                 </a>
+                <div id='date' class="d-flex flex-row align-items-center justify-content-between">
+                <p class="text-muted">${post.date_posted}</p>
+                </div>   
                 <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-v fa-sm fa-fw text-dark"></i>
@@ -145,8 +151,8 @@ function addClick() {
             await navigator.share(shareData)
             $.post(
                 "./inc/share.inc.php", {
-                    id: _user_id,
-                })
+                id: _user_id,
+            })
         } catch (err) {
             console.log("couldn't share");
         }
@@ -155,8 +161,8 @@ function addClick() {
         e.preventDefault;
         $.post(
             "./inc/report.inc.php", {
-                id: this.id,
-            },
+            id: this.id,
+        },
             function (data) {
                 alert(data);
             }
@@ -205,7 +211,7 @@ function profile_request(profile) {
 
 */
 //report api
-function report() {}
+function report() { }
 //follow api
 function follow(user) {
     user = user || _user_id;

@@ -31,8 +31,8 @@ session_start();
     <h2>suplike</h2>
   </div>
   <script src="js/loader.js"></script>
-  <header>
-    <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light ">
+  <header style="position: sticky;top: 0;z-index: 20;">
+    <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light p-1">
       <a href="./">
         <img title="logo" src="img/logo.png" alt="logo">
       </a>

@@ -24,7 +24,7 @@ if (!is_null($user)) {
 
 
 if (!empty($id)) {
-  $query = "SELECT `users`.*,`user_auth` FROM `users`,`auth_key` WHERE `users`.`idusers` = $id AND `auth_key`.`user` ='$id' ";
+  $query = "SELECT `users`.`uidusers`, `users`.`usersFirstname`, `users`.`usersSecondname`, `users`.`last_online`, `users`.`profile_picture`, `users`.`followers`, `users`.`following`, `users`.`bio`, `users`.`date_joined`,`user_auth` FROM `users`,`auth_key` WHERE `users`.`idusers` = $id AND `auth_key`.`user` ='$id' ";
   $answer['user'] = $conn->query($query)->fetch_assoc();
   $query = "SELECT * FROM `posts` WHERE `userid`='$id'";
   $result = $conn->query($query);
@@ -32,7 +32,7 @@ if (!empty($id)) {
   while ($row = mysqli_fetch_assoc($result)) {
     $answer['posts'][$i] = $row;
     $answer['posts'][$i]['user'] = [
-      'id' => $answer['user']['token'],
+      'id' => $answer['user']['user_auth'],
       'name' => $answer['user']['uidusers']
     ];
     $post_id = $row['id'];

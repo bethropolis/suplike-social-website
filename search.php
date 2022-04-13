@@ -7,6 +7,8 @@ include_once 'inc/Auth/auth.php';
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+# i am making a search page for the users improve the search page from curren
 $id = 0;
 $t = null;
 if (isset($_SESSION['userId'])) {
@@ -27,22 +29,19 @@ $result = [];
 // If the search form is submitted
 $searchKeyword = $whrSQL = '';
 if (isset($_GET['q'])) {
-
     $searchKeyword = $_GET['q'];
     if (!empty($searchKeyword)) {
-        // SQL query to filter records based on the search term
-        $whrSQL = "WHERE (uidusers LIKE '%" . $searchKeyword . "%' OR usersFirstname LIKE '%" . $searchKeyword . "%')";
-
-        // Get matched records from the database
+        // use prepared statements
+        $whrSQL = "WHERE `users`.`uidusers` LIKE '%$searchKeyword%' OR `users`.`usersFirstname` LIKE '%$searchKeyword%' limit 15";
+  // Get matched records from the database
         $result = $conn->query("SELECT * FROM users $whrSQL");
         // Highlight words in text
         function highlightWords($text, $word)
         {
-            $text = preg_replace('#' . preg_quote($word) . '#i', '<span class="hlw">\\0</span>', $text);
-            return $text;
+            return str_ireplace($word, '<span class="highlight">' . $word . '</span>', $text);
         }
-    }
-}
+    
+    }}
 # code...
 
 
@@ -61,9 +60,7 @@ if (isset($_GET['q'])) {
 <?php
 
 if ($result) {
-
-
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {       
         $title = !empty($searchKeyword) ? highlightWords($row['uidusers'], $searchKeyword) : $row['uidusers'];
         $contnet = !empty($searchKeyword) ? highlightWords($row['usersFirstname'], $searchKeyword) : $row['usersFirstname'];
         if (!empty($searchKeyword)) {
