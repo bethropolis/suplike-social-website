@@ -42,7 +42,7 @@ if (!is_null($result)) {
       <li id="followers" class="col-6 my-2">followers:...</li>
     </ul>
     <ul class="profile-opt">
-      <a href="" class="message-btn"><button class="btn bg">message</button></a>
+      <a href="message.php?id=" class="message-btn"><button class="btn bg">message</button></a>
       <button class="btn bg follow-btn"><?= $follow ?></button>
     </ul>
   </div>

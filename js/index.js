@@ -143,7 +143,7 @@ function addClick() {
             url = url + "&like=" + l + "&key=true";
             $(this).attr("class", `fa fa-heart icon-click like fa-2x`);
             $.get(url, function (response) {
-                console.log(response);
+
             });
         } else {
             $(this).attr("class", ` fa fa-heart-o icon-click fa-2x`);
@@ -151,7 +151,7 @@ function addClick() {
             $(this).text(l);
             url = url + "&like=" + l + "&key=false";
             $.get(url, function (response) {
-                console.log(response);
+
             });
         }
     });
@@ -163,7 +163,7 @@ function addClick() {
 
             url: window.location.href,
         };
-        console.log(shareData)
+
         try {
             await navigator.share(shareData)
             $.post(
@@ -171,7 +171,7 @@ function addClick() {
                 id: _user_id,
             })
         } catch (err) {
-            console.log("couldn't share");
+
         }
     });
     $(".report").click(function (e) {
@@ -199,7 +199,7 @@ function profile_request(profile) {
                 user.user.usersFirstname + " " + user.user.usersSecondname
             );
             $(".userName").text("@" + user.user.uidusers);
-            $(".message-btn").attr("href", "message.php?id=" + user.user.token);
+            $(".message-btn").attr("href", "message.php?id=" + user.user.chat_auth);
             $("#following").text("following: " + user.user.following);
             $("#followers").text("followers: " + user.user.followers);
             $(".bio").text(user.user.bio);
@@ -216,9 +216,9 @@ function profile_request(profile) {
                     await $("#main-post").append(render(post));
                 });
 
-               addClick();             
+                addClick();
             }
-         
+
         } else {
             $(".bio").text("an unknown user");
             $(".btn").hide();
@@ -229,7 +229,7 @@ function profile_request(profile) {
 function post_request(profile) {
     url = "./inc/post.inc.php?id=" + profile;
     $.get(url, function (post) {
-        console.log(post);
+
         $('#main-post').append(render(post));
         addClick();
 
