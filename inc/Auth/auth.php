@@ -95,7 +95,12 @@ class Auth
 
     return $this->user;
   }
-
+  public function _username($id)
+  {
+    $sql = "SELECT `uidusers` FROM `users` WHERE `idusers` = '$id'";
+    $this->user  = (mysqli_fetch_assoc($this->conn->query($sql)))['uidusers'];
+    return $this->user;
+  }
   public function _isValid($var)
   {
     $length =  strlen($var);

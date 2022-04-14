@@ -28,10 +28,23 @@
     border: 2px dotted purple;
     left: 6px;
 }
-
+.post-body{
+    display: flex;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 400px;
+    max-height: 450px;
+    background: #f8f9fc;
+    align-items: center;
+    display: grid;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
 .post_image {
     width: 100%;
-    height: auto;
+    height: 100%;
 
 }
 

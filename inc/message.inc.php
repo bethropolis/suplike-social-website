@@ -1,8 +1,10 @@
 <?php
 include_once 'dbh.inc.php';
 include_once 'Auth/auth.php';
+include_once 'extra/notification.class.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
+$notification = new Notification();
 session_start();
 $result = array();
 $auth =  new Auth();
@@ -35,6 +37,11 @@ if (isset($_SESSION['userId'])) {
 				'msg' => "message sent",
 				'type' => 'success'
 			];
+
+			$from_name = $un_ravel->_username($from);
+			$from_chat_auth = $un_ravel->_queryUser($from,2);
+			$text = "You have a new message from <a href='message.php?id=$from_chat_auth'>$from_name</a>";
+			$notification->notify($to, $text,'chat');
 		} else {
 			$result = [
 				'code' => 1,

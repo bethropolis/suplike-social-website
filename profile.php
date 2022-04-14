@@ -19,10 +19,10 @@ if (!is_null($result)) {
 }
 
 ?>
-<link rel="stylesheet" href="css/post.css">
+<link rel="stylesheet" href="css/post.min.css">
 <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
 <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="js/index.js?v1.2"></script>
+<script type="text/javascript" src="js/index.min.js?v1.2"></script>
 <script>
   profile = "<?= $profile ?>";
   // took me long to debug but it is here where the post are rendered
@@ -35,11 +35,11 @@ if (!is_null($result)) {
       <img class="profile-pic img-profile shadow-sm" src="img/M.jpg" title="" alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
     </a>
     <h4 id="profile-name"></h4>
-    <h5 class="text-center userName"></h5>
+    <h5 class="text-center userName text-muted"></h5>
     <p class="bio"></p>
     <ul class="row p-1 my-2 w100">
-      <li id="following" class="col-6 my-2 ">following:</li>
-      <li id="followers" class="col-6 my-2">followers:</li>
+      <a href="social.php?id=<?= $profile ?>" class="col-6 my-2 link-easy"><li id="following">following:...</li></a>
+      <li id="followers" class="col-6 my-2">followers:...</li>
     </ul>
     <ul class="profile-opt">
       <a href="" class="message-btn"><button class="btn bg">message</button></a>
@@ -49,6 +49,4 @@ if (!is_null($result)) {
 </div>
 
 <h3 style="margin: 18px;">posts</h3>
-<div id="main-post">
-
-</div>
+<div id="main-post"></div>

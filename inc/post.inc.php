@@ -3,7 +3,7 @@
 // Create database connection to database
 require 'dbh.inc.php';
 require 'Auth/auth.php';
-
+header('content-type: application/json');
 // Initialize message variable 
 // If upload button is clicked ...
 
@@ -69,7 +69,7 @@ if (isset($_POST['upload'])) {
 #-------------------GET POSTs------------------#
 
 if (isset($_GET['user'])) {
-    header('content-type: application/json');
+
     # STAGE 1: GETTING THE USERS
     $result_array = [];
     $user = $un_ravel->_getUser($_GET['user']);
@@ -86,7 +86,7 @@ if (isset($_GET['user'])) {
     }
 
     # STAGE 2:  GETTING THE POST FROM EACH USER
-    
+
     $i = 0;
     foreach ($arr as $key) {
         $acc = $key["idusers"];
@@ -98,6 +98,7 @@ if (isset($_GET['user'])) {
                 $result_array[$i] = $row;
                 $result_array[$i]['user'] = ['id' => $un_ravel->_queryUser($acc, 4), 'name' => $usr];
                 $id = $row['id'];
+                $post_id = $row['post_id'];
                 $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";
                 $r = $conn->query($sql)->fetch_assoc();
 
@@ -107,7 +108,10 @@ if (isset($_GET['user'])) {
                 } else {
                     $result_array[$i]['liked'] = false;
                 }
-
+                # get number of comments for post
+                $sql = "SELECT * FROM `comments` WHERE `post_id`='$post_id'";
+                $s = $conn->query($sql);
+                $result_array[$i]['comments'] = $s->num_rows;
                 $i++;
             }
         }
@@ -126,6 +130,10 @@ if (isset($_GET['user'])) {
         } else {
             $result_array[$i]['liked'] = false;
         }
+        # get comments count
+        $sql = "SELECT * FROM `comments` WHERE `post_id`='$id'";
+        $r = $conn->query($sql);
+        $result_array[$i]['comments'] = $r->num_rows;
         $i++;
     }
     if ($result_array == null) {
@@ -144,17 +152,24 @@ if (isset($_GET['user'])) {
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $arr = [];
-    $sql = "SELECT * FROM `posts` WHERE `id`='$id'";
-    $rsp = $conn->query($sql);
-    // if ($rsp->fetch_assoc() != null){
-    $arr = $rsp->fetch_assoc();
-    // }
-
-    function invenDescSort($item1, $item2)
-    {
-        if ($item1['time'] == $item2['time']) return 0;
-        return ($item1['time'] < $item2['time']) ? 1 : -1;
+    $sql = "SELECT * FROM `posts` WHERE `post_id`='$id'";
+    $result = $conn->query($sql);
+    $row = mysqli_fetch_assoc($result);
+    $user = $row['userid'];
+    # get user
+    $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token`,`chat_auth` FROM `users`,`auth_key` WHERE `users`.`idusers`=$user AND `auth_key`.`user` = $user ";
+    $resp = $conn->query($sql)->fetch_assoc();
+    $row['user'] = ['id' => $un_ravel->_queryUser($user, 4), 'name' => $resp['uidusers']];
+    $post_id = $row['post_id'];
+    $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";
+    $r = $conn->query($sql)->fetch_assoc();
+    if (!is_null($r)) {
+        $row['liked'] = true;
+    } else {
+        $row['liked'] = false;
     }
-    print_r(usort($arr, 'invenDescSort'));
+    $sql = "SELECT * FROM `comments` WHERE `post_id`='$post_id'";
+    $r = $conn->query($sql);
+    $row['comments'] = $r->num_rows;
+    print_r(json_encode($row));
 }

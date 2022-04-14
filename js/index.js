@@ -52,27 +52,36 @@ function render(post) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                         <div class="dropdown-header">Actions:</div>
-                        <div class="mj-actions">
-                        <a class="dropdown-item share" id="${post.id}" href="#">share</i></a>  
-                       </div>
-                        <div class="mj-actions">
-                        <a class="dropdown-item report" id="${post.id}" href="#">report </a>  
-                       </div>
+                        <a class="dropdown-item mj-actions post-page" href="post.php?id=${post.post_id}">
+                            <i class="fa fa-eye fa-fw"></i> View Post
+                        </a>
+                        <a class="dropdown-item mj-actions share" id="${post.post_id}" href="#share">
+                            <i class="fa fa-share-alt fa-fw"></i> Share
+                        </a>
+                        <a class="dropdown-item mj-actions report" id="${post.id}" href="#report">
+                            <i class="fa fa-flag fa-fw"></i> Report
+                        </a>
+                        <a class="dropdown-item mj-actions  embed tocome" id="${post.post_id}" href="#embed">
+                            <i class="fa fa-code fa-fw"></i> Embed
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="profile.php?id=${_user.id}">visit profile</a>
+                        <a class="dropdown-item" href="profile.php?id=${_user.post_id}">visit profile</a>
                     </div>
                 </div>
             </div>
-            <a href="./img/${post.image}"  data-lightbox data-image-alt="image post">     
-               <img class="post_image my-3" loading="lazy" src="./img/${post.image}" />   
-             </a>  
+           <div class="lazyload">
+           <!-- <a href="./img/${post.image}"  data-lightbox data-image-alt="image post">     
+                   <div class="post-body" style="background-image: url(./img/${post.image});">
+                    </div> 
+             </a> --> 
+             </div>
+          
               <p class="post-text py-1 mx-1">${post.image_text}</p>
             <div class="social-opt">
                 <div class="social-act">
-                    <i title="like" id="${post.id}" class="fa ${l} this-click  fa-2x">${post.post_likes}</i>
-                    <a href="./comment.php?id=${post.post_id}"> <i title="comment" id="comment" class="fa fa-comment-o comment  fa-2x"></i></a>
-                    <a href="./inc/repost.inc.php?id=${post.post_id}"><i title="respike this post" id="share" class="fa fa-retweet fa-2x"></i></a> 
-                </div>
+                    <i title="like" id="${post.id}" class="fa ${l} this-click  fa-2x">${post.post_likes || ''}</i>
+                    <a href="./comment.php?id=${post.post_id}"> <i title="comment" id="comment" class="fa fa-comment-o comment  fa-2x">${post.comments || ''}</i></a>
+                    <a href="#share"  class="share" id="${post.id}"><i title="share this post" class="fa fa-share  fa-2x"></i></a>                 </div>
             </div>
         </div>
                  
@@ -81,38 +90,43 @@ function render(post) {
     } else {
         return `
         <div class="post-div shadow">
-            <div class="post-head  py-3 d-flex flex-row align-items-center justify-content-between">
-                <a href="profile.php?id=${_user.id}">
-                    <h5 class="text-left text-muted usn py-2 ml-1">@${_user.name}</h5>
+        <div class="post-head  py-3 d-flex flex-row align-items-center justify-content-between">
+        <a href="profile.php?id=${_user.id}"> 
+            <h5 class="text-left text-muted usn py-2 ml-1">@${_user.name}</h5>
+        </a>
+        <div id='date' class="d-flex flex-row align-items-center justify-content-between">
+            <p class="text-muted">${post.date_posted}</p>
+            </div>        
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-v fa-sm fa-fw text-dark"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                <div class="dropdown-header">Actions:</div>
+                <a class="dropdown-item mj-actions post-page" href="post.php?id=${post.post_id}">
+                    <i class="fa fa-eye fa-fw"></i> View Post
                 </a>
-                <div id='date' class="d-flex flex-row align-items-center justify-content-between">
-                <p class="text-muted">${post.date_posted}</p>
-                </div>   
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-ellipsis-v fa-sm fa-fw text-dark"></i>
-                    </a>  
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
-                        <div class="dropdown-header">Actions:</div>
-                        <div class="mj-actions">
-                        <a class="dropdown-item share" id="${post.id}" href="#">share</a>  
-                       </div>
-                        <div class="mj-actions">
-                        <a class="dropdown-item report" id="${post.id}" href="#">report</a>  
-                       </div>  
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="profile.php?id=${_user.id}">visit profile</a>
-                    </div>
-                </div>
+                <a class="dropdown-item mj-actions share" id="${post.post_id}" href="#share">
+                    <i class="fa fa-share-alt fa-fw"></i> Share
+                </a>
+                <a class="dropdown-item mj-actions report" id="${post.id}" href="#report">
+                    <i class="fa fa-flag fa-fw"></i> Report
+                </a>
+                <a class="dropdown-item mj-actions  embed tocome" id="${post.post_id}" href="#embed">
+                    <i class="fa fa-code fa-fw"></i> Embed
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="profile.php?id=${_user.post_id}">visit profile</a>
             </div>
+        </div>
+    </div>
             <div class="px-1 py-3">
             <p class="lone px-1">${post.image_text}</p>
             </div>
             <div class="social-opt">
                 <div class="social-act">
-                    <i title="like" id="${post.id}" class="fa ${l} this-click  fa-2x">${post.post_likes}</i>
-                    <a href="./comment.php?id=${post.post_id}"> <i title="comment" id="comment" class="fa fa-comment-o comment  fa-2x"></i></a> 
-                    <a href="./inc/repost.inc.php?id=${post.post_id}"><i title="respike this post" id="share" class="fa reposted fa-retweet  fa-2x"></i></a> 
+                <i title="like" id="${post.id}" class="fa ${l} this-click  fa-2x">${post.post_likes || ''}</i>
+                <a href="./comment.php?id=${post.post_id}"> <i title="comment" id="comment" class="fa fa-comment-o comment  fa-2x">${post.comments || ''}</i></a>                  <a href="#share"  class="share" id="${post.id}"><i title="share this post" class="fa fa-share  fa-2x"></i></a> 
                 </div>
             </div>
         </div>
@@ -143,8 +157,11 @@ function addClick() {
     });
     $(".share").click(async function (e) {
         e.preventDefault;
+        // share url from all pages should point to the post page
+
         const shareData = {
-            url: window.location.origin + window.location.pathname + "comment.php?id=" + this.id
+
+            url: window.location.href,
         };
         console.log(shareData)
         try {
@@ -171,6 +188,7 @@ function addClick() {
     $(".tocome").click(function () {
         alert("I am still working on this...");
     });
+    $('.lazyload').lazyload();
 }
 
 function profile_request(profile) {
@@ -198,12 +216,23 @@ function profile_request(profile) {
                     await $("#main-post").append(render(post));
                 });
 
-                addClick();
+               addClick();             
             }
+         
         } else {
             $(".bio").text("an unknown user");
             $(".btn").hide();
         }
+    });
+}
+
+function post_request(profile) {
+    url = "./inc/post.inc.php?id=" + profile;
+    $.get(url, function (post) {
+        console.log(post);
+        $('#main-post').append(render(post));
+        addClick();
+
     });
 }
 /*

@@ -2,7 +2,10 @@
 require 'dbh.inc.php';
 require 'Auth/auth.php';
 require 'errors/error.inc.php';
+require 'extra/notification.class.php';
 header('content-type: application/json');
+$notification = new Notification();
+session_start();
 
 if (isset($_GET['id'])) {
     $u = isset($_GET['user']) ? $_GET['user'] : 'unkown';
@@ -40,6 +43,7 @@ if (isset($_GET['id'])) {
 
     $sql = "SELECT * FROM `posts` WHERE `posts`.`id`='$post'";
     $result = $conn->query($sql)->fetch_assoc();
+    $post_user = $result['userid'];
     if (is_null($result)) {
         $err = new Err(3);
         $err->err($u);
@@ -54,12 +58,18 @@ if (isset($_GET['id'])) {
 
     $sql = "SELECT * FROM `likes` WHERE `user_id`='$user' AND `post_id`='$post'";
     $result = $conn->query($sql)->fetch_assoc();
-
+    # get username of the user who liked the post
+    $sql = "SELECT `uidusers`,`idusers`FROM `users` WHERE `idusers`='$user'";
+    $user_name =  $un_ravel->_username($user);
 
 
     if (is_null($result) && $key == 'true') {
         $sql  = "INSERT INTO likes (`user_id`,`post_id`) VALUES ($user, $post)";
         $conn->query($sql);
+        if($user != $post_user){
+            $text = "$user_name liked your <a href='post.php?id=$post'>post</a>";
+            $notification->notify($post_user, $text, 'like');
+        }
     }
 
     if (!is_null($result) && $key == 'false') {

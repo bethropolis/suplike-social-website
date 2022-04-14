@@ -42,6 +42,13 @@ if (isset($_POST['delete_profile'])) {
 	# delete user
 	$sql = "DELETE FROM `users` WHERE `idusers`=" . $user;
 	$conn->query($sql);
+	# delete notifications
+	$sql = "DELETE FROM `notify` WHERE `user`=" . $user;
+	$conn->query($sql);
+	# delete api
+	$sql = "DELETE FROM `api` WHERE `api`.`user`=" . $user;
+	$conn->query($sql);
+
 
 
 	header('Location: ../inc/logout.inc.php?acc_deleted');

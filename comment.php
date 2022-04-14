@@ -24,7 +24,7 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
-    <link rel="stylesheet" href="css/comment.css">
+    <link rel="stylesheet" href="css/comment.min.css">
 
 </head>
 
@@ -58,7 +58,10 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
                         '<a href="./profile.php?id=' . $row["user_token"] . '">' .
                         '<h5>@' . $row['user'] . '</h5>' .
                         '</a>' .
-                        '<p>' . $row['comment'] . '</p> ' .
+                        '<div class="comment-content row">' .
+                        '<p class="col-md-8">' . $row['comment'] . '</p> ' .
+                         '<div class="date col-md-3 text-muted right">'. $row['date'] .'</div>' .
+                        '</div>' .
                         '<div class="comment-action">' .
                         '<ul>';
                     if ($row["user"] ==  $_SESSION['userUid']) {

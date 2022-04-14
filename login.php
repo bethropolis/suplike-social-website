@@ -44,6 +44,12 @@ if (isset($_SESSION['userId'])) {
     echo '<h5>Users you follow were saved please confirm login to continue</h5>'; 
     echo '</div>';
   }
+  # nouser 
+  if (isset($_GET['noUser'])) {
+    echo '<div class="alert alert-danger text-center" role="alert">';
+    echo '<h5>User does not exist</h5>'; 
+    echo '</div>';
+  }
   ?>
   <div class="center">
     <h1>login</h1>

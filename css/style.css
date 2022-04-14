@@ -9,7 +9,9 @@
 
 /*
 @params */
-
+::-webkit-scrollbar{
+  width: 6px !important;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -41,6 +43,9 @@ nav {
   outline: none;
   box-shadow: var(--box-shadow);
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
 }
 
 nav img {
@@ -136,7 +141,9 @@ input[type="password"] {
   border-bottom: 2px solid var(--dark);
   font-family: inherit;
 }
-
+.lightbox-container{
+  z-index: 1220;
+}
 .fa:hover {
   color: var(--ho);
 }
@@ -280,5 +287,5 @@ input[type="password"] {
   color: inherit;
 }
 .img-profile {
-  background-image: url('img/M.jpg');
+  background-image: url('../img/M.jpg');
 }

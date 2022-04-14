@@ -1,5 +1,7 @@
 <?php
 require "header.php";
+$id = $_GET['id'] ?? '';
+
 ?>
 
 <main>
@@ -11,11 +13,17 @@ require "header.php";
 require "footer.php"
 ?>
 <script type="text/javascript">
-  const user = sessionStorage.getItem('user');
+  let __user_id = '<?= $id ?>';
+  if(__user_id){
+    var user =  __user_id;
+  }else{
+    var user = sessionStorage.getItem('user'); 
+  }
+
   let url = "./inc/social.inc.php?user=" + user;
   $.get(url, function(result) {
     if (result) {
-      result.forEach(user => {
+      result.users.forEach(user => {
         name = user.usersFirstname + " " + user.usersSecondname;
         $("main").append(following_func(user.uidusers, name, user.idusers, user.profile_picture, user.token));
       });
@@ -36,7 +44,7 @@ require "footer.php"
     <a href="profile.php?id=${token}"><h2>${name}</h2></a>
     <p>${user}</p>
  </div>
- <button id="${token}" class="btn  bg follower-btn follow-btn">following</button>
+ <button id="${token}" class="btn  bg follower-btn follow-btn" style="border-radius:5px;">following</button>
   
   </div> `;
   };

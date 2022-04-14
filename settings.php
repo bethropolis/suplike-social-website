@@ -16,7 +16,7 @@ if (!is_null($_SESSION['profile-pic'])) {
 <div class="row">
   <div class="col-sm-3 settings-sidebar">
     <a href="?profile">
-      <div class="settings-option sticky-top">
+      <div class="settings-option">
         <h3>profile</h3>
       </div>
     </a>
@@ -36,7 +36,7 @@ if (!is_null($_SESSION['profile-pic'])) {
       </div>
     </a>
     <a href="?about">
-      <div class="settings-option sticky-top">
+      <div class="settings-option">
         <h3>About</h3>
       </div>
     </a>
@@ -54,12 +54,12 @@ if (!is_null($_SESSION['profile-pic'])) {
     if (isset($_GET['about'])) {
       // about page
     ?>
-      <div class="settings-content">
+      <div class="settings-content py-4">
         <h2>About</h2>
         <div class="row">
           <!-- place github url + developer portfolio as buttons-->
           <div class="col-sm-6">
-            <div class="settings-option">
+            <div class="">
               <h3>Github</h3>
               <a href="https://github.com/bethropolis/suplike-social-website" target="_blank">
                 <button class="btn btn-primary">
@@ -69,7 +69,7 @@ if (!is_null($_SESSION['profile-pic'])) {
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="settings-option">
+            <div class="">
               <h3>Developer Portfolio</h3>
               <a href="https://bethropolis.github.io" target="_blank">
                 <button class="btn btn-primary">
@@ -81,7 +81,7 @@ if (!is_null($_SESSION['profile-pic'])) {
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <div class="settings-option">
+            <div class="">
               <h3>Developer</h3>
               <p>
                 <strong>Name:</strong>
@@ -121,21 +121,29 @@ if (!is_null($_SESSION['profile-pic'])) {
       <div class="settings-header">
         <h2>password</h2>
       </div>
+      <?php 
+      if(isset($_GET['err']) && $_GET['err'] == 'wrongpassword'){
+        echo '<div class="alert alert-danger" role="alert">
+        <strong>Error!</strong> wrong password.
+      </div>';
+      }
+      if(isset($_GET['success']) && $_GET['success'] == 'passwordchanged'){
+        echo '<div class="alert alert-success" role="alert">
+        <strong>Success!</strong> Password changed successfully.
+      </div>';
+      }
+      ?>
       <div class="settings-body">
-        <form action="inc/password.inc.php" method="POST">
+        <form action="inc/settings.inc.php" method="POST">
           <div class="form-group">
             <label for="current-password">Current password</label>
-            <input type="password" class="form-control w-100 submit" name="current-password" id="current-password">
+            <input type="password" class="form-control w-100 submit" name="current" id="current-password">
           </div>
           <div class="form-group">
             <label for="new-password">New password</label>
-            <input type="password" class="form-control w-100 submit" name="new-password" id="new-password">
+            <input type="password" class="form-control w-100 submit" name="newpass" id="new-password">
           </div>
-          <div class="form-group">
-            <label for="confirm-password">Confirm password</label>
-            <input type="password" class="form-control w-100 submit" name="confirm-password" id="confirm-password">
-          </div>
-          <button type="submit" class="btn bg post-btn">Save</button>
+          <button type="submit" name="password_change" class="btn bg post-btn">Save</button>
         </form>
       </div>
     <?php

@@ -22,7 +22,7 @@ if (isset($_GET['user'])) {
         //  format time into 12 hour format hh:mm am/pm and if it is today or yesterday or a date
         if (!is_null($r)) {
             $date = new DateTime($r['time']);
-            $answer['users'][$i]['day'] = $date->format('l');            
+            $answer['users'][$i]['day'] = $date->format('l');
             $answer['users'][$i]['last_msg'] = $r['message'];
             $answer['users'][$i]['time'] =  $date->format('G:i a');
             $answer['users'][$i]['actual_time'] = $r['time'];
@@ -36,8 +36,8 @@ if (isset($_GET['user'])) {
         $date = $date->format('Y-m-d H:i:s');
         if ($last_online > $date) {
             $answer['users'][$i]['online'] = true;
-        }else{
-            $answer['users'][$i]['online'] = false;            
+        } else {
+            $answer['users'][$i]['online'] = false;
         }
 
         $i++;

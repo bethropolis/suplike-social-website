@@ -12,7 +12,7 @@ if (!isset($_SESSION['userId'])) {
        };
 </script>   
 <main>
-    <link rel="stylesheet" href="./css/post.css">
+    <link rel="stylesheet" href="./css/post.min.css">
     <div class="row">
         <div class="col-sm-3 sidebar-sticky pt-3">
             <div class="card card-profile p-4 shadow white rounded text-center profile-card sidebar-content" style="width: 94%;">
