@@ -111,7 +111,7 @@ if (isset($_GET['id'])) {
           <label for="imgUpload" class="col-1"><input class="hide" type="file" id="imgUpload"><i class="fa fa-image"></i></label>
           <label for="songUpload" class="col-1"><input class="hide" type="file" id="songUpload"><i class="fa fa-music"></i></label>
           <div class="col-9">
-            <input type="text" class="col-12 form-input" placeholder="enter message..." id="msg-form" autofocus="true">
+            <textarea type="text" class="col-12 form-input" placeholder="enter message..." id="msg-form" autofocus="true"></textarea>
           </div>
           <!-- <button type="submit" class="btn btn-send"><i class="fa fa-send"></i></button> -->
         </form>

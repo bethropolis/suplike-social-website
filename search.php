@@ -32,9 +32,15 @@ if (isset($_GET['q'])) {
     $searchKeyword = $_GET['q'];
     if (!empty($searchKeyword)) {
         // use prepared statements
-        $whrSQL = "WHERE `users`.`uidusers` LIKE '%$searchKeyword%' OR `users`.`usersFirstname` LIKE '%$searchKeyword%' limit 15";
+       // instead of  $whrSQL = "WHERE `users`.`uidusers` LIKE '%:keyword$%' OR `users`.`usersFirstname` LIKE '%:keyword%' limit 15"; use prepared statements ???
+       $whrSQL = "WHERE `users`.`uidusers` LIKE '%$searchKeyword%' OR `users`.`usersFirstname` LIKE '%$searchKeyword%' limit 15";
+       $stmt = $conn->prepare("SELECT * FROM users $whrSQL");
+       $stmt->execute();
+       $result = $stmt->get_result();
+
+
   // Get matched records from the database
-        $result = $conn->query("SELECT * FROM users $whrSQL");
+        
         // Highlight words in text
         function highlightWords($text, $word)
         {
@@ -105,6 +111,8 @@ if ($result) {
 
         function lookUp() {
             if (count >= 5) {
+                $(".login-btn").show();
+            }else if($('.follow-btn').length == count){
                 $(".login-btn").show();
             }
         }

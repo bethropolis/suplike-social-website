@@ -2,6 +2,7 @@
 include_once 'dbh.inc.php';
 include_once 'Auth/auth.php';
 include_once 'extra/notification.class.php';
+include_once 'extra/xss-clean.func.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $notification = new Notification();
@@ -26,10 +27,24 @@ if (isset($_SESSION['userId'])) {
 				]
 			));
 		}
+		# if user from does not follow user to automatically follow
+		$is_following = $auth->_isFollowing($from, $to);
+		if (!$is_following) {
+			$auth->_follow($from, $to);
+			#notify each  of them
+			$from_username = $auth->_username($from);
+			$to_username = $auth->_username($to);
+			$text = $from_username . " started following you";
+			$notification->notify($to, $text,'follow');
+			$text = $to_username . " started following " . $from_username;
+			$notification->notify($from, $text,'follow');
+		}
+
 		if (!empty($message) && !empty($from)) {
+			$clean_text = xss_clean($message);
 			$sql = "INSERT INTO `chat` (`who_from`, `who_to`, `message`) VALUES (?, ?, ?)";
 			$stmt = $conn->prepare($sql);
-			$stmt->bind_param("sss", $from, $to, $message);
+			$stmt->bind_param("sss", $from, $to, $clean_text);
 			$stmt->execute();
 			$stmt->close();
 			$result = [

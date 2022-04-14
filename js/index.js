@@ -29,6 +29,12 @@ function mainload() {
 }
 
 function render(post) {
+    // remove /n and /r from the string replace with space 
+    let post_text = post.image_text.replace(/\n/g, " ");
+    let post_text_html = post_text.replace(/\r/g, " ");
+    post.image_text = post_text_html;
+
+
     post.liked ? (l = "fa-heart like") : (l = "fa-heart-o");
     post.user === true ?
         (_user = {

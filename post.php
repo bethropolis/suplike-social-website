@@ -70,6 +70,8 @@ require 'header.php';
         <div id="main-post">
 
         </div>
+
+
             <div class="card text-center col-md-11 shadow mx-auto p-0 mt-3">
                 <div class="card-header row text-left py-2">
                     <h4 class="m-0 font-weight-bold text-primary col-11">comments</h4>

@@ -134,6 +134,31 @@ class Auth
     }
     return $auth;
   }
+  public function _isFollowing($user, $following)
+  {
+    $sql = "SELECT `user` FROM `following` WHERE `user` = '$user' AND `following` = '$following'";
+    $result = mysqli_fetch_assoc($this->conn->query($sql));
+    if ($result) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+   public function  _isFollower($user, $follower)
+  {
+    $sql = "SELECT `user` FROM `following` WHERE `user` = '$follower' AND `following` = '$user'";
+    $result = mysqli_fetch_assoc($this->conn->query($sql));
+    if ($result) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public function _follow($user, $following)
+  {
+    $sql = "INSERT INTO `following` (`user`, `following`) VALUES ('$user', '$following')";
+    $this->conn->query($sql);
+  }
 }
 
 $un_ravel = new Auth();

@@ -50,8 +50,8 @@ if (!isset($_SESSION['userId'])) {
         color: #ccc;
         cursor: pointer;
     }
-    a{
-        color: purple;
+    .active{
+        color: var(--ho) !important;
     }
 </style>
 <div id="app">
@@ -87,7 +87,7 @@ if (!isset($_SESSION['userId'])) {
             </div>
                
         </div>
-       <div class="pt-4 mx-auto text-info text-center h3" v-if="!notifications"><p  class="flow-text">you have no new notifications...</p></div>
+       <div class="pt-4 mx-auto text-muted text-center h3" v-if="!notifications"><p  class="flow-text">you have no new notifications...</p></div>
     </div>
     <div class="container  notification w-100" v-if='page == 2'>
         <h2>seen</h2>
@@ -103,7 +103,7 @@ if (!isset($_SESSION['userId'])) {
             </div>
 
         </div>
-        <div class="pt-4 mx-auto text-info text-center h3" v-if="!seen"><p  class="flow-text">you have no seen notifications...</p></div>
+        <div class="pt-4 mx-auto text-muted text-center h3" v-if="!seen"><p  class="flow-text">you have no seen notifications...</p></div>
 
 
     </div>

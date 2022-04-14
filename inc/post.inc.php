@@ -3,6 +3,7 @@
 // Create database connection to database
 require 'dbh.inc.php';
 require 'Auth/auth.php';
+require 'extra/xss-clean.func.php';
 header('content-type: application/json');
 // Initialize message variable 
 // If upload button is clicked ...
@@ -13,6 +14,12 @@ if (isset($_POST['upload'])) {
     $user = $_SESSION['userId'];
     $d = new DateTime("now", $timeZone);
     $image_text = mysqli_real_escape_string($conn, $_POST['posttext']);
+    $image_text = xss_clean($image_text);
+    $image_text = htmlspecialchars($image_text);
+    $image_text = trim($image_text);
+    $image_text  = preg_replace('~[\r\n]+~', '', $image_text);
+
+
 
     if ($_POST['type'] == 'img') {
         // mentioning all my variables that I will use 
@@ -45,10 +52,6 @@ if (isset($_POST['upload'])) {
                 header("Location: ../post.php?error=emptystr");
                 die();
             }
-        }
-        if ($image_text === "") {
-            header("Location: ../index.php?error=emptystr");
-            die();
         }
         // variables  
         $sql = "INSERT INTO posts (`post_id`,`image_text`, `userid`,`type` ,`date_posted`, `day`) VALUES (?,?, ?, ?, ?, ?)";
@@ -96,6 +99,13 @@ if (isset($_GET['user'])) {
         if ($ans) {
             while ($row = mysqli_fetch_assoc($ans)) {
                 $result_array[$i] = $row;
+                # replace \n and \r with space
+               $text = $result_array[$i]['image_text'];
+                $text = trim(preg_replace('/\s+/', ' ', $text));
+                $text = trim(preg_replace('/\s\s+/', ' ', $text));
+
+
+                $result_array[$i]['image_text'] = $text;
                 $result_array[$i]['user'] = ['id' => $un_ravel->_queryUser($acc, 4), 'name' => $usr];
                 $id = $row['id'];
                 $post_id = $row['post_id'];
@@ -121,6 +131,12 @@ if (isset($_GET['user'])) {
     $ans = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($ans)) {
         $result_array[$i] = $row;
+        $text = $result_array[$i]['image_text'];
+        $text = preg_replace('~[\r\n]+~', ' ', $text);
+        $text = trim(preg_replace('/\s+/', ' ', $text));
+        $text = trim(preg_replace('/\s\s+/', ' ', $text));
+        $text = str_replace(array("\r\n","\r"),"",$text);
+        $result_array[$i]['image_text'] = $text;
         $result_array[$i]['user'] = true;
         $id = $row['id'];
         $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";
@@ -131,6 +147,7 @@ if (isset($_GET['user'])) {
             $result_array[$i]['liked'] = false;
         }
         # get comments count
+        $id = $row['post_id'];
         $sql = "SELECT * FROM `comments` WHERE `post_id`='$id'";
         $r = $conn->query($sql);
         $result_array[$i]['comments'] = $r->num_rows;
@@ -140,7 +157,6 @@ if (isset($_GET['user'])) {
         print_r(json_encode(null));
         die();
     }
-
     function invenDescSort($item1, $item2)
     {
         if ($item1['time'] == $item2['time']) return 0;
