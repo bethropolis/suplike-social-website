@@ -3,16 +3,25 @@
 // Create database connection to database
 require 'dbh.inc.php';
 require 'Auth/auth.php';
-
+require 'extra/xss-clean.func.php';
+header('content-type: application/json');
 // Initialize message variable 
 // If upload button is clicked ...
+    session_start();
+
 
 if (isset($_POST['upload'])) {
-    session_start();
+
     $type = $_POST['type'];
     $user = $_SESSION['userId'];
-    $d = new DateTime(null, $timeZone);
+    $d = new DateTime("now", $timeZone);
     $image_text = mysqli_real_escape_string($conn, $_POST['posttext']);
+    $image_text = xss_clean($image_text);
+    $image_text = htmlspecialchars($image_text);
+    $image_text = trim($image_text);
+    $image_text  = preg_replace('~[\r\n]+~', '', $image_text);
+
+
 
     if ($_POST['type'] == 'img') {
         // mentioning all my variables that I will use 
@@ -46,10 +55,6 @@ if (isset($_POST['upload'])) {
                 die();
             }
         }
-        if ($image_text === "") {
-            header("Location: ../index.php?error=emptystr");
-            die();
-        }
         // variables  
         $sql = "INSERT INTO posts (`post_id`,`image_text`, `userid`,`type` ,`date_posted`, `day`) VALUES (?,?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
@@ -68,8 +73,9 @@ if (isset($_POST['upload'])) {
 
 #-------------------GET POSTs------------------#
 
+
 if (isset($_GET['user'])) {
-    header('content-type: application/json');
+
     # STAGE 1: GETTING THE USERS
     $result_array = [];
     $user = $un_ravel->_getUser($_GET['user']);
@@ -86,6 +92,7 @@ if (isset($_GET['user'])) {
     }
 
     # STAGE 2:  GETTING THE POST FROM EACH USER
+
     $i = 0;
     foreach ($arr as $key) {
         $acc = $key["idusers"];
@@ -95,8 +102,15 @@ if (isset($_GET['user'])) {
         if ($ans) {
             while ($row = mysqli_fetch_assoc($ans)) {
                 $result_array[$i] = $row;
+                # replace \n and \r with space
+               $text = $result_array[$i]['image_text'];
+                $text = trim(preg_replace('/\s+/', ' ', $text));
+                $text = trim(preg_replace('/\s\s+/', ' ', $text));
+                $result_array[$i]['profile_picture'] = $un_ravel->_profile_picture($key["idusers"]);
+                $result_array[$i]['image_text'] = $text;
                 $result_array[$i]['user'] = ['id' => $un_ravel->_queryUser($acc, 4), 'name' => $usr];
                 $id = $row['id'];
+                $post_id = $row['post_id'];
                 $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";
                 $r = $conn->query($sql)->fetch_assoc();
 
@@ -106,7 +120,10 @@ if (isset($_GET['user'])) {
                 } else {
                     $result_array[$i]['liked'] = false;
                 }
-
+                # get number of comments for post
+                $sql = "SELECT * FROM `comments` WHERE `post_id`='$post_id'";
+                $s = $conn->query($sql);
+                $result_array[$i]['comments'] = $s->num_rows;
                 $i++;
             }
         }
@@ -116,6 +133,13 @@ if (isset($_GET['user'])) {
     $ans = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($ans)) {
         $result_array[$i] = $row;
+        $text = $result_array[$i]['image_text'];
+        $text = preg_replace('~[\r\n]+~', ' ', $text);
+        $text = trim(preg_replace('/\s+/', ' ', $text));
+        $text = trim(preg_replace('/\s\s+/', ' ', $text));
+        $text = str_replace(array("\r\n","\r"),"",$text);
+        $result_array[$i]['profile_picture'] = $un_ravel->_profile_picture($user);
+        $result_array[$i]['image_text'] = $text;
         $result_array[$i]['user'] = true;
         $id = $row['id'];
         $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";
@@ -125,13 +149,17 @@ if (isset($_GET['user'])) {
         } else {
             $result_array[$i]['liked'] = false;
         }
+        # get comments count
+        $id = $row['post_id'];
+        $sql = "SELECT * FROM `comments` WHERE `post_id`='$id'";
+        $r = $conn->query($sql);
+        $result_array[$i]['comments'] = $r->num_rows;
         $i++;
     }
     if ($result_array == null) {
         print_r(json_encode(null));
         die();
     }
-
     function invenDescSort($item1, $item2)
     {
         if ($item1['time'] == $item2['time']) return 0;
@@ -143,17 +171,48 @@ if (isset($_GET['user'])) {
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $arr = [];
-    $sql = "SELECT * FROM `posts` WHERE `id`='$id'";
-    $rsp = $conn->query($sql);
-    // if ($rsp->fetch_assoc() != null){
-    $arr = $rsp->fetch_assoc();
-    // }
-
-    function invenDescSort($item1, $item2)
-    {
-        if ($item1['time'] == $item2['time']) return 0;
-        return ($item1['time'] < $item2['time']) ? 1 : -1;
+    $sql = "SELECT * FROM `posts` WHERE `post_id`='$id'";
+    $result = $conn->query($sql);
+    $row = mysqli_fetch_assoc($result);
+    $user = $row['userid'];
+    # get user
+    $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token`,`chat_auth` FROM `users`,`auth_key` WHERE `users`.`idusers`=$user AND `auth_key`.`user` = $user ";
+    $resp = $conn->query($sql)->fetch_assoc();
+    $row['user'] = ['id' => $un_ravel->_queryUser($user, 4), 'name' => $resp['uidusers'], 'profile_picture' => $resp['profile_picture']];
+    $post_id = $row['post_id'];
+    # gen num of
+    $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";
+    $r = $conn->query($sql)->fetch_assoc();
+    if (!is_null($r)) {
+        $row['liked'] = true;
+    } else {
+        $row['liked'] = false;
     }
-    print_r(usort($arr, 'invenDescSort'));
+    $sql = "SELECT * FROM `comments` WHERE `post_id`='$post_id'";
+    $r = $conn->query($sql);
+    $row['comments'] = $r->num_rows;
+    print_r(json_encode($row));
+}
+
+if(isset($_GET['del_post'])){
+    // first check if the user is the owner of the post
+    $id = $_GET['del_post'];
+    $sql = "SELECT * FROM `posts` WHERE `post_id`='$id'";
+    $result = $conn->query($sql);
+    $row = mysqli_fetch_assoc($result);
+    $user = $row['userid'];
+    if($user == $_SESSION['userId']){
+        $sql = "DELETE FROM `posts` WHERE `post_id`='$id'";
+        $conn->query($sql);
+        // delete comments
+        $sql = "DELETE FROM `comments` WHERE `post_id`='$id'";
+        $conn->query($sql);
+        // delete likes
+        $sql = "DELETE FROM `likes` WHERE `post_id`='$id'";
+        $conn->query($sql);
+        header("Location: ../");
+    }else{
+        // status code 403
+        header("HTTP/1.0 403 Forbidden");
+    }
 }

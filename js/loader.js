@@ -68,7 +68,7 @@ const interval = setInterval(() => {
     clearInterval(interval);
     hideDiv()
   }
-}, 750);
+}, 360);
 }
 
 function hideDiv() {

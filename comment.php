@@ -1,5 +1,6 @@
 <?php
 include './inc/dbh.inc.php';
+include './inc/Auth/auth.php';
 session_start();
 
 
@@ -8,9 +9,8 @@ if (!isset($_GET['id'])) {
     die();
 }
 $post_id = $_GET['id'];
-
-$sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
-
+$sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirstname`, `users`.`usersSecondname`, `comments`.* 
+FROM `users` , `comments` WHERE (`comments`.`post_id` ='$post_id' AND ( `uidusers` = `comments`.`user`)) ORDER BY `comments`.`date` DESC";
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +24,30 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
-    <link rel="stylesheet" href="css/comment.css">
+    <link rel="stylesheet" href="css/comment.min.css">
+    <style>
+        .rounded-image {
+            border-radius: 50% !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            width: 50px
+        }
 
+        .name {
+            font-weight: 600
+        }
+
+        .comment-text {
+            font-size: 12px
+        }
+
+        .status small {
+            margin-right: 10px;
+            color: blue
+        }
+    </style>
 </head>
 
 <body>
@@ -46,7 +68,7 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
         </nav>
         <div class="box">
             <input id="comm" placeholder="write a comment...">
-            <button type="submit" class="sbtn" id="submit">submit</button>
+            <button type="submit" class="btn" style="background: var(--ho);color: var(--white);" id="submit">submit</button>
         </div>
         <main>
 
@@ -54,24 +76,29 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
             $result = $conn->query($sql);
             while ($row = $result->fetch_assoc()) {
                 if ($row) {
-                    echo       '<div class="comment">' .
-                        '<a href="./profile.php?id=' . $row["user_token"] . '">' .
-                        '<h5>' . $row['user'] . '</h5>' .
-                        '</a>' .
-                        '<p>' . $row['comment'] . '</p> ' .
-                        '<div class="comment-action">' .
-                        '<ul>';
-                    if ($row["user"] ==  $_SESSION['userUid']) {
-                        echo  ' <li><a href="./inc/report.inc.php?del='.$row['id'].'">delete</a></li>';
-                    }
-                    echo  '<li><a href="./inc/report.inc.php?comment='. $row['id'].'">report</a></li>' . 
-                        '</ul>' .
-                        ' </div>' .
-                        '</div>';
+            ?> <hr>
+                    <div class="d-flex flex-row mb-2"> <img src="img/<?= $row['profile_picture'] ?? 'M.jpg'?>" width="40" class="rounded-image">
+                        <div class="d-flex flex-column ml-2">
+                            <span class="name"><?= $row["usersFirstname"] . ' ' . $row['usersSecondname'] ?></span>
+                            <small class="comment-text"><?= $row['comment'] ?></small>
+                            <div class="d-flex flex-row align-items-center status">
+                                <a href="./inc/report.inc.php?comment=<?=$row['id'] ?>">
+                                    <small>Report</small>
+                                </a>
+                                <!-- delete -->
+                                <?php
+                                if ($row["user"] ==  $_SESSION['userUid']) {
+                                    echo  '<a href="#delete" onclick=\'deleteComment("'.$row['post_id'].'")\'><small>delete</small></a>';
+                                } ?>
+
+                                <small class="text-muted ml-5"><?= $row['date'] ?> </small>
+                            </div>
+                        </div>
+                    </div>
+            <?php
                 }
             }
-
-            ?>
+            ?>       
         </main>
     </div>
     <script src="./lib/jquery/jquery.js"></script>
@@ -84,7 +111,7 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
         function postComment() {
             $.ajax({
                 type: 'POST',
-                url: './inc/comment.inc.php',
+                url: 'inc/comment.inc.php',
                 data: {
                     user: sessionStorage.getItem('name'),
                     comment: $('#comm').val(),
@@ -99,15 +126,37 @@ $sql = "SELECT * FROM `comments` WHERE `comments`.`post_id` ='$post_id'";
         }
 
         function postSuccess(data, textStatus, jqXHR) {
-            alert('sent');
+            $('#comm').val(" ")
+            window.location.reload();
         }
 
         function postError(jqXHR, textStatus, errorThrown) {
             alert('could not post comment');
         }
+       function deleteComment(id){
+        $.ajax({
+            type: 'POST',
+            url: 'inc/comment.inc.php',
+            data: {
+                comment_id: id
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function (data, textStatus, jqXHR) {
+               window.location.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('could not delete comment');
+            }
+        });
+         }
 
-        $('#back').attr('href', document.referrer);
-        <?php if(isset($_GET['act'])) {echo 'alert("'.$_GET['act'].'")';} ?>    
+        $('#back').attr('href', '<?= $_SERVER['HTTP_REFERER'] ?>');
+
+        <?php if (isset($_GET['act'])) {
+            echo 'alert("' . $_GET['act'] . '")';
+        } ?>
     </script>
 
 </body>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"></link>
+<style id="webmakerstyle">
+body{
+  background: #9980FA;
+}
+
+.rounded{
+  background: white;
+  border-radius: 1.2rem !important;  
+  border-bottom-right-radius: 0 !important;
+
+}
+</style>
+</head>
+<body>
+<div class="container w-50 my-5 py-2 mx-auto shadow rounded  row"><div id="waveform" class="col-10"></div><i class="fa my-auto fa-play col-2"></i></div>
+
+<script src="http://localhost/suplike/lib/wavesurfer/wavesurfer.min.js"></script>
+<script src="chrome-extension://lkfkkhfhhdkiemehlpkgjeojomhpccnh/lib/transpilers/babel-polyfill.min.js"></script><script>
+'use strict';
+
+var _WaveSurfer$create;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var wavesurfer = WaveSurfer.create((_WaveSurfer$create = {
+    container: '#waveform',
+    waveColor: '#D9DCFF',
+    barWidth: 3,
+    height: 50
+}, _defineProperty(_WaveSurfer$create, 'barWidth', 3), _defineProperty(_WaveSurfer$create, 'barHeight', 1), _defineProperty(_WaveSurfer$create, 'progressColor', '#6c5ce7'), _defineProperty(_WaveSurfer$create, 'fillParent', true), _defineProperty(_WaveSurfer$create, 'hideScrollbar', true), _defineProperty(_WaveSurfer$create, 'responsive', true), _defineProperty(_WaveSurfer$create, 'barRadius', 3), _defineProperty(_WaveSurfer$create, 'barGap', 3), _defineProperty(_WaveSurfer$create, 'cursorColor', 'transparent'), _WaveSurfer$create));
+
+wavesurfer.load('http://localhost/suplike/test/comment/uploaded/Boutross%20-%20Mbona%20(%20Official%20Video%20)(%20Prod.%20By%20Ceezy%20).mp3');
+
+document.querySelector(".fa").addEventListener("click", function () {
+    wavesurfer.playPause();
+});
+//# sourceURL=userscript.js
+</script>
+</body>
+</html>

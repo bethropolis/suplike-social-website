@@ -4,8 +4,8 @@ header('Content-Type: application/json');
 if (isset($_POST['id'])) {
 	if (!empty($_POST['id'])) {
 		$id = $_POST['id'];
-		$sql = "INSERT INTO `reports` (`post_id`) VALUE ('$id')";
-		$conn->query($sql);
+		$sql = "INSERT INTO `reports` (`post_id`) VALUES ($id)";
+		$result = $conn->query($sql);
 		print_r(json_encode("reported"));
 		exit();
 	} else {

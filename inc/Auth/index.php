@@ -1,22 +1,21 @@
 <?php
-     require "../dbh.inc.php"
-     require "../errors/error.inc.php" 
+require "../dbh.inc.php";
+require "../errors/error.inc.php";
 
-  $err->_set_log('../errors/error.log.txt'); // set where errors will be writen  
+$err->_set_log('../errors/error.log.txt'); // set where errors will be writen  
 
-     if (!isset($_SESSION['userUid'])) { 
-        $err->err('unkown', 7);    
-        header('Location: ./login.php');
-        exit();    
-      }   
-   
-  if (isset($_GET["auth"])) {
-      $auth = $_GET["auth"];
-       
-  }else{
-       $err->err($_SESSION['userId'], 7);   
-       die("<h1> Cannot authenticate app </h1>"); 
-  }
+if (!isset($_SESSION['userUid'])) {
+    $err->err('unkown', 7);
+    header('Location: ./login.php');
+    exit();
+}
+
+if (isset($_GET["auth"])) {
+    $auth = $_GET["auth"];
+} else {
+    $err->err($_SESSION['userId'], 7);
+    die("<h1> Cannot authenticate app </h1>");
+}
 
 ?>
 <!DOCTYPE html>
@@ -29,7 +28,7 @@
     <title>suplike Auth</title>
     <style>
         .logo {
-            background: url("../../img/logo.png"); 
+            background: url("../../img/logo.png");
             background-repeat: no-repeat;
             border-radius: 50%;
             width: 160px;
