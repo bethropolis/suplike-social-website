@@ -46,7 +46,7 @@ class Notification
         $this->_update_type($type);
         $this->_generate_id();
     }
-    public function notify($user, $text,$type){
+    public function notify($user, $text,$type='note'){
         $this->_update_all($user, $text, $type);
         $this->_insert_notify();
     }
@@ -124,7 +124,7 @@ class Notification
         }
     }
     public function _delete_all($user){
-        $sql = "DELETE FROM notify WHERE `user` = '$user'";
+        $sql = "DELETE FROM notify WHERE `user` = '$user' AND `seen` = 0";
         $result = $this->conn->query($sql);
         if ($result) {
             print_r(json_encode(array('code' => 0, 'msg' => 'notification deleted', 'type' => 'success')));
@@ -144,6 +144,17 @@ class Notification
             print_r(json_encode(array('code' => 0, 'msg' => 'notification fetched', 'type' => 'success', 'data' => $notify)));
         } else {
             print_r(json_encode(array('code' => 4, 'msg' => 'no notification found', 'type' => 'error')));
+        }
+    }
+    public function _check_new($user)
+    {
+        // select notification less than 30 seconds ago
+        $sql = "SELECT * FROM notify WHERE `user` = '$user' AND `seen` = 0 AND `date` > DATE_SUB(NOW(), INTERVAL 10 SECOND)"; 
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            print_r(json_encode(array('code' => 0, 'new' =>true)));
+        } else {
+            print_r(json_encode(array('code' => 4, 'new' => false)));
         }
     }
 }

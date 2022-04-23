@@ -1,12 +1,13 @@
 <?php
 session_start();
 require 'dbh.inc.php';
+require 'extra/xss-clean.func.php';
 if (isset($_POST['profile_btn'])) {
-    $user = $_POST['username'];
-    $mail = $_POST['email'];
-    $fname = $_POST['firstname'];
-    $lname = $_POST['lastname'];
-    $bio = $_POST['bio'];
+    $user = xss_clean($_POST['username']);
+    $mail = xss_clean($_POST['email']);
+    $fname = xss_clean($_POST['firstname']);
+    $lname = xss_clean($_POST['lastname']);
+    $bio = xss_clean($_POST['bio']);
 
     if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
         header("Location: ../settings.php?profile&error=invalidmail");
@@ -51,3 +52,4 @@ if (isset($_POST['password_change'])) {
         header('Location: ../settings.php?password&success=passwordchanged');
     }
 }
+$result = $conn->query($query);

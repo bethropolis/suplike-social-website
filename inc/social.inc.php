@@ -17,6 +17,10 @@ if (isset($_GET['user'])) {
         $user_id = $row['idusers'];
         $last_online = $row['last_online'];
         $answer['users'][$i]['full_name'] = $row['usersFirstname'] . " " . $row['usersSecondname'];
+        // if full name = null then set it to username
+        if ($answer['users'][$i]['full_name'] == " ") {
+            $answer['users'][$i]['full_name'] = $row['uidusers'];
+        }
         $sql = "SELECT `message`,`time`,`type` FROM `chat` WHERE (`who_to`='$user_id' OR `who_to`='$user') AND (`who_from`='$user_id' OR `who_from`='$user') ORDER BY `chat`.`time` DESC LIMIT 1";
         $r = $conn->query($sql)->fetch_assoc();
         //  format time into 12 hour format hh:mm am/pm and if it is today or yesterday or a date

@@ -6,10 +6,9 @@ require 'extra/notification.class.php';
 header('content-type: application/json');
 $notification = new Notification();
 session_start();
-$user = $_SESSION['userUid'];
 # this was a 100% copy from like.inc.php,
 # I will consider merging them in future
-if (isset($_GET['following'])) {
+if (isset($_GET['user'])) {
 
     if (empty($_GET['user']) || empty($_GET['key'])) {
         $err = new Err(8);
@@ -48,7 +47,7 @@ if (isset($_GET['following'])) {
         die();
     }
 
-    $sql = "SELECT * FROM `users` WHERE `idusers`='$following'";
+    $sql = "SELECT * FROM `users` WHERE `idusers`=$following";
     $result = $conn->query($sql)->fetch_assoc();
     if (is_null($result)) {
         $err = new Err(1);
@@ -81,6 +80,7 @@ if (isset($_GET['following'])) {
         $followed_user_followers = $followed_user_followers + 1;
         $sql  = "INSERT INTO following (`user`,`following`) VALUES ($following, $followed)";
         $conn->query($sql);
+        $user = $un_ravel->_username($following);
         $notification->notify($followed,"$user followed you", 'follow');
     }
 
@@ -102,9 +102,6 @@ if (isset($_GET['following'])) {
         $err->err($_GET['user']);
         die();
     }
-
-
-
     $sql = "UPDATE `users` SET `followers` = ' $followed_user_followers' WHERE `idusers` = '$followed';";
     mysqli_query($conn, $sql);
 

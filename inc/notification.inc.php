@@ -40,3 +40,8 @@ if(isset($_GET['seen_all'])){
 if(isset($_GET['type'])){
     $notify->_get_type($_GET['type']);
 }
+
+// if isset $_GET['new'] then check notifications sent in the last 30 seconds return true if there are any
+if(isset($_GET['new'])){
+    $notify->_check_new($user);
+} 

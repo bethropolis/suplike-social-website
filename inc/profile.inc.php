@@ -28,6 +28,7 @@ if (!empty($id)) {
   $answer['user'] = $conn->query($query)->fetch_assoc();
   $query = "SELECT * FROM `posts` WHERE `userid`='$id'";
   $result = $conn->query($query);
+  $answer['user']['no_posts'] = $result->num_rows;
   $i = 0;
   while ($row = mysqli_fetch_assoc($result)) {
     $answer['posts'][$i] = $row;
@@ -35,6 +36,8 @@ if (!empty($id)) {
       'id' => $answer['user']['user_auth'],
       'name' => $answer['user']['uidusers']
     ];
+    // profile picture
+    $answer['posts'][$i]['profile_picture'] = $answer['user']['profile_picture'];
     $post_id = $row['id'];
     if ($user != null) {
       $sql = "SELECT * FROM `likes` WHERE `post_id`='$post_id' AND `user_id`='$user'";
@@ -45,6 +48,9 @@ if (!empty($id)) {
         $answer['posts'][$i]['liked'] = false;
       }
     }
+    $sql = "SELECT * FROM `comments` WHERE `post_id`='$post_id'";
+    $r = $conn->query($sql);
+    $answer['posts'][$i]['comments'] = $r->num_rows;
     $i++;
   }
   print_r(json_encode($answer));
@@ -52,4 +58,3 @@ if (!empty($id)) {
   $err = new Err(15);
   $err->err($user);
 }
-

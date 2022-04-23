@@ -51,7 +51,11 @@ if (isset($_POST['login-submit'])) {
                     $_SESSION['age'] = $row['usersAge'];
                     $_SESSION['profile-pic'] = $row['profile_picture'];
                     $_SESSION['isAdmin'] = $row['isAdmin'];
-                    header("Location: ../index.php?login=success");
+                    // set a cookie for the user to remember them for a week called token ($auth->user)
+                    if($_POST['remember']){
+                        setcookie('token', $auth->user, time() + (86400 * 7),'/');
+                    }
+                    header("Location: ../home.php?login=success");
                     exit();
                 } else {
                     header("Location: ../login.php?error=wrongpwd");

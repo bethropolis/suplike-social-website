@@ -12,6 +12,13 @@ if (!isset($_SESSION['userId'])) {
 <script src="lib/vue/vue.min.js"></script>
 <style>
     /* css for elements below */
+
+    body {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
     .notification-item {
         padding: 10px;
         border-bottom: 1px solid #ccc;
@@ -20,10 +27,9 @@ if (!isset($_SESSION['userId'])) {
         align-items: center;
     }
 
-    .notification-item:hover {
-        background-color: #f5f5f5;
+    .notification-item:hover, .notification-item:hover .notify-text{
+        color: #000 !important;
     }
-
     .notification-item .notify-text {
         font-size: 14px;
         font-weight: bold;
@@ -50,9 +56,14 @@ if (!isset($_SESSION['userId'])) {
         color: #ccc;
         cursor: pointer;
     }
-    .active{
-        color: var(--ho) !important;
-    }
+    no-style:hover{
+  color: var(--co) !important;
+  text-decoration: none;
+}
+no-style{
+  color: var(--co) !important;
+}
+
 </style>
 <div id="app">
     <!-- bootstrap tabs -->
@@ -64,54 +75,56 @@ if (!isset($_SESSION['userId'])) {
             <a class="nav-link" href="#seen" @click.prevent="page = 2" data-toggle="tab">Seen</a>
         </li>
     </ul>
-    <div class="container notification w-100" v-if='page == 1'>   
-    <h2>notifications</h2>
-    <div v-if="notifications" class="btns">
-     <button class="markAll btn text-dark" @click.prevent="markAll">Mark All as seen</button>
-      <button class="deleteAll btn btn-danger" @click.prevent="deleteAll" :disabled="notifications">Delete All</button>
-    </div>
-        <div class="notification-item w-100" v-for='notify in notifications'>
-     
-            <div class="content col-8">
-                <div class="notify-text"  v-html="notify.text"></div>
+    <div class="container notification w-100 p-0" v-if='page == 1'>
+        <h2 class="co">notifications</h2>
+        <div v-if="notifications" class="btns mb-3">
+            <button class="markAll btn text-dark" @click.prevent="markAll">Mark All as seen</button>
+            <button class="deleteAll btn btn-danger" @click.prevent="deleteAll" :disabled="!notifications">Delete All</button>
+        </div>
+        <div class="notification-item w-100 p-0" v-for='notify in notifications' >
+            <div class="content col-7">
+                <div class="notify-text co" v-html="notify.text"></div>
                 <div class="notify-type">{{notify.notification_id}}</div>
                 <div class="notify-time">{{notify.date}}</div>
             </div>
-            <div class="col-2">
+            <div class="col-md-5 p-0">
                 <!-- mark as read button -->
-                <button class="notify-mark  text-dark btn" v-on:click='mark_read(notify.notification_id)'>Mark as read</button>
-            </div>
-            <div class="col-2">
+                <button class="notify-mark  text-dark btn mx-1" v-on:click='mark_read(notify.notification_id)'>seen</button>
                 <!-- delete button -->
                 <button class="notify-delete btn-danger btn" v-on:click='delete_notify(notify.notification_id)'>Delete</button>
             </div>
-               
         </div>
-       <div class="pt-4 mx-auto text-muted text-center h3" v-if="!notifications"><p  class="flow-text">you have no new notifications...</p></div>
+        <div class="pt-4 mx-auto text-muted text-center h3" v-if="!notifications">
+            <p class="flow-text">you have no new notifications...</p>
+        </div>
     </div>
     <div class="container  notification w-100" v-if='page == 2'>
-        <h2>seen</h2>
-        <div class="notification-item w-100" v-for='notify in seen'>
-            <div class="content col-8">
-                <div class="notify-text " v-html="notify.text"></div>
+        <h2 class="co">seen</h2>
+        <div class="notification-item w-100 p-0" v-for='notify in seen'>
+            <div class="content col-10">
+                <div class="notify-text co" v-html="notify.text"></div>
                 <div class="notify-type">{{notify.notification_id}}</div>
                 <div class="notify-time">{{notify.date}}</div>
             </div>
-            <div class="col-2">
+            <div class="col-2 p-0">
                 <!-- delete button -->
                 <button class="notify-delete btn-danger btn" v-on:click='delete_notify(notify.notification_id)'>Delete</button>
             </div>
 
         </div>
-        <div class="pt-4 mx-auto text-muted text-center h3" v-if="!seen"><p  class="flow-text">you have no seen notifications...</p></div>
+        <div class="pt-4 mx-auto text-muted text-center h3" v-if="!seen">
+            <p class="flow-text">you have no seen notifications...</p>
+        </div>
 
 
     </div>
 
 </div>
 
-
-
+<br><br><br>
+<div class="mobile nav-show">
+<br><br><br>
+</div>
 <script>
     const app = new Vue({
         el: '#app',
@@ -130,13 +143,32 @@ if (!isset($_SESSION['userId'])) {
             success: '',
         },
         methods: {
+            get_url: function(s) {
+                //  a string can have anchor tag with url, so we need to remove it and return the url if it has one
+                url = s[0].text.split('<a href="')[1];
+                if (url) {
+                    console.log(url.text);
+                } else {
+                    return false;
+                }
+                return false
+            },
             get_notify: function() {
                 this.fetch = [];
                 $.get(this.url + '?fetch=true').then(response => {
+                    console.log(response);
+                    $url = app.get_url(response.data);
                     this.fetch = response.data;
                     this.notifications = this.fetch;
-                    console.log(response);
+
                 });
+            },
+            open_page: function(url) {
+                if (url) {
+                    window.location.href = url;
+                } else {
+                    alert('no url found');
+                }
             },
             delete_notify: function(id) {
                 $.get(this.url + '?delete=' + id).then(response => {
@@ -186,7 +218,7 @@ if (!isset($_SESSION['userId'])) {
                 });
             },
             deleteAll: function() {
-                $.get(this.url + '?deleteall=' + this.user).then(response => {
+                $.get(this.url + '?delete_all=' + this.user).then(response => {
                     this.success = this.notify;
                     this.get_notify();
                 });
@@ -205,9 +237,17 @@ if (!isset($_SESSION['userId'])) {
         },
         mounted: function() {
             this.get_notify();
-
         },
 
     })
+
+// document ready
+$(document).ready(function() {
+    active_page(3);
+});
 </script>
-<?php include 'footer.php'; ?>
+    
+<?php
+  require 'mobile.php';
+ include 'footer.php';
+  ?>

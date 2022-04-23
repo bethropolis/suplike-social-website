@@ -90,21 +90,32 @@ const app = new Vue({
             document.title = this.online[index].full_name;
         },
         sendUpload: function (data) {
-            if (!this.file_type) return;
-            fetch(`inc/file.inc.php?from=${this.user}&to=${this.chatwith}&type=${this.file_type}`, {
-                method: "POST",
-                body: data,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    app.file_type = null;
-
-
-                })
-                .catch((error) => {
-                    app.file_type = null;
-                    alert("could not upload file");
-                });
+            // make code for upload to server inc/file.inc.php 
+            $.ajax({
+                url: `inc/file.inc.php?from=${app.user}&to=${app.chatwith}&type=${app.file_type}`,
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.success) {
+                        // upload_status
+                        $('#upload-status').html('');
+                        app.messages.push({
+                            message: data.file,
+                            id: app.user,
+                            type: app.file_type,
+                            to: true,
+                            time: data.time,
+                            audio_id: null,
+                        })
+                        $('.messages').animate({
+                            scrollTop: $('.messages')[0].scrollHeight
+                        });
+                    }   
+                }
+            });
         },
         playerUpdate: function (data) {
             this.player.push(data);
@@ -153,6 +164,11 @@ const app = new Vue({
                 $('#audioPlayer').on('timeupdate', function () {
                     vm.progress = (this.currentTime / this.duration) * 100;
                     $(('#p-' + vm.playing)).css('width', vm.progress + '%');
+                    if(vm.progress == 100){
+                        vm.player[id].playing = false;
+                        vm.playing = null;
+                        player.pause();
+                    }
                 });
             }
         },
@@ -184,12 +200,14 @@ const app = new Vue({
     }
 })
 
+// make for me a code
 const handleUpload = (type, event) => {
     app.file_type = type;
     const files = event.target.files;
     const formData = new FormData();
     formData.append("uploadedFile", files[0]);
-
+    // upload_status.innerHTML = "Uploading...";
+    $('#upload-status').html('Uploading...');
     app.sendUpload(formData);
 };
 // document ready

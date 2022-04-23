@@ -25,6 +25,7 @@ if (isset($_FILES['file'])) {
 
     if (empty($errors) == true) {
         move_uploaded_file($file_tmp, "../img/" . $file_path);
+        $_SESSION['profile-pic'] = $file_path;
         $conn->query($sql);
         die(json_encode(array('success' => 'Successfully uploaded')));
     } else {

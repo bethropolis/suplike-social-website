@@ -1,79 +1,45 @@
-const Suplike = "suplike-V1";
+const OFFLINE_VERSION = 1;
+const CACHE_NAME = 'suplike';
+const OFFLINE_URL = 'offline.html';
+self.addEventListener('install', (event) => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.add(new Request(OFFLINE_URL, {cache: 'reload'}));
+  })());
+});
 
-const assets = [
-    './',
-    './index.php',
-    './header.php',
-    './footer.php',
-    './social.php',
-    './settings.php',
-    './message.php',
-    './post.php',
-    './profile.php',
-    './notification.php',
-    './css/chat.min.css',
-    './css/style.min.css',
-    './css/comment.min.css',
-    './css/search.min.css',
-    './css/post.min.css',
-    './js/index.min.js',
-    './js/loader.js',
-    './js/online.js',
-    './js/registerSW.js',
-    './sw.js',
-    './manifest.json',
-    './lib/bootstrap/css/bootstrap.min.css',
-    './lib/font-awesome/font-awesome.min.css',
-    './lib/jquery/jquery.min.js',
-    './lib/bootstrap/js/bootstrap.min.js',
-    './lib/lightbox/lightbox.min.css',
-    './lib/lightbox/lightbox.min.js',
-    './lib/vue/vue.min.js',
-    './lib/lazyload/jquery.lazyload-any.js',
-    './img/logo.png',
-    './img/M.jpg'
-]
-
-self.addEventListener('fetch', function (event) {
-    let online = navigator.onLine
-    if (!online) {
-        event.respondWith(
-            caches.match(event.request).then(function (res) {
-                if (res) {
-                    return res;
-                }
-                requestBackend(event);
-            })
-        )
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    if ('navigationPreload' in self.registration) {
+      await self.registration.navigationPreload.enable();
     }
+  })());
+
+  // Tell the active service worker to take control of the page immediately.
+  self.clients.claim();
 });
 
-self.addEventListener('activate', function (event) {
-    event.waitUntil(
-        caches.keys().then(function (keys) {
-            return Promise.all(keys.map(function (key, i) {
-                if (key !== Suplike) {
-                    return caches.delete(keys[i]);
-                }
-            }))
-        })
-    )
-});
-
-function requestBackend(event) {
-    var url = event.request.clone();
-    return fetch(url).then(function (res) {
-        //if not a valid response send the error
-        if (!res || res.status !== 200 || res.type !== 'basic') {
-            return res;
+self.addEventListener('fetch', (event) => {
+  // We only want to call event.respondWith() if this is a navigation request
+  // for an HTML page.
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        // First, try to use the navigation preload response if it's supported.
+        const preloadResponse = await event.preloadResponse;
+        if (preloadResponse) {
+          return preloadResponse;
         }
 
-        var response = res.clone();
+        const networkResponse = await fetch(event.request);
+        return networkResponse;
+      } catch (error) {
+        console.log('Fetch failed; returning offline page instead.', error);
 
-        caches.open(Suplike).then(function (cache) {
-            cache.put(event.request, response);
-        });
-
-        return res;
-    })
-}
+        const cache = await caches.open(CACHE_NAME);
+        const cachedResponse = await cache.match(OFFLINE_URL);
+        return cachedResponse;
+      }
+    })());
+  }
+});

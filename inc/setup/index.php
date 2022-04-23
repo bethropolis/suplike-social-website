@@ -1,76 +1,66 @@
 <?php
-require '../dbh.inc.php';
-require '../../header.php';
-include_once '../Auth/auth.php';
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
-$result = [];
-// If the search form is submitted
-$searchKeyword = $whrSQL = '';
-if (isset($_GET['q'])) {
-
-    $searchKeyword = "a";
-    if (!empty($searchKeyword)) {
-        // SQL query to filter records based on the search term
-        $whrSQL = "WHERE (uidusers LIKE '%" . $searchKeyword . "%' OR usersFirstname LIKE '%" . $searchKeyword . "%')";
-
-        // Get matched records from the database
-        $result = $conn->query("SELECT * FROM users $whrSQL");
-        // Highlight words in text
-        function highlightWords($text, $word)
-        {
-            $text = preg_replace('#' . preg_quote($word) . '#i', '<span class="hlw">\\0</span>', $text);
-            return $text;
-        }
-    }
+$setup = json_decode(file_get_contents('./setup.suplike.json'));
+if($setup->setup){
+    die("already setup");
 }
 
 ?>
-<!--<link rel="stylesheet" type="text/css" href="css/search.css?k">  -->
+<!DOCTYPE html>
+<html lang="en">
 
-
-<!-- Search form -->
-
-<?php
-
-if ($result) {
-
-
-    while ($row = $result->fetch_assoc()) {
-        $title = !empty($searchKeyword) ? highlightWords($row['uidusers'], $searchKeyword) : $row['uidusers'];
-        $contnet = !empty($searchKeyword) ? highlightWords($row['usersFirstname'], $searchKeyword) : $row['usersFirstname'];
-        if (!empty($searchKeyword)) {
-            $follow = 'follow';
-            $query = "SELECT * FROM `following` WHERE user=" . $_SESSION['userId'] . " AND `following`=" . $row['idusers'] . "";
-            $answer = $conn->query($query)->fetch_assoc();
-            if (!is_null($answer)) {
-                $follow = 'following';
-            }
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>setup suplike</title>
+    <style>
+        form {
+            position: relative;
+            top: 20px;
+            margin: auto;
+            background: #eee;
+            padding: 10px 5px;
+            width: 70%;
+            display: grid;
+            grid-gap: 8px;
+            grid-template-columns: 50%;
+            justify-content: center;
+            margin: 0 auto;
         }
 
-?>
-        <div class="search-list-item bg-light my-4 mx-auto shadow py-2 w-75 row">
-            <div class="col-md-6 text-left">
-                <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link">
-                    <h4><?php echo $title; ?></h4>
-                </a>
-                <p><?php echo '@' . $contnet; ?></p>
-            </div>
-            <div class="col-md-6 text-right pr-4">
-                <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="btn col-5 p-2 bg follow-btn"><?= $follow ?></button>
-            </div>
-        </div>
-    <?php }
-} else { ?>
-    <p>No user(s) found...</p>
-<?php }
-?>
+        input {
+            width: 200px;
+            padding: .7rem;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
 
-<?php require '../../footer.php'; ?>
-<script>
-    follow();
-</script>
+        .submit {
+            padding: 9px;
+            background-color: #8d55e8;
+            color: white;
+            font-size: 1.3em;
+        }
+
+        .submit:active {
+            opacity: .7;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="setup.inc.php" method="post">
+        <h3>Enter database credentials</h3>
+        <input type="text" placeholder="server name..." value="localhost" name="server" />
+        <input type="text" placeholder="username..." value='root' name="name" />
+        <input type="text" placeholder="password..." value='' title="leave empty if none" name="pwd" />
+        <h3>Create admin account</h3>
+        <input type="text" name="user" placeholder="username...">
+        <input type="email" name="mail" placeholder="email...">
+        <input type="password" name="pass" placeholder="password...">
+        <input type="submit" class="submit" value="submit" />
+    </form>
+</body>
+
+</html>

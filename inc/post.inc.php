@@ -7,9 +7,11 @@ require 'extra/xss-clean.func.php';
 header('content-type: application/json');
 // Initialize message variable 
 // If upload button is clicked ...
+    session_start();
+
 
 if (isset($_POST['upload'])) {
-    session_start();
+
     $type = $_POST['type'];
     $user = $_SESSION['userId'];
     $d = new DateTime("now", $timeZone);
@@ -71,6 +73,7 @@ if (isset($_POST['upload'])) {
 
 #-------------------GET POSTs------------------#
 
+
 if (isset($_GET['user'])) {
 
     # STAGE 1: GETTING THE USERS
@@ -103,8 +106,7 @@ if (isset($_GET['user'])) {
                $text = $result_array[$i]['image_text'];
                 $text = trim(preg_replace('/\s+/', ' ', $text));
                 $text = trim(preg_replace('/\s\s+/', ' ', $text));
-
-
+                $result_array[$i]['profile_picture'] = $un_ravel->_profile_picture($key["idusers"]);
                 $result_array[$i]['image_text'] = $text;
                 $result_array[$i]['user'] = ['id' => $un_ravel->_queryUser($acc, 4), 'name' => $usr];
                 $id = $row['id'];
@@ -136,6 +138,7 @@ if (isset($_GET['user'])) {
         $text = trim(preg_replace('/\s+/', ' ', $text));
         $text = trim(preg_replace('/\s\s+/', ' ', $text));
         $text = str_replace(array("\r\n","\r"),"",$text);
+        $result_array[$i]['profile_picture'] = $un_ravel->_profile_picture($user);
         $result_array[$i]['image_text'] = $text;
         $result_array[$i]['user'] = true;
         $id = $row['id'];
@@ -175,8 +178,9 @@ if (isset($_GET['id'])) {
     # get user
     $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token`,`chat_auth` FROM `users`,`auth_key` WHERE `users`.`idusers`=$user AND `auth_key`.`user` = $user ";
     $resp = $conn->query($sql)->fetch_assoc();
-    $row['user'] = ['id' => $un_ravel->_queryUser($user, 4), 'name' => $resp['uidusers']];
+    $row['user'] = ['id' => $un_ravel->_queryUser($user, 4), 'name' => $resp['uidusers'], 'profile_picture' => $resp['profile_picture']];
     $post_id = $row['post_id'];
+    # gen num of
     $sql = "SELECT * FROM `likes` WHERE `post_id`='$id' AND `user_id`='$user'";
     $r = $conn->query($sql)->fetch_assoc();
     if (!is_null($r)) {
@@ -188,4 +192,27 @@ if (isset($_GET['id'])) {
     $r = $conn->query($sql);
     $row['comments'] = $r->num_rows;
     print_r(json_encode($row));
+}
+
+if(isset($_GET['del_post'])){
+    // first check if the user is the owner of the post
+    $id = $_GET['del_post'];
+    $sql = "SELECT * FROM `posts` WHERE `post_id`='$id'";
+    $result = $conn->query($sql);
+    $row = mysqli_fetch_assoc($result);
+    $user = $row['userid'];
+    if($user == $_SESSION['userId']){
+        $sql = "DELETE FROM `posts` WHERE `post_id`='$id'";
+        $conn->query($sql);
+        // delete comments
+        $sql = "DELETE FROM `comments` WHERE `post_id`='$id'";
+        $conn->query($sql);
+        // delete likes
+        $sql = "DELETE FROM `likes` WHERE `post_id`='$id'";
+        $conn->query($sql);
+        header("Location: ../");
+    }else{
+        // status code 403
+        header("HTTP/1.0 403 Forbidden");
+    }
 }

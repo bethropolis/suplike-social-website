@@ -2,6 +2,7 @@
 
 require 'inc/dbh.inc.php';
 require 'header.php';
+require 'mobile.php';
 include_once 'inc/Auth/auth.php';
 
 if ($conn->connect_error) {
@@ -32,22 +33,22 @@ if (isset($_GET['q'])) {
     $searchKeyword = $_GET['q'];
     if (!empty($searchKeyword)) {
         // use prepared statements
-       // instead of  $whrSQL = "WHERE `users`.`uidusers` LIKE '%:keyword$%' OR `users`.`usersFirstname` LIKE '%:keyword%' limit 15"; use prepared statements ???
-       $whrSQL = "WHERE `users`.`uidusers` LIKE '%$searchKeyword%' OR `users`.`usersFirstname` LIKE '%$searchKeyword%' limit 15";
-       $stmt = $conn->prepare("SELECT * FROM users $whrSQL");
-       $stmt->execute();
-       $result = $stmt->get_result();
+        // instead of  $whrSQL = "WHERE `users`.`uidusers` LIKE '%:keyword$%' OR `users`.`usersFirstname` LIKE '%:keyword%' limit 15"; use prepared statements ???
+        $whrSQL = "WHERE `users`.`uidusers` LIKE '%$searchKeyword%' OR `users`.`usersFirstname` LIKE '%$searchKeyword%' limit 15";
+        $stmt = $conn->prepare("SELECT * FROM users $whrSQL");
+        $stmt->execute();
+        $result = $stmt->get_result();
 
 
-  // Get matched records from the database
-        
+        // Get matched records from the database
+
         // Highlight words in text
         function highlightWords($text, $word)
         {
             return str_ireplace($word, '<span class="highlight">' . $word . '</span>', $text);
         }
-    
-    }}
+    }
+}
 # code...
 
 
@@ -66,7 +67,7 @@ if (isset($_GET['q'])) {
 <?php
 
 if ($result) {
-    while ($row = $result->fetch_assoc()) {       
+    while ($row = $result->fetch_assoc()) {
         $title = !empty($searchKeyword) ? highlightWords($row['uidusers'], $searchKeyword) : $row['uidusers'];
         $contnet = !empty($searchKeyword) ? highlightWords($row['usersFirstname'], $searchKeyword) : $row['usersFirstname'];
         if (!empty($searchKeyword)) {
@@ -79,25 +80,36 @@ if ($result) {
         }
 
 ?>
-        <div class="search-list-item bg-light my-4 mx-auto shadow py-2 w-75 row">
+        <div class="search-list-item card bg-light my-4 mx-auto shadow py-2 w-75 row">
             <div class="col-md-6 text-left">
-                <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link">
+                <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link co">
                     <h4><?php echo $title; ?></h4>
                 </a>
-                <p><?php echo '@' . $contnet; ?></p>
+                <p class="text-muted"><?php
+                if(!empty($contnet)){
+                    echo "@".$contnet;
+                }else{
+                    echo 'No Name';
+                }
+                 ?></p>
             </div>
             <div class="col-md-6 text-right pr-4">
-                <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="btn col-5 p-2 bg follow-btn"><?= $follow ?></button>
+                <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="btn col-5 p-2 bg follow-btn"><span><?= $follow ?></span></button>
             </div>
         </div>
+
     <?php }
 } else { ?>
     <p>No user(s) found...</p>
 <?php }
 ?>
-
+<br><br><br>
+<div class="mobile nav-show">
+    <br><br><br>
+</div>
 <?php require 'footer.php'; ?>
 <script>
+    active_page(2);
     follow("<?= $t ?>");
     if (document.querySelector("[data-show]")) {
         var count = parseInt(localStorage.getItem('count')) || 0;
@@ -112,7 +124,7 @@ if ($result) {
         function lookUp() {
             if (count >= 5) {
                 $(".login-btn").show();
-            }else if($('.follow-btn').length == count){
+            } else if ($('.follow-btn').length == count) {
                 $(".login-btn").show();
             }
         }

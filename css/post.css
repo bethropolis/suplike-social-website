@@ -6,10 +6,10 @@
     min-width: 220px;
     max-width: 550px;
     height: auto;
-    background: #fff;
+    background: var(--card);
     border: none;
     outline: none;
-    box-shadow: 2px 2px 5px #333;
+    box-shadow: 2px 2px 5px var(--dark);
     font-family: sans-serif;
 }
 
@@ -19,15 +19,10 @@
     margin: 0;
     width: 100%;
     height: 38px;
-    background: #f8f9fc;
+    background: var(--icon-light);
     align-items: center;
 }
 
-.profile_picture {
-    position: absolute;
-    border: 2px dotted purple;
-    left: 6px;
-}
 .post-body{
     display: flex;
     padding: 0;
@@ -35,7 +30,7 @@
     width: 100%;
     height: 400px;
     max-height: 450px;
-    background: #f8f9fc;
+    background: var(--icon-light);
     align-items: center;
     display: grid;
     background-size: 100%;
@@ -52,19 +47,54 @@
     width: 100%;
     height: 58px;
     background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
 }
 
 .post-text {
     font-size: 18px;
+    font-weight: bold;
+    color: var(--co);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    background: var(--white);
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font-family: sans-serif;
 }
 
 .social-act {
-    position: absolute;
     margin: 4px;
-    width: 150px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    height: auto;
+    background: var(--white);
+    font-family: sans-serif;
+}
+.social-opt .icon{
+    display: flex;
+    align-items: center;
+    font-family: sans-serif;
+ }
+ .social-opt .icon small{
+    font-weight: 700;
+    font-family: monospace;
+    font-size: large;
+    color: var(--co);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    border: none;
+    outline: none;
 }
 
 .right {
@@ -74,11 +104,26 @@
 
 .usn{
     font-size: medium; 
-}
+} 
+/*  animate like */
 .like {
     color: var(--ho);
+    transition: all 0.5s ease;
 }
-
+.like:active {
+    /*createarisinganimationwhilefading*/transform: translateY(3px);
+    color: var(--ho);
+    animation: like 0.5s ease;
+}
+@keyframes like {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(3px);
+    }
+}
+    
 .lone {
     font-size: 18px;
 }

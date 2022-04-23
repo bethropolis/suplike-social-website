@@ -8,6 +8,7 @@ class Auth
   public $api_key;
   public $user;
   private $conn;
+  public $email;
 
   public function __construct()
   {
@@ -18,6 +19,7 @@ class Auth
     $this->browser_auth = bin2hex(openssl_random_pseudo_bytes(16));
     $this->user_auth = bin2hex(openssl_random_pseudo_bytes(14));
     $this->api_key = bin2hex(openssl_random_pseudo_bytes(32));
+    $this->email = bin2hex(openssl_random_pseudo_bytes(24));
   }
 
   public function _getUser($str)
@@ -159,6 +161,33 @@ class Auth
     $sql = "INSERT INTO `following` (`user`, `following`) VALUES ('$user', '$following')";
     $this->conn->query($sql);
   }
+  public function _isAdmin($user)
+  {
+    $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = '$user'";
+    $result = mysqli_fetch_assoc($this->conn->query($sql));
+    if ($result) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public function _isEmail_verified($user)
+  {
+    $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = '$user'";
+    $result = mysqli_fetch_assoc($this->conn->query($sql));
+    if ($result) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public function _profile_picture($user)
+  {
+    $sql = "SELECT `profile_picture` FROM `users` WHERE `idusers` = '$user'";
+    $result = $this->conn->query($sql);
+    $row = $result->fetch_assoc();
+    return $row['profile_picture'];
+}
 }
 
 $un_ravel = new Auth();
