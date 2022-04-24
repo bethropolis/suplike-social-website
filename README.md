@@ -12,6 +12,7 @@
 
 <p>
  suplike is a social website similar to instagram and facebook for socializing and communications.<br />
+ I built it some years back and it has been one of my favourite projects.<br/>
  it's made out of <b> PHP/JS/CSS</b> <br />
   
 it's easy to install and setup[features](#features);
@@ -54,10 +55,10 @@ check out [demo]('https://suplike.xyz);
 
 1. Download the latest release file.
 
-   * [v1.46 zip file]()
-   * [v1.46 tar.gz file]()
+   * [v1.46 zip file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.zip)
+   * [v1.46 tar.gz file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.tar.gz)
 
-   you can get other releases [here]().
+   you can get other releases [here](https://github.com/bethropolis/suplike-social-website/releases).
 
 2. unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using.
 > I recommend renaming the folder to `suplike` (the url will be shorter).
@@ -80,10 +81,14 @@ alternatively you can clone the repository to your `htdocs` or `www` folder.
 <br>
 To open the GUI, start apache if off, then on the browser navigate to `https://localhost/suplike/inc/setup/`, insert the credentials to your database and admin account after which you will automatically be logged in as admin.
 
+> please note in the url, replace `suplike` with what you named the folder or the folders name.
+<br>
+
 ### incase GUI doesn't work
+
 1. Edit the `inc/setup/setup.suplike.json` file and set the value of `"setup"` to  `false` then reopen the GUI in your browser.
 
-2. Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function. Next, change the code below to the respective database credentials and insert it into `inc/setup/env.php`  ; 
+2. Do it Manually, Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function. Next, change the code below to the respective database credentials and insert it into `inc/setup/env.php`  ; 
 
 ```php
  if (!defined('DB_DATABASE'))        define('DB_DATABASE', 'suplike');
