@@ -1,4 +1,6 @@
 <?php
+require "../../inc/dbh.inc.php";
+require "../../inc/Auth/auth.php";
 if (isset($_GET["chat"])) {
     $result = [];
     if (isset($_POST['from'])) {

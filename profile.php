@@ -10,15 +10,15 @@ if (!isset($_SESSION['token'])) {
 }
 
 
-$profile = isset($_GET['id']) ? $_GET['id'] : $_SESSION['token'];
+$profile =  $_GET['id'] ?? $_SESSION['token'];
 $follow = 'follow';
 $query = "SELECT * FROM `following` WHERE user=" . $un_ravel->_getUser($_SESSION['token']) . " AND `following`=" . $un_ravel->_getUser($profile);
 $result = $conn->query($query)->fetch_assoc();
 if (!is_null($result)) {
   $follow = 'following';
 }
-
-$isAdmin = $un_ravel->_isAdmin($profile);
+$usr = $un_ravel->_getUser($profile);
+$isAdmin = $un_ravel->_isAdmin($usr);
 
 ?>
 <link rel="stylesheet" href="css/post.min.css">
@@ -32,7 +32,7 @@ $isAdmin = $un_ravel->_isAdmin($profile);
 </script>
 <?php 
 // check if email is verified or not, if not, show a message to the user WITH a button to send a verification email
-if ($un_ravel->_isEmail_verified($profile)) {
+if ($un_ravel->_isEmail_verified($_SESSION['userId'])) {
   echo '<div id="email-v" class="alert row align-items-center alert-warning pt-2 pb-0 my-0" role="alert">
   <p class="col-9">Please verify your email.</p>
   <p class="col-3">

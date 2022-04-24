@@ -44,6 +44,22 @@ while ($row = $result->fetch_assoc()) {
         $arr['chat'][] = $row;
 }
 
+// share
+$sql = "SELECT `id`,`time` FROM `share` WHERE `time` > '$dt'";
+$result = $conn->query($sql);
+
+while ($row = $result->fetch_assoc()) {
+        $arr['share'][] = $row;
+}
+//  comments
+$sql = "SELECT `id`,`date` FROM `comments` WHERE `date` > '$dt'";
+$result = $conn->query($sql);
+
+while ($row = $result->fetch_assoc()) {
+        $arr['comments'][] = $row;
+}
+
+
 
 $arr['time'] = $dt;
 print_r(json_encode($arr));

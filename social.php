@@ -35,7 +35,7 @@ require "footer.php"
       });
       follow(sessionStorage.getItem('user'));
     } else if (!result.following) {
-      $('.status').text("you are following no one :(");
+      $('.status').html("<h1 class='co'>you are following no one :(</h1>");
     }
   });
 

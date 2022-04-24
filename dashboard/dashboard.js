@@ -8,6 +8,8 @@ let app = new Vue({
         online: null,
         likes: null,
         chat: null,
+        comments: null,
+        share: null,
         follows: null,
         post: null,
         newUser: null,
@@ -24,11 +26,13 @@ let app = new Vue({
         },
         getData: function () {
             $.get('../inc/data/data.inc.php?key', (data) => {
-                this.chat = data.chat.length;
-                this.post = data.posts.length;
-                this.follows = data.following.length;
-                this.likes = data.likes.length;
-                this.newUser = data.users.length;
+                this.chat = data.chat.length ||0;
+                this.post = data.posts.length ||0;
+                this.follows = data.following.length ||0;
+                this.likes = data.likes.length ||0;
+                this.newUser = data.users.length ||0;
+                this.share = data.share.length ||0;
+                this.comments = data.comments.length ||0; 
             })
 
             $.get('../inc/data/data.a.inc.php?type=all&key=' + this.token, (data) => {
@@ -98,7 +102,7 @@ let app = new Vue({
                         data: [this.day('Sunday', null, true), this.day('Monday', null, true), this.day('Tuesday', null, true), this.day('Wednesday', null, true), this.day('Thursday', null, true), this.day('Friday', null, true), this.day('Saturday', null, true)],
                         lineTension: 0,
                         backgroundColor: 'transparent',
-                        borderColor: 'rgba(67, 22, 228, 0.844)',
+                        borderColor: '#6c5ce7',
                         borderWidth: 4,
                         pointBackgroundColor: 'rgb(214, 211, 211)'
                     }]
@@ -234,7 +238,7 @@ let app = new Vue({
                         pointHoverBorderColor: "rgba(78, 115, 223, 1)",
                         pointHitRadius: 10,
                         pointBorderWidth: 2,
-                        data: [this.likes, this.chat, this.follows, 0, 0],
+                        data: [this.likes, this.chat, this.follows, this.comments,this.share],
                     }],
                 },
                 options: {
@@ -311,7 +315,7 @@ let app = new Vue({
                 case 4:
                     setTimeout(() => {
                         this.line();
-                        this.doughnut($("#myPieChart"), ['likes', 'comments', 'share'], [this.likes, null, null], ['#4e73df', '#1cc88a', '#36b9cc'], ['#2e59d9', '#17a673', '#2c9faf']);
+                        this.doughnut($("#myPieChart"), ['likes', 'comments', 'share'], [this.likes, this.share, this.comments], ['#4e73df', '#1cc88a', '#36b9cc'], ['#2e59d9', '#17a673', '#2c9faf']);
                         this.doughnut($("#myPieChart1"), ['chat', 'posts'], [this.chat, this.post], ['#00e000', '#60c0ff'], ['#00c000', '#2060ff']);
                         this.doughnut($("#myPieChart2"), ['message', 'follows'], [this.chat, this.follows], ['#e0ff40', '#8040ff'], ['#ffe020', '#8020ff']);
                     }, 0);

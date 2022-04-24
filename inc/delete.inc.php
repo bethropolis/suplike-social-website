@@ -51,7 +51,7 @@ if (isset($_POST['delete_profile'])) {
 
 
 
-	header('Location: ../inc/logout.inc.php?acc_deleted');
+	header('Location: logout.inc.php?acc_deleted');
 } else {
 	$err = new Err(15);
 	$err->err($u, null, 'account could not be deleted');

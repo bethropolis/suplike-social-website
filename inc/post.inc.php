@@ -210,7 +210,7 @@ if(isset($_GET['del_post'])){
         // delete likes
         $sql = "DELETE FROM `likes` WHERE `post_id`='$id'";
         $conn->query($sql);
-        header("Location: ../");
+        header("Location: ../?delpost");
     }else{
         // status code 403
         header("HTTP/1.0 403 Forbidden");

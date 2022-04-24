@@ -30,7 +30,6 @@
     width: 100%;
     height: 400px;
     max-height: 450px;
-    background: var(--icon-light);
     align-items: center;
     display: grid;
     background-size: 100%;

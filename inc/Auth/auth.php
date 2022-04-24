@@ -164,7 +164,8 @@ class Auth
   public function _isAdmin($user)
   {
     $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = '$user'";
-    $result = mysqli_fetch_assoc($this->conn->query($sql));
+    $result = $this->conn->query($sql)->fetch_assoc()["isAdmin"];
+    
     if ($result) {
       return true;
     } else {
