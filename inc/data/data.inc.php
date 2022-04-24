@@ -51,6 +51,9 @@ $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
         $arr['share'][] = $row;
 }
+if(!$arr['share']){
+        $arr['share'] = [];
+}
 //  comments
 $sql = "SELECT `id`,`date` FROM `comments` WHERE `date` > '$dt'";
 $result = $conn->query($sql);

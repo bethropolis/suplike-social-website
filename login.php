@@ -1,4 +1,10 @@
 <?php
+session_start();
+  if (isset($_SESSION['userId'])) {
+    header("Location: home?alrdylogdin");
+    exit();
+}
+session_destroy();
 require "header.php";
 ?>
 <main>
@@ -52,12 +58,7 @@ require "header.php";
     echo '</div>';
     die();
   }
-  if (isset($_SESSION)) {
-    if (isset($_SESSION['userId'])) {
-      header("Location: home");
-      exit();
-    }
-  }
+
   ?>
   <div class="mobile nav-show">
     <br><br><br>

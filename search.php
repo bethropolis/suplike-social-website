@@ -22,7 +22,7 @@ if (isset($_GET['token'])) {
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     echo '<div data-show="true" class="alert alert-info text-center" role="alert">';
-    echo '<h5>Please follow around 5 people then you will be redirected to login.</h5>';
+    echo '<h5>Please follow around 5 people to get started.</h5>';
     echo '</div>';
     echo '<a href="./login.php?fol" ><button class="login-btn left-2 w-50 btn btn-success mx-auto" style="display: none; position: fixed;left: 23%;bottom: 1rem;z-index: 100;">Now Login</button></a>';
 }
@@ -35,7 +35,11 @@ if (isset($_GET['q'])) {
         // use prepared statements
         // instead of  $whrSQL = "WHERE `users`.`uidusers` LIKE '%:keyword$%' OR `users`.`usersFirstname` LIKE '%:keyword%' limit 15"; use prepared statements ???
         $whrSQL = "WHERE `users`.`uidusers` LIKE '%$searchKeyword%' OR `users`.`usersFirstname` LIKE '%$searchKeyword%' limit 15";
-        $stmt = $conn->prepare("SELECT * FROM users $whrSQL");
+        $sql = "SELECT * FROM users $whrSQL";
+        if (isset($_GET['id'])) {
+            $sql = "SELECT * FROM users WHERE `users`.`profile_picture`IS NOT NULL;";
+        }
+        $stmt = $conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -81,7 +85,7 @@ if ($result) {
 
 ?>
         <div class="search-list-item card bg-light my-4 mx-auto shadow py-2 w-75 row">
-            <div class="col-md-6 text-left">
+            <div class="col-md-6">
                 <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link co">
                     <h4><?php echo $title; ?></h4>
                 </a>
@@ -93,7 +97,7 @@ if ($result) {
                 }
                  ?></p>
             </div>
-            <div class="col-md-6 text-right pr-4">
+            <div class="col-md-6">
                 <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="btn col-5 p-2 bg follow-btn"><span><?= $follow ?></span></button>
             </div>
         </div>
