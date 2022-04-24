@@ -2,14 +2,64 @@
     "theme_color": "#6c5ce7",
     "background_color": "#f6f4f6",
     "display": "standalone",
-    "scope": "./", 
+    "scope": "./",
     "start_url": "./",
     "name": "suplike social",
     "short_name": "suplike",
     "description": "suplike social is a website for friends and family to share",
     "lang": "en-GB",
-    "id": "/jokes-app/",
+    "id": "suplike",
     "orientation": "portrait",
+    "shortcuts": [
+        {
+            "name": "Home page",
+            "short_name": "Home",
+            "description": "View your home page",
+            "url": "home",
+            "icons": [
+                {
+                    "src": "img/icon/home.png",
+                    "sizes": "92x92"
+                }
+            ]
+        },
+        {
+            "name": "New post",
+            "short_name": "post",
+            "description": "create a new post",
+            "url": "post",
+            "icons": [
+                {
+                    "src": "img/icon/plus.png",
+                    "sizes": "92x92"
+                }
+            ]
+        },
+        {
+            "name": "messages page",
+            "short_name": "chat",
+            "description": "chat with your friends",
+            "url": "message",
+            "icons": [
+                {
+                    "src": "img/icon/chat.png",
+                    "sizes": "92x92"
+                }
+            ]
+        },
+        {
+            "name": "settings page",
+            "short_name": "settings",
+            "description": "open settings",
+            "url": "settings",
+            "icons": [
+                {
+                    "src": "img/icon/set.png",
+                    "sizes": "92x92"
+                }
+            ]
+        }
+    ],
     "icons": [
         {
             "src": "img/icon/icon-192.png",
@@ -37,4 +87,3 @@
         }
     ]
 }
-

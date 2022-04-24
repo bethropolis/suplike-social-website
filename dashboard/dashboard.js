@@ -44,7 +44,7 @@ let app = new Vue({
             })
         },
         day: function (day, type = 'users', m = null) {
-            if (m == null && this.data[type][day]) {
+            if (m == null && this.data[type][day] == null) {
                 return this.data[type][day].length;
             } else if (m && this.online[day] != null) {
                 return this.online[day].length;

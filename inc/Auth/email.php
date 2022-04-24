@@ -1,11 +1,11 @@
 <?php 
 
 
-function send_email($email, $body, $subject) {
-if ( function_exists( 'mail' ) ){
-  mail($email, $subject, $body);
-}else{
-    
-}
+function send_email($email, $subject ,$body) {
+$headers  = "From: accounts.suplike.xyz\r\n";
+$headers .= "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+  mail($email, $subject, $body,$headers);
 }
 ?>

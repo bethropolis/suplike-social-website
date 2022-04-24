@@ -2,19 +2,27 @@
 
 # hello welcome to suplike
 
+![suplike](https://img.shields.io/badge/project-suplike%20%F0%9F%92%9C-%236c5ce7)
+[![github](https://badgen.net/badge/icon/github?icon=github&label)](https://github.com/bethropolis/suplike-social-website)
+![watch](https://img.shields.io/github/stars/bethropolis/suplike-social-website.svg)
 [![CodeFactor](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website/badge)](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website)
-[![code](https://badgen.net/github/license/micromatch/micromatch)]()
-[![code](https://badgen.net/badge/icon/github?icon=github&label)](https://github.com/bethropolis/suplike-social-website)
+![code](https://badgen.net/github/license/micromatch/micromatch)
 
 
 
 <p>
- suplike is a social website made out of <b> PHP/JS/CSS</b> <br />
+ suplike is a social website similar to instagram and facebook for socializing and communications.<br />
+ it's made out of <b> PHP/JS/CSS</b> <br />
   
 it's easy to install and setup[features](#features);
 
+check out [demo]('https://suplike.xyz);
+
 </p>
 
+
+
+# Table 
 - [getting started](#getting-started)
   - [Installation](#installation)
   - [instalation steps](#installation-steps)
@@ -42,20 +50,47 @@ it's easy to install and setup[features](#features);
 
 > All of these requirements can be completed at once by simply installing a server stack like `Wamp` or `Xampp` etc.
 
-#### Installation Steps
+### Installation Steps
 
-1. Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function or you can try to login, if the database is missing you will be prompted to enter you db credentials and the sql file will be imported automatically.
+1. Download the latest release file.
 
-2. Edit the `dbh.inc.php` file in the `inc` folder to create the database connection. Change the password and username to the ones being used within current installation of `phpMyAdmin`. There is no need to change anything else.
+   * [v1.46 zip file]()
+   * [v1.46 tar.gz file]()
+
+   you can get other releases [here]().
+
+2. unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using.
+> I recommend renaming the folder to `suplike` (the url will be shorter).
+
+<br/>
+
+alternatively you can clone the repository to your `htdocs` or `www` folder.
+   ```
+     git clone https://github.com/bethropolis/suplike-social-website.git suplike
+   ```
+> now you are ready to setup.
+
+
+## setup and configure database
+
+### using the GUI
+ the GUI is a nicer interface which will automatically setup the database and create admin account for you easily.
+
+![GUI](_githubasserts/gui.png)
+<br>
+To open the GUI, start apache if off, then on the browser navigate to `https://localhost/suplike/inc/setup/`, insert the credentials to your database and admin account after which you will automatically be logged in as admin.
+
+### incase GUI doesn't work
+1. Edit the `inc/setup/setup.suplike.json` file and set the value of `"setup"` to  `false` then reopen the GUI in your browser.
+
+2. Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function. Next, change the code below to the respective database credentials and insert it into `inc/setup/env.php`  ; 
 
 ```php
-$servername = "localhost";
-$dBUsername = "root";
-$dBPassword = "";
-$dBName = "suplike";
-$timeZone =  new DateTimeZone('Africa/Nairobi'); # change this to your timezone
-
-$conn = mysqli_connect($servername, $dBUsername, $dBPassword, $dBName);
+ if (!defined('DB_DATABASE'))        define('DB_DATABASE', 'suplike');
+ if (!defined('DB_HOST'))            define('DB_HOST','localhost');
+ if (!defined('DB_USERNAME'))        define('DB_USERNAME', 'root');
+ if (!defined('DB_PASSWORD'))        define('DB_PASSWORD', '');
+ if (!defined('DB_PORT'))            define('DB_PORT',3306);
 ```
 
 ## Components
@@ -63,7 +98,7 @@ $conn = mysqli_connect($servername, $dBUsername, $dBPassword, $dBName);
 #### Languages
 
 ```
-PHP 5.6.40
+PHP 7.1.0
 SQL 14.0
 JavaScript ES 6
 HTML5
@@ -109,13 +144,14 @@ AJAX
 check `HISTORY.md`
 
 <p>
-  more improvements will continue to be done to this project you may contribute
-  or stay and watch 👀.
+  more improvements will continue to be done to this project please stay and watch 👀.
 </p>
 
 # features
-
----
+## Mobile UI
+<img src="./_githubasserts/mobile.jpg" align="center" style="width: 70%">
+<br/>
+The site is mobile friendly with a cool and nice mobile UI + dark theme
 
 ## image and text post
 
@@ -130,7 +166,8 @@ bothare perfect and most secure.
 
 ## live messaging/chat system (whole new look)
 
-<img src="./_githubasserts/messages.webp" align="center" style="width: 70%"><br/>
+<img src="./_githubasserts/messages.png" align="center" style="width: 70%"> <br/>
+
 in previous version, one of the issues was that the messaging page was just
 a page. Live messaging was not well supported and you could not choose who to chat with until
 you clicked message on their profile page. But in the new version, the entire code was re writen and the
@@ -139,13 +176,13 @@ and it is more mobile responsive than previous and the only client page that use
 
 ## home page
 
-<img src="./_githubasserts/3.png" align="center" style="width: 70%"><br>
+<img src="./_githubasserts/10.png" align="center" style="width: 70%"><br>
 the home page is the main page where you can see post from some of the people you follow
 and the first page you will land on.
 
 ## profile page
 
-<img src="./_githubasserts/10.png" align="center" style="width: 70%"><br>
+<img src="./_githubasserts/3.png" align="center" style="width: 70%"><br>
 the profile page is still in my future update plans, still needs more work.
 
 ## settings page
@@ -168,20 +205,14 @@ the search page is where you can search for users for now.
 <img src="./_githubasserts/4.png" align="center" style="width: 70%"><br>
 The following page is where you can vue the users you follow (for now);
 
-## post page
-
+## other user pages
 <img src="./_githubasserts/8.png" align="center" style="width: 70%"><br>
-the post page is new in v1.2, this is where you can make a post other than the main page it self
-
-## comments page (new)
-
-users can now post their own comments about a post
+<br/>
 
 ## dashboard
 
 <img src="./_githubasserts/dashboard.webp" align="center" style="width: 70%"><br>
-The Admin Dashboard is a whole new upgrade in v1.2, The dashboard is where you can view
-your analytics. The dashboard is one the biggest features of v1.2 and currently undergoing alot of modifications<br>
+The Admin Dashboard allows you to see analytics and perform moderation functions<br>
 
 ### you can do the following on the dashboard
 
@@ -197,8 +228,7 @@ your analytics. The dashboard is one the biggest features of v1.2 and currently 
 
 - making the whole system depend on ajax api requests for speed on page load and easier for expansion (`social.php` would be a great example);
 - `laravel` would really make this even easier;
-- adding lazy loading to the posts would make load time quicker
-- improving the UI
+- improving the UI (especially desktop)
 - implementing PHPmailer to send emails e.g forgot password system
 - admin dashboard [✔]
 - youtube video posting and more formarts
@@ -208,14 +238,13 @@ your analytics. The dashboard is one the biggest features of v1.2 and currently 
 
 # inspiration
 
-my biggest inspiration to make this website was was the [KLIK social website](https://) on github
-whom I also made > 50% of the Readme from and also top social websites like [facebook](https://facebook.com) gave me some tips.
+my biggest inspiration to make this website was was the [KLIK social website](https://github.com/msaad1999/KLiK-SocialMediaWebsite) on github
+whom I also made > 50% of the Readme from, thank you [msaad1999](https://github.com/msaad1999) for making an amazing project.
 
 # behind it all
 
-Hi I am bethuel(bethropolis) and happy to say I survived the bugs.<br>
-I love programming and especially working with API's which you will see most in this project
-and my spirit animal is the 🐺.
+Hi I am bethuel(bethropolis).<br>
+I love programming, ☕ and especially working with API's which you will see most in this project.
 <br/>
 
 <h5>ok, about this project.</h5>
@@ -224,7 +253,7 @@ more versions are to come check `HISTORY.md` for more. <br/>
 if you like to contribute please don't mind sending a pull request I will
 check it out the see if I can merge it, all ideas aloud.
 
- <img src="img/myicon.jpg" width="100px">
+ <img src="./_githubasserts/myicon.jpg" width="100px">
 
 [bethropolis](https://github.com/bethropolis)
 
