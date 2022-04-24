@@ -107,7 +107,7 @@ function render(post) {
           <i class="fa fa-code fa-fw"></i> Embed
         </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="profile.php?id=${_user.post_id}"
+        <a class="dropdown-item" href="profile.php?id=${post.post_id}"
           >visit profile</a
         >
       </div>
@@ -225,7 +225,7 @@ function render(post) {
             <i class="fa fa-code fa-fw"></i> Embed
           </a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="profile.php?id=${_user.post_id}"
+          <a class="dropdown-item" href="profile.php?id=${post.post_id}"
             >visit profile</a
           >
         </div>

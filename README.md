@@ -2,12 +2,16 @@
 
 # hello welcome to suplike
 
+[![CodeFactor](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website/badge)](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website)
+[![code](https://badgen.net/github/license/micromatch/micromatch)]()
+[![code](https://badgen.net/badge/icon/github?icon=github&label)](https://github.com/bethropolis/suplike-social-website)
+
+
+
 <p>
  suplike is a social website made out of <b> PHP/JS/CSS</b> <br />
   
-suplike is made with various ideas from all around social medias like Facebook, instagram and
-
-you can check the [features](#features);
+it's easy to install and setup[features](#features);
 
 </p>
 

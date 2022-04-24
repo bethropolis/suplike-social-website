@@ -47,7 +47,18 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
     <script src="../lib/jquery/jquery.js"></script>
     <script src="../lib/chartjs/chart.js"></script>
     <script src="../lib/jquery/jquery.dataTables.min.js"></script>
-    <script src="../lib/vue/vue.js"></script> 
+    <script src="../lib/vue/vue.js"></script>
+    <script>
+        // load css if localstorage  theme = dark
+        let theme = localStorage.getItem('theme') || null;
+        if (theme === 'dark') {
+            let css = `:root{--bg:#1f1f1f;--co:#fff;--option:grey;--light:#333;--dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light);--card:#6c757d;--tab:#343a40;--top:#6c5ce7;--card-top:#363434;--ac:hsl(253deg 84% 79%);--nav:#495057;--lighter:#a080ff;--box-shadow:0 0 5px var(--dark)}`;
+            let style = document.createElement('style');
+            style.type = 'text/css';
+            style.appendChild(document.createTextNode(css));
+            document.head.appendChild(style);
+        }
+    </script>
 </head>
 
 <body onload="app.load()">
@@ -62,7 +73,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             <input class="form-control form-control-dark w-100" type="text" placeholder="Search..." aria-label="Search">
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="co" :title="user" href="../inc/logout.inc.php">Sign out</a>  
+                    <a class="co" :title="user" href="../inc/logout.inc.php">Sign out</a>
                 </li>
             </ul>
         </nav>
@@ -221,7 +232,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                 <div class="card-body ml-4 w100">
                                     <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
                                         <div class="col-8">
-                                            <h6>Monday</h6> 
+                                            <h6>Monday</h6>
                                         </div>
                                         <div class="col-4 text-left">{{ postDayM }}</div>
                                     </div>
@@ -396,13 +407,13 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                             <div class="col-4">
                                                 <h6>comments</h6>
                                             </div>
-                                            <div class="offset-4 col-4" style="text-align: right;">null</div>
+                                            <div class="offset-4 col-4" style="text-align: right;">{{comments}}</div>
                                         </div>
                                         <div class="col-md-12 row p-1 w-100 m-auto my-1 border flexcenter" style="height: 70px;">
                                             <div class="col-4">
                                                 <h6>shares</h6>
                                             </div>
-                                            <div class="offset-4 col-4" style="text-align: right;">null</div>
+                                            <div class="offset-4 col-4" style="text-align: right;">{{share}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -424,7 +435,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     <div class="" v-show="stage == 5">
                         <h1 class="h2">reports</h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group mr-2"> 
+                            <div class="btn-group mr-2">
                                 <button type="button" @click="getReports(false)" class="btn btn-sm btn-outline-secondary">unsolved</button>
                                 <button type="button" @click="getReports(true)" class="btn btn-sm btn-outline-secondary">solved</button>
                             </div>
@@ -432,7 +443,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         <div class="row">
                             <h2>Posts</h2>
                             <div v-for="(report, index) in reports" class="col-12 row border p-2">
-                                <h4 class="col-8">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4> 
+                                <h4 class="col-8">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
                                 <div class="col-4 text-right">
                                     <button class="btn btn-danger" @click="sendReport(index)">
                                         <i class="fa fa-trash text-light fa-2x"></i>
@@ -450,7 +461,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
         </div>
     </div>
     <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="dashboard.js?opf"></script> 
+    <script src="dashboard.js?opf"></script>
 </body>
 
 </html>

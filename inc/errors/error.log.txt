@@ -5,3 +5,15 @@ user: 754ec1eee41d51939d2aba12c5878312984c567492 error occurred Error: user does
 user: 754ec1eee41d51939d2aba12c5878312984c567492 error occurred Error: user does not exist    2022-04-23 02:15:18  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
 user: 754ec1eee41d51939d2aba12c5878312984c567492 error occurred Error: user does not exist    2022-04-23 02:18:31  on  D:/XAMPP/htdocs/suplike/inc/follow.inc.php
 user: cf632d921865dcd06241a12c803983b8eb5a9adc2f error occurred Error: post does not exist    2022-04-23 12:15:17  on  D:/XAMPP/htdocs/suplike/inc/like.inc.php
+user: API error occurred Error: username already exists    2022-04-23 22:38:49  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-04-23 23:10:24  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-04-23 23:11:46  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-04-23 23:12:06  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-04-23 23:14:36  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-04-23 23:14:42  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-04-23 23:16:43  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user: API error occurred Error: missing data in parameter    2022-04-23 23:17:05  on  D:/XAMPP/htdocs/suplike/api/v1/signup/index.php
+user:  error occurred Error: Share could not be updated.    2022-04-24 01:37:41  on  D:/XAMPP/htdocs/suplike/inc/share.inc.php
+user:  error occurred Error: Share could not be updated.    2022-04-24 01:38:35  on  D:/XAMPP/htdocs/suplike/inc/share.inc.php
+user:  error occurred Error: Share could not be updated.    2022-04-24 01:39:05  on  D:/XAMPP/htdocs/suplike/inc/share.inc.php
+user:  error occurred Error: Share could not be updated.    2022-04-24 01:39:23  on  D:/XAMPP/htdocs/suplike/inc/share.inc.php

@@ -1,1 +1,7 @@
-{"name":"suplike","owner":"","setup":true,"setupDate":"2022-04-23T15:06:46+02:00","version":"1.36","sendCrashReport":false}
+{
+    "name": "suplike",
+    "owner": "",
+    "setup": false,
+    "setupDate": "",
+    "version": "1.46"
+}

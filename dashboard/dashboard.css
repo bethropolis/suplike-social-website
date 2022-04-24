@@ -1,15 +1,14 @@
 :root {
     --bg: #f8f9fc; 
     --co: #333;
-    --ho: #4316e4;
-    --top: #4316e4;
+    --ho: #6c5ce7;
+    --top: #6c5ce7;
     --card: #ffffff;   
     --card-top: #eee;
     --ac: hsl(253.1, 82.4%, 49%);
     --nav: #fff; 
     --lighter: #a080ff;      
     --box-shadow: 0 0 5px var(--dark);
-
 } 
  
 body {
@@ -59,7 +58,14 @@ a {
     align-items: center;
     text-transform: capitalize;
 }
-
+.card-body{
+    color: var(--co);
+    background: var(--card);
+}
+table.dataTable tbody tr, table.dataTable tbody tr:hover {
+    background-color: var(--card);
+    color: var(--co);
+}
 .flexcenter:first-child {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
