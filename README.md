@@ -1,4 +1,4 @@
-![logo](img/suplike.svg)
+![logo](img/suplike.png)
 
 # hello welcome to suplike
 
