@@ -238,6 +238,7 @@ The Admin Dashboard allows you to see analytics and perform moderation functions
 - admin dashboard [✔]
 - youtube video posting and more formarts
 - Continuous Bug fixes and improvements
+- Bot's and AI features
 
 > you can show support to this project by staring this repo, it really means alot to me.
 
