@@ -1,2 +1,3 @@
-/lib/*.js  linguist-detectable=false
+lib/*.js  linguist-detectable=false
+libs/* linguist-vendored
 *.php linguist-language=php
