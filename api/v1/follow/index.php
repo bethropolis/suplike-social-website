@@ -1,56 +1,90 @@
 <?php
 require '../r.php';
-// follow or unfollow a user
-// Path: api\v1\follow\index.php
-// Compare this snippet from ../../../inc/follow.inc.php
-if(!isset($_GET['user'])){
-    die(json_encode(['error'=>'no user specified']));
+
+
+if (isset($_POST['user_token'])) {
+  $user_key = $_POST['user_token'];
+  $user = $un_ravel->_getUser($user_key);
+  $following = $un_ravel->_userid($_POST['following']);
+
+  // check if user is already following
+  $sql = "SELECT COUNT(*) AS count FROM following WHERE user = ? AND following = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("ii", $user, $following);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $count = $result->fetch_assoc()['count'];
+  if ($user === $following) {
+    $response = ['code' => 0, 'msg' => 'can not follow yourself', 'type' => 'error'];
+    die(json_encode($response));
+  }
+  if ($count > 0) {
+    $sql = "DELETE FROM following WHERE user = ? AND following = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $user, $following);
+    $stmt->execute();
+    $stmt->close();
+    $response = ['code' => 0, 'msg' => 'Unfollowed', 'type' => 'success'];
+    die(json_encode($response));
+  } else {
+    $sql = "INSERT INTO following (user, following) VALUES (?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $user, $following);
+    $stmt->execute();
+    $stmt->close();
+    $response = ['code' => 0, 'msg' => 'Followed', 'type' => 'success'];
+    die(json_encode($response));
+  }
 }
-    $user = $un_ravel->_getUser($_GET['user']);
-    $arr = [];
-    $query = "SELECT * FROM `following` WHERE `user`=$user";
-    $result = $conn->query($query);
-    $i = 0;
-    $pmi = 1;
-    $pfi = 1;
 
-    while ($row = mysqli_fetch_assoc($result)) {
+if (!isset($_GET['user_token'])) {
+  die(json_encode(['error' => 'no user specified']));
+}
+$user_key = $_GET['user_token'];
+$user = $un_ravel->_getUser($user_key);
 
-        $f = $row['following'];
-        $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`gender`,`token`,`chat_auth` FROM `users`,`auth_key` WHERE `users`.`idusers`=$f AND `auth_key`.`user` = $f ";
-        $resp = $conn->query($sql)->fetch_assoc();
-        $resp['full_name'] = '' . $resp["usersFirstname"] . ' ' . $resp["usersSecondname"];
-        $to = $resp['idusers'];
-        if ($resp["gender"] == 'M') {
-            $resp['profile_picture'] = 'm' . $pmi;
-            $pmi++;
-        } else {
-            $resp['profile_picture'] = 'f' . $pfi;
-            $pfi++;
-        }
-        $from = $user;
-        $lastMsg = $conn->query("SELECT `message`,`time` FROM `chat` WHERE (`who_to`='$to' OR `who_to`='$from') AND (`who_from`='$to' OR `who_from`='$from') ORDER BY `chat`.`time` DESC LIMIT 1");
 
-        if ($work = mysqli_fetch_assoc($lastMsg)) {
-            $resp["last_msg"] = $work["message"];
-            $date = new DateTime($work["time"]);
-            $resp["time"] = $date->format('G:i a');
-            $date = new DateTime('now');
-            $date->format("Y-m-d H:i:s");
-            $date = $date->modify("-7 minutes");
-            $date = $date->format('Y-m-d H:i:s');
-            $query = $conn->query("SELECT `idusers`, `gender`,`last_online` FROM `users` WHERE `idusers`='$to' AND `last_online`>'$date'");
-            if (mysqli_fetch_assoc($query)) {
-                $resp["online"] = true;
-            } else {
-                $resp["online"] = false;
-            }
-            $arr[$i] = $resp;
-        } else {
-            $resp["last_msg"] = null;
-            $resp["time"] = null;
-        }
-        #      $arr[$i] = $resp;
-        $i++;
-    }
-    print_r(json_encode($arr));
+// replace all occurrences of 5 with $user
+$sql = "SELECT
+  f.following,
+  u.idusers,
+  u.uidusers as username,
+  u.usersFirstname as firstname,
+  u.usersSecondname as secondname,
+  u.gender,
+  CONCAT('" . BASE_URL . "', u.profile_picture) as image,
+  c.message as msg,
+  c.type as type,
+  c.time as time,
+  ak.chat_auth as chat_key
+FROM following f
+JOIN users u ON u.idusers = f.following
+LEFT JOIN (
+  SELECT
+    MAX(time) AS last_msg_time,
+    CASE
+      WHEN who_to = {$user} THEN who_from
+      ELSE who_to
+    END AS other_user
+  FROM chat
+  WHERE who_to = {$user} OR who_from = {$user}
+  GROUP BY other_user
+) AS last_msg ON u.idusers = last_msg.other_user OR u.idusers = {$user}
+LEFT JOIN chat c ON ((c.who_from = u.idusers AND c.who_to = {$user}) OR (c.who_from = {$user} AND c.who_to = u.idusers)) AND last_msg.last_msg_time = c.time  
+JOIN auth_key ak ON ak.user = f.following
+WHERE f.user = {$user}
+ORDER BY time DESC";
+
+// execute the query
+$result = mysqli_query($conn, $sql);
+
+
+if (!$result) {
+  $error->err("API access", 22, "Database query failed");
+}
+
+// fetch all rows as an associative array
+$rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// print the rows as JSON
+echo json_encode($rows);

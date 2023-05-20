@@ -1,0 +1,33 @@
+{
+  "username": "bot",
+  "name": " Bethuel kipsang",
+  "picture": "https://suplike.xyz/img/waifu.svg",
+  "token": "2e5a66dc006db0575cfefb37c05a9484a6f8770cdb",
+  "isFollowing": true,
+  "followers": 150,
+  "following": 100,
+  "posts": 100,
+  "chat_key": "000f8411c193e8cc",
+  "gender": "M",
+  "bio": "What's popping, am a waifu bot. ",
+  "date_joined": "2020-12-16",
+  "post": {
+    "id": "594",
+    "post_id": "d9b05c42",
+    "repost": "",
+    "image": "",
+    "image_text": "Don't be afraid learning",
+    "userid": "79",
+    "type": "text",
+    "date_posted": "30 Mar",
+    "post_likes": "0",
+    "day": "Thursday",
+    "time": "2023-03-30 16:47:52",
+    "liked": false,
+    "comment_count": "0714436168",
+    "user": {
+      "name": "bot",
+      "profile_picture": "egho4tyOKl.png"
+    }
+  }
+}

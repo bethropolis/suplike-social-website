@@ -1,78 +1,34 @@
 <?php
 require '../r.php';
-// like a post only
-// Path: api\v1\like\index.php
-// Compare this snippet from ../../../inc/like.inc.php
 
-if (isset($_POST['like'])){ 
-    $post_id = $_POST['like'];
-    $user_id = $_SESSION['user_id'];
-    $sql = "SELECT * FROM likes WHERE post_id = '$post_id' AND user_id = '$user_id'";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        $sql = "DELETE FROM likes WHERE post_id = '$post_id' AND user_id = '$user_id'";
-        $result = $conn->query($sql);
-        if ($result) {
-            $sql = "UPDATE posts SET likes = likes - 1 WHERE id = '$post_id'";
-            $result = $conn->query($sql);
-            if ($result) {
-                die(json_encode(
-                    [
-                        'code' => 0,
-                        'msg' => "unliked",
-                        'type' => 'success'
-                    ]
-                ));
-            } else {
-                die(json_encode(
-                    [
-                        'code' => 1,
-                        'msg' => "could not unlike",
-                        'type' => 'error'
-                    ]
-                ));
-            }
-        } else {
-            die(json_encode(
-                [
-                    'code' => 1,
-                    'msg' => "could not unlike",
-                    'type' => 'error'
-                ]
-            ));
-        }
+if (isset($_POST['post_id'])) {
+    $post_id = $_POST['post_id'];
+    $user_id = $un_ravel->_getUser($_POST['user_token']);
+    $sql = "SELECT * FROM likes WHERE post_id = ? AND user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $post_id, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $count = $result->num_rows;
+    $stmt->close();
+    if ($count > 0) {
+        $sql = "DELETE FROM likes WHERE post_id = ? AND user_id = ?";
+        $liked = false;
+        $likes_increment = -1;
     } else {
-        $sql = "INSERT INTO likes (post_id, user_id) VALUES ('$post_id', '$user_id')";
-        $result = $conn->query($sql);
-        if ($result) {
-            $sql = "UPDATE posts SET likes = likes + 1 WHERE id = '$post_id'";
-            $result = $conn->query($sql);
-            if ($result) {
-                die(json_encode(
-                    [
-                        'code' => 0,
-                        'msg' => "liked",
-                        'type' => 'success'
-                    ]
-                ));
-            } else {
-                die(json_encode(
-                    [
-                        'code' => 1,
-                        'msg' => "could not like",
-                        'type' => 'error'
-                    ]
-                ));
-            }
-        } else {
-            die(json_encode(
-                [
-                    'code' => 1,
-                    'msg' => "could not like",
-                    'type' => 'error'
-                ]
-            ));
-        }
+        $sql = "INSERT INTO likes (post_id, user_id) VALUES (?, ?)";
+        $liked = true;
+        $likes_increment = 1;
     }
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $post_id, $user_id);
+    $stmt->execute();
+    $stmt->close();
+    $sql = "UPDATE posts SET post_likes = post_likes + ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("is", $likes_increment, $post_id);
+    $stmt->execute();
+    $stmt->close();
+    $response = ['code' => 0, 'msg' => $liked ? 'Liked' : 'Unliked', 'type' => 'success'];
+    die(json_encode($response));
 }
-?>
