@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
   <link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" /> 
     <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
-  <link rel="stylesheet" href="./css/chat.min.css">
+  <link rel="stylesheet" href="./css/chat.css">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
   <script src="./lib/vue/vue.min.js"></script>
   <script>

@@ -8,7 +8,7 @@ require "header.php";
     };
 </script>
 <main>
-    <link rel="stylesheet" href="./css/post.min.css">
+    <link rel="stylesheet" href="./css/post.css">
     <div class="row mob-m-0">
         <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
             <div class="card card-profile p-4 shadow white rounded text-center profile-card sidebar-content" style="width: 94%; height: 20em;">

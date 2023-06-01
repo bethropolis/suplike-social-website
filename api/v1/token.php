@@ -47,7 +47,7 @@ function checkSessionId($uuid)
   if ($session_id) {
     define('SESSION_ID', $session_id);
   } else {
-    $error->err("API access", 22, "User authentication failed");
+    $error->err("API access", 23, "User authentication failed");
   }
 }
 function authentication_check($user)

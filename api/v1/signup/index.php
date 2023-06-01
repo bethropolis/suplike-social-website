@@ -77,7 +77,7 @@ $outhsql = "INSERT INTO `auth_key` (`user`,`user_auth`,`chat_auth`,`browser_auth
 $conn->query($outhsql);
 
 // generate session token
-$session_token = create_session_token($getId);
+$session_token = create_session_token($response);
 
 $actual_link = BASE_URL . "{$prof}";
 $result = [

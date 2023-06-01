@@ -1,0 +1,18 @@
+{
+  "name": "suplike",
+  "description": "an open source social network",
+  "version": "1.0.0",
+  "version_no": 1,
+  "image": "http://localhost/suplike/img/logo.png",
+  "tags": [],
+  "base_url": "http://localhost/suplike",
+  "api_key": "a1e36be0972ccb7f740d42f2baca70e12c056e55e13ee7be4662f8ec106314be",
+  "github": "",
+  "website": "",
+  "guide_lines": [
+    "We kindly ask you to be respectful and civil to other users. Please refrain from harassing, bullying, threatening, or abusing anyone.",
+    "We appreciate your mindfulness of the server’s resources and limitations. Please avoid posting or sharing excessively large files or abusing the server’s features or functions.",
+    "We welcome your feedback and suggestions :)",
+    "Have fun and enjoy!"
+  ]
+}

@@ -13,7 +13,7 @@ if (isset($_GET['key'])) {
 
 	$key = $_GET['key'];
 
-	$sql = "SELECT 'user' FROM `auth_key` WHERE `token`='$key'";
+	$sql = "SELECT 'user' FROM `auth_key` WHERE `chat_auth`='$key'";
 
 	$auth = $conn->query($sql);
 	if ($auth->fetch_assoc() == null) {
@@ -92,7 +92,7 @@ if (isset($_GET['key'])) {
 	{
 		global $date, $conn, $timeZone;
 		$arr = [];
-		$sql = "SELECT `id`,`user`,`post_id` FROM `comments` WHERE `date`>'$date'";
+		$sql = "SELECT `id`,`user`,`post_id`,`date` FROM `comments` WHERE `date`>'$date'";
 		$result = $conn->query($sql);
 		while ($row = $result->fetch_assoc()) {
 			$dt = new DateTime($row['date'], $timeZone);
@@ -147,7 +147,7 @@ if (isset($_GET['key'])) {
 	{
 		global $date, $conn, $timeZone;
 		$arr = [];
-		$sql = "SELECT `id`,`user` FROM `share` WHERE `time`>'$date'";
+		$sql = "SELECT `id`,`user`,`time` FROM `share` WHERE `time`>'$date'";
 		$result = $conn->query($sql);
 		while ($row = $result->fetch_assoc()) {
 			$dt = new DateTime($row['time'], $timeZone);

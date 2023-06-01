@@ -32,7 +32,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://bethro.alwaysdata.net" />
-  <meta property="twitter:title" content="jokes to like" />
+  <meta property="twitter:title" content="suplike social" />
   <meta property="twitter:description" content="suplike social is a website for friends and family to share" />
   <meta property="twitter:image" content="https://bethro.alwaysdata.net/img/graphic.png" />
 
@@ -41,7 +41,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
   <link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="lib/font-awesome/css/all.min.css" defer>
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./css/style.min.css">
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="./lib/lightbox/lightbox.min.css">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
