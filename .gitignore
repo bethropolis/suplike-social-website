@@ -7,3 +7,4 @@ img/
 vendor/
 sendgrid.env
 
+inc/setup/setup.suplike.json
