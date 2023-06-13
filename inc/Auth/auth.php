@@ -164,9 +164,9 @@ class Auth
   public function _isAdmin($user)
   {
     $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = '$user'";
-    $result = $this->conn->query($sql)->fetch_assoc()["isAdmin"];
+    $result = $this->conn->query($sql)->fetch_assoc();
     
-    if ($result) {
+    if ($result["isAdmin"]) {
       return true;
     } else {
       return false;
@@ -174,9 +174,21 @@ class Auth
   }
   public function _isEmail_verified($user)
   {
-    $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = '$user'";
+    $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = $user";
     $result = mysqli_fetch_assoc($this->conn->query($sql));
     if ($result) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public function _isBot($to = null){
+     if ($to){
+         $this->user = $to;
+     }
+    $sql = "SELECT `isBot` FROM `users` WHERE `idusers` = $this->user ";
+    $result =$this->conn->query($sql)->fetch_assoc();
+    if ($result['isBot']) {
       return true;
     } else {
       return false;
@@ -188,6 +200,10 @@ class Auth
     $result = $this->conn->query($sql);
     $row = $result->fetch_assoc();
     return $row['profile_picture'];
+}
+public function _increment_page_visit($user){
+  $sql = "UPDATE `users` SET `page_visit` = `page_visit` + 1 WHERE `idusers` = '$user'";
+  $this->conn->query($sql);
 }
 }
 
