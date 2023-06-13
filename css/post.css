@@ -8,9 +8,21 @@
   height: auto;
   background: var(--card);
   border: none;
-  outline: 0;
+  outline: none;
   box-shadow: 2px 2px 5px var(--dark);
   font-family: sans-serif;
+}
+.post-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+textarea.textinput {
+  width: 100%;
+  border: none;
+  border-radius: 0.4em;
+  background: var(--light);
 }
 .post-head {
   display: flex;
@@ -21,6 +33,7 @@
   background: var(--icon-light);
   align-items: center;
 }
+
 .post-body {
   display: flex;
   padding: 0;
@@ -38,6 +51,7 @@
   width: 100%;
   height: 100%;
 }
+
 .social-opt {
   width: 100%;
   height: 58px;
@@ -48,9 +62,10 @@
   padding: 0;
   margin: 0;
 }
+
 .post-text {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: bold;
   color: var(--co);
   padding: 0;
   margin: 0;
@@ -58,10 +73,11 @@
   height: auto;
   background: var(--white);
   border: none;
-  outline: 0;
+  outline: none;
   box-shadow: none;
   font-family: sans-serif;
 }
+
 .social-act {
   margin: 4px;
   display: flex;
@@ -87,20 +103,24 @@
   width: 100%;
   height: auto;
   border: none;
-  outline: 0;
+  outline: none;
 }
+
 .right {
   position: absolute;
   right: 13px;
 }
+
 .usn {
   font-size: medium;
 }
+/*  animate like */
 .like {
   color: var(--ho);
   transition: all 0.5s ease;
 }
 .like:active {
+  /*createarisinganimationwhilefading*/
   transform: translateY(3px);
   color: var(--ho);
   animation: like 0.5s ease;
@@ -113,12 +133,15 @@
     transform: translateY(3px);
   }
 }
+
 .lone {
   font-size: 18px;
 }
+
 .dropdown-toggle::after {
   display: none;
 }
+
 .dropdown-item:active {
   background: var(--ho);
 }

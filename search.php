@@ -9,15 +9,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-# i am making a search page for the users improve the search page from curren
-$id = 0;
-$t = null;
-if (isset($_SESSION['userId'])) {
-    $id = $_SESSION['userId'];
-}
-if (isset($_GET['token'])) {
-    $t = $_GET['token'];
-}
+$id = isset($_SESSION['userId']) ? $_SESSION['userId'] : 0;
+$t = isset($_GET['token']) ? $_GET['token'] : null;
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -32,42 +25,125 @@ $searchKeyword = $whrSQL = '';
 if (isset($_GET['q'])) {
     $searchKeyword = $_GET['q'];
     if (!empty($searchKeyword)) {
-        // use prepared statements
-        // instead of  $whrSQL = "WHERE `users`.`uidusers` LIKE '%:keyword$%' OR `users`.`usersFirstname` LIKE '%:keyword%' limit 15"; use prepared statements ???
-        $whrSQL = "WHERE `users`.`uidusers` LIKE '%$searchKeyword%' OR `users`.`usersFirstname` LIKE '%$searchKeyword%' limit 15";
-        $sql = "SELECT * FROM users $whrSQL";
-        if (isset($_GET['id'])) {
-            $sql = "SELECT * FROM users WHERE `users`.`profile_picture`IS NOT NULL;";
-        }
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    $sql = "SELECT * FROM users WHERE `uidusers` LIKE ? OR `usersFirstname` LIKE ? LIMIT 15";
+    $stmt = $conn->prepare($sql);
+    $searchKeywordParam = '%' . $searchKeyword . '%';
+    $stmt->bind_param("ss", $searchKeywordParam, $searchKeywordParam);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
 
         // Get matched records from the database
 
         // Highlight words in text
         function highlightWords($text, $word)
-        {
-            return str_ireplace($word, '<span class="highlight">' . $word . '</span>', $text);
-        }
+{
+    if (!empty($text)) {
+        return str_ireplace($word, '<span class="highlight">' . $word . '</span>', $text);
+    }
+    return $text;
+}
     }
 }
 # code...
 
 
 ?>
-<!--<link rel="stylesheet" type="text/css" href="css/search.css?k">  -->
+<style>
+.main {
+    width: 84%;
+    margin: 50px auto;
+}
 
+/* Bootstrap 3 text input with search icon */
+
+.has-search .form-control-feedback {
+    position: relative;
+    right: initial;
+    left: 12px;
+    color: #ccc;
+    top: 42px;
+}
+
+.has-search .form-control {
+    height: 3.2em;
+    padding-right: 12px;
+    padding-left: 34px;
+    width: 100%;
+}
+p.s{
+text-align: center;
+    font-size: larger;
+    color: #999999;
+    font-family: open sans,sans-serif;
+
+}
+
+.list {
+  background: var(--card);
+  border-radius: 2px;
+  list-style: none;
+  padding: 10px 20px;
+}
+.list-item {
+  display: flex;
+  margin: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.list-item:last-child {
+  border-bottom: none;
+}
+.list-item-image {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+
+}
+.list-item-content {
+  margin-left: 20px;
+}
+.list-item-content h4, .list-item-content p {
+  margin: 0;
+}
+.list-item-content h4 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+.list-item-content p {
+  margin-top: 5px;
+  color: #aaa;
+}
+.list-item button{
+  outline: none;
+  border: none;
+  margin-left: auto;
+  width: 5.2em;
+}
+button.sbutton.follow-btn {
+  width: 5rem;
+  font-size: .9em;
+  border-radius: .5rem;
+  background-color: var(--ho);
+  color: var(--icon-light);
+  height: 3.0rem;
+  padding .1em 1em
+}
+</style>
 
 <!-- Search form -->
 <form method="get" class="mx-auto my-4" action="">
-    <div class="search_input mx-auto row my-2">
-        <input type="text" class="search_box mx-1 col-8" name="q" value="<?php echo $searchKeyword; ?>" placeholder="Search by keyword...">
-        <button type="submit" class="search_button mx-1 col-3 bg btn">Search</button>
-    </div>
+<div class="main">
+  <!-- Actual search box -->
+  <div class="form-group has-feedback has-search">
+    <span class="fa fa-search form-control-feedback"></span>
+    <input type="text" class="form-control" name="q"  value="<?php echo $searchKeyword; ?>" placeholder="Search users...">
+  </div>
+  
+</div>
 </form>
-
+ <ul class="list">
 <?php
 
 if ($result) {
@@ -84,29 +160,43 @@ if ($result) {
         }
 
 ?>
-        <div class="search-list-item card bg-light my-4 mx-auto shadow py-2 w-75 row">
-            <div class="col-md-6">
-                <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link co">
-                    <h4><?php echo $title; ?></h4>
-                </a>
-                <p class="text-muted"><?php
+
+       
+    <li ng-repeat="user in ctrl.users" class="list-item">
+        <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link co">
+      <div>
+        <img src="./img/<?php if (!is_null($row['profile_picture'])) {
+                                                                        echo  $row['profile_picture'];
+                                                                    } else {
+                                                                        echo 'M.jpg"';
+                                                                    } ?>"   class="list-item-image">
+      </div></a>
+      <div class="list-item-content">
+        <h4><?php echo $title; ?></h4>
+        <p><?php
                 if(!empty($contnet)){
                     echo "@".$contnet;
                 }else{
                     echo 'No Name';
                 }
                  ?></p>
-            </div>
-            <div class="col-md-6">
-                <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="btn col-5 p-2 bg follow-btn"><span><?= $follow ?></span></button>
-            </div>
-        </div>
+      </div>
+      <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="sbutton follow-btn"><span><?= $follow ?></span> <i class="fa fa-user-plus" aria-hidden="true"></i></button>
+    </li>
+
+
 
     <?php }
 } else { ?>
-    <p>No user(s) found...</p>
+    <p class="s">No user(s) found...</p>
 <?php }
-?>
+      
+
+
+
+?> 
+   </ul> 
+
 <br><br><br>
 <div class="mobile nav-show">
     <br><br><br>

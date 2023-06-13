@@ -50,7 +50,8 @@ function render(post) {
       <div class="d-flex flex-row align-items-center">
         <img
           src="img/${post.profile_picture}"
-          width="36"
+          width="36px"
+          height="36px"
           class="rounded-circle"
         />
         <div class="d-flex flex-column ml-2">
@@ -107,15 +108,14 @@ function render(post) {
           <i class="fa fa-code fa-fw"></i> Embed
         </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="profile.php?id=${post.post_id}"
+        <a class="dropdown-item" href="profile.php?id=${_user.id}"
           >visit profile</a
         >
       </div>
     </div>
     </div>
            <div class="lazyload">
-           <!-- <a href="./img/${post.image
-      }"  data-lightbox data-image-alt="image post">     
+           <!-- <a href="./img/${post.image}"  data-lightbox data-image-alt="image post">     
                    <div class="post-body" style="background-image: url(./img/${post.image
       });">
                     </div> 
@@ -168,7 +168,8 @@ function render(post) {
         <div class="d-flex flex-row align-items-center">
           <img
             src="img/${post.profile_picture}"
-            width="36"
+            width="36px"
+            height="36px"
             class="rounded-circle"
           />
           <div class="d-flex flex-column ml-2">
@@ -225,7 +226,7 @@ function render(post) {
             <i class="fa fa-code fa-fw"></i> Embed
           </a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="profile.php?id=${post.post_id}"
+          <a class="dropdown-item" href="profile.php?id=${_user.id}"
             >visit profile</a
           >
         </div>
@@ -339,7 +340,7 @@ function profile_request(profile) {
   $.get(url, function (user) {
     if (user.user) {
       $("#profile-name").text(
-        user.user.usersFirstname + " " + user.user.usersSecondname
+        (user.user.usersFirstname||"" + " " + user.user.usersSecondname||"")
       );
       $(".userName").text("@" + user.user.uidusers);
       $(".message-btn").attr("href", "message.php?id=" + user.user.chat_auth);

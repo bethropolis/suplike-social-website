@@ -8,6 +8,7 @@
   --dark: #333333;
   --box-shadow: 0 0 5px var(--dark);
 }
+
 body {
   margin: 0;
   padding: 0;
@@ -15,8 +16,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   box-sizing: border-box;
-  background-color: var(--light);
 }
+
 nav {
   position: relative;
   width: 100%;
@@ -28,16 +29,20 @@ nav {
   box-shadow: 0 0 5px #333;
   z-index: 10;
 }
+
 nav img {
   height: 50px;
   cursor: pointer;
 }
+
 nav .nav-content > * {
   margin: 0 5px;
 }
+
 .fas:hover {
   color: var(--ho);
 }
+
 a {
   color: var(--ho);
 }
@@ -50,10 +55,11 @@ a i {
   justify-content: space-evenly;
   align-items: center;
 }
+
 .box #comm {
   padding: 8px;
   width: 80%;
-  outline: 0;
+  outline: none;
   border: none;
   border-bottom: 3px solid;
   background: var(--inp);
@@ -67,9 +73,10 @@ a i {
   height: 40px;
   padding: 8px;
   font-weight: 600;
-  outline: 0;
+  outline: none;
   border: none;
 }
+
 .comment {
   margin: 0 auto;
   width: 98%;
@@ -80,25 +87,27 @@ a i {
 }
 .comment h5,
 .comment p {
-  margin: 0;
+  margin: 0; 
 }
 .comment-action ul {
   display: flex;
   margin: 0;
   list-style: none;
 }
+
 .comment h5 {
   margin-left: 10px;
 }
 .comment p {
   margin-left: 20px;
 }
+
 .comment-action li {
-  margin: 0 9px;
+  margin: 0 9px; 
 }
 .sbtn {
   border: none;
-  outline: 0;
+  outline: none;
   width: 100px;
   height: 60%;
   box-shadow: var(--box-shadow);
@@ -107,33 +116,15 @@ a i {
   color: #fff;
   background: rgba(67, 22, 228, 0.844);
 }
+
 .sbtn:hover {
   opacity: 0.7;
 }
+
 .sbtn:active {
   background: var(--ac);
 }
-.rounded-image {
-  border-radius: 50% !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  width: 50px
-}
 
-.name {
-  font-weight: 600
-}
-
-.comment-text {
-  font-size: 12px
-}
-
-.status small {
-  margin-right: 10px;
-  color: blue
-}
 @media screen and (max-width: 620px) {
   .box #comm {
     width: 65%;
