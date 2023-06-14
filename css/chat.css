@@ -31,7 +31,7 @@ body {
   color: var(--co);
   outline: 0;
   overflow: hidden;
-  overflow-y: scroll !important;
+  overflow-y: hidden !important;
   box-sizing: border-box;
 } 
 nav {
@@ -116,10 +116,8 @@ ul {
     width: 100%;
     padding: 0 10px;
     margin: 0;
-    position: fixed;
     bottom: 0;
     background: var(--chat-text-bg);
-    border-top: 1px solid var(--dark);
     align-items: center;
     justify-content: space-between;
 }
@@ -131,10 +129,11 @@ ul {
   width: 100%;
   padding: 10px;
   font-size: 1.2rem;
-  background: var(--inp);
+  background: var(--bg);
   color: var(--co);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 5px;
   transition: all 0.3s ease;
-  border-bottom: 2px solid var(--ho);
   z-index: 5;
 }
 
@@ -145,15 +144,17 @@ ul {
 }
 
 .btn-send {
-  position: absolute;
-  right: 20px;
-  width: 50px;
-  height: 50px;
+  position: relative;
+  width: 40px;
+  height: 40px;
   background-color: var(--ho);
   color: var(--light);
   border-radius: 50%;
   z-index: 100; 
-
+}
+.btn-send:hover i {
+  opacity: 0.9;
+  color:  var(--light) !important;
 }
 
 .center {
@@ -195,9 +196,8 @@ ul {
 .chat-area {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 60px);
   overflow: auto;
-  overflow-y: scroll;
   background: var(--bg);
   /* improve scrolling */
 
@@ -211,7 +211,13 @@ ul {
   flex-grow: 1;
   background: var(--bg);
   padding: 10px;
+  padding-left: 0;
+  overflow: auto
 }
+.chat-area-main::-webkit-scrollbar {
+  width: 0.1em;
+}
+
 .chat-msg-profile {
   flex-shrink: 0;
   margin-top: auto;
@@ -234,6 +240,7 @@ ul {
   display: flex;
   padding: 0 2px 45px;
 }
+
 .chat-msg-content {
   margin-left: 12px;
   max-width: 70%;
@@ -260,7 +267,7 @@ ul {
 }
 .msg-image-wrapper{
   width: 100%;
-  height: 240px;
+  height: 270px;
   border-radius: 20px 20px 20px 0;
   background-color: var(--chat-text-bg);
   padding: 15px;

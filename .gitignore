@@ -1,10 +1,8 @@
-css/bootstrap-grid.css
-css/bootstrap-grid.min.css
 _githubassets/
 inc/music/
 inc/image/
 img/
 vendor/
 sendgrid.env
-
 inc/setup/setup.suplike.json
+inc/errors/error.log.txt

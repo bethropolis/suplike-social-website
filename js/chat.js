@@ -10,13 +10,18 @@ const app = new Vue({
         progress: 0,
         audio_meta: {},
         file_type: null,
+        timerId: null
     },
     methods: {
-        getMessage: function () {
+        getMessage: async function () {
             const vm = this;
             let start = 0;
 
             async function sendRequest() {
+                // Clear the previous timer if any
+                if (vm.timerId) {
+                    clearTimeout(vm.timerId);
+                }
                 await $.get('./inc/message.inc.php?start=' + start + "&from=" + vm.user + "&to=" + vm.chatwith, function (data) {
                     if (data.data) {
                         data.data.forEach(item => {
@@ -45,12 +50,14 @@ const app = new Vue({
                         });
                     }
                 });
+
                 if (vm.chatwith != null) {
-                    setTimeout(sendRequest, 1800);
+                    // Store the new timer id
+                    vm.timerId = setTimeout(sendRequest, 2000);
                 }
             }
 
-            sendRequest();
+            await sendRequest();
         },
         WhoIsOnline: function () {
             //meant to get users who are online but the plan changed 
@@ -85,6 +92,7 @@ const app = new Vue({
             })
         },
         startChat: function (index) {
+            this.messages = [];
             this.chatwith = this.online[index].id;
             history.pushState({}, '', '?id=' + this.chatwith);
             document.title = this.online[index].full_name;
@@ -113,7 +121,7 @@ const app = new Vue({
                         $('.messages').animate({
                             scrollTop: $('.messages')[0].scrollHeight
                         });
-                    }   
+                    }
                 }
             });
         },
@@ -164,7 +172,7 @@ const app = new Vue({
                 $('#audioPlayer').on('timeupdate', function () {
                     vm.progress = (this.currentTime / this.duration) * 100;
                     $(('#p-' + vm.playing)).css('width', vm.progress + '%');
-                    if(vm.progress == 100){
+                    if (vm.progress == 100) {
                         vm.player[id].playing = false;
                         vm.playing = null;
                         player.pause();
@@ -177,13 +185,13 @@ const app = new Vue({
         },
     },
     watch: {
-        chatwith: function () {
+        chatwith: async function () {
             if (this.chatwith == null) {
                 document.title = "messages";
                 history.pushState(null, null, "./message.php")
             }
             this.messages = [];
-            this.getMessage();
+            await this.getMessage();
         },
         messages: function () {
             this.switchMsgdata();

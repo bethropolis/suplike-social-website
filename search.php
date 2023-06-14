@@ -80,7 +80,6 @@ text-align: center;
 }
 
 .list {
-  background: var(--card);
   border-radius: 2px;
   list-style: none;
   padding: 10px 20px;
@@ -122,7 +121,7 @@ text-align: center;
   width: 5.2em;
 }
 button.sbutton.follow-btn {
-  width: 5rem;
+  width: fit-content;
   font-size: .9em;
   border-radius: .5rem;
   background-color: var(--ho);
@@ -131,6 +130,15 @@ button.sbutton.follow-btn {
   padding .1em 1em
 }
 </style>
+
+<div class="row mob-m-0">
+            <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
+             <?php
+               require "./template/nav.php";
+             ?>
+            </div>
+
+            <div class="col-sm-9">
 
 <!-- Search form -->
 <form method="get" class="mx-auto my-4" action="">
@@ -197,6 +205,8 @@ if ($result) {
 ?> 
    </ul> 
 
+</div>
+</div>
 <br><br><br>
 <div class="mobile nav-show">
     <br><br><br>

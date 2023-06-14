@@ -65,6 +65,14 @@ no-style{
 }
 
 </style>
+<div class="row mob-m-0">
+  <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
+    <?php
+    require "./template/nav.php";
+    ?>
+  </div>
+
+  <div class="col-sm-9">
 <div id="app">
     <!-- bootstrap tabs -->
     <ul class="nav nav-tabs">
@@ -120,7 +128,7 @@ no-style{
     </div>
 
 </div>
-
+</div>
 <br><br><br>
 <div class="mobile nav-show">
 <br><br><br>

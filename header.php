@@ -41,7 +41,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
   <link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="lib/font-awesome/css/all.min.css" defer>
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style.css?g">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="./lib/lightbox/lightbox.min.css">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
@@ -52,7 +52,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
     // load css if localstorage  theme = dark
     let theme = localStorage.getItem('theme') || null;
     if (theme === 'dark') {
-      let css = `:root{--bg:#1f1f1f;--co:#fff;--ho:#a89ef5;--option:grey;--light:#333;--dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light);--card:#6c757d;--tab:#343a40;--muted-text:#dbdbdb;--purple:#a29bfe;--pink:#fd79a8;--yellow:#ffeaa7;--teal:#81ecec;--blue: #74b9ff; }`;
+      let css = `:root{--bg:#1f1f1f;--co:#fff;--ho:#a89ef5;--option:grey;--light:#333;--dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light);--card:#292929; --tab:#343a40;--muted-text:#dbdbdb;--purple:#a29bfe;--pink:#fd79a8;--yellow:#ffeaa7;--teal:#81ecec;--blue: #74b9ff; }`;
       let style = document.createElement('style');
       style.type = 'text/css';
       style.appendChild(document.createTextNode(css));
@@ -81,7 +81,6 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
         if (isset($_SESSION['userId'])) {
         ?>
           <ul class="navbar-nav ml-auto mr-1">
-            <a href="home"><i title="home" class="fa fa-home fa-2x"></i></a>
             <?php
             if ($_SESSION['isAdmin'] === 1) {
               echo '<div id="header-addons">';
@@ -89,11 +88,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
               echo '</div>';
             }
             ?>
-
-            <a href="social.php"><i title="friends" class="fa fa-users fa-2x"></i></a>
-            <a href="message.php"><i title="direct inbox" class="fa fa-envelope fa-2x"></i></a>
-            <a href="notification.php"><i title="notification" class="fa fa-bell fa-2x"></i></a>
-            <a href="search.php"><i title="search for users or post" class="fa fa-search fa-2x"></i></a>
+            <a href="message.php"><i title="messages" class="fa fa-envelope fa-2x"></i></a>
             <a href="settings.php?profile"><i title="settings" class="fa fa-cog fa-2x"></i></a>
             <a href="inc/logout.inc.php"><i id="logout" title="logout" class="fa fa-sign-in-alt fa-2x"></i></a>
           </ul>
@@ -120,8 +115,12 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
 
         <?php
         if (in_array($current_page, $pages_array)) {
-
+          
         ?>
+
+        <a href="<?= $_SERVER['HTTP_REFERER'] ?>" id="back">
+          <i class="fa fa-arrow-left"></i>
+        </a>
 
           <a href="home">
             <i class="fa fa-home"></i>

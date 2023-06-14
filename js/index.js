@@ -86,7 +86,8 @@ function render(post) {
         >
           <i class="fa fa-eye fa-fw"></i> View Post
         </a>
-        <a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id}">
+        <a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id
+      }">
           <i class="fa fa-trash fa-fw"></i> Delete Post
         </a>
         <a
@@ -97,7 +98,7 @@ function render(post) {
           <i class="fa fa-share-alt fa-fw"></i> Share
         </a>
         <a class="dropdown-item mj-actions report" id="${post.id
-    }" href="#report">
+      }" href="#report">
           <i class="fa fa-flag fa-fw"></i> Report
         </a>
         <a
@@ -115,7 +116,8 @@ function render(post) {
     </div>
     </div>
            <div class="lazyload">
-           <!-- <a href="./img/${post.image}"  data-lightbox data-image-alt="image post">     
+           <!-- <a href="./img/${post.image
+      }"  data-lightbox data-image-alt="image post">     
                    <div class="post-body" style="background-image: url(./img/${post.image
       });">
                     </div> 
@@ -126,25 +128,26 @@ function render(post) {
               <div class="social-opt">
               <div class="row social-act co w-100">
                 <div class="col-3 flex icon">
-                  <i title="like" id="${post.id}" class="${l} mr-1  this-click fa-heart"
+                  <i title="like" id="${post.id
+      }" class="${l} mr-1  this-click fa-heart"
                     ></i
                   >
-                   <small class="${post.id}">${post.post_likes <= 0 ? '' : post.post_likes}</small>
+                   <small class="${post.id}">${post.post_likes <= 0 ? "" : post.post_likes
+      }</small>
                 </div>
                 <div class="col-3 flex icon">
                   <a href="./comment.php?id=${post.post_id}">
                     <i title="comment" id="comment" class="fas mr-1  fa-comment comment "
                       ></i
                     ></a>
-                   <small>${post.comments <= 0 ? '' : post.comments}</small>
+                   <small>${post.comments <= 0 ? "" : post.comments}</small>
                   
                 </div>
                 <div class="col-3 icon">
                   <a
                     href="#share"
                     class="share"
-                    id="${post.id
-      }"
+                    id="${post.id}"
                     ><i title="share this post" class="fas fa-share"></i
                   ></a>
                 </div>
@@ -204,7 +207,8 @@ function render(post) {
           >
             <i class="fa fa-eye fa-fw"></i> View Post
           </a>
-          <a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id}">
+          <a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id
+      }">
             <i class="fa fa-trash fa-fw"></i> Delete Post
           </a>
           <a
@@ -238,25 +242,26 @@ function render(post) {
             <div class="social-opt">
             <div class="row social-act co w-100">
               <div class="col-3 flex icon">
-                <i title="like" id="${post.id}" class="${l} mr-1  this-click fa-heart"
+                <i title="like" id="${post.id
+      }" class="${l} mr-1  this-click fa-heart"
                   ></i
                 >
-                 <small class="${post.id}">${post.post_likes <= 0 ? '' : post.post_likes}</small>
+                 <small class="${post.id}">${post.post_likes <= 0 ? "" : post.post_likes
+      }</small>
               </div>
               <div class="col-3 flex icon">
                 <a href="./comment.php?id=${post.post_id}">
                   <i title="comment" id="comment" class="fas mr-1  fa-comment comment "
                     ></i
                   ></a>
-                 <small>${post.comments <= 0 ? '' : post.comments}</small>
+                 <small>${post.comments <= 0 ? "" : post.comments}</small>
                 
               </div>
               <div class="col-3 icon">
                 <a
                   href="#share"
                   class="share"
-                  id="${post.post_id
-      }"
+                  id="${post.post_id}"
                   ><i title="share this post" class="fas fa-share"></i
                 ></a>
               </div>
@@ -300,11 +305,11 @@ function addClick() {
   $(".share").click(async function (e) {
     e.preventDefault;
     // share url from all pages should point to the post page
-    let $a = window.location.pathname.split('/');
+    let $a = window.location.pathname.split("/");
     if ($a.slice(-1)[0]) {
-      $a.pop()
-    };
-    let url = `${$a.join('/')}/post.php?id=${this.id}`;
+      $a.pop();
+    }
+    let url = `${$a.join("/")}/post.php?id=${this.id}`;
     url = window.location.origin + url;
     const shareData = {
       url: url,
@@ -339,9 +344,10 @@ function profile_request(profile) {
   url = "./inc/profile.inc.php?id=" + profile + "&user=" + _user_id;
   $.get(url, function (user) {
     if (user.user) {
-      $("#profile-name").text(
-        (user.user.usersFirstname||"" + " " + user.user.usersSecondname||"")
-      );
+      let name = user.user.usersFirstname
+        ? user.user.usersFirstname + " " + user.user.usersSecondname
+        : "";
+      $("#profile-name").text(name);
       $(".userName").text("@" + user.user.uidusers);
       $(".message-btn").attr("href", "message.php?id=" + user.user.chat_auth);
       $("#following").text(user.user.following);
@@ -399,26 +405,26 @@ function follow(user) {
     profile = this.id || profile;
     var key;
     /*---------------------improvise-------------*/
-    switch ($(this).children('span').text()) {
+    switch ($(this).children("span").text()) {
       case "follow":
         key = "true";
-        $(this).children('span').text("following");
+        $(this).children("span").text("following");
         // add class to icon to indicate following
-        $(this).children('i').attr('class', 'fas fa-user  ml-2 no-h');
+        $(this).children("i").attr("class", "fas fa-user  ml-2 no-h");
         // increment following count, parse it to int
-        var following = parseInt($('#following').text());
+        var following = parseInt($("#followers").text());
         following++;
-        $('#following').text(following);
+        $("#followers").text(following);
         break;
       default:
         key = "false";
-        $(this).children('span').text("follow");
+        $(this).children("span").text("follow");
         // remove class to icon to indicate following
-        $(this).children('i').attr('class', 'fas fa-user-plus ml-2 no-h');
+        $(this).children("i").attr("class", "fas fa-user-plus ml-2 no-h");
         // decrement following count, parse it to int
-        var following = parseInt($('#following').text());
+        var following = parseInt($("#followers").text());
         following--;
-        $('#following').text(following);
+        $("#followers").text(following);
         break;
     }
     url =
@@ -429,8 +435,8 @@ function follow(user) {
       "&key=" +
       key;
     $.get(url, function (follow) {
-      if (follow.type == 'error') {
-        alert(follow.msg)
+      if (follow.type == "error") {
+        alert(follow.message);
       }
     });
   });
@@ -442,13 +448,12 @@ function add_lightbox() {
   );
 }
 
-
 $("#logout").click(function () {
   sessionStorage.clear();
 });
 
 function active_page(co) {
-  let colors = ['purple', 'pink', 'yellow', 'teal', 'blue'];
+  let colors = ["purple", "pink", "yellow", "teal", "blue"];
   let active = colors[co];
-  $(`.${active}`).addClass('active');
+  $(`.${active}`).addClass("active");
 }

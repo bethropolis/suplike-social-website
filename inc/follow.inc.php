@@ -31,6 +31,7 @@ if (isset($_GET['user'])) {
         print_r(
             json_encode(
                 array(
+                    'type' => 'error',
                     'code' => 35,
                     'message' => 'cannot follow yourself'
                 )
@@ -113,6 +114,7 @@ if (isset($_GET['user'])) {
     print_r(
         json_encode(
             array(
+                'type' => 'success',
                 'code' => 21,
                 'post' => 'successful'
 

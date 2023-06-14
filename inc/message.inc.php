@@ -101,7 +101,7 @@ if (isset($_SESSION['userId'])) {
 					[
 						'code' => 3,
 						'msg' => 'no messages',
-						'type' => 'error'
+						'type' => 'success'
 					]
 				)
 			);

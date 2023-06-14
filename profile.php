@@ -47,6 +47,15 @@ if ($un_ravel->_isEmail_verified($usr) == false) {
 
 ?>
 
+<div class="row mob-m-0">
+  <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
+    <?php
+    require "./template/nav.php";
+    ?>
+  </div>
+
+  <div class="col-sm-9">
+
 <!-- end of replacement -->
 <div class="card m-auto bg-light p-2  text-center shadow">
   <div class="col-sm-12">
@@ -79,11 +88,11 @@ if ($un_ravel->_isEmail_verified($usr) == false) {
       </div>
       <div class="d-flex justify-content-center align-items-center">
         <button class="shadow bg follow-btn btn m-2" aria-pressed="true">
-         <span><?= $follow ?></span><i class="fa no-h  fa-user-plus ml-2" aria-pressed="true"></i>
+         <span><?= $follow ?></span><i class="fa no-h  fa-user-plus ml-2 icon-light" aria-pressed="true"></i>
         </button>
         <a href="message.php?id=" class="message-btn">
           <button class="shadow  btn btn-dark m-2">
-            message<i class="fa no-h  fa-paper-plane ml-2"></i>
+            message<i class="fa no-h  fa-paper-plane ml-2 icon-light"></i>
           </button>
         </a>
 
@@ -98,6 +107,7 @@ if ($un_ravel->_isEmail_verified($usr) == false) {
 </noscript>
 <h3 style="margin: 18px;" class="co">posts</h3>
 <div id="main-post"></div>
+</div>
 <br><br><br>
 <div class="mobile nav-show">
 <br><br><br>
