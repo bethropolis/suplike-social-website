@@ -2,6 +2,11 @@
 require 'dbh.inc.php';
 require 'Auth/auth.php';
 header('content-type: application/json');
+session_start();
+//auth check
+$un_ravel->_isAuth();
+
+
 // get people the user follows from `following` table and from `chat` table get last message between them
 if (isset($_GET['user'])) {
     $user = $un_ravel->_getUser($_GET['user']);

@@ -1,92 +1,4 @@
- :root{
- --bg: #ddd9d9;
- --co: #000;
- --ho: rgba(67, 22, 228, 0.844);    
- --ac: rgba(50, 159, 192, 0.844);
- --inp: rgb(214, 211, 211);
- --light: #f8f9fa;
- --dark: #333333;
-}
-body{
-	margin: 0;
-	padding: 0;
 
-}
-
-/*---------search box-------------*/
-form{
-	display: flex;
-	align-items: center;
-	justify-content: center; 
-}
-
-.search_input{ 
-	position: relative;
-	width: 100%;
-	height: auto;
-    margin: 18px auto;
-    padding: 8px;  
-    background: var(--ho); 
-}
-
-.search_box{ 
-	width: 70%;
-	height: 40px;
-	padding: 5px;
-	background: var(--inp); 
-}
-
-.search_button{
-	width: 25%;  
-	height: 40px;
-	padding: 5px;
-
-}
-
-/*---------search box end-------------*/
-
-.btn{ 
-    border: none;
-    outline: none;
-    padding: .3em;      
-    box-shadow: var(--box-shadow); 
-    border-radius: 12px;
-    font-size: 95%; 
-    color: #fff; 
-    background: rgba(67, 22, 228, 0.844);
-}
-
-.btn:hover{
-   background-image: linear-gradient(to left, var(--ho), var(--ac) );
-
-}
-
-.btn:active{
-    background: var(--ac);
-} 
-
-
-/*---------list of items-------------*/
-
-.search-list-item{
-  position: relative;
-  margin: 15px auto; 
-  width: 80%;
-  height: auto;
-  box-shadow: 0 0 5px #333;
-  padding: 6px;
-  background: var(--light); 
-} 
-
-.prof-link{    
-  font-size: 1.9em;
-  font-weight: 900;
-  color: var(--ho); 
-} 
-p{
-  font-size: 1.5em;
-  font-weight: 500;
-}
 
 .search-btn{ 
    position: absolute;
@@ -96,3 +8,82 @@ p{
 }
 
 /*---------list of items end-------------*/
+.main {
+  width: 84%;
+  margin: 50px auto;
+}
+
+/* Bootstrap 3 text input with search icon */
+
+.has-search .form-control-feedback {
+  position: relative;
+  right: initial;
+  left: 12px;
+  color: #ccc;
+  top: 42px;
+}
+
+.has-search .form-control {
+  height: 3.2em;
+  padding-right: 12px;
+  padding-left: 34px;
+  width: 100%;
+}
+p.s{
+text-align: center;
+  font-size: larger;
+  color: #999999;
+  font-family: open sans,sans-serif;
+
+}
+
+.list {
+border-radius: 2px;
+list-style: none;
+padding: 10px 20px;
+}
+.list-item {
+display: flex;
+margin: 10px;
+padding-bottom: 5px;
+padding-top: 5px;
+border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.list-item:last-child {
+border-bottom: none;
+}
+.list-item-image {
+border-radius: 50%;
+width: 64px;
+height: 64px;
+
+}
+.list-item-content {
+margin-left: 20px;
+}
+.list-item-content h4, .list-item-content p {
+margin: 0;
+}
+.list-item-content h4 {
+margin-top: 10px;
+font-size: 18px;
+}
+.list-item-content p {
+margin-top: 5px;
+color: #aaa;
+}
+.list-item button{
+outline: none;
+border: none;
+margin-left: auto;
+width: 5.2em;
+}
+button.sbutton.follow-btn {
+width: 105px;
+font-size: .9em;
+border-radius: .5rem;
+background-color: var(--ho);
+color: var(--icon-light);
+height: 3.0rem;
+padding: .1em 1em;
+}

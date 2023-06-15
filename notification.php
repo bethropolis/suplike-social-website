@@ -2,7 +2,7 @@
 require 'header.php';
 # check if logged in
 if (!isset($_SESSION['userId'])) {
-    header("Location: ../login.php?error=notloggedin");
+    header("Location: ./login.php?error=notloggedin");
     exit();
 }
 
@@ -151,24 +151,11 @@ no-style{
             success: '',
         },
         methods: {
-            get_url: function(s) {
-                //  a string can have anchor tag with url, so we need to remove it and return the url if it has one
-                url = s[0].text.split('<a href="')[1];
-                if (url) {
-                    console.log(url.text);
-                } else {
-                    return false;
-                }
-                return false
-            },
             get_notify: function() {
                 this.fetch = [];
                 $.get(this.url + '?fetch=true').then(response => {
-                    console.log(response);
-                    $url = app.get_url(response.data);
                     this.fetch = response.data;
                     this.notifications = this.fetch;
-
                 });
             },
             open_page: function(url) {

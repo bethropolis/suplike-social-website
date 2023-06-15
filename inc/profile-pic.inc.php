@@ -1,7 +1,12 @@
 <?php
 require 'dbh.inc.php';
+require './Auth/auth.php';
 header("Content-Type: application/json");
 session_start();
+
+//auth check
+$un_ravel->_isAuth();
+
 $user = $_SESSION['userId'];
 if (isset($_FILES['file'])) {
     $errors = array();

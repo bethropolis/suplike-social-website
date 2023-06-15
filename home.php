@@ -3,12 +3,12 @@ require "header.php";
 
 
 $name = '';
-$pic = 'img/M.jpg';
+$pic = 'M.jpg';
 $user = '';
 
 if (isset($_SESSION['userUid'])) {
     $name = $_SESSION['firstname'] . " " . $_SESSION['lastname'];
-    $pic = $_SESSION['profile-pic'];
+    $pic = $_SESSION['profile-pic'] ?? 'M.jpg';
     $user = $_SESSION['userUid'];
 }
 
@@ -52,11 +52,12 @@ if (isset($_SESSION['userUid'])) {
                     <form action="inc/post.inc.php"
                         class="mx-auto ca p-2 my-2 col-12 form bg-light text-center postform" method="POST"
                         enctype="multipart/form-data">
-                        <img src="" id="imagedisp" alt="" class="mx-auto my-3" style="max-height: 172px; width: auto; margin: 7px;">
+                        <img src="" id="imagedisp" alt="" class="mx-auto my-3"
+                            style="max-height: 172px; width: auto; margin: 7px;">
                         <input type="hidden" value="txt" id="type" name="type">
                         <input type="file" name="image" id="image_post" style="display: none;">
                         <!--also this -->
-                        <textarea id="text" cols="40" class="textinput p-2" rows="4" name="posttext"
+                        <textarea id="text" cols="40" class="textinput p-2" rows="4" name="postText"
                             placeholder="what would you like to post about.."
                             oninvalid="this.setCustomValidity('Please you have to write something about this, text cannnot be empty')"
                             oninput="setCustomValidity('')" required></textarea>
@@ -72,9 +73,9 @@ if (isset($_SESSION['userUid'])) {
                     <noscript style="color:red">this site requires javascript to function</noscript>
                 </div>
             </div>
-            <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
-                <div class=" card sticky-top card-profile p-4 white rounded text-center profile-card sidebar-content"
-                    style="width: 94%; height: 20em; border: none; position: sticky; top: 4.4em; z-index: 1;">
+            <div class="col-sm-3 nav-hide sidebar-sticky flex-column pt-3 sticky-top"  style="width: 94%; height: 20em; border: none; position: sticky; top: 4.4em; z-index: 1;">
+                <div class=" card card-profile white rounded text-center profile-card sidebar-content"
+                  >
                     <a href="./profile.php">
                         <img class="profile-pic img-profile shadow-sm" <?php echo 'src="img/' . $pic . '"'; ?> title=" "
                             alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
@@ -83,17 +84,26 @@ if (isset($_SESSION['userUid'])) {
                         <h4 id="profile-name">
                             <?php echo $name; ?>
                         </h4>
+                       
                     </a>
                     <h5 class="text-center userName co">
                         <?php echo "@" . $user; ?>
                     </h5>
-                    <ul class="profile-opt" style="margin: 0;padding: 0;">
+                    <ul class="profile-opt mb-5">
                         <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
                         <a href="post.php" style="color: #252130;" style="color: #252130;"><i
                                 class="fa fa-edit fa-2x"></i></a>
                         <a href="settings.php?profile" style="color: #252130;"><i class="fas fa-user-cog fa-2x"></i></a>
                     </ul>
+
                 </div>
+                <div class="shadow-sm mt-5 sidebar-content">
+                    <h5 class='co'>Popular users</h5>
+                    <div id="popular-users">
+
+                    </div>
+                </div>
+
             </div>
         </div>
 </main>
@@ -112,4 +122,5 @@ require "footer.php";
 <script defer>
     active_page(0);
     mainload();
+    get_popular_users();
 </script>

@@ -58,7 +58,8 @@ if (isset($_POST['signup-submit'])) {
                 if (!mysqli_stmt_prepare($stmt, $sql)) {
                     header("Location: ../signup.php?error=sqlerror");
                     exit();
-                } else {
+                } else {         
+                     session_start();
                     $hashedpwd = password_hash($password, PASSWORD_DEFAULT);
 
                     mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedpwd);
@@ -70,8 +71,10 @@ if (isset($_POST['signup-submit'])) {
                     $conn->query($outhsql);
                     $link = 'http://bethro.alwaysdata.net/inc/Auth/verify.php?id='.$oauth->user_auth;
                     $email_template = "Hey $username, <br> please confirm your email by clicking on the link below: <br> <a href='$link'>Confirm Email</a>";
-                    send_email($email,'Suplike: Confirm your email', $email_template);
+                    send_email($email,'Suplike: Confirm your email', $email_template);     
+
                     setcookie('token', $oauth->token, time() + (86400 * 30), "/");
+                    $_SESSION['userId'] = $getId;
                     header("Location: ../search.php?q=e&id=$response&token=$oauth->token");
                     exit();
                 }

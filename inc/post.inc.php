@@ -6,7 +6,8 @@ require 'extra/xss-clean.func.php';
 header('content-type: application/json');
 session_start();
 
-
+//auth check
+$un_ravel->_isAuth();
 
 
 // Define constants for file extensions, file size limit, random bytes length, etc.
@@ -17,6 +18,9 @@ define("RANDOM_BYTES_LENGTH", 4);
 // Define a function to validate the input
 function validate_input($type, $image_text, $file_size, $file_ext)
 {
+    
+
+
     if ($type != "img" && $type != "txt") {
         return false;
     }
@@ -115,20 +119,30 @@ if (isset($_POST['upload'])) {
         if (!$check) {
             // Insert data into the posts table with image
             insert_post($conn, $image_text, $image, $type, $user, $d);
-            header("Location: ../home.php?post=success");
-            die();
         } else {
             // Insert data into the stories table with image
             insert_story($conn, $image_text, $image, $type, $user);
-            header("Location: ../home.php?story=success");
-            die();
         }
+
+        if ($_POST['upload'] == 'post') {
+            print_r(
+                json_encode(
+                    [
+                        "type" => 'success',
+                        "message" => "Post uploaded successfully to ".$_POST['community'],
+                    ]
+                )
+            );
+        } else {
+            header("Location: ../home.php?upload=success");
+        }
+        die();
     } else if ($type == 'txt') {
 
         // Validate the input
         if (!validate_input($type, $image_text, 0, "")) {
             if ($_POST['upload'] == 'post') {
-                die(
+                print_r(
                     json_encode(
                         [
                             "type" => 'error',
@@ -157,7 +171,7 @@ if (isset($_POST['upload'])) {
                 json_encode(
                     [
                         "type" => 'success',
-                        "message" => "Post uploaded successfully",
+                        "message" => "Post uploaded successfully to ".$_POST['community'],
                     ]
                 )
             );

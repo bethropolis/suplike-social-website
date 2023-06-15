@@ -4,7 +4,9 @@ require 'inc/dbh.inc.php';
 require 'inc/Auth/auth.php';
 require 'header.php';
 
-if (!isset($_SESSION['token']) & !isset($_GET['id']) & !isset($_COOKIE['token'])) {
+
+
+if (!isset($_SESSION['token']) && !isset($_GET['id']) && !isset($_COOKIE['token'])) {
   header('Location: ./login.php');
   exit();
 }

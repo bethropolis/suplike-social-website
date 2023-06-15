@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
   <link rel="stylesheet" href="./css/chat.css?kk">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
-  <script src="./lib/vue/vue.js"></script>
+  <script src="./lib/vue/vue.min.js"></script>
   <script>
     if (localStorage.getItem('theme') == 'dark') {
       let css = `:root{--bg:#333!important;--co:#fff!important;--ho:#a89ef5;--ac:rgba(50, 159, 192, 0.844)!important;--inp:rgb(214, 211, 211)!important;--light:#f8f9fa!important;--dark:#333!important;--msg-message:#969eaa!important;--chat-text-bg:#f1f2f6!important;--chat-text-owner:hsl(249, 85%, 71%)!important;--theme-color:#0086ff!important;--msg-date:#c0c7d2!important;--theme-1:#1a1d21!important;--theme-2:#212529!important;--theme-3:#343a40!important;--theme-4:#495057!important;--theme-5:#6c757d!important;--theme-6:#adb5bd!important;--theme-7:#ced4da!important;--theme-8:#dee2e6!important;--theme-9:#f8f9fa!important}.st-1{background-color:var(--theme-1)!important;color:var(--co)}.st-2{background-color:var(--theme-2)!important;color:var(--co)}.st-3{background-color:var(--theme-3)!important;color:var(--co)}.st-4{background-color:var(--theme-4)!important;color:var(--co)}.st-5{background-color:var(--theme-5)!important;color:var(--co)}.st-6{background-color:var(--theme-6)!important;color:var(--co)}.st-7{background-color:var(--theme-7)!important;color:var(--co)}.st-8{background-color:var(--theme-8)!important;color:var(--co)}.st-9{background-color:var(--theme-9)!important;color:var(--co)}`

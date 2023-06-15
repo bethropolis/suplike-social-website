@@ -24,7 +24,7 @@ class Auth
 
   public function _getUser($str)
   {
-    $length =  strlen($str);
+    $length = strlen($str);
     $sql = '';
     switch ($length) {
       case 42:
@@ -53,7 +53,7 @@ class Auth
       default:
         die("auth Error");
     }
-    $this->user  = (mysqli_fetch_assoc($this->conn->query($sql)))['user'];
+    $this->user = (mysqli_fetch_assoc($this->conn->query($sql)))['user'];
     return $this->user;
   }
 
@@ -93,19 +93,19 @@ class Auth
         die("auth Error");
     }
 
-    $this->user  = (mysqli_fetch_assoc($this->conn->query($sql)))[$ty];
+    $this->user = (mysqli_fetch_assoc($this->conn->query($sql)))[$ty];
 
     return $this->user;
   }
   public function _username($id)
   {
     $sql = "SELECT `uidusers` FROM `users` WHERE `idusers` = '$id'";
-    $this->user  = (mysqli_fetch_assoc($this->conn->query($sql)))['uidusers'];
+    $this->user = (mysqli_fetch_assoc($this->conn->query($sql)))['uidusers'];
     return $this->user;
   }
   public function _isValid($var)
   {
-    $length =  strlen($var);
+    $length = strlen($var);
     $auth = '';
     switch ($length) {
       case 42:
@@ -136,6 +136,21 @@ class Auth
     }
     return $auth;
   }
+
+  public function _isAuth()
+  {
+    if (!isset($_SESSION['userId'])) {
+      die(
+        json_encode(
+          [
+            'code' => 4,
+            'msg' => "You are not logged in",
+            'type' => 'error'
+          ]
+        )
+      );
+    }
+  }
   public function _isFollowing($user, $following)
   {
     $sql = "SELECT `user` FROM `following` WHERE `user` = '$user' AND `following` = '$following'";
@@ -146,7 +161,7 @@ class Auth
       return false;
     }
   }
-   public function  _isFollower($user, $follower)
+  public function _isFollower($user, $follower)
   {
     $sql = "SELECT `user` FROM `following` WHERE `user` = '$follower' AND `following` = '$user'";
     $result = mysqli_fetch_assoc($this->conn->query($sql));
@@ -165,7 +180,7 @@ class Auth
   {
     $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = '$user'";
     $result = $this->conn->query($sql)->fetch_assoc();
-    
+
     if ($result["isAdmin"]) {
       return true;
     } else {
@@ -182,12 +197,13 @@ class Auth
       return false;
     }
   }
-  public function _isBot($to = null){
-     if ($to){
-         $this->user = $to;
-     }
+  public function _isBot($to = null)
+  {
+    if ($to) {
+      $this->user = $to;
+    }
     $sql = "SELECT `isBot` FROM `users` WHERE `idusers` = $this->user ";
-    $result =$this->conn->query($sql)->fetch_assoc();
+    $result = $this->conn->query($sql)->fetch_assoc();
     if ($result['isBot']) {
       return true;
     } else {
@@ -200,11 +216,12 @@ class Auth
     $result = $this->conn->query($sql);
     $row = $result->fetch_assoc();
     return $row['profile_picture'];
-}
-public function _increment_page_visit($user){
-  $sql = "UPDATE `users` SET `page_visit` = `page_visit` + 1 WHERE `idusers` = '$user'";
-  $this->conn->query($sql);
-}
+  }
+  public function _increment_page_visit($user)
+  {
+    $sql = "UPDATE `users` SET `page_visit` = `page_visit` + 1 WHERE `idusers` = '$user'";
+    $this->conn->query($sql);
+  }
 }
 
 $un_ravel = new Auth();

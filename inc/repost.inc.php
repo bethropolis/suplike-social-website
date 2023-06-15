@@ -1,6 +1,11 @@
 <?php
 require 'dbh.inc.php';
+require 'Auth/auth.php';
 session_start();
+
+//auth check
+$un_ravel->_isAuth();
+
 $id = $_GET['id'];
 $user = $_SESSION['userId'];
 

@@ -8,11 +8,13 @@ $notification = new Notification();
 session_start();
 # this was a 100% copy from like.inc.php,
 # I will consider merging them in future
+
+$un_ravel->_isAuth();
+
 if (isset($_GET['user'])) {
 
     if (empty($_GET['user']) || empty($_GET['key'])) {
-        $err = new Err(8);
-        $err->err($_GET['user'] || 'NaN');
+        $error->err('Empty',33,'Empty variables provided');
         die();
     }
 
@@ -22,8 +24,7 @@ if (isset($_GET['user'])) {
     $key = $_GET['key'];
 
     if (!($key == 'false' || $key == 'true')) {
-        $err = new Err(9);
-        $err->err($_GET['user']);
+        $error->err('Invalid',33,'incorrect key value');
         die();
     }
 
@@ -43,8 +44,7 @@ if (isset($_GET['user'])) {
     }
 
     if (!is_numeric($followed) || !is_numeric($following)) {
-        $err = new Err(10);
-        $err->err($_GET['user']);
+        $error->err('Invalid',33,'invalid value in parameter');
         die();
     }
 
@@ -63,7 +63,7 @@ if (isset($_GET['user'])) {
     $result = $conn->query($sql)->fetch_assoc();
     if (is_null($result)) {
         $err = new Err(1);
-        $err->err($_GET['user']);
+        $err->err('Null');
         die();
     } else {
         $followed_user_followers = $result['followers'];
@@ -94,13 +94,13 @@ if (isset($_GET['user'])) {
 
     if (!is_null($result) && $key == 'true') {
         $err = new Err(13);
-        $err->err($_GET['user']);
+        $err->err('Followed');
         die();
     }
 
     if (is_null($result) && $key == 'false') {
         $err = new Err(1);
-        $err->err($_GET['user']);
+        $err->err('Error');
         die();
     }
     $sql = "UPDATE `users` SET `followers` = ' $followed_user_followers' WHERE `idusers` = '$followed';";

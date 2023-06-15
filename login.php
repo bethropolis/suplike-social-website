@@ -1,6 +1,6 @@
 <?php
 session_start();
-  if (isset($_SESSION['userId'])) {
+  if (isset($_SESSION['token'])) {
     header("Location: home?alrdylogdin");
     exit();
 }

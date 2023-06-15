@@ -1,5 +1,10 @@
 <?php
 include_once 'dbh.inc.php';
+include_once 'Auth/auth.php';
+
+//auth check
+$un_ravel->_isAuth();
+
 header('Content-Type: application/json');
 if (isset($_POST['id'])) {
 	if (!empty($_POST['id'])) {

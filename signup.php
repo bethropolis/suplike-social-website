@@ -15,7 +15,9 @@ if (isset($_GET['error'])) {
   if ($_GET['error'] == 'emailtaken') {
     echo '<h5>the email is already in use</h5>';
   }  
-
+ if ($_GET['error'] == 'usertaken') {
+    echo '<h5>the username is already in use</h5>';
+  }  
 
 
 
@@ -33,7 +35,7 @@ $username = $_GET['uid'] ?? null;
       <div class="form-group">
       <input type="text" id="uid" name="uid" value="<?= $username ?>" class="w-100 text-dark sbutton" title="enter your username" placeholder="username..." autofocus required><br />
       <input type="email" id="mail" name="mail" value="<?= $mail ?>"  class="w-100 text-dark sbutton" title="enter your email" placeholder="email..." required><br />
-      <input type="password" id="pwd" name="pwd" class="w-100 text-dark sbutton" title="enter your password" placeholder="password..." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" oninvalid="this.setCustomValidity('password should be 6 characters long and contain at least one number, one uppercase and one lowercase letter')" oninput="setCustomValidity('')" required><br />
+      <input type="password" id="pwd" name="pwd" class="w-100 text-dark sbutton" title="enter your password" placeholder="password..." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" oninvalid="this.setCustomValidity('password should be 6 characters long and contain at least one number, one uppercase and one lowercase letter')" oninput="setCustomValidity('')" required><br />
       <button type="submit" class="login-btn my-1 w-100 bg btn" style="font-size: 1.2em;padding:0.7em; border-radius: 1.5em;" name="signup-submit">Signup</button><br />
     </form>
     <h5 class="my-1 co">already have an account?<a href="./login.php" style="color: var(--ac);">login</a></h5>

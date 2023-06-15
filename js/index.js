@@ -1,7 +1,7 @@
 const _user_id = sessionStorage.getItem("user");
 const _user_name = sessionStorage.getItem("name");
 
-function mainload() {
+function mainload(url = "./inc/post.inc.php?user=") {
   $("#image_post").on("change", function (e) {
     e.preventDefault();
     var m = URL.createObjectURL(event.target.files[0]);
@@ -9,10 +9,19 @@ function mainload() {
     $("#imagedisp").attr("src", m);
   });
 
-  function getUsers() {
-    $.get("./inc/post.inc.php?user=" + _user_id, function (posts) {
+  function getUsers(url) {
+    $.get(url + _user_id, function (posts) {
       if (posts instanceof Array) {
         posts.forEach((post) => {
+          if (!post.profile_picture) {
+            post.profile_picture = "M.jpg";
+          }
+          $("#main-post").append(render(post));
+        });
+        addClick();
+        add_lightbox();
+      } else if (posts instanceof Object) {
+        posts.data.forEach((post) => {
           if (!post.profile_picture) {
             post.profile_picture = "M.jpg";
           }
@@ -28,7 +37,7 @@ function mainload() {
       }
     });
   }
-  getUsers();
+  getUsers(url);
 }
 
 function render(post) {
@@ -392,6 +401,36 @@ function post_request(profile) {
     addClick();
   });
 }
+
+
+
+function get_popular_users() {
+  let url = './inc/search.inc.php?type=users&query';
+  $.get(url, function (post) {
+      console.log(post);
+    if (post.type == 'success') {
+      post.data.forEach((item)=>{
+        let status = item.following ? 'following': 'follow';
+        let icon = item.following ? 'fas fa-user text-white ': 'fas fa-user-plus ml-2 no-h text-white';
+        $('#popular-users').append(`
+        <li class="text-left align-items-center p-2 border-0  justify-content-between"
+        style='display: flex;'>
+        <a href="profile.php?id=${item.token}">
+        <span class='page-link co border-0'>@${item.uidusers}</span>
+         </a>
+        <button id='${item.token}' class=" bg p-1 text-center text-white  border-0  outline-0 follower-btn follow-btn p-0" 
+        style='outline: none; border-radius: 5px; width: 84px; position: relative;'>
+        <span class="small">${status}</span>
+        </button>
+    </li>`)
+      })
+
+      follow(_user_id);
+
+    }
+  });
+}
+
 /*
 @params hunt
 
@@ -410,7 +449,7 @@ function follow(user) {
         key = "true";
         $(this).children("span").text("following");
         // add class to icon to indicate following
-        $(this).children("i").attr("class", "fas fa-user  ml-2 no-h");
+        $(this).children("i").attr("class", "fas fa-user  ml-2 no-h  text-white");
         // increment following count, parse it to int
         var following = parseInt($("#followers").text());
         following++;
@@ -420,7 +459,7 @@ function follow(user) {
         key = "false";
         $(this).children("span").text("follow");
         // remove class to icon to indicate following
-        $(this).children("i").attr("class", "fas fa-user-plus ml-2 no-h");
+        $(this).children("i").attr("class", "fas fa-user-plus ml-2 no-h  text-white ");
         // decrement following count, parse it to int
         var following = parseInt($("#followers").text());
         following--;
@@ -436,7 +475,7 @@ function follow(user) {
       key;
     $.get(url, function (follow) {
       if (follow.type == "error") {
-        alert(follow.message);
+        alert(follow.message || follow.msg);
       }
     });
   });

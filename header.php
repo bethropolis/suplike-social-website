@@ -78,7 +78,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['tok
       <div class="navbar-collapse justify-content-right collapse" id="navbarSupportedContent">
         <?php
         // repeat but a better readable code
-        if (isset($_SESSION['userId'])) {
+        if (isset($_SESSION['token'])) {
         ?>
           <ul class="navbar-nav ml-auto mr-1">
             <?php

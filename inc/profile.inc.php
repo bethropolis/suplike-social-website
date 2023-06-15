@@ -7,6 +7,11 @@ header('content-type: application/json');
 # from the database.
 # the api is called by the frontend
 # the api is called by the frontend
+session_start();
+
+//auth check
+$un_ravel->_isAuth();
+
 
 $answer = array();
 $id = isset($_GET['id']) ? $_GET['id'] : null;
