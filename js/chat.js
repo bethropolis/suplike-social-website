@@ -3,6 +3,7 @@ const app = new Vue({
     data: {
         chatwith: _id_user,
         user: _token,
+        chatwith_detail: null,
         online: [],
         messages: [],
         player: {},
@@ -59,9 +60,9 @@ const app = new Vue({
 
             await sendRequest();
         },
-        WhoIsOnline: function () {
+        WhoIsOnline: async function () {
             //meant to get users who are online but the plan changed 
-            $.get('./inc/social.inc.php?user=' + this.user, function (areOnline) {
+            await $.get('./inc/social.inc.php?user=' + this.user, function (areOnline) {
                 app.online = [];
                 let _users = areOnline.users;
                 let users = _users.sort(function (a, b) {
@@ -69,6 +70,7 @@ const app = new Vue({
                     if (b.last_msg == '') return -1;
                     return 0;
                 })
+
                 users.forEach(user => {
                     app.online.push({
                         id: user.chat_auth,
@@ -94,6 +96,7 @@ const app = new Vue({
         startChat: function (index) {
             this.messages = [];
             this.chatwith = this.online[index].id;
+            this.chatwith_detail = this.online[index];
             history.pushState({}, '', '?id=' + this.chatwith);
             document.title = this.online[index].full_name;
         },
@@ -197,11 +200,19 @@ const app = new Vue({
             this.switchMsgdata();
         }
     },
-    mounted: function () {
+    mounted: async function () {
         if (_id_user) {
             this.getMessage();
         }
-        this.WhoIsOnline();
+        await this.WhoIsOnline();
+
+        const to = await this.online.filter((user) =>{
+            return user.id == app.chatwith;
+        });
+
+        if(to.length > 0){
+        this.chatwith_detail = to[0];
+     }
         this.checkrequest();
         // add eventlistener to #songUpload to upload song by calling handleImageUpload
 

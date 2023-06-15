@@ -4,7 +4,7 @@ require 'Auth/auth.php';
 header('content-type: application/json');
 // get people the user follows from `following` table and from `chat` table get last message between them
 if (isset($_GET['user'])) {
-    $user =  $un_ravel->_getUser($_GET['user']);
+    $user = $un_ravel->_getUser($_GET['user']);
     $answer = [];
     $query = "SELECT * FROM `following` WHERE `user`=$user";
     $result = $conn->query($query);
@@ -28,11 +28,13 @@ if (isset($_GET['user'])) {
             $date = new DateTime($r['time']);
             $answer['users'][$i]['day'] = $date->format('l');
             $answer['users'][$i]['last_msg'] = $r['message'];
-            $answer['users'][$i]['time'] =  $date->format('G:i a');
+            $answer['users'][$i]['time'] = $date->format('G:i a');
             $answer['users'][$i]['actual_time'] = $r['time'];
             $answer['users'][$i]['type'] = $r['type'];
         } else {
             $answer['users'][$i]['last_msg'] = "";
+            $answer['users'][$i]['type'] = "";
+
         }
         $date = new DateTime('now');
         $date->format("Y-m-d H:i:s");
@@ -46,6 +48,33 @@ if (isset($_GET['user'])) {
 
         $i++;
     }
+
+
+    // Sort the array based on last_online in descending order
+    usort($answer['users'], function ($a, $b) {
+        if (isset($a['last_online']) && isset($b['last_online'])) {
+            return strtotime($b['last_online']) - strtotime($a['last_online']);
+        } elseif (isset($a['last_online'])) {
+            return -1; // Place the item with last_online first
+        } elseif (isset($b['last_online'])) {
+            return 1; // Place the item with last_online first
+        } else {
+            return 0; // Keep the order unchanged
+        }
+    });
+
+    // Sort the array based on actual_time in descending order
+    usort($answer['users'], function ($a, $b) {
+        if (isset($a['actual_time']) && isset($b['actual_time'])) {
+            return strtotime($b['actual_time']) - strtotime($a['actual_time']);
+        } elseif (isset($a['actual_time'])) {
+            return -1; // Place the item with actual_time first
+        } elseif (isset($b['actual_time'])) {
+            return 1; // Place the item with actual_time first
+        } else {
+            return 0; // Keep the order unchanged
+        }
+    });
     print_r(json_encode($answer));
 }
 

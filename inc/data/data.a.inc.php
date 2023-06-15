@@ -3,6 +3,7 @@ require '../dbh.inc.php';
 require '../errors/error.inc.php';
 require '../Auth/auth.php';
 header('content-type: application/json');
+
 $err = new Err();
 $err->_set_log('../errors/error.log.txt'); // set where errors will be writen 
 if (isset($_GET['key'])) {
@@ -13,7 +14,7 @@ if (isset($_GET['key'])) {
 
 	$key = $_GET['key'];
 
-	$sql = "SELECT 'user' FROM `auth_key` WHERE `chat_auth`='$key'";
+	$sql = "SELECT 'user' FROM `auth_key` WHERE `token`='$key'";
 
 	$auth = $conn->query($sql);
 	if ($auth->fetch_assoc() == null) {

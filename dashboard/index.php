@@ -47,7 +47,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
     <script src="../lib/jquery/jquery.js"></script>
     <script src="../lib/chartjs/chart.js"></script>
     <script src="../lib/jquery/jquery.dataTables.min.js"></script>
-    <script src="../lib/vue/vue.js"></script>
+    <script src="../lib/vue/vue.min.js"></script>
     <script>
         // load css if localstorage  theme = dark
         let theme = localStorage.getItem('theme') || null;
@@ -290,7 +290,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                 <p>new users</p>
                                             </div>
                                             <div class="col-5 text-right">
-                                                <h4 class="text-muted">{{newUser}}</h4>
+                                                <h4 class="text-muted co text">{{newUser}}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -306,7 +306,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                 <p>users online</p>
                                             </div>
                                             <div class="col-4 text-right">
-                                                <h4 class="text-muted">{{userOnline}}</h4>
+                                                <h4 class="text-muted co text">{{userOnline}}</h4>
                                             </div>
                                         </div>
                                     </div>

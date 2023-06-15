@@ -23,11 +23,13 @@
 
 /*
 @params */
-::-webkit-scrollbar {
-  width: 6px !important;
-}
+
 html {
   scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar{
+  width: 0;
 }
 body {
   padding: 0;
@@ -378,16 +380,16 @@ input[type="password"],
   display: flex;
   align-items: center;
   background: var(--white);
-  height: 60px;
+  height: 75px;
   width: 90%;
   max-width: 880px;
   border-radius: 12em;
 }
 
 .follower-div img {
-  height: 100%;
+  height: 60px;
   width: 60px;
-  border-radius: 12em;
+  border-radius: 50%;
 }
 .follower-div .user {
   height: 100%;

@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
   <link rel="stylesheet" href="./css/chat.css?kk">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
-  <script src="./lib/vue/vue.min.js"></script>
+  <script src="./lib/vue/vue.js"></script>
   <script>
     if (localStorage.getItem('theme') == 'dark') {
       let css = `:root{--bg:#333!important;--co:#fff!important;--ho:#a89ef5;--ac:rgba(50, 159, 192, 0.844)!important;--inp:rgb(214, 211, 211)!important;--light:#f8f9fa!important;--dark:#333!important;--msg-message:#969eaa!important;--chat-text-bg:#f1f2f6!important;--chat-text-owner:hsl(249, 85%, 71%)!important;--theme-color:#0086ff!important;--msg-date:#c0c7d2!important;--theme-1:#1a1d21!important;--theme-2:#212529!important;--theme-3:#343a40!important;--theme-4:#495057!important;--theme-5:#6c757d!important;--theme-6:#adb5bd!important;--theme-7:#ced4da!important;--theme-8:#dee2e6!important;--theme-9:#f8f9fa!important}.st-1{background-color:var(--theme-1)!important;color:var(--co)}.st-2{background-color:var(--theme-2)!important;color:var(--co)}.st-3{background-color:var(--theme-3)!important;color:var(--co)}.st-4{background-color:var(--theme-4)!important;color:var(--co)}.st-5{background-color:var(--theme-5)!important;color:var(--co)}.st-6{background-color:var(--theme-6)!important;color:var(--co)}.st-7{background-color:var(--theme-7)!important;color:var(--co)}.st-8{background-color:var(--theme-8)!important;color:var(--co)}.st-9{background-color:var(--theme-9)!important;color:var(--co)}`
@@ -42,6 +42,11 @@ if (isset($_GET['id'])) {
       <a href="./">
         <img title="go to homepage" src="img/logo.png" alt="logo" style="width:35px; height: 35px;">
       </a>
+      <div v-if="chatwith_detail && chatwith" id="title" class="row center" style="align-items: center;">
+        <img class="msg-profile" :src="'img/'+chatwith_detail.profile_picture" alt="" style="width:32px; height: 32px;"
+          onerror="this.error = null; this.src ='img/M.jpg' ">
+        <div class="msg-username">{{chatwith_detail.full_name}}</div>
+      </div>
       <div class="nav-content">
         <i @click="goBack" class="fa fas text-dark fa-arrow-left toShow fa-2x" v-show="chatwith != null"></i>
         <a href="./" class="home">
@@ -84,10 +89,10 @@ if (isset($_GET['id'])) {
 
     <!--  messaging box -->
     <div class="message-box box row st-5 p-0" v-if="chatwith != null">
-      <div class="col-2 yellow center toHide p-0">
-        <ul class="center col-12 p-0">
+      <div class="col-3 yellow center toHide p-0">
+        <ul class="center col-12 p-0 side-list">
           <i @click="goBack" class="fa fas fa-arrow-left fa-2x"></i>
-          <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4"
+          <div v-for="(user,index) in online" @click="startChat(index)" class="msg  st-4"
             :class="user.online? 'online': ''">
             <img class="msg-profile" :src="'img/'+user.profile_picture" alt=""
               onerror="this.error = null; this.src ='img/M.jpg' ">
@@ -107,14 +112,14 @@ if (isset($_GET['id'])) {
                 <span class="msg-message ellipsis" v-else-if="user.type == 'loc'">[location]</span>
                 <!-- v-else -->
                 <span class="msg-message ellipsis" v-else>[empty message]</span>
-                <span class="msg-date">{{user.time}}</span>
+                <span class="msg-date" v-if="user.type !== ''">{{user.time}}</span>
               </div>
             </div>
           </div>
         </ul>
       </div>
 
-      <div class="col-10 pl-0 pt-2  chat-area st-4 direct-message">
+      <div class="col-9 pl-0 pt-2  chat-area st-4 direct-message">
         <div class="chat-area-main p-0 st-4 messages">
           <div v-for="(msg, index) in messages" class="chat-msg" :class="msg.to? 'owner':''">
             <div class="chat-msg-profile">
@@ -150,7 +155,7 @@ if (isset($_GET['id'])) {
           <label for="imgUpload" class="col-1"><input class="hide" type="file" id="imgUpload" accept="image/*"><i
               class="fa fa-image"></i></label>
           <label for="songUpload" class="col-1"><input class="hide" type="file" id="songUpload" accept="audio/*">
-            <i class="fa fa-music"></i></label>
+            <i class="fa fa-music "></i></label>
           <div class="col-8 p-0">
             <input type="text" class="form-input text-dark" placeholder="enter message..." id="msg-form"
               autocomplete="off" autofocus="true">

@@ -1,4 +1,4 @@
-<section class="main">
+<section class="main my-2">
     <div class="wrapper">
         <div class="left-col">
             <div class="status-wrapper" style="justify-content: center">

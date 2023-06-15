@@ -4,9 +4,9 @@ require 'dbh.inc.php';
 require 'Auth/auth.php';
 require 'extra/xss-clean.func.php';
 header('content-type: application/json');
-// Initialize message variable 
-// If upload button is clicked ...
 session_start();
+
+
 
 
 // Define constants for file extensions, file size limit, random bytes length, etc.
@@ -17,7 +17,6 @@ define("RANDOM_BYTES_LENGTH", 4);
 // Define a function to validate the input
 function validate_input($type, $image_text, $file_size, $file_ext)
 {
-    // Check if the type is valid
     if ($type != "img" && $type != "txt") {
         return false;
     }
@@ -55,7 +54,7 @@ function insert_post($conn, $image_text, $image, $type, $user, $d)
 }
 
 // Define a function to insert data into the stories table
-function insert_story($conn, $image_text,$image, $type, $user)
+function insert_story($conn, $image_text, $image, $type, $user)
 {
     // Prepare the SQL statement with named parameters
     $sql = "INSERT INTO stories (`post_id`, `text`,`image`, `type`, `userid`) VALUES (?, ?,?, ?, ?)";
@@ -78,16 +77,16 @@ if (isset($_POST['upload'])) {
     $d = new DateTime("now", $timeZone);
 
     // Sanitize and trim the image text from POST
-    $image_text = mysqli_real_escape_string($conn, $_POST['posttext']);
+    $image_text = mysqli_real_escape_string($conn, $_POST['postText']);
     $image_text = xss_clean($image_text);
     $image_text = htmlspecialchars($image_text);
     $image_text = trim($image_text);
 
     // Remove newlines from image text
-    $image_text  = preg_replace('~[\r\n]+~', '', $image_text);
+    $image_text = preg_replace('~[\r\n]+~', '', $image_text);
 
     // Get the check value from POST or false if not set
-    $check = isset($_POST['check']) ? $_POST['check'] : false;
+    $check = isset($_POST['community']) && $_POST['community'] == 'story' ? true : false;
 
     // Check if the type is image
     if ($type == 'img') {
@@ -100,7 +99,7 @@ if (isset($_POST['upload'])) {
         $file_ext = strtolower(end($dot));
 
         // Generate a random image name
-        $image = rand(12, 2000).'_'.generate_post_id() . "." . $file_ext;
+        $image = rand(12, 2000) . '_' . generate_post_id() . "." . $file_ext;
 
         // Validate the input
         if (!validate_input($type, $image_text, $file_size, $file_ext)) {
@@ -115,7 +114,7 @@ if (isset($_POST['upload'])) {
         // Check if check is false
         if (!$check) {
             // Insert data into the posts table with image
-            insert_post($conn, $image_text,  $image, $type, $user, $d);
+            insert_post($conn, $image_text, $image, $type, $user, $d);
             header("Location: ../home.php?post=success");
             die();
         } else {
@@ -128,8 +127,19 @@ if (isset($_POST['upload'])) {
 
         // Validate the input
         if (!validate_input($type, $image_text, 0, "")) {
-            header("Location: ../home.php?upload=invalid");
-            die();
+            if ($_POST['upload'] == 'post') {
+                die(
+                    json_encode(
+                        [
+                            "type" => 'error',
+                            "message" => "Input is invalid",
+                        ]
+                    )
+                );
+            } else {
+                header("Location: ../home.php?upload=invalid");
+                die();
+            }
         }
 
         // Check if check is false
@@ -143,7 +153,14 @@ if (isset($_POST['upload'])) {
 
         // Redirect to the appropriate page based on upload value
         if ($_POST['upload'] == 'post') {
-            header("Location: ../post.php?upload=success");
+            die(
+                json_encode(
+                    [
+                        "type" => 'success',
+                        "message" => "Post uploaded successfully",
+                    ]
+                )
+            );
         } else {
             header("Location: ../home.php?upload=success");
         }

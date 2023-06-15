@@ -7,6 +7,13 @@ session_start();
 
 // a wrapper for 'extra/notification.class.php';
 
+if(!isset($_SESSION['userId'])){
+ die(json_encode([
+    'type'=>'error',
+    'message'=> 'not authenticated',
+ ]));
+}
+
 $user = $_SESSION['userId'];
 $notify = new Notification();
 if(isset($_GET['fetch'])){

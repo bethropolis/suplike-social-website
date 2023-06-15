@@ -1,5 +1,18 @@
 <?php
 require "header.php";
+
+
+$name = '';
+$pic = 'img/M.jpg';
+$user = '';
+
+if (isset($_SESSION['userUid'])) {
+    $name = $_SESSION['firstname'] . " " . $_SESSION['lastname'];
+    $pic = $_SESSION['profile-pic'];
+    $user = $_SESSION['userUid'];
+}
+
+
 ?>
 <script>
     if (sessionStorage.getItem('user') == null) {
@@ -13,9 +26,9 @@ require "header.php";
     <div class="p-0">
         <div class="row mob-m-0">
             <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
-             <?php
-               require "./template/nav.php";
-             ?>
+                <?php
+                require "./template/nav.php";
+                ?>
             </div>
 
             <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
@@ -39,11 +52,11 @@ require "header.php";
                     <form action="inc/post.inc.php"
                         class="mx-auto ca p-2 my-2 col-12 form bg-light text-center postform" method="POST"
                         enctype="multipart/form-data">
-                        <img src="" id="imagedisp" alt="" style="max-height: 172px; width: auto; margin: 7px;">
+                        <img src="" id="imagedisp" alt="" class="mx-auto my-3" style="max-height: 172px; width: auto; margin: 7px;">
                         <input type="hidden" value="txt" id="type" name="type">
                         <input type="file" name="image" id="image_post" style="display: none;">
                         <!--also this -->
-                        <textarea id="text" cols="40" class="textinput" rows="4" name="posttext"
+                        <textarea id="text" cols="40" class="textinput p-2" rows="4" name="posttext"
                             placeholder="what would you like to post about.."
                             oninvalid="this.setCustomValidity('Please you have to write something about this, text cannnot be empty')"
                             oninput="setCustomValidity('')" required></textarea>
@@ -63,20 +76,16 @@ require "header.php";
                 <div class=" card sticky-top card-profile p-4 white rounded text-center profile-card sidebar-content"
                     style="width: 94%; height: 20em; border: none; position: sticky; top: 4.4em; z-index: 1;">
                     <a href="./profile.php">
-                        <img class="profile-pic img-profile shadow-sm" <?php if (!is_null($_SESSION['profile-pic'])) {
-                            echo 'src="img/' . $_SESSION['profile-pic'] . '"';
-                        } else {
-                            echo 'src="img/M.jpg"';
-                        } ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
+                        <img class="profile-pic img-profile shadow-sm" <?php echo 'src="img/' . $pic . '"'; ?> title=" "
+                            alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
                     </a>
                     <a href="./profile.php" class="nameanchor">
                         <h4 id="profile-name">
-                            <?php echo $_SESSION['firstname'];
-                            echo " " . $_SESSION['lastname']; ?>
+                            <?php echo $name; ?>
                         </h4>
                     </a>
                     <h5 class="text-center userName co">
-                        <?php echo "@" . $_SESSION['userUid'] ?>
+                        <?php echo "@" . $user; ?>
                     </h5>
                     <ul class="profile-opt" style="margin: 0;padding: 0;">
                         <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
