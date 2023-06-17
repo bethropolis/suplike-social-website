@@ -46,7 +46,7 @@ if (isset($_SESSION['userUid'])) {
                     </nav>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 p-0">
                 <?php require "./story.php" ?>
                 <div class="container-lg nav-hide">
                     <form action="inc/post.inc.php"
@@ -74,7 +74,7 @@ if (isset($_SESSION['userUid'])) {
                 </div>
             </div>
             <div class="col-sm-3 nav-hide sidebar-sticky flex-column pt-3 sticky-top"  style="width: 94%; height: 20em; border: none; position: sticky; top: 4.4em; z-index: 1;">
-                <div class=" card card-profile white rounded text-center profile-card sidebar-content"
+                <div class=" card card-profile border-0 white rounded text-center profile-card sidebar-content"
                   >
                     <a href="./profile.php">
                         <img class="profile-pic img-profile shadow-sm" <?php echo 'src="img/' . $pic . '"'; ?> title=" "

@@ -72,7 +72,7 @@ no-style{
     ?>
   </div>
 
-  <div class="col-sm-9">
+  <div class="col-sm-9 p-0">
 <div id="app">
     <!-- bootstrap tabs -->
     <ul class="nav nav-tabs">

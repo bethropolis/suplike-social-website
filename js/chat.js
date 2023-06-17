@@ -1,6 +1,7 @@
 const app = new Vue({
     el: '#app',
     data: {
+        status: '',
         chatwith: _id_user,
         user: _token,
         chatwith_detail: null,
@@ -100,9 +101,9 @@ const app = new Vue({
             history.pushState({}, '', '?id=' + this.chatwith);
             document.title = this.online[index].full_name;
         },
-        sendUpload: function (data) {
+        sendUpload: async function (data) {
             // make code for upload to server inc/file.inc.php 
-            $.ajax({
+            await $.ajax({
                 url: `inc/file.inc.php?from=${app.user}&to=${app.chatwith}&type=${app.file_type}`,
                 type: 'POST',
                 data: data,
@@ -113,7 +114,7 @@ const app = new Vue({
                     if (data.success) {
                         // upload_status
                         $('#upload-status').html('');
-                        app.messages.push({
+                         app.messages.push({
                             message: data.file,
                             id: app.user,
                             type: app.file_type,
@@ -125,11 +126,20 @@ const app = new Vue({
                             scrollTop: $('.messages')[0].scrollHeight
                         });
                     }
+                    app.statusReset();
+                    return;
                 }
             });
+
+
         },
         playerUpdate: function (data) {
             this.player.push(data);
+        },
+        statusReset: function () {
+            setTimeout(()=> {
+            this.status = '';
+              }, 2000);
         },
         checkrequest: function () {
             // $.get('./inc/checkrequest.inc.php?user=' + this.user, function(data) {
@@ -206,13 +216,13 @@ const app = new Vue({
         }
         await this.WhoIsOnline();
 
-        const to = await this.online.filter((user) =>{
+        const to = await this.online.filter((user) => {
             return user.id == app.chatwith;
         });
 
-        if(to.length > 0){
-        this.chatwith_detail = to[0];
-     }
+        if (to.length > 0) {
+            this.chatwith_detail = to[0];
+        }
         this.checkrequest();
         // add eventlistener to #songUpload to upload song by calling handleImageUpload
 
@@ -220,14 +230,14 @@ const app = new Vue({
 })
 
 // make for me a code
-const handleUpload = (type, event) => {
+const handleUpload = async (type, event) => {
     app.file_type = type;
     const files = event.target.files;
     const formData = new FormData();
     formData.append("uploadedFile", files[0]);
     // upload_status.innerHTML = "Uploading...";
-    $('#upload-status').html('Uploading...');
-    app.sendUpload(formData);
+    app.status = 'uploading...'
+    await app.sendUpload(formData);
 };
 // document ready
 $(document).ready(function () {

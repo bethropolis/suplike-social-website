@@ -56,7 +56,7 @@ if ($un_ravel->_isEmail_verified($usr) == false) {
     ?>
   </div>
 
-  <div class="col-sm-9">
+  <div class="col-sm-9 p-0">
 
 <!-- end of replacement -->
 <div class="card m-auto bg-light p-2  text-center shadow">

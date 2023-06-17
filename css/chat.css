@@ -66,6 +66,10 @@ a {
   color: #333;
 }
 
+#status{
+  font-size: xx-small;
+}
+
 .btn {
   text-transform: uppercase;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

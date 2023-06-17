@@ -45,7 +45,8 @@ if (isset($_GET['id'])) {
       <div v-if="chatwith_detail && chatwith" id="title" class="row center" style="align-items: center;">
         <img class="msg-profile" :src="'img/'+chatwith_detail.profile_picture" alt="" style="width:32px; height: 32px;"
           onerror="this.error = null; this.src ='img/M.jpg' ">
-        <div class="msg-username">{{chatwith_detail.full_name}}</div>
+        <div class="">{{chatwith_detail.full_name}}</div>
+        <div id="status" class=" text-success ml-1">{{status}}</div>
       </div>
       <div class="nav-content">
         <i @click="goBack" class="fa fas text-dark fa-arrow-left toShow fa-2x" v-show="chatwith != null"></i>

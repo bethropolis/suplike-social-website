@@ -12,7 +12,7 @@ require "header.php";
         }
     </style>
 
-    <div class="card">
+    <div class="card co">
         <div class="card-body">
             <h5 class="card-title">Create Post</h5>
             <div id="toast"></div>
@@ -30,7 +30,7 @@ require "header.php";
                         style="max-height: 152px; max-width: 200px;">
                     <i class="fa fa-trash hide"></i>
                 </div>
-                <div class="row my-2 col-6">
+                <div class="row my-2 col-sm-6">
                     <div class="col-4 my-2">
                         <label for="image">
                             <i class="fa fa-image fa-2x"></i>

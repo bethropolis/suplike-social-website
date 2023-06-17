@@ -13,7 +13,7 @@ $id = $_GET['id'] ?? '';
     ?>
   </div>
 
-  <div class="col-sm-9">
+  <div class="col-sm-9 p-0">
     <main>
 
       <p class="status text center"></p>

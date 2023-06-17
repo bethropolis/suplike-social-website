@@ -416,7 +416,7 @@ function get_popular_users() {
         <li class="text-left align-items-center p-2 border-0  justify-content-between"
         style='display: flex;'>
         <a href="profile.php?id=${item.token}">
-        <span class='page-link co border-0'>@${item.uidusers}</span>
+        <span class='link co border-0'>@${item.uidusers}</span>
          </a>
         <button id='${item.token}' class=" bg p-1 text-center text-white  border-0  outline-0 follower-btn follow-btn p-0" 
         style='outline: none; border-radius: 5px; width: 84px; position: relative;'>
