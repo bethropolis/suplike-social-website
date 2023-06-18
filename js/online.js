@@ -15,6 +15,6 @@ function checkNew(){
         }
     }
     );
-    setTimeout(checkNew, 10000);
+    
 }
-checkNew();
+setInterval(checkNew, 10000);

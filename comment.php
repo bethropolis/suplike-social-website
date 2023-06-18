@@ -27,8 +27,9 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
     <div class="col-sm-9">
         <div id="app">
             <div class="box mt-4">
-                <input id="comm" placeholder="Write a comment...">
-                <button type="submit" class="btn" style="background: var(--ho); color: var(--white);" id="submit">Submit</button>
+                <input id="comm" class="text-dark" placeholder="Write a comment...">
+                <button type="submit" class="btn" style="background: var(--ho); color: var(--white);"
+                    id="submit">Submit</button>
             </div>
             <main id="comments-section">
                 <?php
@@ -40,8 +41,12 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
                         <div class="d-flex flex-row row mb-2">
                             <img src="img/<?= $row['profile_picture'] ?? 'M.jpg' ?>" class="image">
                             <div class="d-flex flex-column col-8 ml-2">
-                                <span class="name"><?= $row["usersFirstname"] . ' ' . $row['usersSecondname'] ?></span>
-                                <small class="comment-text co"><?= $row['comment'] ?></small>
+                                <span class="name">
+                                    <?= $row["usersFirstname"] . ' ' . $row['usersSecondname'] ?>
+                                </span>
+                                <small class="comment-text co">
+                                    <?= $row['comment'] ?>
+                                </small>
                                 <div class="d-flex flex-row align-items-center status">
                                     <a href="./inc/report.inc.php?comment=<?= $row['id'] ?>" class='col-2 mx-2'>
                                         <small>Report</small>
@@ -51,9 +56,18 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
                                         echo '<a href="#delete" onclick="deleteComment(' . $row['post_id'] . ')" class="col-2 mx-2"><small>Delete</small></a>';
                                     }
                                     ?>
-                                    <small class="text-muted text-right ml-5 col-8"><?= $row['date'] ?></small>
+                                    <a href="#reply" onclick="showReplyForm(<?= $row['id'] ?>)"
+                                        class="col-2 mx-2"><small>Reply</small></a>
+                                    <small class="text-muted text-right ml-5 col-8">
+                                        <?= $row['date'] ?>
+                                    </small>
                                 </div>
                             </div>
+                        </div>
+                        <div id="reply-form-<?= $row['id'] ?>" class="reply-form box w-75 ml-5 mt-2" style="display: none;">
+                            <input id="reply-comm-<?= $row['id'] ?>" class="text-dark" placeholder="Write a reply...">
+                            <button type="submit" class="btn" style="background: var(--ho); color: var(--white);"
+                                onclick="postReply(<?= $row['id'] ?>)">Submit</button>
                         </div>
                         <?php
                     }
@@ -119,6 +133,31 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Could not delete comment');
             }
+        });
+    }
+
+    function showReplyForm(commentId) {
+        $('#reply-form-' + commentId).toggle();
+    }
+
+    function postReply(parentId) {
+        var replyInputId = '#reply-comm-' + parentId;
+        var replyText = $(replyInputId).val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'inc/comment.inc.php',
+            data: {
+                user: sessionStorage.getItem('name'),
+                comment: replyText,
+                id: post_id,
+                parent_id: parentId
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: postSuccess,
+            error: postError
         });
     }
 </script>

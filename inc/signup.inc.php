@@ -3,7 +3,7 @@
     require 'Auth/auth.php';
     require 'Auth/email.php';
 if (isset($_POST['signup-submit'])) {
-    $username = $_POST['uid'];
+    $username = strtolower($_POST['uid']);
     $email = $_POST['mail'];
     $password = $_POST['pwd'];
     $oauth = new Auth();

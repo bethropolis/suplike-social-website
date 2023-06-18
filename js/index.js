@@ -407,7 +407,6 @@ function post_request(profile) {
 function get_popular_users() {
   let url = './inc/search.inc.php?type=users&query';
   $.get(url, function (post) {
-      console.log(post);
     if (post.type == 'success') {
       post.data.forEach((item)=>{
         let status = item.following ? 'following': 'follow';
@@ -419,7 +418,7 @@ function get_popular_users() {
         <span class='link co border-0'>@${item.uidusers}</span>
          </a>
         <button id='${item.token}' class=" bg p-1 text-center text-white  border-0  outline-0 follower-btn follow-btn p-0" 
-        style='outline: none; border-radius: 5px; width: 84px; position: relative;'>
+        style='outline: none; border-radius: 5px; width: 40%; position: relative; overflow: hidden'>
         <span class="small">${status}</span>
         </button>
     </li>`)

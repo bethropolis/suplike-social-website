@@ -1,18 +1,13 @@
 <?php
+header('Content-Type: application/json');
 require 'dbh.inc.php';
 require 'Auth/auth.php';
 require 'extra/notification.class.php';
-header('Content-Type: application/json');
 session_start();
 
 // a wrapper for 'extra/notification.class.php';
 
-if(!isset($_SESSION['userId'])){
- die(json_encode([
-    'type'=>'error',
-    'message'=> 'not authenticated',
- ]));
-}
+$un_ravel->_isAuth();
 
 $user = $_SESSION['userId'];
 $notify = new Notification();

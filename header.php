@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_COOKIE['token']) && !isset($_SESSION['userId']) && !isset($_GET['token'])) {
+if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['token'])) {
   header("Location: inc/autologin.php?login");
   exit();
 }

@@ -49,12 +49,12 @@ if (isset($_GET['id'])) {
         <div id="status" class=" text-success ml-1">{{status}}</div>
       </div>
       <div class="nav-content">
-        <i @click="goBack" class="fa fas text-dark fa-arrow-left toShow fa-2x" v-show="chatwith != null"></i>
+        <i @click="goBack" class="fa fas co fa-arrow-left toShow fa-2x" v-show="chatwith != null"></i>
         <a href="./" class="home">
-          <i class="fa fas text-dark  fa-home fa-2x"></i>
+          <i class="fa fas co  fa-home fa-2x"></i>
         </a>
         <a href="inc/logout.inc.php" class="log-out">
-          <i class="fa fas text-dark  fa-sign-out fa-2x"></i>
+          <i class="fa fas co  fa-sign-out fa-2x"></i>
         </a>
       </div>
     </nav>
@@ -92,14 +92,16 @@ if (isset($_GET['id'])) {
     <div class="message-box box row st-5 p-0" v-if="chatwith != null">
       <div class="col-3 yellow center toHide p-0">
         <ul class="center col-12 p-0 side-list">
+          <div class='mt-2 py-1'>  
           <i @click="goBack" class="fa fas fa-arrow-left fa-2x"></i>
-          <div v-for="(user,index) in online" @click="startChat(index)" class="msg  st-4"
+          </div>
+          <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4"
             :class="user.online? 'online': ''">
             <img class="msg-profile" :src="'img/'+user.profile_picture" alt=""
               onerror="this.error = null; this.src ='img/M.jpg' ">
-            <div class="msg-detail">
-              <div class="msg-username">{{user.full_name}}</div>
-              <div class="msg-content">
+            <div class="msg-detail col-9 p-0">
+              <div class="msg-username text-left">{{user.full_name}}</div>
+              <div class="msg-content col-12 small p-0" :class="user.type !== '' ? 'justify-content-between' : ''">
                 <span class="msg-message ellipsis" v-if="user.type == 'txt'">{{user.last_msg||'[empty message]'}}</span>
                 <!-- v-else-if if type == 'img' -->
                 <span class="msg-message ellipsis" v-else-if="user.type == 'img'">[image]</span>
@@ -113,15 +115,15 @@ if (isset($_GET['id'])) {
                 <span class="msg-message ellipsis" v-else-if="user.type == 'loc'">[location]</span>
                 <!-- v-else -->
                 <span class="msg-message ellipsis" v-else>[empty message]</span>
-                <span class="msg-date" v-if="user.type !== ''">{{user.time}}</span>
+                <span class="text-muted" v-if="user.type !== ''">{{user.time}}</span>
               </div>
             </div>
           </div>
         </ul>
       </div>
 
-      <div class="col-9 pl-0 pt-2  chat-area st-4 direct-message">
-        <div class="chat-area-main p-0 st-4 messages">
+      <div class="col-9 pl-0 pt-2 chat-area st-4 direct-message">
+        <div class="chat-area-main mt-3 p-0 st-4 messages">
           <div v-for="(msg, index) in messages" class="chat-msg" :class="msg.to? 'owner':''">
             <div class="chat-msg-profile">
               <div class="chat-msg-date">{{msg.time}}</div>
@@ -158,7 +160,7 @@ if (isset($_GET['id'])) {
           <label for="songUpload" class="col-1"><input class="hide" type="file" id="songUpload" accept="audio/*">
             <i class="fa fa-music "></i></label>
           <div class="col-8 p-0">
-            <input type="text" class="form-input text-dark" placeholder="enter message..." id="msg-form"
+            <input type="text" class="form-input co" placeholder="enter message..." id="msg-form"
               autocomplete="off" autofocus="true">
           </div>
           <div class="col-1 p-0">

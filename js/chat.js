@@ -2,6 +2,7 @@ const app = new Vue({
     el: '#app',
     data: {
         status: '',
+        statusbackup: '',
         chatwith: _id_user,
         user: _token,
         chatwith_detail: null,
@@ -95,9 +96,11 @@ const app = new Vue({
             })
         },
         startChat: function (index) {
+            if (this.chatwith === this.online[index].id) return
             this.messages = [];
             this.chatwith = this.online[index].id;
             this.chatwith_detail = this.online[index];
+            if (this.online[index].online) this.statusSet('online');
             history.pushState({}, '', '?id=' + this.chatwith);
             document.title = this.online[index].full_name;
         },
@@ -114,7 +117,7 @@ const app = new Vue({
                     if (data.success) {
                         // upload_status
                         $('#upload-status').html('');
-                         app.messages.push({
+                        app.messages.push({
                             message: data.file,
                             id: app.user,
                             type: app.file_type,
@@ -137,9 +140,16 @@ const app = new Vue({
             this.player.push(data);
         },
         statusReset: function () {
-            setTimeout(()=> {
-            this.status = '';
-              }, 2000);
+            setTimeout(() => {
+                if (this.statusbackup !== '') {
+                    return this.status = this.statusbackup;
+                }
+                this.status = '';
+            }, 2000);
+        },
+        statusSet: function (stat) {
+            this.statusbackup = this.status;
+            this.status = stat;
         },
         checkrequest: function () {
             // $.get('./inc/checkrequest.inc.php?user=' + this.user, function(data) {
@@ -217,15 +227,17 @@ const app = new Vue({
         await this.WhoIsOnline();
 
         const to = await this.online.filter((user) => {
-            return user.id == app.chatwith;
+            return user.id == this.chatwith;
         });
 
         if (to.length > 0) {
             this.chatwith_detail = to[0];
+            if (to[0].online) this.statusSet('online');
+
         }
+        if(window.innerWidth > 605 && this.chatwith == null) this.startChat(0);
         this.checkrequest();
         // add eventlistener to #songUpload to upload song by calling handleImageUpload
-
     }
 })
 
@@ -236,7 +248,7 @@ const handleUpload = async (type, event) => {
     const formData = new FormData();
     formData.append("uploadedFile", files[0]);
     // upload_status.innerHTML = "Uploading...";
-    app.status = 'uploading...'
+    app.statusSet('uploading...');
     await app.sendUpload(formData);
 };
 // document ready

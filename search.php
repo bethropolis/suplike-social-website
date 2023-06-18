@@ -48,7 +48,7 @@ if (isset($_GET['q'])) {
 ?>
 ,
 <link rel="stylesheet" href="css/search.css">
-<div class="row mob-m-0">
+<div class="row">
   <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
     <?php
     require "./template/nav.php";
@@ -58,18 +58,18 @@ if (isset($_GET['q'])) {
   <div class="col-sm-9 p-0">
 
     <!-- Search form -->
-    <form method="get" class="mx-auto my-4" action="">
+    <form method="get" class="mx-auto" action="">
       <div class="main">
         <!-- Actual search box -->
         <div class="form-group has-feedback has-search">
           <span class="fa fa-search form-control-feedback"></span>
           <input type="text" class="form-control" name="q" value="<?php echo $searchKeyword; ?>"
-            placeholder="Search users...">
+            placeholder="Search users..." autofocus>
         </div>
 
       </div>
     </form>
-    <ul class="list">
+    <ul class="list px-0">
       <?php
 
       if ($result) {
@@ -90,7 +90,7 @@ if (isset($_GET['q'])) {
           ?>
 
 
-          <li ng-repeat="user in ctrl.users" class="list-item">
+          <li class="list-item px-2">
             <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link co">
               <div>
                 <img src="./img/<?php if (!is_null($row['profile_picture'])) {
@@ -116,9 +116,8 @@ if (isset($_GET['q'])) {
                 ?>
               </p>
             </div>
-            <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="sbutton follow-btn"><span>
-                <?= $follow ?>
-              </span> <i class="fas <?= $icon ?> text-white " aria-hidden="true"></i></button>
+            <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="sbutton follow-btn">
+            <span class='small'><?= $follow ?></span> <i class="fas <?= $icon ?> text-white " aria-hidden="true"></i></button>
           </li>
 
 

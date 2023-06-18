@@ -72,7 +72,7 @@ no-style{
     ?>
   </div>
 
-  <div class="col-sm-9 p-0">
+  <div class="col-sm-9 mb-4 p-0">
 <div id="app">
     <!-- bootstrap tabs -->
     <ul class="nav nav-tabs">
@@ -95,7 +95,7 @@ no-style{
                 <div class="notify-type">{{notify.notification_id}}</div>
                 <div class="notify-time">{{notify.date}}</div>
             </div>
-            <div class="col-md-5 p-0">
+            <div class="col-5 px-2 justify-content-end row">
                 <!-- mark as read button -->
                 <button class="notify-mark  text-dark btn mx-1" v-on:click='mark_read(notify.notification_id)'>seen</button>
                 <!-- delete button -->

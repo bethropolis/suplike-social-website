@@ -99,7 +99,7 @@ if (isset($_SESSION['userUid'])) {
                 </div>
                 <div class="shadow-sm mt-5 sidebar-content">
                     <h5 class='co'>Popular users</h5>
-                    <div id="popular-users">
+                    <div id="popular-users" style='overflow-y: auto; height: 33vh'>
 
                     </div>
                 </div>
