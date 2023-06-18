@@ -5,4 +5,5 @@ img/
 vendor/
 sendgrid.env
 inc/setup/setup.suplike.json
-inc/errors/error.log.txt
+inc/errors/*.txt
+post.php

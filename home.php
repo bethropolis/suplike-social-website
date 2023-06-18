@@ -4,7 +4,7 @@ require "header.php";
 
 $name = '';
 $pic = 'M.jpg';
-$user = '';
+$user = 'anonymous';
 
 if (isset($_SESSION['userUid'])) {
     $name = $_SESSION['firstname'] . " " . $_SESSION['lastname'];
@@ -73,9 +73,9 @@ if (isset($_SESSION['userUid'])) {
                     <noscript style="color:red">this site requires javascript to function</noscript>
                 </div>
             </div>
-            <div class="col-sm-3 nav-hide sidebar-sticky flex-column pt-3 sticky-top"  style="width: 94%; height: 20em; border: none; position: sticky; top: 4.4em; z-index: 1;">
-                <div class=" card card-profile border-0 white rounded text-center profile-card sidebar-content"
-                  >
+            <div class="col-sm-3 nav-hide sidebar-sticky flex-column pt-3 sticky-top"
+                style="width: 94%; height: 20em; border: none; position: sticky; top: 4.4em; z-index: 1;">
+                <div class=" card card-profile border-0 white rounded text-center profile-card sidebar-content">
                     <a href="./profile.php">
                         <img class="profile-pic img-profile shadow-sm" <?php echo 'src="img/' . $pic . '"'; ?> title=" "
                             alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
@@ -84,10 +84,10 @@ if (isset($_SESSION['userUid'])) {
                         <h4 id="profile-name">
                             <?php echo $name; ?>
                         </h4>
-                       
+
                     </a>
                     <h5 class="text-center userName co">
-                        <?php echo "@" . $user; ?>
+                       <?php echo "@". $user; ?>
                     </h5>
                     <ul class="profile-opt mb-5">
                         <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>

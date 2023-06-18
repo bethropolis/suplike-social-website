@@ -9,13 +9,10 @@ header('content-type: application/json');
 # the api is called by the frontend
 session_start();
 
-//auth check
-$un_ravel->_isAuth();
-
 
 $answer = array();
 $id = isset($_GET['id']) ? $_GET['id'] : null;
-$user = isset($_GET['user']) ? $_GET['user'] : null;
+$user = isset($_GET['user']) && $_GET['user'] != null ? $_GET['user'] : $id;
 
 
 if (!is_null($id)) {

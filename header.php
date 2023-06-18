@@ -14,7 +14,6 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Suplike social website</title>
   <meta name="description" content="suplike social is a website for friends and family to share" />
-
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bethro.alwaysdata.net" />
@@ -72,14 +71,16 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
       <a href="./">
         <img title="logo" src="img/logo.png" alt="logo">
       </a>
-      <button class="navbar-toggler collapsed" style="outline: none; border: none;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler collapsed" style="outline: none; border: none;" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
       </button>
       <div class="navbar-collapse justify-content-right collapse" id="navbarSupportedContent">
         <?php
         // repeat but a better readable code
         if (isset($_SESSION['token'])) {
-        ?>
+          ?>
           <ul class="navbar-nav ml-auto mr-1">
             <?php
             if ($_SESSION['isAdmin'] === 1) {
@@ -92,15 +93,22 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
             <a href="settings.php?profile"><i title="settings" class="fa fa-cog fa-2x"></i></a>
             <a href="inc/logout.inc.php"><i id="logout" title="logout" class="fa fa-sign-in-alt fa-2x"></i></a>
           </ul>
-        <?php
-        } ?>
+          <?php
+        } else { ?>
+          <ul class="navbar-nav ml-auto mr-1 nav nav-pills">
+            <a class="flex-sm-fill text-sm-center nav-link" href="./login">login</a>
+            <a class="flex-sm-fill text-sm-center nav-link btn bg" href="./signup">signup</a>
+          </ul>
+          <?php
+        }
+        ?>
       </div>
     </nav>
 
   </header>
   <?php
   if (isset($_SESSION['userId'])) {
-  ?>
+    ?>
     <div class="text-right w-100 h4 nav-show px-1 mx-0">
       <div class="w-100 text-right">
         <?php
@@ -115,47 +123,47 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
 
         <?php
         if (in_array($current_page, $pages_array)) {
-          
-        ?>
 
-        <a href="<?= $_SERVER['HTTP_REFERER'] ?>" id="back">
-          <i class="fa fa-arrow-left"></i>
-        </a>
+          ?>
+
+          <a href="<?= $_SERVER['HTTP_REFERER'] ?>" id="back">
+            <i class="fa fa-arrow-left"></i>
+          </a>
 
           <a href="home">
             <i class="fa fa-home"></i>
           </a>
 
-        <?php
+          <?php
         } else if (in_array($current_page, $pages_array_2)) {
-        ?>
-          <a href="post.php"><i class="fas fa-plus mx-1"></i></a>
-          <?php
-          if ($_SESSION['isAdmin'] === 1) {
           ?>
-            <a href="./dashboard/">
-              <i class="fas fa-user-shield"></i>
-            </a>
+            <a href="post.php"><i class="fas fa-plus mx-1"></i></a>
+            <?php
+            if ($_SESSION['isAdmin'] === 1) {
+              ?>
+              <a href="./dashboard/">
+                <i class="fas fa-user-shield"></i>
+              </a>
+            <?php
+            }
+            ?>
+            <a href="message" class="no-style"><i class="fas fa-envelope mx-1"></i></a>
           <?php
-          }
-          ?>
-          <a href="message" class="no-style"><i class="fas fa-envelope mx-1"></i></a>
-        <?php
         } else if (in_array($current_page, $pages_array_3)) {
-        ?>
-          <a href='<?= $_SERVER['HTTP_REFERER'] ?? '#' ?>' id="back">
-            <i class="fas fa-arrow-left"></i>
-          </a>
-        <?php
-        }else if (in_array($current_page, $pages_array_4)) {
-        ?>
-        <a href="settings" class="no-style"><i class="fas fa-cog mx-1"></i></a>
-      <a href="inc/logout.inc.php" class="no-style"><i class="fas fa-sign-in-alt mx-1"></i></a>
-        <?php
-        }
           ?>
+              <a href='<?= $_SERVER['HTTP_REFERER'] ?? '#' ?>' id="back">
+                <i class="fas fa-arrow-left"></i>
+              </a>
+          <?php
+        } else if (in_array($current_page, $pages_array_4)) {
+          ?>
+                <a href="settings" class="no-style"><i class="fas fa-cog mx-1"></i></a>
+                <a href="inc/logout.inc.php" class="no-style"><i class="fas fa-sign-in-alt mx-1"></i></a>
+          <?php
+        }
+        ?>
       </div>
     </div>
-  <?php
+    <?php
   }
   ?>

@@ -87,6 +87,7 @@ require 'footer.php';
         $("#postForm").submit(function (e) {
             e.preventDefault();
 
+
             // Get form data
             var formData = new FormData(this);
             formData.append("type", $("#image").get(0).files.length > 0 ? "img" : "txt");
@@ -113,7 +114,7 @@ require 'footer.php';
                         $('#image').val('');
                     } else {
                         // Show error toast
-                        showToast("Error!", `error: ${response.message}`, "warning");
+                        showToast("Error!", `error: ${response.message || response.msg}`, "warning");
                     }
                 },
                 error: function (xhr, status, error) {
@@ -136,6 +137,10 @@ require 'footer.php';
                     </div>`;
 
             $("#toast").html(toast);
+            $("#toast").fadeOut(2000, function () {
+                $(this).empty().show();
+            });
+
         }
 
 

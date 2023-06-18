@@ -1,9 +1,10 @@
 <?php
-
+header('content-type: application/json');
 require 'dbh.inc.php';
 require 'Auth/auth.php';
 require 'extra/xss-clean.func.php';
-header('content-type: application/json');
+
+$un_ravel->_isAuth();
 
 if (isset($_GET['user'])) {
 
@@ -15,8 +16,8 @@ if (isset($_GET['user'])) {
     $query = "SELECT * FROM `following` WHERE `user`=$user";
     $result = $conn->query($query);
     while ($row = $result->fetch_assoc()) {
-        $fol_arr[] = $row["following"];    
-    } 
+        $fol_arr[] = $row["following"];
+    }
     $fol_arr[] = $user;
     for ($i = 0; $i < count($fol_arr); $i++) {
         $f = $fol_arr[$i];
@@ -27,13 +28,10 @@ if (isset($_GET['user'])) {
         ";
         $resp = $conn->query($sql);
         while ($row = mysqli_fetch_assoc($resp)) {
-            $row['pic'] = $row['pic'] ? $row['pic']: 'M.jpg';
+            $row['pic'] = $row['pic'] ? $row['pic'] : 'M.jpg';
             $arr[$row["username"]][] = $row;
         }
-    } 
+    }
     $result_array['stories'] = $arr;
     echo json_encode($result_array);
-} 
-
-
-
+}

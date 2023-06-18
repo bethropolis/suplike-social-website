@@ -189,14 +189,17 @@ class Auth
   }
   public function _isEmail_verified($user)
   {
-    $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = $user";
-    $result = mysqli_fetch_assoc($this->conn->query($sql));
-    if ($result) {
-      return true;
-    } else {
-      return false;
-    }
+      $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = ?";
+      $stmt = $this->conn->prepare($sql);
+      $stmt->bind_param("i", $user);
+      $stmt->execute();
+      $stmt->bind_result($emailVerified);
+      $stmt->fetch();
+      $stmt->close();
+  
+      return (bool) $emailVerified;
   }
+  
   public function _isBot($to = null)
   {
     if ($to) {
@@ -225,3 +228,4 @@ class Auth
 }
 
 $un_ravel = new Auth();
+?>

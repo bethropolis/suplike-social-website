@@ -3,6 +3,7 @@ require "header.php";
 require "mobile.php";
 $id = $_GET['id'] ?? '';
 
+
 ?>
 
 
@@ -14,11 +15,23 @@ $id = $_GET['id'] ?? '';
   </div>
 
   <div class="col-sm-9 p-0">
-    <main>
+    <?php
 
-      <p class="status text center"></p>
+    if (isset($_SESSION['token'])) {
+      ?>
+      <main>
 
-    </main>
+        <p class="status text center"></p>
+
+      </main>
+      <?php
+    } else {
+      ?>
+      <div class="alert alert-info w-75 text-center mx-auto mt-5">
+        <h4>You need to login to access this</h4>
+      </div>
+
+    <?php } ?>
   </div>
   <br><br><br>
   <div class="mobile nav-show">

@@ -12,6 +12,9 @@ if (isset($_GET['error'])) {
   if ($_GET['error'] == 'invalidmail') {
     echo '<h5>not a  valid email</h5>';
   }
+  if ($_GET['error'] == 'invaliduid') {
+    echo '<h5>not a  valid username</h5>';
+  }
   if ($_GET['error'] == 'emailtaken') {
     echo '<h5>the email is already in use</h5>';
   }  

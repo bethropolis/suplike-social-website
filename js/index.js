@@ -1,5 +1,5 @@
-const _user_id = sessionStorage.getItem("user");
-const _user_name = sessionStorage.getItem("name");
+const _user_id = sessionStorage.getItem("user")|| "";
+const _user_name = sessionStorage.getItem("name")|| "";
 
 function mainload(url = "./inc/post.inc.php?user=") {
   $("#image_post").on("change", function (e) {
@@ -21,6 +21,7 @@ function mainload(url = "./inc/post.inc.php?user=") {
         addClick();
         add_lightbox();
       } else if (posts instanceof Object) {
+        if(posts?.type === 'error') return
         posts.data.forEach((post) => {
           if (!post.profile_picture) {
             post.profile_picture = "M.jpg";
@@ -426,6 +427,8 @@ function get_popular_users() {
 
       follow(_user_id);
 
+    }else{
+       $('#popular-users').append("<div class='text-center w-full'>Not logged in</div>")
     }
   });
 }
