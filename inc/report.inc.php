@@ -2,6 +2,7 @@
 include_once 'dbh.inc.php';
 include_once 'Auth/auth.php';
 
+session_start();
 //auth check
 $un_ravel->_isAuth();
 
@@ -18,6 +19,23 @@ if (isset($_POST['id'])) {
 	}
 }
 
+if (isset($_GET['comment'])) {
+	$c = $_GET['comment'];
+	$sql = "INSERT INTO `reports` (`comment_id`,`is_comment`) VALUE ('$c',TRUE)";
+	$conn->query($sql);
+	$from = $_SERVER['HTTP_REFERER'] . '&act=reported';
+	header('Location: ' . $from);
+}
+
+
+
+// ADMIN SECTION
+
+if (!$un_ravel->_isAdmin($_SESSION['userId'])) {
+	print_r(json_encode("error not auth"));
+	exit();
+}
+
 if (isset($_POST['del'])) {
 	$id = $_POST['del'];
 	$sql = "UPDATE `reports` SET `delt`=TRUE WHERE `post_id`=$id";
@@ -29,10 +47,20 @@ if (isset($_POST['del'])) {
 	exit();
 }
 
+if (isset($_POST['delc'])) {
+	$id = $_POST['id'];
+	$c = $_POST['delc'];
+	$sql = "UPDATE `reports` SET `delt`=TRUE WHERE `comment_id`=$id";
+	$conn->query($sql);
+	$sql = "DELETE FROM `comments` WHERE `comments`.`id` = " . $c;
+	$conn->query($sql);
+	print_r(json_encode("deleted"));
+}
+
 if (isset($_GET['report'])) {
 	$type = $_GET['type'];
 	$arr = [];
-	$sql = "SELECT * FROM `reports` WHERE `delt`=$type"; 
+	$sql = "SELECT * FROM `reports` WHERE `delt`=$type";
 	$rsp = $conn->query($sql);
 	while ($row = $rsp->fetch_assoc()) {
 		$arr[] = $row;
@@ -40,19 +68,4 @@ if (isset($_GET['report'])) {
 	print_r(json_encode($arr));
 }
 
-if (isset($_GET['comment'])) {
-	$c = $_GET['comment'];
-	$sql = "INSERT INTO `reports` (`comment_id`,`is_comment`) VALUE ('$c',TRUE)";
-	$conn->query($sql);
-	$from = $_SERVER['HTTP_REFERER'] . '&act=reported';
-	header('Location: ' . $from);
-}
 
-if (isset($_POST['delc'])) {  
-	$c = $_POST['delc']; 
-	$sql = "UPDATE `reports` SET `delt`=TRUE WHERE `comment_id`=$id";
-	$conn->query($sql);
-	$sql = "DELETE FROM `comments` WHERE `comments`.`id` = ".$c; 
-	$conn->query($sql);
-	print_r(json_encode("deleted"));
-}

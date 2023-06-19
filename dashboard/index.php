@@ -22,7 +22,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
     <title>Admin Dashboard</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
     <link rel="icon" type="image/png" href="../img/logo.png">
-    <link rel="stylesheet" href="../lib/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="../lib/font-awesome/css/all.min.css">
     <!-- Bootstrap core CSS -->
     <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../lib/jquery/jquery.dataTables.min.css">
@@ -78,6 +78,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             </ul>
         </nav>
         <div class="container-fluid">
+
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block nav-color sidebar collapse">
                     <!---------------------------------side nav--------------------------------------------------->
@@ -85,50 +86,44 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 0? 'active':''" @click.prevent="stage = 0">
-                                    <span data-feather="home"></span>
-                                    Dashboard <span class="sr-only">(current)</span>
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span class="ml-2">Dashboard</span> <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 1? 'active':''" @click.prevent="stage = 1">
-                                    <span data-feather="file"></span>
-                                    users
-
+                                    <i class="fas fa-users"></i>
+                                    <span class="ml-2">Users</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 2? 'active':''" @click.prevent="stage = 2">
-                                    <span data-feather="shopping-cart"></span>
-                                    posts
-
+                                    <i class="fas fa-file-alt"></i>
+                                    <span class="ml-2">Posts</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 3? 'active':''" @click.prevent="stage = 3">
-                                    <span data-feather="users"></span>
-                                    visits
-
+                                    <i class="fas fa-eye"></i>
+                                    <span class="ml-2">Visits</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 4? 'active':''" @click.prevent="stage = 4">
-                                    <span data-feather="file-text"></span>
-                                    social engagement
-
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span class="ml-2">Social Engagement</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 5? 'active':''" @click.prevent="stage = 5">
-                                    <span data-feather="bar-chart-2"></span>
-                                    Reports
-
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span class="ml-2">Moderation</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 6? 'active':''" @click.prevent="stage = 6">
-                                    <span data-feather="layers"></span>
-                                    Integrations
-
+                                    <i class="fas fa-layer-group"></i>
+                                    <span class="ml-2">Integrations</span>
                                 </a>
                             </li>
                         </ul>
@@ -138,34 +133,35 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </h6>
                             <li class="nav-item">
                                 <a class="nav-link" :class="stage == 10? 'active':''" @click.prevent="stage = 10" href="#">
-                                    <span data-feather="file-text"></span>
-                                    settings
-
+                                    <i class="fas fa-cog"></i>
+                                    <span class="ml-2">Settings</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../">
-                                    <span data-feather="file-text"> home </span>
-
+                                    <i class="fas fa-home"></i>
+                                    <span class="ml-2">Home</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </nav>
+
+
+
+
+
+
+
                 <!-- the main focus -->
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 main">
+
                     <!--------------------------------------- stage 0 the dashboard ------------------------------------------------->
                     <div v-show="stage == 0">
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 class="h2">Dashboard</h1>
                             <div class="btn-toolbar mb-2 mb-md-0">
                                 <div class="btn-group mr-2">
-                                    <button type="button" class="btn btn-sm btn-icon-split btn-outline-secondary">
-                                        <span class="icon text-white-50">
-                                            <i class="fa fa-download"></i>
-                                        </span>
-                                        <span class="text">Export</span>
-                                    </button>
                                 </div>
                                 <button type="button" id="w" class="btn btn-sm btn-outline-secondary dropdown-toggle">
                                     <span data-feather="calendar"></span>
@@ -270,6 +266,8 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </div>
                         </div>
                     </div>
+
+
                     <!----------------------------------- the visits page ----------------------------------------->
                     <div class="" v-show="stage == 3" style="min-width: 250px">
                         <div class="row">
@@ -314,6 +312,8 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </div>
                         </div>
                     </div>
+
+                    
                     <!-------------------------------------------------- the social engagement page ----------------------------->
                     <div class="" v-show="stage == 4">
                         <div class="row mb-4">
@@ -431,6 +431,8 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </div>
                         </div>
                     </div>
+
+
                     <!---------------------------------- the report page ---------------------------------->
                     <div class="" v-show="stage == 5">
                         <h1 class="h2">reports</h1>
@@ -443,7 +445,8 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         <div class="row">
                             <h2>Posts</h2>
                             <div v-for="(report, index) in reports" class="col-12 row border p-2">
-                                <h4 class="col-8">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
+                                <h4 class="col-4">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
+                                <span class="col-4">type: {{parseInt(report.is_comment) ? 'comment' : 'post'}}</span>
                                 <div class="col-4 text-right">
                                     <button class="btn btn-danger" @click="sendReport(index)">
                                         <i class="fa fa-trash text-light fa-2x"></i>
@@ -452,9 +455,40 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </div>
                         </div>
                     </div>
+
+
                     <!--------------------------------- the integration page  ------------------------------->
                     <div class="" v-show="stage == 6">
                         <h6 class="alert text">integrations to come soon</h6>
+                    </div>
+
+                    <!-------------------------------- the settings section ----------------->
+                    <div class="settings" v-show="stage == 10">
+                        <!-- dark mode toggle -->
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="darkModeToggle" v-model="darkMode">
+                            <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+                        </div>
+
+                        <!-- other settings options -->
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleSelect1">Example select</label>
+                            <select class="form-control" id="exampleSelect1">
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleTextarea">Example textarea</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                        </div>
                     </div>
                 </main>
             </div>

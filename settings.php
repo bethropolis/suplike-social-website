@@ -1,9 +1,11 @@
 <?php
-require 'header.php';
-require 'inc/dbh.inc.php';
-if (!isset($_SESSION['userId'])) {
-  header('Location: ./login.php');
-  exit();
+require_once 'inc/dbh.inc.php';
+require_once 'header.php';
+if (!isset($_SESSION['token'])) {
+  echo "<div class='alert alert-info w-75 text-center mx-auto mt-5'>
+          <h4>You need to login to access this</h4>
+        </div>";
+  die();
 }
 $query = "SELECT * FROM `users` WHERE `idusers`=" . $_SESSION['userId'] . "";
 $result = $conn->query($query)->fetch_assoc();
@@ -81,7 +83,7 @@ if (!is_null($_SESSION['profile-pic'])) {
           </select>
         </div>
 
-      <?php
+        <?php
 
     } else if (isset($_GET['about'])) {
       // about page

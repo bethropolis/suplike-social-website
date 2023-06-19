@@ -12,6 +12,7 @@
   --btn-co: #fff;
   --option: #6d6d6e1c;
   --card: #fff;
+  --comment-card: #f8f9fa;
   --nav: #cec9f9;
   --muted-text: #6d6d6e;
   --purple: rgba(91, 55, 183, 1);
@@ -41,7 +42,7 @@ body {
 a {
   color: var(--dark);
 }
-a:hover {
+a:hover:not(.nav-link) {
   color: var(--ho) !important;
   text-decoration: none;
 }

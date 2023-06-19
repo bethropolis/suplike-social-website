@@ -91,7 +91,6 @@ CREATE TABLE `comments` (
   `id` int(11) NOT NULL,
   `post_id` varchar(126) NOT NULL,
   `user` tinytext NOT NULL,
-  `user_token` varchar(126) NOT NULL,
   `comment` longtext NOT NULL,
   `likes` int(15) NOT NULL DEFAULT 0,
   `parent_id` int(11) DEFAULT NULL,

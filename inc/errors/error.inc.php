@@ -72,7 +72,7 @@ class Err
    private function _log()
    {
       $txt = file_get_contents($this->log);
-      $txt .= "user: " . $this->name . " occurred Error: " . $this->error . "    " . $this->time->format("Y-m-d H:i:s") . "  on  " . $_SERVER['SCRIPT_FILENAME'] . "\n";
+      $txt .= "Type: " . $this->name . " occurred Error: " . $this->error . "    " . $this->time->format("Y-m-d H:i:s") . "  on  " . $_SERVER['SCRIPT_FILENAME'] . "\n";
       file_put_contents($this->log, $txt);
    }
 }

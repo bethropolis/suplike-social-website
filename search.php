@@ -102,9 +102,9 @@ if (isset($_GET['q'])) {
             </a>
             <div class="list-item-content">
               <a href="profile.php?id=<?= $un_ravel->_queryUser($row['idusers'], 4) ?>" class="prof-link co">
-              <h4>
-                <?php echo $title; ?>
-              </h4>
+                <h4>
+                  <?php echo $title; ?>
+                </h4>
               </a>
               <p>
                 <?php
@@ -117,7 +117,8 @@ if (isset($_GET['q'])) {
               </p>
             </div>
             <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="sbutton follow-btn">
-            <span class='small'><?= $follow ?></span> <i class="fas <?= $icon ?> text-white " aria-hidden="true"></i></button>
+              <span class='small'><?= $follow ?></span>
+              <i class="fas <?= $icon ?> text-white " aria-hidden="true"></i></button>
           </li>
 
 

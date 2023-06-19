@@ -1,9 +1,5 @@
 /* comment.css */
 
-/* Comment container */
-#app {
-  padding: 20px;
-}
 
 /* Comment box */
 .box {
@@ -31,48 +27,75 @@
   margin-top: 20px;
 }
 
-/* Comment item */
-.d-flex.flex-row.row.mb-2 {
+/* Comment container */
+.comment-container {
+  background-color: var(--comment-card);
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 5px; /* Larger margin between parent comments */
+}
+.comment-container:not(.reply-container) {
+  margin-top: 20px;
+}
+.reply-container {
+  margin-bottom: 2.5px; /* Smaller margin between replies */
+}
+
+.comment-container:first-child {
+  margin-top: 0;
+}
+
+/* Comment header */
+.comment-header {
+  display: flex;
   align-items: center;
+  margin-bottom: 5px;
 }
 
-.image {
-  width: 50px;
-  height: 50px;
+.user-image {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  object-fit: cover;
   margin-right: 10px;
 }
 
-.name {
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
   font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 16px;
 }
 
-.comment-text {
-  margin-bottom: 5px;
-}
-
-.status {
-  margin-top: 5px;
-}
-
-.status a {
-  margin-right: 10px;
-  color: var(--ho);
-  text-decoration: none;
-}
-
-.text-muted.text-right.ml-5.col-8 {
+.comment-date {
   font-size: 12px;
   color: #888;
 }
 
-@media screen and (max-width: 620px) {
-  .box #comm {
-    width: 65%;
-  }
-  .box button {
-    width: 26%;
-  }
+/* Comment content */
+.comment-content {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Comment actions */
+.comment-actions a {
+  color: #888;
+  margin-right: 10px;
+}
+
+.comment-actions a:hover {
+  color: #333;
+}
+
+.comment-actions i {
+  margin-right: 5px;
+}
+
+/* Reply form */
+.reply-form {
+  margin-left: 20px;
+  min-width: 200px;
 }

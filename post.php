@@ -136,11 +136,10 @@ require 'footer.php';
                         
                     </div>`;
 
-            $("#toast").html(toast);
-            $("#toast").fadeOut(2000, function () {
+             $("#toast").html(toast);
+            $("#toast").fadeOut(5000, function () {
                 $(this).empty().show();
             });
-
         }
 
 

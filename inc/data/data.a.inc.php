@@ -1,9 +1,15 @@
 <?php
+header('content-type: application/json');
 require '../dbh.inc.php';
 require '../errors/error.inc.php';
 require '../Auth/auth.php';
-header('content-type: application/json');
 
+session_start();
+$un_ravel->_isAuth();
+
+if(!$un_ravel->_isAdmin($_SESSION['userId'])){
+	header('HTTP/1.1 403 Forbidden');
+}
 $err = new Err();
 $err->_set_log('../errors/error.log.txt'); // set where errors will be writen 
 if (isset($_GET['key'])) {

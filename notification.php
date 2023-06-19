@@ -7,25 +7,12 @@ require 'header.php';
 ?>
 <script src="lib/vue/vue.min.js"></script>
 <style>
-    /* css for elements below */
-
-    body {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
-
     .notification-item {
         padding: 10px;
         border-bottom: 1px solid #ccc;
         cursor: pointer;
         display: flex;
         align-items: center;
-    }
-
-    .notification-item:hover,
-    .notification-item:hover .notify-text {
-        color: #000 !important;
     }
 
     .notification-item .notify-text {
@@ -43,25 +30,12 @@ require 'header.php';
         color: grey;
     }
 
-    .notification-item .notify-time:hover {
-        color: #000;
-    }
-
     .notification-item .notify-delete,
     .notification-item .notify-mark {
         float: right;
         font-size: 12px;
         color: #ccc;
         cursor: pointer;
-    }
-
-    no-style:hover {
-        color: var(--co) !important;
-        text-decoration: none;
-    }
-
-    no-style {
-        color: var(--co) !important;
     }
 </style>
 <div class="row mob-m-0">
@@ -75,13 +49,12 @@ require 'header.php';
         <?php
 
         if (isset($_SESSION['token'])) {
-            ?>
+        ?>
             <div id="app">
                 <!-- bootstrap tabs -->
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#notify" @click.prevent="page = 1"
-                            data-toggle="tab">Notifications</a>
+                        <a class="nav-link active" href="#notify" @click.prevent="page = 1" data-toggle="tab">Notifications</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#seen" @click.prevent="page = 2" data-toggle="tab">Seen</a>
@@ -91,8 +64,7 @@ require 'header.php';
                     <h2 class="co">notifications</h2>
                     <div v-if="notifications" class="btns mb-3">
                         <button class="markAll btn text-dark" @click.prevent="markAll">Mark All as seen</button>
-                        <button class="deleteAll btn btn-danger" @click.prevent="deleteAll"
-                            :disabled="!notifications">Delete All</button>
+                        <button class="deleteAll btn btn-danger" @click.prevent="deleteAll" :disabled="!notifications">Delete All</button>
                     </div>
                     <div class="notification-item w-100 p-0" v-for='notify in notifications'>
                         <div class="content col-7">
@@ -102,11 +74,9 @@ require 'header.php';
                         </div>
                         <div class="col-5 px-2 justify-content-end row">
                             <!-- mark as read button -->
-                            <button class="notify-mark  text-dark btn mx-1"
-                                v-on:click='mark_read(notify.notification_id)'>seen</button>
+                            <button class="notify-mark  text-dark btn mx-1" v-on:click='mark_read(notify.notification_id)'>seen</button>
                             <!-- delete button -->
-                            <button class="notify-delete btn-danger btn"
-                                v-on:click='delete_notify(notify.notification_id)'>Delete</button>
+                            <button class="notify-delete btn-danger btn" v-on:click='delete_notify(notify.notification_id)'>Delete</button>
                         </div>
                     </div>
                     <div class="pt-4 mx-auto text-muted text-center h3" v-if="!notifications">
@@ -123,8 +93,7 @@ require 'header.php';
                         </div>
                         <div class="col-2 p-0">
                             <!-- delete button -->
-                            <button class="notify-delete btn-danger btn"
-                                v-on:click='delete_notify(notify.notification_id)'>Delete</button>
+                            <button class="notify-delete btn-danger btn" v-on:click='delete_notify(notify.notification_id)'>Delete</button>
                         </div>
 
                     </div>
@@ -137,9 +106,9 @@ require 'header.php';
 
             </div>
 
-            <?php
+        <?php
         } else {
-            ?>
+        ?>
             <div class="alert alert-info w-75 text-center mx-auto mt-5">
                 <h4>You need to login to access this</h4>
             </div>
@@ -169,52 +138,52 @@ require 'header.php';
             success: '',
         },
         methods: {
-            get_notify: function () {
+            get_notify: function() {
                 this.fetch = [];
                 $.get(this.url + '?fetch=true').then(response => {
                     this.fetch = response.data;
                     this.notifications = this.fetch;
                 });
             },
-            open_page: function (url) {
+            open_page: function(url) {
                 if (url) {
                     window.location.href = url;
                 } else {
                     alert('no url found');
                 }
             },
-            delete_notify: function (id) {
+            delete_notify: function(id) {
                 $.get(this.url + '?delete=' + id).then(response => {
                     this.get_notify();
                     this.get_seen();
                 });
             },
-            mark_read: function (id) {
+            mark_read: function(id) {
                 $.get(this.url + '?seen=' + id).then(response => {
                     this.get_notify();
                 });
             },
-            get_seen: function () {
+            get_seen: function() {
                 this.fetch = [];
                 $.get(this.url + '?fetch_seen=true').then(response => {
                     this.fetch = response.data;
                     this.seen = this.fetch;
                 });
             },
-            update_seen: function (id) {
+            update_seen: function(id) {
                 $.get(this.url + '?seen=' + id).then(response => {
                     this.success = this.notify;
                     this.get_notify();
                 });
             },
-            update_seenall: function () {
+            update_seenall: function() {
                 $.get(this.url + '?seenall=' + this.user).then(response => {
                     this.notify = response.body;
                     this.success = this.notify;
                     this.get_notify();
                 });
             },
-            notify: function () {
+            notify: function() {
                 $.post(this.url + '?notify=true', {
                     text: this.text,
                     type: this.type,
@@ -224,13 +193,13 @@ require 'header.php';
                     this.get_notify();
                 });
             },
-            markAll: function () {
+            markAll: function() {
                 $.get(this.url + '?seenall=' + this.user).then(response => {
                     this.success = this.notify;
                     this.get_notify();
                 });
             },
-            deleteAll: function () {
+            deleteAll: function() {
                 $.get(this.url + '?delete_all=' + this.user).then(response => {
                     this.success = this.notify;
                     this.get_notify();
@@ -239,7 +208,7 @@ require 'header.php';
 
         },
         watch: {
-            page: function () {
+            page: function() {
                 if (this.page == 1) {
                     this.get_notify();
                 }
@@ -248,14 +217,14 @@ require 'header.php';
                 }
             }
         },
-        mounted: function () {
+        mounted: function() {
             this.get_notify();
         },
 
     })
 
     // document ready
-    $(document).ready(function () {
+    $(document).ready(function() {
         active_page(3);
     });
 </script>

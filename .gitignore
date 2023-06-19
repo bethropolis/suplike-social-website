@@ -2,8 +2,7 @@ _githubassets/
 inc/music/
 inc/image/
 img/
+inc/errors/*.log.txt
 vendor/
 sendgrid.env
 inc/setup/setup.suplike.json
-inc/errors/*.txt
-post.php

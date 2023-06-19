@@ -7,6 +7,8 @@ header('content-type: application/json');
 $notification = new Notification();
 session_start();
 
+$un_ravel->_isAuth();
+
 if (isset($_GET['id'])) {
     $u = isset($_GET['user']) ? $_GET['user'] : 'unkown';
     if (!isset($_GET['user']) || !isset($_GET['like']) || !isset($_GET['key'])) {

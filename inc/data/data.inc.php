@@ -1,7 +1,13 @@
 <?php
-include_once '../dbh.inc.php';
 header('content-type: application/json');
+include_once '../dbh.inc.php';
+require '../Auth/auth.php';
+session_start();
+$un_ravel->_isAuth();
 
+if(!$un_ravel->_isAdmin($_SESSION['userId'])){
+	header('HTTP/1.1 403 Forbidden');
+}
 $arr = [];
 
 $dt = new DateTime("now", new DateTimeZone('Africa/Nairobi'));

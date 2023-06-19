@@ -4,6 +4,7 @@ require 'dbh.inc.php';
 require 'Auth/auth.php';
 require 'extra/xss-clean.func.php';
 
+session_start();
 $un_ravel->_isAuth();
 
 if (isset($_GET['user'])) {
