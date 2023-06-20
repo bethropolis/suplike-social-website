@@ -138,13 +138,21 @@ $user_id = $_SESSION['token'];
     } else if (isset($_GET['delete'])) {
       // delete account page
       ?>
+
         <div class="settings-header py-4">
           <h2 class="co">delete account</h2>
         </div>
+        <?php
+        if (isset($_GET['err']) && $_GET['err'] == 'wrongpassword') {
+          echo '<div class="alert alert-danger" role="alert">
+        <strong>Error!</strong> wrong password.
+      </div>';
+        }
+        ?>
         <div class="settings-body">
           <form action="inc/delete.inc.php" method="POST">
             <div class="form-group">
-              <label for="delete-user">type your username</label>
+              <label for="delete-user">type your password</label>
               <!-- use bootstrap tooltips -->
 
               <input type="password" class="form-control w-100 delete-user" name="user" id="delete-user">
@@ -342,9 +350,8 @@ require 'footer.php';
       window.location.reload();
     });
 
-    username = '<?= $_SESSION['userUid'] ?>';
     $('.delete-user').on('input', function() {
-      if ($('.delete-user').val() == username) {
+      if ($('.delete-user').val() != '') {
         $('.delete-btn').attr('disabled', false);
       } else {
         $('.delete-btn').attr('disabled', true);

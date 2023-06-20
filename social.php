@@ -1,4 +1,5 @@
 <?php
+
 require "header.php";
 require "mobile.php";
 $id = $_GET['id'] ?? '';
@@ -14,12 +15,12 @@ $id = $_GET['id'] ?? '';
     ?>
   </div>
 
-  <div class="col-sm-9 p-0">
+  <div class="col-sm-9 p-0 mb-4">
     <?php
 
     if (isset($_SESSION['token'])) {
       ?>
-      <main>
+      <main class="mb-5">
 
         <p class="status text center"></p>
 

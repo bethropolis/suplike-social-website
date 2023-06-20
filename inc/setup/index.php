@@ -1,7 +1,7 @@
 <?php
 $setup = json_decode(file_get_contents('./setup.suplike.json'));
 if ($setup->setup) {
-    die("already setup");
+    die("Already set up");
 }
 
 ?>
@@ -13,7 +13,9 @@ if ($setup->setup) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="shortcut icon" href="../../img/icon/favicon.ico" type="image/x-icon">
-    <title>Suplike setup</title>
+    <title>Suplike Setup</title>
+    <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css" />
     <style>
         body {
             margin: 0;
@@ -37,7 +39,8 @@ if ($setup->setup) {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        input,details {
+        input,
+        details {
             width: 90%;
             padding: 12px;
             border: none;
@@ -46,7 +49,8 @@ if ($setup->setup) {
             font-weight: 700;
             border-radius: 3px;
         }
-        input{   
+
+        input:not(type="checkbox") {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             background-color: #f8f8f8;
         }
@@ -77,21 +81,97 @@ if ($setup->setup) {
 </head>
 
 <body>
+        <h2 class="text-center mt-1">SUPLIKE SETUP</h2>
     <form action="setup.inc.php" method="post">
         <h3>Enter database credentials (MYSQL, MariaDB)</h3>
-        <input type="text" placeholder="Server name... (eg localhost)" value="" name="server" required/>
-        <input type="text" placeholder="Database Username..." value='' name="name" />
-        <input type="password" placeholder="Database Password..." title="Leave empty if none" name="pwd" />
+        
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-database"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Server name... (e.g., localhost)" value="" name="server" required data-toggle="tooltip" data-placement="top" title="Enter the server name or IP address where your database is hosted." />
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-user"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Database Username..." value='' name="name" data-toggle="tooltip" data-placement="top" title="Enter the username for your database." />
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </div>
+            <input type="password" class="form-control" placeholder="Database Password..." title="Leave empty if none" name="pwd" data-toggle="tooltip" data-placement="top" title="Enter the password for your database." />
+        </div>
         <details>
-            <summary>advanced (optional) </summary>
-          <input type="text" name="user" placeholder="database name... (default suplike)" required>
+            <summary>
+                Advanced (Optional)
+            </summary>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-database"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" name="db" placeholder="Database name... (default: suplike)" required data-toggle="tooltip" data-placement="top" title="Enter the name of the database. If not provided, the default name 'suplike' will be used." />
+            </div>
+
+            <div class="form-check mt-1">
+                <input type="checkbox" class="form-check-input" name="drop" id="drop" />
+                <label class="form-check-label" for="drop">Drop database before running SQL</label>
+            </div>
+
         </details>
         <h3>Create admin account</h3>
-        <input type="text" name="user" placeholder="Username..." required>
-        <input type="email" name="mail" placeholder="Email...">
-        <input type="password" name="pass" placeholder="Password..." required>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-user"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" name="user" placeholder="Username..." required data-toggle="tooltip" data-placement="top" title="Enter the desired username for the admin account." />
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-envelope"></i>
+                </span>
+            </div>
+            <input type="email" class="form-control" name="mail" placeholder="Email..." data-toggle="tooltip" data-placement="top" title="Enter the email address for the admin account (optional)." />
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </div>
+            <input type="password" class="form-control" name="pass" placeholder="Password..." required data-toggle="tooltip" data-placement="top" title="Enter the desired password for the admin account." />
+        </div>
         <input type="submit" class="submit" value="Submit" />
     </form>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="../../lib/jquery/jquery.js"></script>
+    <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Tooltip initialization -->
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <!-- GitHub icon -->
+    <a href="https://github.com/your-repo-link" target="_blank" rel="noopener noreferrer" style="color:#8d55e8;">
+        <i class="fab fa-github" style="position: fixed; bottom: 20px; right: 20px; font-size: 32px;"></i>
+    </a>
 </body>
 
 </html>

@@ -28,7 +28,7 @@ if (isset($_POST['delete_profile'])) {
 	$conn->query($sql);
 
 	# delete followers and follows
-	$sql = "DELETE FROM `following` WHERE `following`.`user`='$user' OR `following`.`following`='$user'";
+	$sql = "DELETE FROM `following` WHERE `following`.`user`=".$user." OR `following`.`following`=".$user;
 	$conn->query($sql);
 	# delete messages 
 	$sql = "DELETE FROM `chat` WHERE `chat`.`who_from` =$user OR `chat`.`who_to` = $user;";

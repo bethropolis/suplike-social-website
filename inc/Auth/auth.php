@@ -22,6 +22,15 @@ class Auth
     $this->email = bin2hex(openssl_random_pseudo_bytes(24));
   }
 
+  /**
+   * Retrieves the user associated with the given token, chat token, browser token,
+   * user token, or API key.
+   *
+   * @param string $str The token, chat token, browser token, user token, or API key.
+   * @throws Exception If an error occurs while querying the database.
+   * @return string|null The user associated with the given token, chat token, browser token,
+   * user token, or API key, or null if no user is found.
+   */
   public function _getUser($str)
   {
     $length = strlen($str);
@@ -29,33 +38,39 @@ class Auth
     switch ($length) {
       case 42:
         //token
-        $sql = "SELECT `user` FROM `auth_key` WHERE `token` = '$str'";
-
+        $sql = "SELECT `user` FROM `auth_key` WHERE `token` = ?";
         break;
       case 16:
         //chat token
-        $sql = "SELECT `user` FROM `auth_key` WHERE `chat_auth` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `chat_auth` = ?";
         break;
       case 32:
         //browser token
-        $sql = "SELECT `user` FROM `auth_key` WHERE `browser_auth` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `browser_auth` = ?";
         break;
-
+  
       case 28:
         //user token 
-        $sql = "SELECT `user` FROM `auth_key` WHERE `user_auth` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `user_auth` = ?";
         break;
-
+  
       case 64:
         //api key 
-        $sql = "SELECT `user` FROM `auth_key` WHERE `api_key` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `api_key` = ?";
         break;
       default:
         die("auth Error");
     }
-    $this->user = (mysqli_fetch_assoc($this->conn->query($sql)))['user'];
+    $stmt = mysqli_prepare($this->conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $str);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $this->user);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+    
     return $this->user;
   }
+  
 
   public function _queryUser($id, $type = 1)
   {

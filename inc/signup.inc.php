@@ -1,7 +1,10 @@
 <?php
-    require 'dbh.inc.php';
-    require 'Auth/auth.php';
-    require 'Auth/email.php';
+require 'dbh.inc.php';
+require 'Auth/auth.php';
+require 'Auth/email.php';
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+
+$url = $protocol . $_SERVER['HTTP_HOST']."/";
 if (isset($_POST['signup-submit'])) {
     $username = strtolower($_POST['uid']);
     $email = $_POST['mail'];
@@ -18,7 +21,7 @@ if (isset($_POST['signup-submit'])) {
         header("Location: ../signup.php?error=invalidmail&uid=" . $username);
         exit();
     } else if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
-        header("Location: ../signup.php?error=invaliduid&uid=" . $email);
+        header("Location: ../signup.php?error=invaliduid&mail=" . $email);
         exit();
     } else {
         $sql = "SELECT uidusers FROM users WHERE uidusers=?";
@@ -58,8 +61,8 @@ if (isset($_POST['signup-submit'])) {
                 if (!mysqli_stmt_prepare($stmt, $sql)) {
                     header("Location: ../signup.php?error=sqlerror");
                     exit();
-                } else {         
-                     session_start();
+                } else {
+                    session_start();
                     $hashedpwd = password_hash($password, PASSWORD_DEFAULT);
 
                     mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedpwd);
@@ -69,20 +72,20 @@ if (isset($_POST['signup-submit'])) {
                     $response = (mysqli_fetch_assoc($conn->query($getId)))['idusers'];
                     $outhsql = "INSERT INTO `auth_key` (`user`,`user_auth`,`chat_auth`,`browser_auth`,`token`,`api_key`) VALUES ($response,'$oauth->user_auth','$oauth->chat_auth','$oauth->browser_auth','$oauth->token','$oauth->api_key') ";
                     $conn->query($outhsql);
-                    $link = 'http://bethro.alwaysdata.net/inc/Auth/verify.php?id='.$oauth->user_auth;
+                    $link = "$url/inc/Auth/verify.php?id=" . $oauth->user_auth;
                     $email_template = "Hey $username, <br> please confirm your email by clicking on the link below: <br> <a href='$link'>Confirm Email</a>";
-                    send_email($email,'Suplike: Confirm your email', $email_template);     
+                    send_email($email, 'Suplike: Confirm your email', $email_template);
 
                     setcookie('token', $oauth->token, time() + (86400 * 30), "/");
                     $_SESSION['userId'] = $getId;
                     header("Location: ../search.php?q=e&id=$response&token=$oauth->token");
-                    exit();
                 }
             }
         }
     }
     mysqli_stmt_close($stmt);
     mysqli_close($conn);
+    exit();
 } else {
     header("location: ../signup.php");
     exit();
