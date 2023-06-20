@@ -1,4 +1,4 @@
-Vue.config.productionTip = false;
+
 let app = new Vue({
     el: "#app",
     data: {
@@ -96,37 +96,39 @@ let app = new Vue({
                 "Saturday",
             ];
             const dataPoints = [
-                this.day("Sunday", null, true),
-                this.day("Monday", null, true),
-                this.day("Tuesday", null, true),
-                this.day("Wednesday", null, true),
-                this.day("Thursday", null, true),
-                this.day("Friday", null, true),
-                this.day("Saturday", null, true),
+                this.day("Sunday", null, true) || 0,
+                this.day("Monday", null, true) || 0,
+                this.day("Tuesday", null, true) || 0,
+                this.day("Wednesday", null, true) || 0,
+                this.day("Thursday", null, true) || 0,
+                this.day("Friday", null, true) || 0,
+                this.day("Saturday", null, true) || 0,
             ];
             const chartData = {
                 labels: labelNames,
                 datasets: [
                     {
-                        label: "active users",
+                        label: "online users",
                         data: dataPoints,
-                        lineTension: 0,
+                        lineTension: 0.05,
                         backgroundColor: "transparent",
                         borderColor: "#6c5ce7",
                         borderWidth: 4,
+                        pointRadius: 3,
+                        pointBackgroundColor: "#6c5ce7",
+
                         pointBackgroundColor: "rgb(214, 211, 211)",
                     },
                 ],
             };
             const chartOptions = {
                 scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                beginAtZero: false,
-                            },
-                        },
-                    ],
+                    y: {
+                        beginAtZero: true
+                    },
+                },
+                interaction: {
+                    intersect: false,
                 },
                 legend: {
                     display: false,
@@ -174,91 +176,72 @@ let app = new Vue({
         visitline: function (
             chartElement,
             label,
-            type = "line",
+            type = "bar",
             dataKey = "users",
             backgroundColor = ["#90f0ff", "#00b0ff"],
-            borderWidth = 3
         ) {
             const myVisitsChart = new Chart(chartElement, {
-              type: type,
-              data: {
-                  labels: [
-                      "Sunday",
-                      "Monday",
-                      "Tuesday",
-                      "Wednesday",
-                      "Thursday",
-                      "Friday",
-                      "Saturday",
-                  ],
-                datasets: [
-                  {
-                    label: label,
-                    data: [
-                      this.day("Sunday", dataKey),
-                      this.day("Monday", dataKey),
-                      this.day("Tuesday", dataKey),
-                      this.day("Wednesday", dataKey),
-                      this.day("Thursday", dataKey),
-                      this.day("Friday", dataKey),
-                      this.day("Saturday", dataKey),
+                type: type,
+                data: {
+                    labels: [
+                        "Sunday",
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
                     ],
-                    backgroundColor: backgroundColor[0],
-                    borderColor: backgroundColor[1],
-                    borderWidth: borderWidth,
-                  },
-                ],
-              },
-              options: {
-                responsive: true,
-                layout: {
-                  padding: {
-                    left: 10,
-                    right: 25,
-                    top: 25,
-                    bottom: 0,
-                  },
+                    datasets: [
+                        {
+                            label: label,
+                            data: [
+                                this.day("Sunday", dataKey),
+                                this.day("Monday", dataKey),
+                                this.day("Tuesday", dataKey),
+                                this.day("Wednesday", dataKey),
+                                this.day("Thursday", dataKey),
+                                this.day("Friday", dataKey),
+                                this.day("Saturday", dataKey),
+                            ],
+                            backgroundColor: backgroundColor[0],
+                            borderColor: backgroundColor[1],
+                            
+                        },
+                    ],
                 },
-                scales: {
-                  xAxes: [
-                    {
-                      time: {
-                        unit: "date",
-                      },
-                      gridLines: {
-                        display: false,
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        maxTicksLimit: 7,
-                      },
+                options: {
+                    scales: {
+                        xAxes: [
+                            {
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false,
+                                },
+                            },
+                        ],
+                        yAxes: [
+                            {
+                                ticks: {
+                                    maxTicksLimit: 5,
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false,
+                                },
+                            },
+                        ],
                     },
-                  ],
-                  yAxes: [
-                    {
-                      ticks: {
-                        maxTicksLimit: 5,
-                        padding: 10,
-                      },
-                      gridLines: {
-                        color: "rgb(234, 236, 244)",
-                        zeroLineColor: "rgb(234, 236, 244)",
-                        drawBorder: false,
-                        borderDash: [2],
-                        zeroLineBorderDash: [2],
-                      },
+                    title: {
+                        display: true,
+                        text: label,
                     },
-                  ],
+                    tooltips: {
+                        mode: "index",
+                        intersect: true,
+                    },
+                    responsive: true,
                 },
-                title: {
-                  display: true,
-                  text: label,
-                },
-                tooltips: {
-                  mode: "index",
-                  intersect: true,
-                },
-              },
             });
         },
         createLineChart() {
@@ -296,7 +279,7 @@ let app = new Vue({
                 options: {
                     maintainAspectRatio: false,
                     layout: {
-                        padding: { left: 10, right: 25, top: 25, bottom: 0 },
+                        padding: { left: 0, right: 0, top: 25, bottom: 0 },
                     },
                     scales: {
                         xAxes: [
@@ -391,12 +374,11 @@ let app = new Vue({
                     this.getReports("false");
                     break;
                 default:
-                    console.log("hey");
                     break;
             }
         },
-        darkMode: function() {
-            this.darkMode ? localStorage.setItem('theme', 'dark'): localStorage.setItem('theme', 'light') ;
+        darkMode: function () {
+            this.darkMode ? localStorage.setItem('theme', 'dark') : localStorage.setItem('theme', 'light');
         },
         data: function () {
             this.dataLoaded = true;
@@ -409,31 +391,31 @@ let app = new Vue({
     computed: {
         postDayM: function () {
             if (this.dataLoaded) {
-                return this.day("Monday", "posts") || "Null";
+                return this.day("Monday", "posts") || 0;
             }
             return "loading..";
         },
         postDayT: function () {
             if (this.dataLoaded) {
-                return this.day("Tuesday", "posts") || "Null";
+                return this.day("Tuesday", "posts") || 0;
             }
             return "loading..";
         },
         postDayW: function () {
             if (this.dataLoaded) {
-                return this.day("Wednesday", "posts") || "Null";
+                return this.day("Wednesday", "posts") || 0;
             }
             return "loading..";
         },
         postDayTh: function () {
             if (this.dataLoaded) {
-                return this.day("Thursday", "posts") || "Null";
+                return this.day("Thursday", "posts") || 0;
             }
             return "loading..";
         },
         postDayF: function () {
             if (this.dataLoaded) {
-                return this.day("Friday", "posts") || "Null";
+                return this.day("Friday", "posts") || 0;
             }
             return "loading..";
         },
@@ -441,7 +423,7 @@ let app = new Vue({
             if (this.dataLoaded) {
                 return (
                     (this.day("Sunday", "posts") || 0) +
-                    (this.day("Saturday", "posts") || 0) || "Null"
+                    (this.day("Saturday", "posts") || 0) || 0
                 );
             }
             return "loading..";
@@ -449,7 +431,7 @@ let app = new Vue({
         userOnline: function () {
             if (this.online) {
                 this.day(this.online.today, "happy", true);
-                return this.day(this.online.today, "happy", true) || "Null";
+                return this.day(this.online.today, "happy", true) || 0;
             }
             return "loading..";
         },

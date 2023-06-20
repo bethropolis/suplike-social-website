@@ -154,10 +154,82 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
 
 
                 <!-- the main focus -->
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 main">
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 main mt-2">
 
                     <!--------------------------------------- stage 0 the dashboard ------------------------------------------------->
                     <div v-show="stage == 0">
+                        <div class="row mt-4">
+                            <div class="col-lg-4 col-md-6 mb-2">
+                                <div class="card shadow border-radius-md">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Total users</p>
+                                                    <h5 class="font-weight-bolder mb-0">
+                                                        {{users.length }}
+                                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-start">
+                                                <div class="icon icon-shape bg-gradient-primary text-center border-radius-md">
+                                                    <i class="fas fa-users text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 mb-2">
+                                <div class="card shadow border-radius-md">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Users online</p>
+                                                    <h5 class="font-weight-bolder mb-0">
+                                                        {{ Math.round(data?.average?.averageUsers)}}/day
+                                                        <span class="text-success text-sm font-weight-bolder"> {{Math.round((Math.round(data?.average?.averageUsers)/users?.length)*100)|| ''}}%</span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-start">
+                                                <div class="icon icon-shape bg-gradient-primary text-center border-radius-md">
+                                                    <i class="fas fa-user-check text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 mb-2">
+                                <div class="card shadow border-radius-md">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">New users</p>
+                                                    <h5 class="font-weight-bolder mb-0">
+                                                        {{newUser}}
+                                                        <span class="text-success text-sm font-weight-bolder">+{{Math.round((newUser/users?.length)*100)|| ''}}%</span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-start">
+                                                <div class="icon icon-shape bg-gradient-primary text-center border-radius-md">
+                                                    <i class="fas fa-user-plus text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 class="h2">Dashboard</h1>
                             <div class="btn-toolbar mb-2 mb-md-0">
@@ -180,8 +252,8 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                     <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <div class="table-responsive co">
+                                        <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>id</th>
@@ -217,13 +289,13 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     </div>
                     <!---------------------------- the post page ----------------------------------------------->
                     <div class="" v-show="stage == 2">
-                        <div class="row my-2">
-                            <div class="card col-lg-7 shadow my-3">
+                        <div class="row justify-content-center p-0">
+                            <div class="card col-md-7 shadow my-3">
                                 <div class="card-body">
-                                    <canvas id="postsChart" style="width: 250px"></canvas>
+                                    <canvas id="postsChart"></canvas>
                                 </div>
                             </div>
-                            <div class="card mx-4 col-lg-4 p-0">
+                            <div class="card mx-4 col-md-4 p-0">
                                 <h4 class="text-primary text-center">posts</h4>
                                 <div class="card-body ml-4 w100">
                                     <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
@@ -270,7 +342,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
 
                     <!----------------------------------- the visits page ----------------------------------------->
                     <div class="" v-show="stage == 3" style="min-width: 250px">
-                        <div class="row">
+                        <div class="row p-0">
                             <div class="card col-md-7 shadow my-3">
                                 <div class="card-body">
                                     <canvas id="visitsChart" style="width: 250px"></canvas>
@@ -288,7 +360,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                 <p>new users</p>
                                             </div>
                                             <div class="col-5 text-right">
-                                                <h4 class="text-muted co text">{{newUser}}</h4>
+                                                <h4 class="text-muted co">{{newUser}}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -304,7 +376,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                 <p>users online</p>
                                             </div>
                                             <div class="col-4 text-right">
-                                                <h4 class="text-muted co text">{{userOnline}}</h4>
+                                                <h4 class="text-muted co">{{userOnline}}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -313,7 +385,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         </div>
                     </div>
 
-                    
+
                     <!-------------------------------------------------- the social engagement page ----------------------------->
                     <div class="" v-show="stage == 4">
                         <div class="row mb-4">
@@ -435,14 +507,14 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
 
                     <!---------------------------------- the report page ---------------------------------->
                     <div class="" v-show="stage == 5">
-                        <h1 class="h2">reports</h1>
+                        <h1 class="h2 co">reports</h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
                             <div class="btn-group mr-2">
-                                <button type="button" @click="getReports(false)" class="btn btn-sm btn-outline-secondary">unsolved</button>
-                                <button type="button" @click="getReports(true)" class="btn btn-sm btn-outline-secondary">solved</button>
+                                <button type="button" @click="getReports(false)" class="btn btn-sm btn-outline-secondary co">unsolved</button>
+                                <button type="button" @click="getReports(true)" class="btn btn-sm btn-outline-secondary co">solved</button>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row co">
                             <h2>Posts</h2>
                             <div v-for="(report, index) in reports" class="col-12 row border p-2">
                                 <h4 class="col-4">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
@@ -463,31 +535,14 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     </div>
 
                     <!-------------------------------- the settings section ----------------->
-                    <div class="settings" v-show="stage == 10">
+                    <div class="settings co" v-show="stage == 10">
+                        <h1 class="mt-2">Settings</h1>
+                        <hr>
                         <!-- dark mode toggle -->
                         <div class="form-check form-switch">
+                            
                             <input class="form-check-input" type="checkbox" id="darkModeToggle" v-model="darkMode">
-                            <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
-                        </div>
-
-                        <!-- other settings options -->
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleSelect1">Example select</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Option 3</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleTextarea">Example textarea</label>
-                            <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                            <label class="form-check-label" for="darkModeToggle">Switch between dark mode and light mode.</label>
                         </div>
                     </div>
                 </main>

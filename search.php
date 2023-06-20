@@ -5,10 +5,6 @@ require 'header.php';
 require 'mobile.php';
 include_once 'inc/Auth/auth.php';
 
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
 $id = isset($_SESSION['userId']) ? $_SESSION['userId'] : 0;
 $t = isset($_GET['token']) ? $_GET['token'] : null;
 
@@ -25,10 +21,10 @@ $searchKeyword = $whrSQL = '';
 if (isset($_GET['q'])) {
   $searchKeyword = $_GET['q'];
   if (!empty($searchKeyword) && !isset($_GET['post'])) {
-    $sql = "SELECT * FROM users WHERE `uidusers` LIKE ? OR `usersFirstname` LIKE ? LIMIT 15";
+    $sql = "SELECT * FROM users WHERE `uidusers` LIKE ? OR `usersFirstname` LIKE ? OR `usersSecondname` LIKE ? LIMIT 15";
     $stmt = $conn->prepare($sql);
     $searchKeywordParam = '%' . $searchKeyword . '%';
-    $stmt->bind_param("ss", $searchKeywordParam, $searchKeywordParam);
+    $stmt->bind_param("sss", $searchKeywordParam, $searchKeywordParam, $searchKeywordParam);
     $stmt->execute();
     $result = $stmt->get_result();
     // Get matched records from the database
@@ -76,6 +72,8 @@ if (isset($_GET['q'])) {
         while ($row = $result->fetch_assoc()) {
           $title = !empty($searchKeyword) ? highlightWords($row['uidusers'], $searchKeyword) : $row['uidusers'];
           $contnet = !empty($searchKeyword) ? highlightWords($row['usersFirstname'], $searchKeyword) : $row['usersFirstname'];
+          $last = !empty($searchKeyword) ? highlightWords($row['usersSecondname'], $searchKeyword) : $row['usersSecondname'];
+
           if (!empty($searchKeyword)) {
             $follow = 'follow';
             $icon = 'fas fa-user-plus';
@@ -109,7 +107,7 @@ if (isset($_GET['q'])) {
               <p>
                 <?php
                 if (!empty($contnet)) {
-                  echo "@" . $contnet;
+                  echo  $contnet. ' '. $last;
                 } else {
                   echo 'No Name';
                 }

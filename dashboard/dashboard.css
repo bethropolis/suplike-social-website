@@ -203,18 +203,13 @@ table.dataTable tbody tr, table.dataTable tbody tr:hover {
 }
 
 .co {
-    color: darkgrey;
+    color: var(--co);
     text-decoration: none;
     font-family: arial, sans-serif, monospace;
 }
 
 .fa{
     color: #5a5c69;
-}
-.co:hover,
-.co:focus {
-    text-decoration: none;
-    color: #333;
 }
 
 .circle {

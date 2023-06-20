@@ -1,6 +1,5 @@
 <?php
 header('content-type: application/json');
-session_start();
 require 'dbh.inc.php';
 require 'Auth/auth.php';
 

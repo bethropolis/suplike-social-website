@@ -41,14 +41,7 @@ if ($login) {
 </script>
 <?php
 // check if email is verified or not, if not, show a message to the user WITH a button to send a verification email
-if (!isset($_GET['id']) && isset($user_id) && $un_ravel->_isEmail_verified($user_id) == false) {
-  echo '<div id="email-v" class="alert row align-items-center alert-warning pt-2 pb-0 my-0" role="alert">
-  <p class="col-9">Please verify your email.</p>
-  <p class="col-3">
-    <a href="#sent" class="btn btn-light bg" id="send-v">send</a>
-  </p>
-</div>';
-}
+
 
 ?>
 
@@ -99,13 +92,13 @@ if($login){
             </div>
           </div>
           <div class="d-flex justify-content-center align-items-center">
-            <button class="shadow bg follow-btn btn m-2" aria-pressed="true">
+            <button class="shadow-sm bg follow-btn btn m-2 border-0" aria-pressed="true">
               <span>
                 <?= $follow ?>
               </span><i class="fa no-h  fa-user-plus ml-2 icon-light" aria-pressed="true"></i>
             </button>
             <a href="message.php?id=" class="message-btn">
-              <button class="shadow  btn btn-dark m-2">
+              <button class="shadow-sm btn btn-dark m-2 border-0">
                 message<i class="fa no-h  fa-paper-plane ml-2 icon-light"></i>
               </button>
             </a>
@@ -139,17 +132,7 @@ if($login){
   ?>
   <script>
     // check local storage for  send_click and if it is true, hide alert
-    if (sessionStorage.getItem('send_click') == 'true') {
-      $('#email-v').hide();
-    }
-    $('#send-v').click(function () {
-      $.get('inc/send_verification.php?id=' + '<?= $_SESSION['token'] ?>', function (data) {
-        if (data) {
-          sessionStorage.setItem('send_click', 'true');
-          $('#email-v').hide();
-        }
-      });
-    });
+   
 
     // jquery document ready
     $(document).ready(function () {

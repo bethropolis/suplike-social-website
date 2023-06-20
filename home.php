@@ -33,7 +33,7 @@ if (isset($_SESSION['userUid'])) {
 
             <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
             <div class="cont">
-                <i class="fa fa-times fa-2x" id="stop_it"></i>
+                <i class="fa fa-times fa-2x text-white" id="stop_it"></i>
                 <div data-slide="slide" class="slide">
                     <div class="slide-items">
                     </div>

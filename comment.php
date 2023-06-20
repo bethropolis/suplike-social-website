@@ -28,9 +28,18 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
 
   <div class="col-sm-9 p-0">
     <div id="app">
+    <?php
+    if (isset($_GET['act'])) {
+    ?>
+    <div class="alert alert-success w-75 text-center mx-auto p-1 mt-1">
+                <p>comment <?= $_GET['act'] ?></p>
+            </div>
+      <?php
+        }
+    ?>    
       <div class="box mt-4 px-4">
         <input id="comm" class="text-dark" placeholder="Write a comment...">
-        <button type="submit" class="btn co" style="background: var(--ho); color: var(--white);" id="submit">Submit</button>
+        <button type="submit" class="btn text-white" style="background: var(--ho); color: var(--white);" id="submit">Submit</button>
       </div>
       <main id="comments-section" class='mb-4'>
         <?php
@@ -76,7 +85,7 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
               </div>
               <div id="reply-form-<?= $comment['id'] ?>" class="reply-form box w-75 ml-5 mt-2" style="display: none;">
                 <input id="reply-comm-<?= $comment['id'] ?>" class="text-dark" placeholder="Write a reply...">
-                <button type="submit" class="btn" style="background: var(--ho); color: var(--white);" onclick="postReply(<?= $comment['id'] ?>)">Submit</button>
+                <button type="submit" class="btn text-white" style="background: var(--ho); color: var(--white);" onclick="postReply(<?= $comment['id'] ?>)">Submit</button>
               </div>
         <?php
               renderComments($comments, $comment['id'], $indent + 15); // Recursive call to render replies
@@ -105,11 +114,6 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
 
   $(document).ready(function() {
     $('#submit').click(postComment);
-    <?php
-    if (isset($_GET['act'])) {
-      echo 'alert("' . $_GET['act'] . '")';
-    }
-    ?>
   });
 
   function postComment() {
@@ -149,7 +153,7 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
         'X-Requested-With': 'XMLHttpRequest'
       },
       success: function(data, textStatus, jqXHR) {
-         window.location.reload();
+        window.location.reload();
       },
       error: function(jqXHR, textStatus, errorThrown) {
         alert('Could not delete comment');

@@ -33,7 +33,7 @@ class SlideStories {
       clo = document.querySelector("#stop_it");
     nextBtn.addEventListener("click", this.next),
       prevBtn.addEventListener("click", this.prev),
-      clo.addEventListener("click", this.clos),
+      clo.addEventListener("click", this.close),
       document
         .querySelector(".slide-items")
         .addEventListener("mousedown", () => {
@@ -59,7 +59,7 @@ class SlideStories {
             this.next();
           }, 5e3));
   }
-  clos() {
+  close() {
     (close = document.querySelector(".cont")), (close.style.display = "none");
   }
   init() {

@@ -43,9 +43,10 @@ if (isset($_GET['id'])) {
         <img title="go to homepage" src="img/logo.png" alt="logo" style="width:35px; height: 35px;">
       </a>
       <div v-if="chatwith_detail && chatwith" id="title" class="row center" style="align-items: center;">
+      <a :href="'profile.php?id='+chatwith_detail.token">
         <img class="msg-profile" :src="'img/'+chatwith_detail.profile_picture" alt="" style="width:32px; height: 32px;"
-          onerror="this.error = null; this.src ='img/M.jpg' ">
-        <div class="">{{chatwith_detail.full_name}}</div>
+          onerror="this.error = null; this.src ='img/M.jpg' "></a>
+        <div >{{chatwith_detail.full_name}}</div>
         <div id="status" class=" text-success ml-1">{{status}}</div>
       </div>
       <div class="nav-content">

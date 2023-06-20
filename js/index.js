@@ -1,5 +1,5 @@
-const _user_id = sessionStorage.getItem("user")|| "";
-const _user_name = sessionStorage.getItem("name")|| "";
+const _user_id = sessionStorage.getItem("user") || "";
+const _user_name = sessionStorage.getItem("name") || "";
 
 function mainload(url = "./inc/post.inc.php?user=") {
   $("#image_post").on("change", function (e) {
@@ -21,7 +21,7 @@ function mainload(url = "./inc/post.inc.php?user=") {
         addClick();
         add_lightbox();
       } else if (posts instanceof Object) {
-        if(posts?.type === 'error') return
+        if (posts?.type === 'error') return
         posts.data.forEach((post) => {
           if (!post.profile_picture) {
             post.profile_picture = "M.jpg";
@@ -42,6 +42,7 @@ function mainload(url = "./inc/post.inc.php?user=") {
 }
 
 function render(post) {
+  console.log(_user_id)
   // remove /n and /r from the string replace with space
   let post_text = post.image_text.replace(/\n/g, " ");
   let post_text_html = post_text.replace(/\r/g, " ");
@@ -96,10 +97,11 @@ function render(post) {
         >
           <i class="fa fa-eye fa-fw"></i> View Post
         </a>
-        <a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id
-      }">
+        ${_user.name == _user_name ?
+        `<a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id
+        }">
           <i class="fa fa-trash fa-fw"></i> Delete Post
-        </a>
+        </a>`: ''}
         <a
           class="dropdown-item mj-actions share"
           id="${post.post_id}"
@@ -217,10 +219,11 @@ function render(post) {
           >
             <i class="fa fa-eye fa-fw"></i> View Post
           </a>
-          <a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id
-      }">
-            <i class="fa fa-trash fa-fw"></i> Delete Post
-          </a>
+          ${_user.name == _user_name ?
+        `<a class="dropdown-item delete mj-actions" href="inc/post.inc.php?del_post=${post.post_id
+        }">
+              <i class="fa fa-trash fa-fw"></i> Delete Post
+            </a>`: ''}
           <a
             class="dropdown-item mj-actions share"
             id="${post.post_id}"
@@ -409,9 +412,9 @@ function get_popular_users() {
   let url = './inc/search.inc.php?type=users&query';
   $.get(url, function (post) {
     if (post.type == 'success') {
-      post.data.forEach((item)=>{
-        let status = item.following ? 'following': 'follow';
-        let icon = item.following ? 'fas fa-user text-white ': 'fas fa-user-plus ml-2 no-h text-white';
+      post.data.forEach((item) => {
+        let status = item.following ? 'following' : 'follow';
+        let icon = item.following ? 'fas fa-user text-white ' : 'fas fa-user-plus ml-2 no-h text-white';
         $('#popular-users').append(`
         <li class="text-left align-items-center p-2 border-0  justify-content-between"
         style='display: flex;'>
@@ -427,8 +430,8 @@ function get_popular_users() {
 
       follow(_user_id);
 
-    }else{
-       $('#popular-users').append("<div class='text-center w-full'>Not logged in</div>")
+    } else {
+      $('#popular-users').append("<div class='text-center w-full'>Not logged in</div>")
     }
   });
 }

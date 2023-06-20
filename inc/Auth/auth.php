@@ -57,7 +57,7 @@ class Auth
     return $this->user;
   }
 
-  public function _queryUser($id, $type)
+  public function _queryUser($id, $type = 1)
   {
     $sql = '';
     $ty = '';
@@ -140,15 +140,13 @@ class Auth
   public function _isAuth()
   {
     if (!isset($_SESSION['userId'])) {
-      die(
-        json_encode(
+      die(json_encode(
           [
             'code' => 4,
             'msg' => "You are not logged in",
             'type' => 'error'
           ]
-        )
-      );
+        ));
     }
   }
   public function _isFollowing($user, $following)
@@ -175,31 +173,40 @@ class Auth
   {
     $sql = "INSERT INTO `following` (`user`, `following`) VALUES ('$user', '$following')";
     $this->conn->query($sql);
+    // update following count in users table
+    $sql = "UPDATE `users` SET `following` = `following` + 1 WHERE `idusers` = '$user'";
+    $this->conn->query($sql);
+    // update followers count in users table
+    $sql = "UPDATE `users` SET `followers` = `followers` + 1 WHERE `idusers` = '$following'";
+    $this->conn->query($sql);
   }
   public function _isAdmin($user)
   {
-    $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = '$user'";
-    $result = $this->conn->query($sql)->fetch_assoc();
+    $is_admin = '';
+    $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $user);
+    $stmt->execute();
+    $stmt->bind_result($is_admin);
+    $stmt->fetch();
+    $stmt->close();
 
-    if ($result["isAdmin"]) {
-      return true;
-    } else {
-      return false;
-    }
+    return (bool) $is_admin;
   }
   public function _isEmail_verified($user)
   {
-      $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = ?";
-      $stmt = $this->conn->prepare($sql);
-      $stmt->bind_param("i", $user);
-      $stmt->execute();
-      $stmt->bind_result($emailVerified);
-      $stmt->fetch();
-      $stmt->close();
-  
-      return (bool) $emailVerified;
+    $emailVerified = '';
+    $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $user);
+    $stmt->execute();
+    $stmt->bind_result($emailVerified);
+    $stmt->fetch();
+    $stmt->close();
+
+    return (bool) $emailVerified;
   }
-  
+
   public function _isBot($to = null)
   {
     if ($to) {

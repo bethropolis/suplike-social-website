@@ -1,17 +1,19 @@
 <?php
 $setup = json_decode(file_get_contents('./setup.suplike.json'));
-if($setup->setup){
+if ($setup->setup) {
     die("already setup");
 }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Setup Suplike</title>
+    <link rel="shortcut icon" href="../../img/icon/favicon.ico" type="image/x-icon">
+    <title>Suplike setup</title>
     <style>
         body {
             margin: 0;
@@ -27,7 +29,7 @@ if($setup->setup){
             padding: 20px;
             width: 70%;
             display: grid;
-            grid-gap: 20px;
+            grid-gap: 10px;
             grid-template-columns: 1fr;
             justify-content: center;
             margin: 0 auto;
@@ -35,13 +37,16 @@ if($setup->setup){
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
+        input,details {
+            width: 90%;
+            padding: 12px;
             border: none;
+            margin: auto;
             font-size: 1.1em;
             font-weight: 700;
             border-radius: 3px;
+        }
+        input{   
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             background-color: #f8f8f8;
         }
@@ -70,17 +75,23 @@ if($setup->setup){
         }
     </style>
 </head>
+
 <body>
     <form action="setup.inc.php" method="post">
-        <h3>Enter database credentials</h3>
-        <input type="text" placeholder="Server name..." value="localhost" name="server" />
-        <input type="text" placeholder="Username..." value='root' name="name" />
-        <input type="password" placeholder="Password..." title="Leave empty if none" name="pwd" />
+        <h3>Enter database credentials (MYSQL, MariaDB)</h3>
+        <input type="text" placeholder="Server name... (eg localhost)" value="" name="server" required/>
+        <input type="text" placeholder="Database Username..." value='' name="name" />
+        <input type="password" placeholder="Database Password..." title="Leave empty if none" name="pwd" />
+        <details>
+            <summary>advanced (optional) </summary>
+          <input type="text" name="user" placeholder="database name... (default suplike)" required>
+        </details>
         <h3>Create admin account</h3>
-        <input type="text" name="user" placeholder="Username...">
+        <input type="text" name="user" placeholder="Username..." required>
         <input type="email" name="mail" placeholder="Email...">
-        <input type="password" name="pass" placeholder="Password...">
+        <input type="password" name="pass" placeholder="Password..." required>
         <input type="submit" class="submit" value="Submit" />
     </form>
 </body>
+
 </html>
