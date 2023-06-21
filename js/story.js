@@ -20,7 +20,7 @@ class SlideStories {
   next() {
     this.active < this.items.length - 1
       ? this.activeSlide(this.active + 1)
-      : (this.cont.style.display = "none");
+      : (this.close());
   }
   prev() {
     this.active > 0
@@ -62,6 +62,7 @@ class SlideStories {
           }, 5000));
   }
   close() {
+    this.active = 0;
     clearTimeout(this.timeout);
     (close = document.querySelector(".cont")), (close.style.display = "none");
   }

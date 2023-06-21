@@ -52,9 +52,9 @@ $user_id = $_SESSION['token'];
         <h3 class="co">password</h3>
       </div>
     </a>
-    <a href="?about">
+    <a href="?developer">
       <div class="settings-option">
-        <h3 class="co">About</h3>
+        <h3 class="co">developer</h3>
       </div>
     </a>
     <a href="inc/logout.inc.php" onclick="sessionStorage.clear();sessionStorage.setItem('load', true)">
@@ -87,50 +87,18 @@ $user_id = $_SESSION['token'];
 
       <?php
 
-    } else if (isset($_GET['about'])) {
-      // about page
+    } else if (isset($_GET['developer'])) {
+      // developer page
       ?>
-        <div class="settings-content py-5">
-          <h2 class="co">About</h2>
-          <div class="row">
-            <!-- place github url + developer portfolio as buttons-->
-            <div class="col-sm-6">
-              <div class="">
-                <h3 class="co">Github</h3>
-                <a href="https://github.com/bethropolis/suplike-social-website" target="_blank">
-                  <button class="btn h4 btn-primary">
-                    <i class="fab fa-github"></i>
-                  </button>
-                </a>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="">
-                <h3 class="co">Developer Portfolio</h3>
-                <a href="https://bethropolis.github.io" target="_blank">
-                  <button class="btn btn-primary">
-                    <i class="fa fa-globe"></i>
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="">
-                <h3 class="co">Developer</h3>
-                <p>
-                  <strong>Name:</strong>
-                  <br>
-                  Bethuel Kipsang
-                </p>
-                <p>
-                  <strong>Email:</strong>
-                  <br>
-                  bethropolis@gmail.com
-                </p>
-              </div>
-            </div>
+        <div class="settings-content py-5 mt-4">
+          <h2 class="co">Developer</h2>
+          <div class="mt-4">
+            <label for="developer-dashboard" class="form-label">Developer Dashboard</label>
+            <p class="text-muted">Access the developer dashboard for advanced features.</p>
+            <a href="./api/developer/">
+            <button id="developer-dashboard" class="btn text-white bg">
+              <i class="fa text-white  fa-code"></i> Go to Developer Dashboard
+            </button></a>
           </div>
         </div>
 

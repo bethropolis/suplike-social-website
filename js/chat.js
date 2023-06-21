@@ -101,6 +101,7 @@ const app = new Vue({
             if (this.chatwith === this.online[index].id) return
             this.messages = [];
             this.start = 0;
+            this.status = '';
             this.chatwith = this.online[index].id;
             this.chatwith_detail = this.online[index];
             if (this.online[index].online) this.statusSet('online');

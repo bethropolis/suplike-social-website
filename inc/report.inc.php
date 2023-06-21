@@ -60,20 +60,32 @@ if (isset($_POST['delc'])) {
 if (isset($_GET['report'])) {
 	$type = $_GET['type'];
 	$arr = [];
-	$sql = "SELECT * FROM `reports` WHERE `delt`=$type";
-	$response = $conn->query($sql);
+	$sql = "SELECT * FROM `reports` WHERE `delt`=?";
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param("i", $type);
+	$stmt->execute();
+	$response = $stmt->get_result();
 	while ($row = $response->fetch_assoc()) {
 		if ($row['is_comment']) {
-			$sql = "SELECT `post_id` FROM `comments` WHERE `id` = " . $row['comment_id'];
+			$sql = "SELECT `post_id` FROM `comments` WHERE `id` = ?";
 		} else {
-			$sql = "SELECT `post_id` FROM `posts` WHERE `id` = " . $row['post_id'];
+			$sql = "SELECT `post_id` FROM `posts` WHERE `id` = ?";
 		}
-		$rsp = $conn->query($sql);
-		$post_id = $rsp->fetch_assoc()['post_id'];
-		$row['slug'] = $post_id;
-
-		$arr[] = $row;
+		$stmt = $conn->prepare($sql);
+		if ($row['is_comment']) {
+			$stmt->bind_param("i", $row['comment_id']);
+		} else {
+			$stmt->bind_param("i", $row['post_id']);
+		}
+		$stmt->execute();
+		$rsp = $stmt->get_result();
+		if ($rsp->num_rows > 0) {
+			$post_id = $rsp->fetch_assoc()['post_id'];
+			$row['slug'] = $post_id;
+			$arr[] = $row;
+		}
+		
 	}
 	
-	print_r(json_encode($arr));
+	echo json_encode($arr);
 }

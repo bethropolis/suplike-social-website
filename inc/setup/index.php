@@ -41,16 +41,21 @@ if ($setup->setup) {
 
         input,
         details {
-            width: 90%;
             padding: 12px;
             border: none;
             margin: auto;
             font-size: 1.1em;
-            font-weight: 700;
-            border-radius: 3px;
+            line-height: 1.5;
+        }
+
+        details{
+            width: 90%;  
         }
 
         input:not(type="checkbox") {
+            width: 90%;
+            border-radius: 3px;
+            font-weight: 700;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             background-color: #f8f8f8;
         }
@@ -120,11 +125,11 @@ if ($setup->setup) {
                         <i class="fas fa-database"></i>
                     </span>
                 </div>
-                <input type="text" class="form-control" name="db" placeholder="Database name... (default: suplike)" required data-toggle="tooltip" data-placement="top" title="Enter the name of the database. If not provided, the default name 'suplike' will be used." />
+                <input type="text" class="form-control" name="db" placeholder="Database name... (default: suplike)" data-toggle="tooltip" data-placement="top" title="Enter the name of the database. If not provided, the default name 'suplike' will be used." />
             </div>
             <div class="form-group">
                 <div class="form-check mt-2">
-                    <input type="checkbox" class="form-check-input" name="drop" id="drop" />
+                    <input type="checkbox" class="form-check-input" name="drop" id="drop" data-toggle="tooltip" data-placement="top" title="please note that this deletes any pre-existing data on the database" />
                     <label class="form-check-label" for="drop">Drop database before running SQL</label>
                 </div>
             </div>
@@ -160,7 +165,7 @@ if ($setup->setup) {
 
     <!-- Bootstrap and jQuery scripts -->
     <script src="../../lib/jquery/jquery.js"></script>
-    <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Tooltip initialization -->
     <script>
@@ -171,7 +176,7 @@ if ($setup->setup) {
 
     <!-- GitHub icon -->
     <a href="https://github.com/bethropolis/suplike-social-website" target="_blank" rel="noopener noreferrer" style="color:#8d55e8;">
-        <i class="fab fa-github" style="position: fixed; bottom: 20px; right: 20px; font-size: 32px;"></i>
+        <i class="fab fa-github" style="position: fixed; bottom: 20px; right: 20px; font-size: 32px;" title="get some help from the github repo"></i>
     </a>
 </body>
 

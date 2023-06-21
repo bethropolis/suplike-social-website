@@ -24,6 +24,7 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
   <link rel="stylesheet" href="./css/chat.css?kk">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
+  <script src="./lib/lazyload/lazysizes.min.js"></script>
   <script src="./lib/vue/vue.min.js"></script>
   <script>
     if (localStorage.getItem('theme') == 'dark') {
@@ -133,7 +134,7 @@ if (isset($_GET['id'])) {
               <div v-if="msg.type == 'txt'">
                 <div class="chat-msg-text">{{msg.message}}</div>
               </div>
-              <div v-if="msg.type == 'mus'" class="row chat-msg-text center">
+              <div v-if="msg.type == 'mus'" class="row chat-msg-text center mx-1">
                 <div class="progress col-10" style="background-color: transparent;">
                   <!-- <div class="progress-bar progress-bar-striped progress-bar-animated" style="background-color: var(--pink);" :id="'p-'+msg.audio_id" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> -->
                   <progress class="progress-bar progress-bar-striped progress-bar-animated" style="color: var(--pink);"
@@ -146,7 +147,7 @@ if (isset($_GET['id'])) {
                   :class="msg.audio_id == playing ?'fa-pause':'fa-play'"></i>
               </div>
               <div v-if="msg.type == 'img'" class="msg-image-wrapper ">
-                <img :src="'inc/'+msg.message" alt="msg.message" class="msg-image " loading="lazy">
+                <img :data-src="'inc/'+msg.message" class="lazyload msg-image "  alt="msg.message" loading="lazy">
               </div>
             </div>
           </div>

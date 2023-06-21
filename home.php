@@ -37,7 +37,7 @@ if (isset($_SESSION['userUid'])) {
                 <div data-slide="slide" class="slide">
                     <div class="slide-items">
                     </div>
-                    <p class="content-text">heeeeelo</p>
+                    <p class="content-text"></p>
                     <i class="far fa-heart fa-2x " id="like-btn"></i>
                     <nav class="slide-nav">
                         <div class="slide-thumbs"></div>

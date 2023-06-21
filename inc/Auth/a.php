@@ -16,14 +16,14 @@ if(!isset($_SESSION['userId'])) {
 // cannot change token if an hour has not passed
 $id = $_SESSION['userId'];
 $current_time = time();
-$subtract_an_hour = $current_time - 3600;
+$subtract_an_hour = $current_time - 180;
 $time = date('Y-m-d H:i:s', $subtract_an_hour);
 $sql = "SELECT * FROM `api` WHERE `user` = $id AND `date` > '$time'";
 if(mysqli_num_rows(mysqli_query($conn, $sql)) > 0) {
     die(json_encode(
         [
             'code' => 4,
-            'msg' => "You can only change your token once an hour",
+            'msg' => "You can only change your token once every 3 minutes.",
             'type' => 'error'
         ]
     ));

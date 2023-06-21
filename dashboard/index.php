@@ -581,9 +581,9 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                     </form>
                                     <p class="mt-4">My App is a software application that does amazing things. It is built with Bootstrap and Font Awesome icons. It is easy to use and customize. You can learn more about it by visiting the GitHub repository.</p>
                                     <div class="row ">
-                                    <a href="https://github.com/my-app/my-app" target="_blank" class="mx-1" style="color:#8d55e8;">
+                                    <a href="https://github.com/bethropolis/suplike-social-website" target="_blank" class="mx-1" style="color:#8d55e8;">
                                     <i class="fab fa-github fa-2x"></i></a>
-                                    <a href="https://twitter.com/my-app" target="_blank" class="mx-1"  style="color:#8d55e8;">
+                                    <a href="https://twitter.com/bethropolis" target="_blank" class="mx-1"  style="color:#8d55e8;">
                                     <i class="fab fa-twitter fa-2x"></i></a>
 
                                     </div>
