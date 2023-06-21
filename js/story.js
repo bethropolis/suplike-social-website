@@ -4,7 +4,7 @@ class SlideStories {
       (this.active = 0),
       (this.cont = document.querySelector(".cont")),
       (this.text = document.querySelector(".content-text")),
-      (this.isHoldingStatus = !1),
+      (this.isHoldingStatus = false),
       this.init();
   }
   activeSlide(index) {
@@ -33,14 +33,16 @@ class SlideStories {
       clo = document.querySelector("#stop_it");
     nextBtn.addEventListener("click", this.next),
       prevBtn.addEventListener("click", this.prev),
-      clo.addEventListener("click", this.close),
+      clo.addEventListener("click", this.close.bind(this)),
       document
         .querySelector(".slide-items")
         .addEventListener("mousedown", () => {
-          this.isHoldingStatus = !0;
+          this.isHoldingStatus = true;
+          clearTimeout(this.timeout);
         }),
       document.querySelector(".slide-items").addEventListener("mouseup", () => {
-        this.isHoldingStatus = !1;
+        this.isHoldingStatus = false;
+        this.autoSlide();
       });
   }
   addThumbItems() {
@@ -54,12 +56,13 @@ class SlideStories {
       this.isHoldingStatus
         ? (this.timeout = setTimeout(() => {
             this.autoSlide();
-          }, 1e3))
+          }, 1000))
         : (this.timeout = setTimeout(() => {
             this.next();
-          }, 5e3));
+          }, 5000));
   }
   close() {
+    clearTimeout(this.timeout);
     (close = document.querySelector(".cont")), (close.style.display = "none");
   }
   init() {
@@ -74,19 +77,43 @@ class SlideStories {
   }
 }
 function renderStories() {
+  let currentStoryIndex = 0;
   for (let user in user_data) {
     let div = document.createElement("div");
     div.classList.add("status-card"),
       (div.innerHTML = `\n            <div class="profile-pic"><img src="./img/${user_data[user].pic}" class="pic" alt="profile"></div>\n            <p class="username">${user_data[user].username}</p>\n            `),
       div.addEventListener("click", () => {
-        (slide_items.innerHTML = ""),
-          (document.querySelector(".slide-thumbs").innerHTML = ""),
-          all_stories[user].forEach((story) => {
-            "img" == story.type
-              ? (slide_items.innerHTML += `\n                    <img src="./img/${story.image}" alt="${story.text}">\n                    `)
-              : (slide_items.innerHTML += `\n                    <p alt="${story.text}">${story.text}</p>\n                    `);
-          }),
-          (roll = new SlideStories("slide"));
+        slide_items.innerHTML = "";
+        document.querySelector(".slide-thumbs").innerHTML = "";
+        const stories = all_stories[user];
+        const numStories = stories.length;
+
+        for (let i = 0; i < numStories; i++) {
+          const story = stories[i];
+          if (story.type === "img") {
+            slide_items.innerHTML += `<img src="./img/${story.image}" alt="${story.text}">`;
+          } else {
+            slide_items.innerHTML += `<p alt="${story.text}">${story.text}</p>`;
+          }
+        }
+
+        roll = new SlideStories("slide");
+        roll.activeSlide(currentStoryIndex);
+        currentStoryIndex = (currentStoryIndex + 1) % numStories; // Move to the next story
+
+        // Check if the current user has no more stories, move to the next user
+        if (currentStoryIndex === 0) {
+          const users = Object.keys(all_stories);
+          const currentUserIndex = users.indexOf(user);
+          const nextUserIndex = (currentUserIndex + 1) % users.length;
+          const nextUser = users[nextUserIndex];
+          currentStoryIndex = 0; // Reset the story index for the next user
+          // Update the text and thumbnail for the next user
+          content_text.innerHTML = user_data[nextUser].username;
+          // Update the profile picture
+          const profilePic = document.querySelector(".profile-pic img");
+          profilePic.src = `./img/${user_data[nextUser].pic}`;
+        }
       }),
       wrapper.appendChild(div);
   }

@@ -5,6 +5,11 @@ if (!$_SESSION['isAdmin']) {
     exit();
 }
 
+require_once '../inc/extra/date.func.php';
+
+$setupData = json_decode(file_get_contents("../inc/setup/setup.suplike.json"));
+
+$date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
 ?>
 <!doctype html>
 <!----
@@ -77,7 +82,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                 </li>
             </ul>
         </nav>
-        <div class="container-fluid">
+        <div class="container-fluid mx-0">
 
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block nav-color sidebar collapse">
@@ -116,7 +121,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" :class="stage == 5? 'active':''" @click.prevent="stage = 5">
-                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <i class="fas fa-flag"></i>
                                     <span class="ml-2">Moderation</span>
                                 </a>
                             </li>
@@ -129,12 +134,18 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         </ul>
                         <ul class="nav flex-column mb-2">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                <span>{{user}}</span>
+                                <span>ADMIN: {{user}}</span>
                             </h6>
                             <li class="nav-item">
                                 <a class="nav-link" :class="stage == 10? 'active':''" @click.prevent="stage = 10" href="#">
                                     <i class="fas fa-cog"></i>
                                     <span class="ml-2">Settings</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" :class="stage == 11? 'active':''" @click.prevent="stage = 11" href="#">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span class="ml-2">About</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -190,8 +201,8 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                 <div class="numbers">
                                                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Users online</p>
                                                     <h5 class="font-weight-bolder mb-0">
-                                                        {{ Math.round(data?.average?.averageUsers)}}/day
-                                                        <span class="text-success text-sm font-weight-bolder"> {{Math.round((Math.round(data?.average?.averageUsers)/users?.length)*100)|| ''}}%</span>
+                                                        {{ averageOnlineUsers || 0}}/day
+                                                        <span class="text-success text-sm font-weight-bolder"> {{averageOnlineUsersPercentage||0}}%</span>
                                                     </h5>
                                                 </div>
                                             </div>
@@ -214,7 +225,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                     <p class="text-sm mb-0 text-capitalize font-weight-bold">New users</p>
                                                     <h5 class="font-weight-bolder mb-0">
                                                         {{newUser}}
-                                                        <span class="text-success text-sm font-weight-bolder">+{{Math.round((newUser/users?.length)*100)|| ''}}%</span>
+                                                        <span class="text-success text-sm font-weight-bolder">+{{ newUserPercentage || 0}}%</span>
                                                     </h5>
                                                 </div>
                                             </div>
@@ -514,12 +525,14 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                 <button type="button" @click="getReports(true)" class="btn btn-sm btn-outline-secondary co">solved</button>
                             </div>
                         </div>
-                        <div class="row co">
-                            <h2>Posts</h2>
+                        <div class="row co m-0">
                             <div v-for="(report, index) in reports" class="col-12 row border p-2">
-                                <h4 class="col-4">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
+                                <h4 class="col-2">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
+                                <div class="col-3"> <a :href="parseInt(report.is_comment) ? '../comment?id=' + report.slug : '../post?id=' + report.slug">
+                                        <i class="fas fa-eye fa-2x"></i>
+                                    </a></div>
                                 <span class="col-4">type: {{parseInt(report.is_comment) ? 'comment' : 'post'}}</span>
-                                <div class="col-4 text-right">
+                                <div class="col-3 text-right">
                                     <button class="btn btn-danger" @click="sendReport(index)">
                                         <i class="fa fa-trash text-light fa-2x"></i>
                                     </button>
@@ -540,11 +553,46 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         <hr>
                         <!-- dark mode toggle -->
                         <div class="form-check form-switch">
-                            
+
                             <input class="form-check-input" type="checkbox" id="darkModeToggle" v-model="darkMode">
                             <label class="form-check-label" for="darkModeToggle">Switch between dark mode and light mode.</label>
                         </div>
                     </div>
+
+                    <!--------------------------- the about section -------------------------------- -->
+                    <div class="about co" v-show="stage == 11">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 offset-md-3">
+                                    <h1 class="text-center">About</h1>
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="app-name">App Name</label>
+                                            <input type="text" class="form-control" id="app-name" value="<?= $setupData->name ?>" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="app-version">Version</label>
+                                            <input type="text" class="form-control" id="app-version" value="<?= $setupData->version ?>" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="app-date">Setup Date</label>
+                                            <input type="text" class="form-control" id="app-date" value="<?= $date ?>" disabled>
+                                        </div>
+                                    </form>
+                                    <p class="mt-4">My App is a software application that does amazing things. It is built with Bootstrap and Font Awesome icons. It is easy to use and customize. You can learn more about it by visiting the GitHub repository.</p>
+                                    <div class="row ">
+                                    <a href="https://github.com/my-app/my-app" target="_blank" class="mx-1" style="color:#8d55e8;">
+                                    <i class="fab fa-github fa-2x"></i></a>
+                                    <a href="https://twitter.com/my-app" target="_blank" class="mx-1"  style="color:#8d55e8;">
+                                    <i class="fab fa-twitter fa-2x"></i></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </main>
             </div>
         </div>

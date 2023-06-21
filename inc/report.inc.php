@@ -61,11 +61,19 @@ if (isset($_GET['report'])) {
 	$type = $_GET['type'];
 	$arr = [];
 	$sql = "SELECT * FROM `reports` WHERE `delt`=$type";
-	$rsp = $conn->query($sql);
-	while ($row = $rsp->fetch_assoc()) {
+	$response = $conn->query($sql);
+	while ($row = $response->fetch_assoc()) {
+		if ($row['is_comment']) {
+			$sql = "SELECT `post_id` FROM `comments` WHERE `id` = " . $row['comment_id'];
+		} else {
+			$sql = "SELECT `post_id` FROM `posts` WHERE `id` = " . $row['post_id'];
+		}
+		$rsp = $conn->query($sql);
+		$post_id = $rsp->fetch_assoc()['post_id'];
+		$row['slug'] = $post_id;
+
 		$arr[] = $row;
 	}
+	
 	print_r(json_encode($arr));
 }
-
-

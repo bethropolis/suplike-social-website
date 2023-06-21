@@ -74,7 +74,7 @@ if (isset($_GET['start'])) {
 	$start = intval($_GET['start']);
 	$from =  $un_ravel->_getUser($_GET['from']);
 	$to =  $un_ravel->_getUser($_GET['to']);
-	$query = "SELECT * FROM chat WHERE `id`>$start AND ((who_from = '$from' AND who_to = '$to') OR (who_from = '$to' AND who_to = '$from'))  ORDER BY id DESC LIMIT 10";
+	$query = "SELECT * FROM chat WHERE `id`>$start AND ((who_from = '$from' AND who_to = '$to') OR (who_from = '$to' AND who_to = '$from'))  ORDER BY id DESC LIMIT 25";
 	$result = $conn->query($query);
 	if ($result->num_rows > 0) {
 		while ($row = $result->fetch_assoc()) {

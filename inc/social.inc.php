@@ -48,14 +48,16 @@ if (isset($_GET['user'])) {
                     $answer['users'][$i]['full_name'] = $row['uidusers'];
                 }
 
-                // Use another prepared statement to get the last message between the users
-                $stmt = $conn->prepare("SELECT `message`,`time`,`type` FROM `chat` WHERE (`who_to`=? OR `who_to`=?) AND (`who_from`=? OR `who_from`=?) ORDER BY `chat`.`time` DESC LIMIT 1");
-                $stmt->bind_param("iiii", $user_id, $_GET['user'], $user_id, $_GET['user']);
-                $stmt->execute();
-                // Use fetch instead of fetch_assoc to get an array instead of an associative array
-                list($message, $time, $type) = $stmt->fetch();
-                //  format time into 12 hour format hh:mm am/pm and if it is today or yesterday or a date
-                if (!is_null($time)) {
+                // Prepare the statement
+                $sql = "SELECT `message`,`time`,`type` FROM `chat` WHERE (`who_to`='$user_id' OR `who_to`='$user') AND (`who_from`='$user_id' OR `who_from`='$user') ORDER BY `chat`.`time` DESC LIMIT 1";
+                $r = $conn->query($sql)->fetch_assoc();
+
+
+
+                if (!is_null($r)) {
+                    $time = $r['time'];
+                    $type = $r['type'];
+                    $message = $r['message'];
                     // Use DateTime objects for easier manipulation and formatting of dates and times
                     // Set the timezone to UTC for consistency
                     date_default_timezone_set('UTC');
@@ -79,8 +81,6 @@ if (isset($_GET['user'])) {
                     $answer['users'][$i]['actual_time'] = null;
                     $answer['users'][$i]['day'] = null;
                 }
-                // Close the statement
-                $stmt->close();
 
                 // Check if the user is online by comparing their last online time with the current time minus 7 minutes
                 date_default_timezone_set('UTC');

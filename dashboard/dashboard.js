@@ -212,25 +212,7 @@ let app = new Vue({
                 },
                 options: {
                     scales: {
-                        xAxes: [
-                            {
-                                gridLines: {
-                                    display: false,
-                                    drawBorder: false,
-                                },
-                            },
-                        ],
-                        yAxes: [
-                            {
-                                ticks: {
-                                    maxTicksLimit: 5,
-                                },
-                                gridLines: {
-                                    display: false,
-                                    drawBorder: false,
-                                },
-                            },
-                        ],
+                        
                     },
                     title: {
                         display: true,
@@ -435,5 +417,14 @@ let app = new Vue({
             }
             return "loading..";
         },
+        averageOnlineUsers: function () {
+           return Math.round(this.data?.average?.averageUsers)
+        },
+        averageOnlineUsersPercentage: function () {
+           return Math.round((Math.round(this.data?.average?.averageUsers)/this.users?.length)*100)
+        },
+        newUserPercentage: function () {
+            return Math.round((this.newUser/this.users?.length)*100)
+        }
     },
 });

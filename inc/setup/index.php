@@ -81,10 +81,10 @@ if ($setup->setup) {
 </head>
 
 <body>
-        <h2 class="text-center mt-1">SUPLIKE SETUP</h2>
+<h2 class="text-center mt-1" style="font-family: 'Roboto', sans-serif; color: #8d55e8; font-weight: bold; font-size: 2em;">SUPLIKE SETUP</h2>
     <form action="setup.inc.php" method="post">
         <h3>Enter database credentials (MYSQL, MariaDB)</h3>
-        
+
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -122,10 +122,11 @@ if ($setup->setup) {
                 </div>
                 <input type="text" class="form-control" name="db" placeholder="Database name... (default: suplike)" required data-toggle="tooltip" data-placement="top" title="Enter the name of the database. If not provided, the default name 'suplike' will be used." />
             </div>
-
-            <div class="form-check mt-1">
-                <input type="checkbox" class="form-check-input" name="drop" id="drop" />
-                <label class="form-check-label" for="drop">Drop database before running SQL</label>
+            <div class="form-group">
+                <div class="form-check mt-2">
+                    <input type="checkbox" class="form-check-input" name="drop" id="drop" />
+                    <label class="form-check-label" for="drop">Drop database before running SQL</label>
+                </div>
             </div>
 
         </details>
@@ -163,13 +164,13 @@ if ($setup->setup) {
 
     <!-- Tooltip initialization -->
     <script>
-        $(function () {
+        $(function() {
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 
     <!-- GitHub icon -->
-    <a href="https://github.com/your-repo-link" target="_blank" rel="noopener noreferrer" style="color:#8d55e8;">
+    <a href="https://github.com/bethropolis/suplike-social-website" target="_blank" rel="noopener noreferrer" style="color:#8d55e8;">
         <i class="fab fa-github" style="position: fixed; bottom: 20px; right: 20px; font-size: 32px;"></i>
     </a>
 </body>
