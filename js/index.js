@@ -1,7 +1,8 @@
 const _user_id = sessionStorage.getItem("user") || "";
 const _user_name = sessionStorage.getItem("name") || "";
 
-function mainload(url = "./inc/post.inc.php?user=") {
+async function mainload(url = "./inc/post.inc.php?user=") {
+  let post_no = 0;
   $("#image_post").on("change", function (e) {
     e.preventDefault();
     var m = URL.createObjectURL(event.target.files[0]);
@@ -9,14 +10,14 @@ function mainload(url = "./inc/post.inc.php?user=") {
     $("#imagedisp").attr("src", m);
   });
 
-  function getUsers(url) {
-    $.get(url + _user_id, function (posts) {
+  async function getUsers(url) {
+    await $.get(url + _user_id, function (posts) {
       if (posts instanceof Array) {
-        posts.forEach((post) => {
+        posts.forEach(async (post) => {
           if (!post.profile_picture) {
             post.profile_picture = "M.jpg";
           }
-          $("#main-post").append(render(post));
+          await $("#main-post").append(render(post));
         });
         addClick();
         add_lightbox();
@@ -27,9 +28,11 @@ function mainload(url = "./inc/post.inc.php?user=") {
             post.profile_picture = "M.jpg";
           }
           $("#main-post").append(render(post));
+
         });
         addClick();
         add_lightbox();
+        post_no = posts.data.length;
       } else {
         $("#main-post")
           .append(`<div class='post-div shadow no-user' class='text-center'><h4> you need to follow someone in order to view post on your feed</h4>
@@ -38,11 +41,11 @@ function mainload(url = "./inc/post.inc.php?user=") {
       }
     });
   }
-  getUsers(url);
+  await getUsers(url);
+  return post_no;
 }
 
 function render(post) {
-  console.log(_user_id)
   // remove /n and /r from the string replace with space
   let post_text = post.image_text.replace(/\n/g, " ");
   let post_text_html = post_text.replace(/\r/g, " ");
@@ -140,12 +143,8 @@ function render(post) {
               <div class="social-opt">
               <div class="row social-act co w-100">
                 <div class="col-3 flex icon">
-                  <i title="like" id="${post.id
-      }" class="${l} mr-1  this-click fa-heart"
-                    ></i
-                  >
-                   <small class="${post.id}">${post.post_likes <= 0 ? "" : post.post_likes
-      }</small>
+                  <i title="like" tabindex="0" role="button"  id="${post.id}" class="${l} mr-1  this-click fa-heart"></i>
+                   <small class="${post.id}">${post.post_likes <= 0 ? "" : post.post_likes}</small>
                 </div>
                 <div class="col-3 flex icon">
                   <a href="./comment.php?id=${post.post_id}">
@@ -255,7 +254,7 @@ function render(post) {
             <div class="social-opt">
             <div class="row social-act co w-100">
               <div class="col-3 flex icon">
-                <i title="like" id="${post.id
+                <i title="like" tabindex="0" role="button" id="${post.id
       }" class="${l} mr-1  this-click fa-heart"
                   ></i
                 >
@@ -414,7 +413,6 @@ function get_popular_users() {
     if (post.type == 'success') {
       post.data.forEach((item) => {
         let status = item.following ? 'following' : 'follow';
-        let icon = item.following ? 'fas fa-user text-white ' : 'fas fa-user-plus ml-2 no-h text-white';
         $('#popular-users').append(`
         <li class="text-left align-items-center p-2 border-0  justify-content-between"
         style='display: flex;'>
@@ -436,10 +434,26 @@ function get_popular_users() {
   });
 }
 
-/*
-@params hunt
-
-*/
+function get_popular_tags() {
+  let url = './inc/search.inc.php?type=tags&query';
+  $.get(url, function (tags) {
+    if (tags.type == 'success') {
+      tags.data.forEach((item) => {
+        $("#popular-users").append(`
+        <a href="topics.php?t=${item.name}" class="page-link">
+          <li class="text-left align-items-center p-2 border-0  justify-content-between"
+          style='display: flex;'>
+            <span class='link co border-0'>#${item.name}</span>
+            <span class="small mx-2">view</span>    
+          </li>
+        </a>
+    `);
+      })
+    } else {
+      $('#popular-users').append("<div class='text-center w-full'>Not logged in</div>")
+    }
+  });
+}
 //report api
 function report() { }
 //follow api
@@ -491,6 +505,16 @@ function add_lightbox() {
     '<script defer src="./lib/lightbox/lightbox.min.js"></script>  '
   );
 }
+
+
+// for accessibility
+$("body").on("keypress", "[tabindex='0']", function (e) {
+  if (e.keyCode == 13 || e.keyCode == 32) {
+    // 13=enter, 32=spacebar
+    $(this).click();
+    return false;
+  }
+})
 
 $("#logout").click(function () {
   sessionStorage.clear();

@@ -70,6 +70,25 @@ let app = new Vue({
 
             this.getReports("false");
         },
+        clearLog: function () {
+            $.ajax({
+                url: '../inc/errors/error.inc.php',
+                data: { page: 'clear' },
+                method: 'POST'
+            });
+        },
+        saveLog: function() {
+            const logText = $('#log-textarea').val();
+            const blob = new Blob([logText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'error.log.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          },          
         getUsers: function () {
             $.get("../inc/data/users.inc.php?key", (users) => {
                 users.forEach((user) => {
@@ -206,13 +225,13 @@ let app = new Vue({
                             ],
                             backgroundColor: backgroundColor[0],
                             borderColor: backgroundColor[1],
-                            
+
                         },
                     ],
                 },
                 options: {
                     scales: {
-                        
+
                     },
                     title: {
                         display: true,
@@ -418,13 +437,13 @@ let app = new Vue({
             return "loading..";
         },
         averageOnlineUsers: function () {
-           return Math.round(this.data?.average?.averageUsers)
+            return Math.round(this.data?.average?.averageUsers)
         },
         averageOnlineUsersPercentage: function () {
-           return Math.round((Math.round(this.data?.average?.averageUsers)/this.users?.length)*100)
+            return Math.round((Math.round(this.data?.average?.averageUsers) / this.users?.length) * 100)
         },
         newUserPercentage: function () {
-            return Math.round((this.newUser/this.users?.length)*100)
+            return Math.round((this.newUser / this.users?.length) * 100)
         }
     },
 });

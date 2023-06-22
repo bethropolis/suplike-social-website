@@ -32,34 +32,34 @@ $user_id = $_SESSION['token'];
 
 <div class="row co">
   <div class="col-sm-3 settings-sidebar sidebar-sticky">
-    <a href="?profile">
-      <div class="settings-option">
-        <h3 class="co">profile</h3>
+    <a href="?profile" class="page-link tab_bg">
+      <div class="settings-option text-left">
+        <h3 class="co ml-4">profile</h3>
       </div>
     </a>
-    <a href="?appearance">
-      <div class="settings-option">
-        <h3 class="co">appearance</h3>
+    <a href="?appearance" class="page-link tab_bg">
+      <div class="settings-option text-left">
+        <h3 class="co ml-4">appearance</h3>
       </div>
     </a>
-    <a href="?delete">
-      <div class="settings-option">
-        <h3 class="co">delete acc</h3>
+    <a href="?delete" class="page-link tab_bg">
+      <div class="settings-option text-left">
+        <h3 class="co ml-4">delete acc</h3>
       </div>
     </a>
-    <a href="?password">
-      <div class="settings-option hover">
-        <h3 class="co">password</h3>
+    <a href="?password" class="page-link tab_bg">
+      <div class="settings-option text-left">
+        <h3 class="co ml-4">password</h3>
       </div>
     </a>
-    <a href="?developer">
-      <div class="settings-option">
-        <h3 class="co">developer</h3>
+    <a href="?developer" class="page-link tab_bg">
+      <div class="settings-option text-left">
+        <h3 class="co ml-4">developer</h3>
       </div>
     </a>
-    <a href="inc/logout.inc.php" onclick="sessionStorage.clear();sessionStorage.setItem('load', true)">
-      <div class="settings-option">
-        <h3 class="co">logout</h3>
+    <a href="inc/logout.inc.php" onclick="sessionStorage.clear();sessionStorage.setItem('load', true)" class="page-link tab_bg">
+      <div class="settings-option text-left">
+        <h3 class="co ml-4">logout</h3>
       </div>
     </a>
   </div>
@@ -76,7 +76,7 @@ $user_id = $_SESSION['token'];
       </div>
       <div class="settings-body pt-2">
         <h3 class="co">app theme</h3>
-        <div class="row col-12 w-100">
+        <div class="row w-75 mx-auto text-left">
           <label for="chat-theme" class="col-6 co">select theme</label>
           <select id="chat-theme" class="col-4" name="chat-theme">
             <option value="none" disabled selected>default</option>
@@ -94,11 +94,11 @@ $user_id = $_SESSION['token'];
           <h2 class="co">Developer</h2>
           <div class="mt-4">
             <label for="developer-dashboard" class="form-label">Developer Dashboard</label>
-            <p class="text-muted">Access the developer dashboard for advanced features.</p>
+            <p class="text-muted">Access the developer dashboard for API and Bot features.</p>
             <a href="./api/developer/">
-            <button id="developer-dashboard" class="btn text-white bg">
-              <i class="fa text-white  fa-code"></i> Go to Developer Dashboard
-            </button></a>
+              <button id="developer-dashboard" class="btn text-white bg">
+                <i class="fa text-white  fa-code"></i> Go to Developer Dashboard
+              </button></a>
           </div>
         </div>
 
@@ -118,7 +118,7 @@ $user_id = $_SESSION['token'];
         }
         ?>
         <div class="settings-body">
-          <form action="inc/delete.inc.php" method="POST">
+          <form action="inc/delete.inc.php" method="POST" class="w-75 mx-auto text-left" >
             <div class="form-group">
               <label for="delete-user">type your password</label>
               <!-- use bootstrap tooltips -->
@@ -133,7 +133,7 @@ $user_id = $_SESSION['token'];
       // password page
       ?>
         <div class="settings-header py-4">
-          <h2 class="co">password</h2>
+          <h2 class="co">change password</h2>
         </div>
         <?php
         if (isset($_GET['err']) && $_GET['err'] == 'wrongpassword') {
@@ -148,7 +148,7 @@ $user_id = $_SESSION['token'];
         }
         ?>
         <div class="settings-body">
-          <form action="inc/settings.inc.php" method="POST">
+          <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto text-left">
             <div class="form-group">
               <label for="current-password">Current password</label>
               <input type="password" class="form-control w-100 submit" name="current" id="current-password">
@@ -188,10 +188,10 @@ $user_id = $_SESSION['token'];
 
           </form>
           <br><br>
-          <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto">
+          <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto text-left">
             <div class="form-group">
-              <label for="username">username</label>
-              <input type="text" class="form-control w-100" name="username" id="username" value="<?= $_SESSION['userUid']; ?>">
+              <label for="username" data-toggle="tooltip" data-placement="top" title="usernane cannot be changed">username</label>
+              <input type="text" class="form-control w-100" name="username" id="username" value="<?= $_SESSION['userUid']; ?>" disabled >
             </div>
             <div class="form-group">
               <label for="fname">First name</label>
@@ -229,6 +229,9 @@ $user_id = $_SESSION['token'];
 <?php
 require 'footer.php';
 ?>
+
+
+
 <script>
   $(document).ready(function() {
 
@@ -308,6 +311,10 @@ require 'footer.php';
       function showBtn() {
         $('.submit').attr('disabled', false);
       }
+
+      $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
 
 
     });

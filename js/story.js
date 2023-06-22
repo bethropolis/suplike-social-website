@@ -81,6 +81,7 @@ function renderStories() {
   let currentStoryIndex = 0;
   for (let user in user_data) {
     let div = document.createElement("div");
+    $(div).attr('tabindex', '0');
     div.classList.add("status-card"),
       (div.innerHTML = `\n            <div class="profile-pic"><img src="./img/${user_data[user].pic}" class="pic" alt="profile"></div>\n            <p class="username">${user_data[user].username}</p>\n            `),
       div.addEventListener("click", () => {

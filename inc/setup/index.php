@@ -1,7 +1,9 @@
 <?php
 $setup = json_decode(file_get_contents('./setup.suplike.json'));
 if ($setup->setup) {
-    die("Already set up");
+    echo "<h1>Already set up</h1>";
+    echo "<a href='../../login.php'>go to login page</a><br/><br/>";
+    die("need any <a href='https://github.com/bethropolis/suplike-social-website/discussion'>help</a>?");
 }
 
 ?>

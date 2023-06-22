@@ -5,6 +5,7 @@
     --top: #6c5ce7;
     --card: #ffffff;   
     --card-top: #eee;
+    --icon: #5a5c69;
     --ac: hsl(253.1, 82.4%, 49%);
     --nav: #fff; 
     --lighter: #a080ff;      
@@ -202,16 +203,32 @@ table.dataTable tbody tr, table.dataTable tbody tr:hover {
     background: var(--top) !important;
 }
 
-.co {
-    color: var(--co);
+.co,.dataTables_info{
+    color: var(--co) !important;
     text-decoration: none;
     font-family: arial, sans-serif, monospace;
 }
 
 .fa{
-    color: #5a5c69;
+    color: var(--icon);
+}
+
+.profile-img{
+    width: 21px;
+    height: 21px;
 }
 
 .circle {
     background-image: url('../img/dot.svg');
 }
+
+#log-textarea::-webkit-scrollbar,.table-responsive::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  
+  #log-textaream, .table-responsive{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  

@@ -44,10 +44,9 @@ if (isset($_GET['id'])) {
         <img title="go to homepage" src="img/logo.png" alt="logo" style="width:35px; height: 35px;">
       </a>
       <div v-if="chatwith_detail && chatwith" id="title" class="row center" style="align-items: center;">
-      <a :href="'profile.php?id='+chatwith_detail.token">
-        <img class="msg-profile" :src="'img/'+chatwith_detail.profile_picture" alt="" style="width:32px; height: 32px;"
-          onerror="this.error = null; this.src ='img/M.jpg' "></a>
-        <div >{{chatwith_detail.full_name}}</div>
+        <a :href="'profile.php?id='+chatwith_detail.token">
+          <img class="msg-profile" :src="'img/'+chatwith_detail.profile_picture" alt="" style="width:32px; height: 32px;" onerror="this.error = null; this.src ='img/M.jpg' "></a>
+        <div>{{chatwith_detail.full_name}}</div>
         <div id="status" class=" text-success ml-1">{{status}}</div>
       </div>
       <div class="nav-content">
@@ -66,8 +65,7 @@ if (isset($_GET['id'])) {
     <div v-if="chatwith==null" class=" st-3 conversation-area">
       <h4>users</h4>
       <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4" :class="user.online? 'online': ''">
-        <img class="msg-profile" :src="'img/'+user.profile_picture" alt=""
-          onerror="this.error = null; this.src ='img/M.jpg' ">
+        <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/M.jpg' ">
         <div class="msg-detail">
           <div class="msg-username">{{user.full_name}}</div>
           <div class="msg-content">
@@ -94,13 +92,11 @@ if (isset($_GET['id'])) {
     <div class="message-box box row st-5 p-0" v-if="chatwith != null">
       <div class="col-3 yellow center toHide p-0">
         <ul class="center col-12 p-0 side-list">
-          <div class='mt-2 py-1'>  
-          <i @click="goBack" class="fa fas fa-arrow-left fa-2x"></i>
+          <div class='mt-2 py-1'>
+            <i @click="goBack" class="fa fas fa-arrow-left fa-2x"></i>
           </div>
-          <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4"
-            :class="user.online? 'online': ''">
-            <img class="msg-profile" :src="'img/'+user.profile_picture" alt=""
-              onerror="this.error = null; this.src ='img/M.jpg' ">
+          <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4" :class="user.online? 'online': ''" tabindex="0">
+            <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/M.jpg' ">
             <div class="msg-detail col-9 p-0">
               <div class="msg-username text-left">{{user.full_name}}</div>
               <div class="msg-content col-12 small p-0" :class="user.type !== '' ? 'justify-content-between' : ''">
@@ -137,17 +133,14 @@ if (isset($_GET['id'])) {
               <div v-if="msg.type == 'mus'" class="row chat-msg-text center mx-1">
                 <div class="progress col-10" style="background-color: transparent;">
                   <!-- <div class="progress-bar progress-bar-striped progress-bar-animated" style="background-color: var(--pink);" :id="'p-'+msg.audio_id" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> -->
-                  <progress class="progress-bar progress-bar-striped progress-bar-animated" style="color: var(--pink);"
-                    :id="'p-'+msg.audio_id" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100"></progress>
+                  <progress class="progress-bar progress-bar-striped progress-bar-animated" style="color: var(--pink);" :id="'p-'+msg.audio_id" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></progress>
                   <!-- </div> -->
                 </div>
 
-                <i @click="play(msg.audio_id)" class="fa col-2 my-auto "
-                  :class="msg.audio_id == playing ?'fa-pause':'fa-play'"></i>
+                <i @click="play(msg.audio_id)" class="fa col-2 my-auto " :class="msg.audio_id == playing ?'fa-pause':'fa-play'"></i>
               </div>
               <div v-if="msg.type == 'img'" class="msg-image-wrapper ">
-                <img :data-src="'inc/'+msg.message" class="lazyload msg-image "  alt="msg.message" loading="lazy">
+                <img :data-src="'inc/'+msg.message" class="lazyload msg-image " alt="msg.message" loading="lazy">
               </div>
             </div>
           </div>
@@ -157,13 +150,10 @@ if (isset($_GET['id'])) {
         <audio id='audioPlayer'></audio>
         <form @submit.prevent="sendMessage" class="form-inline row st-4 light message-form" method="post">
           <!-- improve this form, it contains an image, audio and text input fields -->
-          <label for="imgUpload" class="col-1"><input class="hide" type="file" id="imgUpload" accept="image/*"><i
-              class="fa fa-image"></i></label>
-          <label for="songUpload" class="col-1"><input class="hide" type="file" id="songUpload" accept="audio/*">
-            <i class="fa fa-music "></i></label>
+          <label for="imgUpload" class="col-1" tabindex='0'><input class="hide" type="file" id="imgUpload" accept="image/*"><i class="fa fa-image"></i></label>
+          <label for="songUpload" class="col-1" tabindex='0'><input class="hide" type="file" id="songUpload" accept="audio/*"><i class="fa fa-music " ></i></label>
           <div class="col-8 p-0">
-            <input type="text" class="form-input co" placeholder="enter message..." id="msg-form"
-              autocomplete="off" autofocus="true">
+            <input type="text" class="form-input co" placeholder="enter message..." id="msg-form" autocomplete="off" autofocus="true">
           </div>
           <div class="col-1 p-0">
             <button type="submit" class="btn btn-send"><i class="fa fa-send"></i></button>
@@ -181,14 +171,22 @@ if (isset($_GET['id'])) {
       $('body').addClass('dark-theme');
     }
 
-    $(document).ready(function () {
-      $('#msg-form').keypress(function (e) {
+    $(document).ready(function() {
+      $('#msg-form').keypress(function(e) {
         if (e.which == 13) {
           $('#msg-form').submit();
         }
       });
-    });
 
+      $("body").on("keypress", "[tabindex='0']", function(e) {
+        if (e.keyCode == 13 || e.keyCode == 32) {
+          // 13=enter, 32=spacebar
+          $(this).click();
+          return false;
+        }
+      })
+
+    });
   </script>
   <script src="./js/chat.js"></script>
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>

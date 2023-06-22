@@ -56,7 +56,7 @@ if (isset($_SESSION['userUid'])) {
                         <!--also this -->
                         <textarea id="text" cols="40" class="textinput p-2" rows="4" name="postText" placeholder="what would you like to post about.." oninvalid="this.setCustomValidity('Please you have to write something about this, text cannnot be empty')" oninput="setCustomValidity('')" required></textarea>
                         <div class=" ml-auto mr-1 post-options">
-                            <label for="image_post"><i class="fa fa-image fa-2x"></i></label>
+                            <label for="image_post" tabindex="0"><i class="fa fa-image fa-2x"></i></label>
                             <button class="btn bg post-btn" name="upload">post</button>
                         </div>
                     </form>
@@ -72,15 +72,15 @@ if (isset($_SESSION['userUid'])) {
                     <a href="./profile.php">
                         <img class="profile-pic img-profile shadow-sm" <?php echo 'src="img/' . $pic . '"'; ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
                     </a>
-                    <a href="./profile.php" class="nameanchor">
-                        <h4 id="profile-name">
-                            <?php echo $name; ?>
-                        </h4>
+                    <h4 id="profile-name">
+                        <?php echo $name; ?>
+                    </h4>
 
+                    <a href="./profile.php" class="w-75 mx-auto" >
+                        <h5 class="text-center  userName co">
+                            <?php echo "@" . $user; ?>
+                        </h5>
                     </a>
-                    <h5 class="text-center userName co">
-                        <?php echo "@" . $user; ?>
-                    </h5>
                     <ul class="profile-opt mb-5">
                         <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
                         <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-2x"></i></a>

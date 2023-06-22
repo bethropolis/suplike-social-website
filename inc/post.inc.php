@@ -18,19 +18,18 @@ define("RANDOM_BYTES_LENGTH", 4);
 // Define a function to validate the input
 function validate_input($type, $image_text, $file_size, $file_ext)
 {
-    
-
-
+    print_r([$type, $image_text, $file_size, $file_ext]);
+    die();
     if ($type != "img" && $type != "txt") {
-        return false;
+        return 'invalid post type';
     }
     // Check if the image text is empty
     if ($type == "txt" && $image_text === "") {
-        return false;
+        return 'post text cannot be empty';
     }
     // Check if the file size and extension are valid
     if ($type == "img" && ($file_size > FILE_SIZE_LIMIT || !in_array($file_ext, FILE_EXTENSIONS))) {
-        return false;
+        return '';
     }
     // Return true if all checks pass
     return true;
@@ -55,7 +54,87 @@ function insert_post($conn, $image_text, $image, $type, $user, $d)
     $stmt->bind_param("sssssss", $post_id, $image_text, $image, $type, $user, $date, $day);
     // Execute the statement
     $stmt->execute();
+
+    return $post_id;
 }
+
+/**
+ * Retrieves the ID from the posts table based on the post_id.
+ *
+ * @param mysqli $conn The database connection object
+ * @param string $post_id The post_id to retrieve the ID for
+ * @return int|false The ID of the post if found, false otherwise
+ */
+function getPostId($conn, $post_id)
+{
+    $post_id = mysqli_real_escape_string($conn, $post_id);
+
+    $sql = "SELECT id FROM posts WHERE post_id = '$post_id'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['id'];
+    }
+
+    return false;
+}
+
+
+/**
+ * Retrieves the ID from the tags table based on the tag name.
+ *
+ * @param mysqli $conn The database connection object
+ * @param string $tag_name The name of the tag to retrieve the ID for
+ * @return int|false The ID of the tag if found, false otherwise
+ */
+function getTagIdByName($conn, $tag_name)
+{
+    $tag_name = mysqli_real_escape_string($conn, $tag_name);
+
+    $sql = "SELECT id FROM tags WHERE name = '$tag_name'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['id'];
+    }
+
+    return false;
+}
+
+
+/**
+ * Inserts tags of a post into the post_tags and tags tables.
+ *
+ * @param mysqli $conn The database connection object
+ * @param int $postId The ID of the post
+ * @param string $tags The tags separated by commas
+ */
+function insertPostTags($conn, $postId, $tags)
+{
+    // Split the tags into an array
+    $id = getPostId($conn, $postId);
+    $tagArray = array_map('trim', explode(',', $tags));
+
+    // Insert tags into tags table
+    foreach ($tagArray as $tagName) {
+        $tagName = mysqli_real_escape_string($conn, $tagName);
+
+        // Use IGNORE keyword to ignore duplicate tag names
+        $sql = "INSERT IGNORE INTO tags (name) VALUES ('$tagName')";
+        mysqli_query($conn, $sql);
+
+        // Get the tag ID
+        $tagId = getTagIdByName($conn, $tagName);
+
+        // Insert tag and post ID into post_tags table
+        $sql = "INSERT INTO post_tags (post_id, tag_id) VALUES ($id, $tagId)";
+        mysqli_query($conn, $sql);
+    }
+}
+
+
 
 // Define a function to insert data into the stories table
 function insert_story($conn, $image_text, $image, $type, $user)
@@ -76,6 +155,7 @@ if (isset($_POST['upload'])) {
     // Get the type and user from POST
     $type = $_POST['type'];
     $user = $_SESSION['userId'];
+    $tags = $_POST['tags'];
 
     // Create a DateTime object with timezone
     $d = new DateTime("now", $timeZone);
@@ -118,7 +198,8 @@ if (isset($_POST['upload'])) {
         // Check if check is false
         if (!$check) {
             // Insert data into the posts table with image
-            insert_post($conn, $image_text, $image, $type, $user, $d);
+            $id = insert_post($conn, $image_text, $image, $type, $user, $d);
+            insertPostTags($conn, $id, $tags);
         } else {
             // Insert data into the stories table with image
             insert_story($conn, $image_text, $image, $type, $user);
@@ -129,7 +210,7 @@ if (isset($_POST['upload'])) {
                 json_encode(
                     [
                         "type" => 'success',
-                        "message" => "Post uploaded successfully to ".$_POST['community'],
+                        "message" => "Post uploaded successfully to " . $_POST['community'],
                     ]
                 )
             );
@@ -159,7 +240,8 @@ if (isset($_POST['upload'])) {
         // Check if check is false
         if (!$check) {
             // Insert data into the posts table without image
-            insert_post($conn, $image_text, NULL, $type, $user, $d);
+            $id = insert_post($conn, $image_text, NULL, $type, $user, $d);
+            insertPostTags($conn, $id, $tags);
         } else {
             // Insert data into the stories table without image
             insert_story($conn, $image_text, '', $type, $user);
@@ -167,14 +249,12 @@ if (isset($_POST['upload'])) {
 
         // Redirect to the appropriate page based on upload value
         if ($_POST['upload'] == 'post') {
-            die(
-                json_encode(
-                    [
-                        "type" => 'success',
-                        "message" => "Post uploaded successfully to ".$_POST['community'],
-                    ]
-                )
-            );
+            die(json_encode(
+                [
+                    "type" => 'success',
+                    "message" => "Post uploaded successfully to " . $_POST['community'],
+                ]
+            ));
         } else {
             header("Location: ../home.php?upload=success");
         }

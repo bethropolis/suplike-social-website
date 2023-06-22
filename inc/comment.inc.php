@@ -1,8 +1,9 @@
 <?php
+header('content-type: application/json');
 include_once './dbh.inc.php';
 include_once './Auth/auth.php';
 include_once './extra/notification.class.php';
-
+include_once './errors/error.inc.php';
 $notify = new Notification();
 session_start();
 
@@ -27,7 +28,7 @@ if (isset($_POST['id'])) {
 
     if ($user != $_SESSION['userId']) {
         $user_name = $un_ravel->_username($_SESSION['userId']);
-        $text = "$user_name just <a href='post.php?id=$post'>commented on your post</a>";
+        $text = "$user_name just commented on your post";
         $notify->notify($user, $text, 'post');
     }
 
@@ -40,9 +41,14 @@ if (isset($_POST['del_comment_id'])) {
     $comment_id = $_POST['del_comment_id'];
     $sql = "SELECT `user` FROM `comments` WHERE `id`='$comment_id'";
     $user = (mysqli_fetch_assoc($conn->query($sql)))['user'];
-    if ($user == $_SESSION['userUid']) {
+    if ($user == $_SESSION['userUid'] || $un_ravel->_isAdmin($_SESSION['userId'])) {
         $sql = "UPDATE `comments` SET `comment`='[deleted]', `user`='deleted' WHERE `id`='$comment_id'";
         $conn->query($sql);
-        print_r(json_encode('deleted'));
+        print_r(json_encode([
+            "type"=> "success",
+            "msg"=> "deleted",
+        ]));
+    }else{
+        $error->err("Comments",22,"not authorised to delete this comment");
     }
 }

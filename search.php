@@ -114,7 +114,7 @@ if (isset($_GET['q'])) {
                 ?>
               </p>
             </div>
-            <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="sbutton follow-btn">
+            <button id="<?= $un_ravel->_queryUser($row['idusers'], 1) ?>" class="btn sbutton follow-btn">
               <span class='small'><?= $follow ?></span>
               <i class="fas <?= $icon ?> text-white " aria-hidden="true"></i></button>
           </li>

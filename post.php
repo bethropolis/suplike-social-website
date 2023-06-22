@@ -1,5 +1,9 @@
 <?php
 require "header.php";
+ $tag = '';
+if(isset($_GET['tag'])){
+    $tag = $_GET['tag'];
+}
 ?>
 
 
@@ -46,11 +50,11 @@ require "header.php";
                         placeholder="Enter some text for your post"></textarea> <!-- added a placeholder -->
                 </div>
 
-                <details class="mb-1">
+                <details class="mb-1" <?= $tag ? 'open': '' ?> >
                     <summary>Add Tags</summary>
                     <div class="mb-3">
                         <label for="tagsInput">Tags</label>
-                        <input type="text" class="form-control" id="tagsInput" name="tags" placeholder="tag1,tag2,tag3">
+                        <input type="text" class="form-control" id="tagsInput" name="tags" value="<?= $tag ?>" placeholder="tag1,tag2,tag3">
                     </div>
                 </details>
 

@@ -142,6 +142,10 @@ ul {
   transition: all 0.3s ease;
   z-index: 5;
 }
+.form-input:focus{
+  outline: 2px solid var(--ho);
+}
+
 
 
 

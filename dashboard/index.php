@@ -57,7 +57,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
         // load css if localstorage  theme = dark
         let theme = localStorage.getItem('theme') || null;
         if (theme === 'dark') {
-            let css = `:root{--bg:#1f1f1f;--co:#fff;--option:grey;--light:#333;--dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light);--card:#6c757d;--tab:#343a40;--top:#6c5ce7;--card-top:#363434;--ac:hsl(253deg 84% 79%);--nav:#495057;--lighter:#a080ff;--box-shadow:0 0 5px var(--dark)}`;
+            let css = `:root{--bg:#1f1f1f;--co:#fff;--option:grey;--light:#333;--dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light); --icon: #eee;--card:#6c757d;--tab:#343a40;--top:#6c5ce7;--card-top:#363434;--ac:hsl(253deg 84% 79%);--nav:#495057;--lighter:#a080ff;--box-shadow:0 0 5px var(--dark)}`;
             let style = document.createElement('style');
             style.type = 'text/css';
             style.appendChild(document.createTextNode(css));
@@ -75,10 +75,16 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search..." aria-label="Search">
+            <input class="form-control form-control-dark" type="text" placeholder="Search..." aria-label="Search">
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="co" :title="user" href="../inc/logout.inc.php">Sign out</a>
+                    <a class="co" title="home" href="../"><i class="fa fa-home"></i></a>
+                </li>
+
+            </ul>
+            <ul class="navbar-nav  px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="co" :title="user" href="../profile.php"><img src="../img/<?= $_SESSION["profile-pic"] ?>" class="profile-img rounded-circle " alt="profile"></a>
                 </li>
             </ul>
         </nav>
@@ -144,14 +150,14 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" :class="stage == 11? 'active':''" @click.prevent="stage = 11" href="#">
-                                    <i class="fas fa-info-circle"></i>
-                                    <span class="ml-2">About</span>
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span class="ml-2">Logs</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../">
-                                    <i class="fas fa-home"></i>
-                                    <span class="ml-2">Home</span>
+                                <a class="nav-link" :class="stage == 12? 'active':''" @click.prevent="stage = 12" href="#">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span class="ml-2">About</span>
                                 </a>
                             </li>
                         </ul>
@@ -242,7 +248,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
 
 
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 class="h2">Dashboard</h1>
+                            <h4></h4>
                             <div class="btn-toolbar mb-2 mb-md-0">
                                 <div class="btn-group mr-2">
                                 </div>
@@ -272,6 +278,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                     <th>name</th>
                                                     <th>last online</th>
                                                     <th>data joined</th>
+                                                    <th>action</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
@@ -281,6 +288,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                     <th>name</th>
                                                     <th>last online</th>
                                                     <th>data joined</th>
+                                                    <th>action</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
@@ -290,6 +298,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                     <td>{{user.name}}</td>
                                                     <td>{{user.status}}</td>
                                                     <td>{{user.joined}}</td>
+                                                    <td class="text-center align-middle vertic"><i class="fa fa-ellipsis-h"></i></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -308,38 +317,38 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </div>
                             <div class="card mx-4 col-md-4 p-0">
                                 <h4 class="text-primary text-center">posts</h4>
-                                <div class="card-body ml-4 w100">
-                                    <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
+                                <div class="card-body mx-auto w-100">
+                                    <div class="col-12 row p-2 w-100 m-auto flexcenter page-link">
                                         <div class="col-8">
                                             <h6>Monday</h6>
                                         </div>
                                         <div class="col-4 text-left">{{ postDayM }}</div>
                                     </div>
-                                    <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
+                                    <div class="col-12 row p-2 w-100 m-auto flexcenter page-link">
                                         <div class="col-8">
                                             <h6>Tuesday</h6>
                                         </div>
                                         <div class="col-4 text-left">{{postDayT}}</div>
                                     </div>
-                                    <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
+                                    <div class="col-12 row p-2 w-100 m-auto flexcenter page-link">
                                         <div class="col-8">
                                             <h6>Wednesday</h6>
                                         </div>
                                         <div class="col-4 text-left">{{postDayW}}</div>
                                     </div>
-                                    <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
+                                    <div class="col-12 row p-2 w-100 m-auto flexcenter page-link">
                                         <div class="col-8">
                                             <h6>Thursday</h6>
                                         </div>
                                         <div class="col-4 text-left">{{postDayTh}}</div>
                                     </div>
-                                    <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
+                                    <div class="col-12 row p-2 w-100 m-auto flexcenter page-link">
                                         <div class="col-8">
                                             <h6>Friday</h6>
                                         </div>
                                         <div class="col-4 text-left">{{postDayF}}</div>
                                     </div>
-                                    <div class="col-12 row p-1 w-100 m-auto flexcenter" style="height: 20px;">
+                                    <div class="col-12 row p-2 w-100 m-auto flexcenter page-link">
                                         <div class="col-8">
                                             <h6>weekend</h6>
                                         </div>
@@ -359,10 +368,10 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                     <canvas id="visitsChart" style="width: 250px"></canvas>
                                 </div>
                             </div>
-                            <div class="col-md-5 my-3">
+                            <div class="col-md-5 my-3 flex-column ">
                                 <div class="col-12 my-1">
                                     <div class="card my-1 border-left shadow">
-                                        <div class="card-header my-1">
+                                        <div class="card-header my-1 border-0 ">
                                             <h6 class="m-0 font-weight-bold text-primary">analysis</h6>
                                         </div>
                                         <div class="row p-2 m-1">
@@ -378,7 +387,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                 </div>
                                 <div class="col-md-12 my-1">
                                     <div class="card border-left shadow">
-                                        <div class="card-header">
+                                        <div class="card-header border-0">
                                             <h6 class="m-0 font-weight-bold text-primary">online today</h6>
                                         </div>
                                         <div class="row p-2 m-1">
@@ -528,7 +537,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         <div class="row co m-0">
                             <div v-for="(report, index) in reports" class="col-12 row border p-2">
                                 <h4 class="col-2">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
-                                <div class="col-3"> <a :href="parseInt(report.is_comment) ? '../comment?id=' + report.slug : '../post?id=' + report.slug">
+                                <div class="col-3"> <a :href="parseInt(report.is_comment) ? '../comment?id=' + report.slug + '&comment=' + report.comment_id + '#comment-'+ report.comment_id : '../post?id=' + report.slug">
                                         <i class="fas fa-eye fa-2x"></i>
                                     </a></div>
                                 <span class="col-4">type: {{parseInt(report.is_comment) ? 'comment' : 'post'}}</span>
@@ -558,9 +567,21 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             <label class="form-check-label" for="darkModeToggle">Switch between dark mode and light mode.</label>
                         </div>
                     </div>
+                    <!-------------------------- Logs --------------------------------------------->
+                    <div class="about co" v-show="stage == 11">
+                        <h1 class="mt-2">Error Logs</h1>
+                        <textarea name="hi" id="log-textarea" class="col-12 mx-auto wra form-control bg-dark text-light" style="height: 60vh; font-family: monospace; white-space: pre; overflow-x: scroll;" wrap="off"><?php require "./../inc/errors/error.log.txt"; ?>
+  </textarea>
+
+                        <div class="row m-2">
+                            <button class="btn btn-danger mx-2 p-1 px-2" @click="clearLog">Clear</button>
+                            <button class="btn btn-primary bg mx-2 p-1 px-2" @click="saveLog">Save</button>
+                        </div>
+                    </div>
+
 
                     <!--------------------------- the about section -------------------------------- -->
-                    <div class="about co" v-show="stage == 11">
+                    <div class="about co" v-show="stage == 12">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6 offset-md-3">
@@ -579,12 +600,11 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                             <input type="text" class="form-control" id="app-date" value="<?= $date ?>" disabled>
                                         </div>
                                     </form>
-                                    <p class="mt-4">My App is a software application that does amazing things. It is built with Bootstrap and Font Awesome icons. It is easy to use and customize. You can learn more about it by visiting the GitHub repository.</p>
-                                    <div class="row ">
-                                    <a href="https://github.com/bethropolis/suplike-social-website" target="_blank" class="mx-1" style="color:#8d55e8;">
-                                    <i class="fab fa-github fa-2x"></i></a>
-                                    <a href="https://twitter.com/bethropolis" target="_blank" class="mx-1"  style="color:#8d55e8;">
-                                    <i class="fab fa-twitter fa-2x"></i></a>
+                                    <div class="row ml-1">
+                                        <a href="https://github.com/bethropolis/suplike-social-website" target="_blank" class="mx-2" style="color:#8d55e8;">
+                                            <i class="fab fa-github fa-2x"></i></a>
+                                        <a href="https://twitter.com/bethropolis" target="_blank" class="mx-2" style="color:#8d55e8;">
+                                            <i class="fab fa-twitter fa-2x"></i></a>
 
                                     </div>
                                 </div>

@@ -7,7 +7,7 @@
   --icon-light: #f8f9fa;
   --icon-dark: #333333;
   --box-shadow: 0 0 5px var(--dark);
-  --tab: rgb(226, 226, 226);
+  --tab: #f6f6f6;
   --btn: rgba(67, 22, 228, 0.844);
   --btn-co: #fff;
   --option: #6d6d6e1c;
@@ -52,6 +52,9 @@ a:foccus {
 a:visited {
   color: var(--dark);
 }
+a:focus i{
+  color: var(--ho);
+}
 
 i {
   color: var(--co);
@@ -81,7 +84,14 @@ i {
 }
 
 .bga {
-  background: var(--bg) !important;
+  background: var(--bg) ;
+}
+.tab_bg{
+  background: var(--comment-card); 
+  color: var(--co) !important;
+}
+.tab_bg:hover h3,.tab_bg:focus h3{
+  color: var(--ho) !important;
 }
 .card,
 .ca {
@@ -168,7 +178,7 @@ li {
   font-weight: bold;
   max-width: 230px;
 }
-.sidebar a:hover {
+.sidebar a:hover,.sidebar a:focus {
   max-width: 230px;
   background-color: var(--nav);
   color: #fff !important;
@@ -198,6 +208,9 @@ li {
 }
 .btn {
   color: var(--btn-co);
+}
+.btn:focus{
+  opacity: 0.7;
 }
 .center {
   text-align: center;
@@ -306,7 +319,6 @@ input[type="password"],
   background-color: #f1f5f9;
   padding: 1.1em;
   font-size: 18px;
-  border-radius: 2.2em;
   border: none;
 }
 .lightbox-container {
@@ -364,6 +376,9 @@ input[type="password"],
   outline: none;
   background: var(--inp);
 }
+.textinput:focus{
+  outline: 2px solid var(--ho);
+}
 
 .lone-p {
   text-align: left;
@@ -413,19 +428,14 @@ input[type="password"],
   right: 20px;
   border-radius: 12em;
 }
-
+.follower-btn:focus{
+  opacity: 0.7;
+} 
 /*------------settins page------------*/
 .settings-main {
   text-align: center;
 }
-input {
-  outline: none;
-  border: none;
-  border-bottom: 2px solid var(--dark);
-  background: var(--inp);
-  color: var(--co);
-  font-family: inherit;
-}
+
 textarea {
   outline: none;
   border: none;
@@ -439,8 +449,6 @@ textarea {
 }
 .settings-option {
   text-align: center;
-  border-bottom: 1px solid var(--dark);
-  background: var(--option);
 }
 
 .setting-form {
@@ -470,7 +478,7 @@ textarea {
 }
 
 .no-h:hover {
-  color: inherit;
+  color: #fff !important;
 }
 .img-profile {
   background-image: url("../img/M.jpg");

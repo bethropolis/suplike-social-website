@@ -16,6 +16,9 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
         WHERE `comments`.`post_id` ='$post_id' AND ((`uidusers` = `comments`.`user`) OR (`comments`.`user` = 'deleted')) 
         ORDER BY `comments`.`date` DESC";
 
+
+$active = isset($_GET['comment']) ? $_GET['comment'] : '';
+
 ?>
 
 <link rel="stylesheet" href="css/comment.css">
@@ -28,15 +31,15 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
 
   <div class="col-sm-9 p-0">
     <div id="app">
-    <?php
-    if (isset($_GET['act'])) {
-    ?>
-    <div class="alert alert-success w-75 text-center mx-auto p-1 mt-1">
-                <p>comment <?= $_GET['act'] ?></p>
-            </div>
       <?php
-        }
-    ?>    
+      if (isset($_GET['act'])) {
+      ?>
+        <div class="alert alert-success w-75 text-center mx-auto p-1 mt-1">
+          <p>comment <?= $_GET['act'] ?></p>
+        </div>
+      <?php
+      }
+      ?>
       <div class="box mt-4 px-4">
         <input id="comm" class="text-dark" placeholder="Write a comment...">
         <button type="submit" class="btn text-white" style="background: var(--ho); color: var(--white);" id="submit">Submit</button>
@@ -53,11 +56,11 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
         // Function to recursively render comments and their replies
         function renderComments($comments, $parent_id = null, $indent = 0)
         {
-          global $user;
+          global $user, $active;
           foreach ($comments as $comment) {
             if ($comment['parent_id'] == $parent_id) {
         ?>
-              <div class="comment-container <?= ($comment['parent_id'] !== null) ? 'reply-container' : '' ?>" style="margin-left: <?= $indent ?>px" data-comment-id="<?= ($comment['id'] ?? null) ?>">
+              <div class="comment-container <?= ($comment['parent_id'] !== null) ? 'reply-container' : '' ?> <?= $active == $comment['id'] ? 'highlight shadow' : '' ?>" id="comment-<?= $comment['id'] ?>" style="margin-left: <?= $indent ?>px" data-comment-id="<?= ($comment['id'] ?? null) ?>">
                 <div class="comment-header">
                   <img src="img/<?= $comment['profile_picture'] ?? 'M.jpg' ?>" class="user-image" loading="lazy">
                   <div class="user-info">
@@ -73,14 +76,20 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
                   <?= $comment['comment'] ?>
                 </div>
                 <div class="comment-actions">
-                  <a href="#reply" onclick="showReplyForm(<?= $comment['id'] ?>)"><i class="fas fa-reply"></i>
+                  <a href="#reply" onclick="showReplyForm()"><i class="fas fa-reply"></i>
                     Reply</a>
+
                   <?php
-                  if ($comment["user"] == $user) {
-                    echo '<a href="#delete" onclick="deleteComment(' . $comment['id'] . ')"><i class="fas fa-trash-alt"></i> Delete</a>';
-                  }
+                  if ($comment["user"] !== "deleted") {
                   ?>
-                  <a href="./inc/report.inc.php?comment=<?= $comment['id'] ?>"><i class="fas fa-exclamation-triangle"></i> Report</a>
+                    <?php
+                    if ($comment["user"] == $user || $_SESSION['isAdmin']) {
+                      echo '<a href="#delete" onclick="deleteComment(' . $comment['id'] . ')"><i class="fas fa-trash-alt"></i> Delete</a>';
+                    }
+                    ?>
+                    <a href="./inc/report.inc.php?comment=<?= $comment['id'] ?>"><i class="fas fa-exclamation-triangle"></i> Report</a>
+
+                  <?php } ?>
                 </div>
               </div>
               <div id="reply-form-<?= $comment['id'] ?>" class="reply-form box w-75 ml-5 mt-2" style="display: none;">
@@ -153,7 +162,11 @@ $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirs
         'X-Requested-With': 'XMLHttpRequest'
       },
       success: function(data, textStatus, jqXHR) {
-        window.location.reload();
+        if (data.type == 'success') {
+          window.location.reload();
+          return
+        }
+        alert(data.msg)
       },
       error: function(jqXHR, textStatus, errorThrown) {
         alert('Could not delete comment');
