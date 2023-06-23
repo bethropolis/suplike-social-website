@@ -49,16 +49,22 @@ function createEnvFile($serverName, $dbUser, $dbPassword, $dbName)
 {
     $fileContent = <<<EOT
 <?php
+\$protocol = (!empty(\$_SERVER['HTTPS']) && \$_SERVER['HTTPS'] !== 'off' || \$_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+
 if (!defined('DB_DATABASE')) define('DB_DATABASE', '$dbName');
 if (!defined('DB_HOST')) define('DB_HOST', '$serverName');
 if (!defined('DB_USERNAME')) define('DB_USERNAME', '$dbUser');
 if (!defined('DB_PASSWORD')) define('DB_PASSWORD', '$dbPassword');
 if (!defined('DB_PORT')) define('DB_PORT', 3306);
 if (!defined('SETUP')) define('SETUP', true);
+if (!defined('BASE_URL')) define('BASE_URL', \$protocol . \$_SERVER['HTTP_HOST']);
+if (!defined('EMAIL_VERIFICATION')) define('EMAIL_VERIFICATION', false);
+if (!defined('APP_EMAIL')) define('APP_EMAIL', '');
 EOT;
 
     file_put_contents("env.php", $fileContent);
 }
+
 
 createEnvFile($serverName, $dbUser, $dbPassword, $dbName);
 

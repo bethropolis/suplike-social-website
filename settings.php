@@ -31,23 +31,23 @@ $user_id = $_SESSION['token'];
 </style>
 
 <div class="row co">
-  <div class="col-sm-3 settings-sidebar sidebar-sticky">
-    <a href="?profile" class="page-link tab_bg">
+  <div class="col-sm-3 settings-sidebar sidebar-sticky border-right p-0">
+    <a href="?profile" class="page-link tab_bg border-bottom active">
       <div class="settings-option text-left">
         <h3 class="co ml-4">profile</h3>
       </div>
     </a>
-    <a href="?appearance" class="page-link tab_bg">
+    <a href="?appearance" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
         <h3 class="co ml-4">appearance</h3>
       </div>
     </a>
-    <a href="?delete" class="page-link tab_bg">
+    <a href="?delete" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
         <h3 class="co ml-4">delete acc</h3>
       </div>
     </a>
-    <a href="?password" class="page-link tab_bg">
+    <a href="?password" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
         <h3 class="co ml-4">password</h3>
       </div>
@@ -57,7 +57,7 @@ $user_id = $_SESSION['token'];
         <h3 class="co ml-4">developer</h3>
       </div>
     </a>
-    <a href="inc/logout.inc.php" onclick="sessionStorage.clear();sessionStorage.setItem('load', true)" class="page-link tab_bg">
+    <a href="inc/logout.inc.php" onclick="sessionStorage.clear();sessionStorage.setItem('load', true)" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
         <h3 class="co ml-4">logout</h3>
       </div>
@@ -118,7 +118,7 @@ $user_id = $_SESSION['token'];
         }
         ?>
         <div class="settings-body">
-          <form action="inc/delete.inc.php" method="POST" class="w-75 mx-auto text-left" >
+          <form action="inc/delete.inc.php" method="POST" class="w-75 mx-auto text-left">
             <div class="form-group">
               <label for="delete-user">type your password</label>
               <!-- use bootstrap tooltips -->
@@ -163,14 +163,17 @@ $user_id = $_SESSION['token'];
       <?php
     } else {
       // settings page
-      if (!isset($_GET['id']) && isset($user_id) && $un_ravel->_isEmail_verified($user_id) == false) {
-        echo '<div id="email-v" class="alert row align-items-center alert-warning pt-2 pb-0 my-0" role="alert" style="display: none;">
-        <p class="col-9">Please verify your email.</p>
-        <p class="col-3">
-          <a href="#sent" class="btn btn-light bg" id="send-v">send</a>
-        </p>
+      if (isset($_GET["error"])) {
+        echo '<div id="email-v" class="alert alert-danger text-center py-2 my-1  w-75 mx-auto" role="alert">
+        <p>An error occured, data not updated.</p>
       </div>';
       }
+      if (isset($_GET["success"])) {
+        echo '<div id="email-v" class="alert alert-success text-center py-2 my-1  w-75 mx-auto" role="alert">
+        <p>your info has been updated.</p>
+      </div>';
+      }
+      
       ?>
         <div class="settings-header py-4">
 
@@ -188,10 +191,10 @@ $user_id = $_SESSION['token'];
 
           </form>
           <br><br>
-          <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto text-left">
+          <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto mb-4 text-left">
             <div class="form-group">
-              <label for="username" data-toggle="tooltip" data-placement="top" title="usernane cannot be changed">username</label>
-              <input type="text" class="form-control w-100" name="username" id="username" value="<?= $_SESSION['userUid']; ?>" disabled >
+              <label for="username" data-toggle="tooltip" data-placement="top" title="usernane cannot be changed">username<sup class="text-danger">*</sup> </label>
+              <input type="text" class="form-control w-100" name="username" id="username" value="<?= $_SESSION['userUid']; ?>" disabled>
             </div>
             <div class="form-group">
               <label for="fname">First name</label>
@@ -203,7 +206,16 @@ $user_id = $_SESSION['token'];
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control w-100" name="email" id="email" value="<?php echo $result['emailusers']; ?>">
+              <div class="input-group">
+                <input type="email" class="form-control" name="email" id="email" value="<?php echo $result['emailusers']; ?>">
+                <?php
+                if($un_ravel->_isEmail_verified($user_id)){ 
+                ?>
+                <button type="button" class="btn <?= $un_ravel->_isEmail_verified($user_id)  ? "bg-success" : "bg"?>"  id="send-v"> 
+                "Verify"
+                </button>
+                <?php } ?>
+              </div>
             </div>
             <div class="form-group">
               <label for="bio">Bio</label>

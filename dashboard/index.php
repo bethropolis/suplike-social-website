@@ -57,7 +57,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
         // load css if localstorage  theme = dark
         let theme = localStorage.getItem('theme') || null;
         if (theme === 'dark') {
-            let css = `:root{--bg:#1f1f1f;--co:#fff;--option:grey;--light:#333;--dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light); --icon: #eee;--card:#6c757d;--tab:#343a40;--top:#6c5ce7;--card-top:#363434;--ac:hsl(253deg 84% 79%);--nav:#495057;--lighter:#a080ff;--box-shadow:0 0 5px var(--dark)}`;
+            let css = `:root{--bg:#1a1a1a;--co:#f8f9fc;--ho:#a080ff;--top:#a080ff;--card:#333;--card-top:#444;--icon:#eee;--ac:#bcabf7;--nav:#333;--lighter:#6c5ce7;--box-shadow:0 0 5px var(--light)}`;
             let style = document.createElement('style');
             style.type = 'text/css';
             style.appendChild(document.createTextNode(css));
@@ -535,7 +535,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                             </div>
                         </div>
                         <div class="row co m-0">
-                            <div v-for="(report, index) in reports" class="col-12 row border p-2">
+                            <div v-for="(report, index) in reports" class="col-12 row border-bottom p-2">
                                 <h4 class="col-2">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
                                 <div class="col-3"> <a :href="parseInt(report.is_comment) ? '../comment?id=' + report.slug + '&comment=' + report.comment_id + '#comment-'+ report.comment_id : '../post?id=' + report.slug">
                                         <i class="fas fa-eye fa-2x"></i>

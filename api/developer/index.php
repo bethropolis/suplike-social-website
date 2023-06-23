@@ -125,7 +125,7 @@ if (isset($_GET['api'])) {
                         <h4>API</h4>
                         <p>Use the API token above to authenticate your requests to the API. The API endpoint is located at <code>{INSTANCE_URL}/api/v1</code>.</p>
                         <p>With the API, you can perform various actions such as retrieving data, sending messages, and more.</p>
-                        <p>For detailed information about the available endpoints, request parameters, and response formats, please refer to our <a href="https://your-api-docs-url" target="_blank">API documentation</a>.</p>
+                        <p>For detailed information about the available endpoints, request parameters, and response formats, please refer to the  <a href="https://your-api-docs-url" target="_blank">API documentation</a>.</p>
                     </article>
                 <?php } elseif (isset($_GET['bots'])) { ?>
                     <!-- Bots Section -->

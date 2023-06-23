@@ -76,7 +76,7 @@ function render(post) {
         </div>
       </div>
       <div class="d-flex flex-row mt-1 ellipsis">
-        <small class="mr-2">${post.date_posted}</small>
+        <small class="mr-2 text-muted">${post.date_posted}</small>
         <a
           class="dropdown-toggle co"
           href="#"
@@ -194,7 +194,7 @@ function render(post) {
           </div>
         </div>
         <div class="d-flex flex-row mt-1 ellipsis">
-          <small class="mr-2">${post.date_posted}</small>
+          <small class="mr-2 text-muted">${post.date_posted}</small>
           <a
             class="dropdown-toggle cob"
             href="#"
@@ -249,7 +249,7 @@ function render(post) {
       </div>
       </div>
             <div class="px-1 py-3">
-            <p class="lone co px-1">${post.image_text}</p>
+            <p class="lone co px-2">${post.image_text}</p>
             </div>
             <div class="social-opt">
             <div class="row social-act co w-100">
@@ -414,7 +414,7 @@ function get_popular_users() {
       post.data.forEach((item) => {
         let status = item.following ? 'following' : 'follow';
         $('#popular-users').append(`
-        <li class="text-left align-items-center p-2 border-0  justify-content-between"
+        <li class="text-left  align-items-center p-2 border-0  justify-content-between"
         style='display: flex;'>
         <a href="profile.php?id=${item.token}">
         <span class='link co border-0'>@${item.uidusers}</span>
@@ -439,11 +439,11 @@ function get_popular_tags() {
   $.get(url, function (tags) {
     if (tags.type == 'success') {
       tags.data.forEach((item) => {
-        $("#popular-users").append(`
-        <a href="topics.php?t=${item.name}" class="page-link">
+        $("#popular-tags").append(`
+        <a href="topics.php?t=${item.name}" class=" border-0 page-link tab_bg link">
           <li class="text-left align-items-center p-2 border-0  justify-content-between"
           style='display: flex;'>
-            <span class='link co border-0'>#${item.name}</span>
+            <span class='co border-0'>#${item.name}</span>
             <span class="small mx-2">view</span>    
           </li>
         </a>

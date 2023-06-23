@@ -32,7 +32,7 @@ if (isset($_GET['t'])) {
             <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
             <div class="col-sm-6 p-0 ">
                 <div class="row p-0 m-0 mt-2 ">
-                    <h3 class="col-10"><?= !empty($topic) ? '#' . $topic : 'trending' ?></h3>
+                    <h3 class="col-10 text-muted"><?= !empty($topic) ? '#' . $topic : 'trending' ?></h3>
                     <div class="col-2 row justify-content-center align-items-center   rounded-circle">
                         <?php
                         if (!empty($topic)) {
@@ -48,8 +48,8 @@ if (isset($_GET['t'])) {
             </div>
             <div class="col-sm-3 nav-hide sidebar-sticky flex-column pt-3 sticky-top" style="width: 94%; height: 20em; border: none; position: sticky; top: 4.4em; z-index: 1;">
                 <div class=" card card-profile border-0 white rounded text-center profile-card sidebar-content">
-                    <h4>topic</h4>
-                    <h2><?= $topic ?></h2>
+                    <h4 class="co">topic</h4>
+                    <h2 class="text-muted"><?= $topic ?></h2>
 
                     </a>
                     <h5 class="text-center small co">
@@ -62,7 +62,7 @@ if (isset($_GET['t'])) {
                 </div>
                 <div class="shadow-sm mt-5 sidebar-content">
                     <h5 class='co'>Popular topics</h5>
-                    <div id="popular-users" style='overflow-y: auto; height: 33vh'>
+                    <div id="popular-tags" style='overflow-y: auto; height: 33vh'>
 
                     </div>
                 </div>

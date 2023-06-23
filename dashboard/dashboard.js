@@ -170,6 +170,7 @@ let app = new Vue({
                             backgroundColor: bg,
                             hoverBackgroundColor: hbg,
                             hoverBorderColor: "rgba(234, 236, 244, 1)",
+                            borderColor: "transparent" 
                         },
                     ],
                 },
@@ -186,7 +187,7 @@ let app = new Vue({
                         caretPadding: 10,
                     },
                     legend: {
-                        display: false,
+                        display: true,
                     },
                     cutoutPercentage: 80,
                 },

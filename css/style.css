@@ -87,8 +87,9 @@ i {
   background: var(--bg) ;
 }
 .tab_bg{
-  background: var(--comment-card); 
+  background: none; 
   color: var(--co) !important;
+  border: none;
 }
 .tab_bg:hover h3,.tab_bg:focus h3{
   color: var(--ho) !important;
@@ -102,6 +103,9 @@ i {
 }
 .text-muted {
   color: var(--muted-text) !important;
+}
+.link:hover span{
+  color: #333 !important;
 }
 no-style:hover {
   color: var(--co) !important;

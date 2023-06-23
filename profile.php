@@ -78,7 +78,7 @@ if($login){
             }
             ?>
           </div>
-          <div class="d-flex justify-content-center align-items-center" style="justify-content: center;">
+          <div class="d-flex justify-content-center align-items-center text-muted" style="justify-content: center;">
             <div class="d-flex justify-content-center align-items-center m-1">
               <small class="mx-1 h6" style="font-size: clamp(.9rem, .5vw, 0.6rem);">posts: <span
                   id="posts">...</span></small>

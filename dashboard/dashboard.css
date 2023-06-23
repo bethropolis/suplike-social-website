@@ -135,12 +135,14 @@ table.dataTable tbody tr, table.dataTable tbody tr:hover {
     font-size: 1.1em; 
 }
 
-.card-header {
-    background-color: var(--light);
+.page-link {
+    color: var(--co);
+    background-color: var(--card);
+    border: none;
 }
 
 .border-bottom {
-    border-bottom: .25rem solid var(--lighter)!important;
+    border-bottom: 1px solid var(--icon)!important;
 }
 
 .border-left {
