@@ -93,13 +93,13 @@ if (isset($_GET['user'])) {
     }
 
     if (!is_null($result) && $key == 'true') {
-        $err = new Err(13);
-        $err->err('Followed');
+        $err = new Err();
+        $err->err('Followed',12, "already followed the user");
         die();
     }
 
     if (is_null($result) && $key == 'false') {
-        $err = new Err(1);
+        $err = new Err();
         $err->err('Error');
         die();
     }

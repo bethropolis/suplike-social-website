@@ -32,6 +32,8 @@ html {
 html::-webkit-scrollbar{
   width: 0;
 }
+
+
 body {
   padding: 0;
   margin: 0;
@@ -52,7 +54,7 @@ a:foccus {
 a:visited {
   color: var(--dark);
 }
-a:focus i{
+a:focus i {
   color: var(--ho);
 }
 
@@ -84,14 +86,15 @@ i {
 }
 
 .bga {
-  background: var(--bg) ;
+  background: var(--bg);
 }
-.tab_bg{
-  background: none; 
+.tab_bg {
+  background: none;
   color: var(--co) !important;
   border: none;
 }
-.tab_bg:hover h3,.tab_bg:focus h3{
+.tab_bg:hover h3,
+.tab_bg:focus h3 {
   color: var(--ho) !important;
 }
 .card,
@@ -104,7 +107,7 @@ i {
 .text-muted {
   color: var(--muted-text) !important;
 }
-.link:hover span{
+.link:hover span {
   color: #333 !important;
 }
 no-style:hover {
@@ -162,7 +165,6 @@ li {
 
 /*!* start of sidebar */
 
-
 .sticky-nav {
   width: 100%;
   height: 20em;
@@ -182,7 +184,8 @@ li {
   font-weight: bold;
   max-width: 230px;
 }
-.sidebar a:hover,.sidebar a:focus {
+.sidebar a:hover,
+.sidebar a:focus {
   max-width: 230px;
   background-color: var(--nav);
   color: #fff !important;
@@ -197,10 +200,7 @@ li {
   border-bottom-right-radius: 5em;
 }
 
-
-
 /*!* end of sidebar */
-
 
 .header-right {
   display: flex;
@@ -213,7 +213,7 @@ li {
 .btn {
   color: var(--btn-co);
 }
-.btn:focus{
+.btn:focus {
   opacity: 0.7;
 }
 .center {
@@ -303,7 +303,6 @@ li {
   max-width: 560px;
   min-width: 250px;
   height: auto;
-  background: var(--white);
   font-family: "Courier New", Courier, monospace;
 }
 .dropdown-item {
@@ -380,7 +379,7 @@ input[type="password"],
   outline: none;
   background: var(--inp);
 }
-.textinput:focus{
+.textinput:focus {
   outline: 2px solid var(--ho);
 }
 
@@ -432,9 +431,9 @@ input[type="password"],
   right: 20px;
   border-radius: 12em;
 }
-.follower-btn:focus{
+.follower-btn:focus {
   opacity: 0.7;
-} 
+}
 /*------------settins page------------*/
 .settings-main {
   text-align: center;
@@ -486,6 +485,11 @@ textarea {
 }
 .img-profile {
   background-image: url("../img/M.jpg");
+}
+
+
+.scroller-sm::-webkit-scrollbar {
+  width: 5px;
 }
 
 /* hide navbar on mobile devices */

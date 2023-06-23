@@ -132,7 +132,7 @@ function render(post) {
     </div>
            <div class="lazyload">
            <!-- <a href="./img/${post.image
-      }"  data-lightbox data-image-alt="image post">     
+      }"  data-lightbox="${post.post_id}" data-title="${post.image_text}" data-image-alt="image post">     
                    <div class="post-body" style="background-image: url(./img/${post.image
       });">
                     </div> 
@@ -463,7 +463,7 @@ function follow(user) {
     profile = this.id || profile;
     var key;
     /*---------------------improvise-------------*/
-    switch ($(this).children("span").text()) {
+    switch ($(this).children("span").text().trim()) {
       case "follow":
         key = "true";
         $(this).children("span").text("following");
@@ -502,7 +502,7 @@ function follow(user) {
 
 function add_lightbox() {
   $("body").append(
-    '<script defer src="./lib/lightbox/lightbox.min.js"></script>  '
+    '<script defer src="./lib/lightbox/js/lightbox.min.js"></script>  '
   );
 }
 

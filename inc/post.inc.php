@@ -10,16 +10,15 @@ session_start();
 $un_ravel->_isAuth();
 
 
-// Define constants for file extensions, file size limit, random bytes length, etc.
 define("FILE_EXTENSIONS", array("jpeg", "jpg", "png", "gif", "webp"));
 define("FILE_SIZE_LIMIT", 6291456);
 define("RANDOM_BYTES_LENGTH", 4);
 
-// Define a function to validate the input
 function validate_input($type, $image_text, $file_size, $file_ext)
 {
-    print_r([$type, $image_text, $file_size, $file_ext]);
-    die();
+    // print_r([$type, $image_text, $file_size, $file_ext]);
+    // die();
+
     if ($type != "img" && $type != "txt") {
         return 'invalid post type';
     }
@@ -28,20 +27,22 @@ function validate_input($type, $image_text, $file_size, $file_ext)
         return 'post text cannot be empty';
     }
     // Check if the file size and extension are valid
-    if ($type == "img" && ($file_size > FILE_SIZE_LIMIT || !in_array($file_ext, FILE_EXTENSIONS))) {
-        return '';
+    if ($type == "img" && !in_array($file_ext, FILE_EXTENSIONS)) {
+        return 'unsupported file format';
+    }
+
+    if ($type == "img" && $file_size > FILE_SIZE_LIMIT) {
+        return 'file too large';
     }
     // Return true if all checks pass
     return true;
 }
 
-// Define a function to generate a random post ID
 function generate_post_id()
 {
     return bin2hex(openssl_random_pseudo_bytes(RANDOM_BYTES_LENGTH));
 }
 
-// Define a function to insert data into the posts table
 function insert_post($conn, $image_text, $image, $type, $user, $d)
 {
     // Prepare the SQL statement with named parameters
@@ -113,24 +114,20 @@ function getTagIdByName($conn, $tag_name)
  */
 function insertPostTags($conn, $postId, $tags)
 {
-    // Split the tags into an array
     $id = getPostId($conn, $postId);
     $tagArray = array_map('trim', explode(',', $tags));
-
-    // Insert tags into tags table
     foreach ($tagArray as $tagName) {
-        $tagName = mysqli_real_escape_string($conn, $tagName);
+        if (!empty($tagName)) {
+            $tagName = mysqli_real_escape_string($conn, $tagName);
 
-        // Use IGNORE keyword to ignore duplicate tag names
-        $sql = "INSERT IGNORE INTO tags (name) VALUES ('$tagName')";
-        mysqli_query($conn, $sql);
+            // Use IGNORE keyword to ignore duplicate tag names
+            $sql = "INSERT IGNORE INTO tags (name) VALUES ('$tagName')";
+            mysqli_query($conn, $sql);
 
-        // Get the tag ID
-        $tagId = getTagIdByName($conn, $tagName);
-
-        // Insert tag and post ID into post_tags table
-        $sql = "INSERT INTO post_tags (post_id, tag_id) VALUES ($id, $tagId)";
-        mysqli_query($conn, $sql);
+            $tagId = getTagIdByName($conn, $tagName);
+            $sql = "INSERT INTO post_tags (post_id, tag_id) VALUES ($id, $tagId)";
+            mysqli_query($conn, $sql);
+        }
     }
 }
 
@@ -186,8 +183,20 @@ if (isset($_POST['upload'])) {
         $image = rand(12, 2000) . '_' . generate_post_id() . "." . $file_ext;
 
         // Validate the input
-        if (!validate_input($type, $image_text, $file_size, $file_ext)) {
-            header('Location: ../home.php?upload=invalid');
+        $validate = validate_input($type, $image_text, $file_size, $file_ext);
+        if ($validate !== true) {
+            if ($_POST['upload'] == 'post') {
+                print_r(
+                    json_encode(
+                        [
+                            "type" => 'error',
+                            "message" => $validate,
+                        ]
+                    )
+                );
+            } else {
+                header("Location: ../home.php?upload=invalid");
+            }
             die();
         }
 
@@ -221,20 +230,21 @@ if (isset($_POST['upload'])) {
     } else if ($type == 'txt') {
 
         // Validate the input
-        if (!validate_input($type, $image_text, 0, "")) {
+        $validate = validate_input($type, $image_text, 0, "");
+        if ($validate !== true) {
             if ($_POST['upload'] == 'post') {
                 print_r(
                     json_encode(
                         [
                             "type" => 'error',
-                            "message" => "Input is invalid",
+                            "message" => $validate,
                         ]
                     )
                 );
             } else {
                 header("Location: ../home.php?upload=invalid");
-                die();
             }
+            die();
         }
 
         // Check if check is false

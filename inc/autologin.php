@@ -7,11 +7,13 @@ if (isset($_GET['login'])) {
     try {
         //code...
         $token = $_COOKIE['token'];
+
         $id = $un_ravel->_getUser($token);
+        if($id){ 
         $sql = "SELECT * FROM users WHERE idusers = '$id'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
+            $row = $result->fetch_assoc();  
             session_start();
             $_SESSION['userId'] = $row['idusers'];
             $_SESSION['token'] = $token;
@@ -25,6 +27,9 @@ if (isset($_GET['login'])) {
             $_SESSION['isAdmin'] = $row['isAdmin'];
             header("Location: ../home.php?login=success");
         }
+    }else{
+        header("Location: ./logout.inc.php");
+    }
     } catch (\Throwable $th) {
         //throw $th;
         header("Location: ../home.php?login=error");

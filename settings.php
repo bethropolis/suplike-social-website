@@ -44,7 +44,7 @@ $user_id = $_SESSION['token'];
     </a>
     <a href="?delete" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
-        <h3 class="co ml-4">delete acc</h3>
+        <h3 class="co ml-4">delete account</h3>
       </div>
     </a>
     <a href="?password" class="page-link tab_bg border-bottom">

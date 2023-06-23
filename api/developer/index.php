@@ -60,9 +60,19 @@ if (isset($_GET['api'])) {
     <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../lib/font-awesome/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <script>
+        if (localStorage.getItem('theme') == 'dark') {
+            let css = `:root{--bg:#1a1a1a!important;--co:#f8f9fc!important;--ho:#a080ff;--ac:rgba(50, 159, 192, 0.844)!important;--inp:rgb(41, 38, 38)!important;--light:#f8f9fa!important;--dark:#333!important;--msg-message:#969eaa!important;--chat-text-bg:#ededf8!important;--chat-text-owner:var(--ho)!important;--theme-color:#00ffff!important;--msg-date:#c0c7d2!important;--theme-1:#1a1a1a!important;--theme-2:#212121!important;--theme-3:#333333!important;--theme-4:#444444!important;--theme-5:#555555!important;--theme-6:#666666!important;--theme-7:#777777!important;--theme-8:#888888!important;--theme-9:#999999!important}
+                .co{color: var(--co) !important}.st-1{background-color:var(--theme-1)!important;color:var(--co)}.st-2{background-color:var(--theme-2)!important;color:var(--co)}.st-3{background-color:var(--theme-3)!important;color:var(--co)}.st-4{background-color:var(--theme-4)!important;color:var(--co)}.st-5{background-color:var(--theme-5)!important;color:var(--co)}.st-6{background-color:var(--theme-6)!important;color:var(--co)}.st-7{background-color:var(--theme-7)!important;color:var(--co)}.st-8{background-color:var(--theme-8)!important;color:var(--co)}.st-9{background-color:var(--theme-9)!important;color:var(--co)}`
+            let style = document.createElement('style');
+            style.type = 'text/css';
+            style.appendChild(document.createTextNode(css));
+            document.head.appendChild(style);
+        }
+    </script>
 </head>
 
-<body>
+<body class="st-4">
 
     <div class="row m-0">
         <div class="sidebar col-sm-2  sidebar stick">
@@ -86,9 +96,9 @@ if (isset($_GET['api'])) {
         </div>
         <div class="col-sm-10 p-0 ">
 
-            <nav class="navbar navbar-expand-lg stick">
+            <nav class="navbar navbar-expand-lg stick st-4">
                 <h4><?= $title ?></h4>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler co" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
                         <i class="fa fa-bars"></i>
                     </span>
@@ -96,10 +106,10 @@ if (isset($_GET['api'])) {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item mx-1">
-                            <a class="nav-link text-muted" href="../../">Home</a>
+                            <a class="nav-link text-muted co" href="../../">Home</a>
                         </li>
                         <li class="nav-item mx-1">
-                            <a class="nav-link text-muted" href="#">Docs</a>
+                            <a class="nav-link text-muted co" href="#">Docs</a>
                         </li>
                         <li class="nav-item mx-1">
                             <a href="../../profile.php">
@@ -112,7 +122,7 @@ if (isset($_GET['api'])) {
 
 
 
-            <div class="main col-md-10 mx-auto shadow-sm">
+            <div class="main col-md-10 mx-auto my-3 shadow-sm st-5">
                 <?php if (isset($_GET['api'])) { ?>
                     <!-- API Token Section -->
                     <div class="token-section">
@@ -125,7 +135,7 @@ if (isset($_GET['api'])) {
                         <h4>API</h4>
                         <p>Use the API token above to authenticate your requests to the API. The API endpoint is located at <code>{INSTANCE_URL}/api/v1</code>.</p>
                         <p>With the API, you can perform various actions such as retrieving data, sending messages, and more.</p>
-                        <p>For detailed information about the available endpoints, request parameters, and response formats, please refer to the  <a href="https://your-api-docs-url" target="_blank">API documentation</a>.</p>
+                        <p>For detailed information about the available endpoints, request parameters, and response formats, please refer to the <a href="https://your-api-docs-url" target="_blank">API documentation</a>.</p>
                     </article>
                 <?php } elseif (isset($_GET['bots'])) { ?>
                     <!-- Bots Section -->
@@ -186,7 +196,7 @@ if (isset($_GET['api'])) {
                             </div>
                             <div class="form-group">
                                 <label for="name">Password</label>
-                                <input type="password" id="pwd" name="pwd" class="form-control" required>
+                                <input type="password" id="password" name="password" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="icon">Icon</label>
@@ -194,7 +204,7 @@ if (isset($_GET['api'])) {
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea id="description" name="description" class="form-control" required></textarea>
+                                <textarea id="bio" name="bio" class="form-control" required></textarea>
                             </div>
                             <button type="submit" class="create-bot-submit btn btn-primary"><i class="fa fa-check"></i> Create</button>
                         </form>
@@ -222,7 +232,7 @@ if (isset($_GET['api'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group ">
                                         <label for="app-date">Description</label>
                                         <textarea type="text" class="form-control" id="app-date" value="" disabled></textarea>
                                     </div>

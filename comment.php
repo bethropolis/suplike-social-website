@@ -76,7 +76,7 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
                   <?= $comment['comment'] ?>
                 </div>
                 <div class="comment-actions">
-                  <a href="#reply" onclick="showReplyForm()"><i class="fas fa-reply"></i>
+                  <a href="#reply" onclick="showReplyForm(<?= $comment['id'] ?>)"><i class="fas fa-reply"></i>
                     Reply</a>
 
                   <?php

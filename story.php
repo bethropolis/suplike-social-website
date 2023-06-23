@@ -1,7 +1,7 @@
 <section class="main my-2">
     <div class="wrapper">
         <div class="left-col">
-            <div class="status-wrapper">
+            <div class="status-wrapper ml-2">
                 <!--- story cards go here---->
                 <a href="./post" class="anchor">
                     <div class="status-card"  tabindex="0">

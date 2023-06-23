@@ -132,7 +132,7 @@ if (isset($_GET['query'])) {
     INNER JOIN tags t ON t.id = pt.tag_id
     WHERE t.name LIKE ? AND p.deleted = false
     GROUP BY p.id
-    ORDER BY p.time DESC
+    ORDER BY p.post_likes DESC
     LIMIT 15
     
 ";

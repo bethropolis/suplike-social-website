@@ -62,7 +62,7 @@ if (isset($_GET['t'])) {
                 </div>
                 <div class="shadow-sm mt-5 sidebar-content">
                     <h5 class='co'>Popular topics</h5>
-                    <div id="popular-tags" style='overflow-y: auto; height: 33vh'>
+                    <div id="popular-tags" class="scroller-sm" style='overflow-y: auto; height: 44vh'>
 
                     </div>
                 </div>

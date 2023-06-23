@@ -113,7 +113,7 @@ if($login){
       <div class="alert alert-danger">Please enable javascript to view this page</div>
     </noscript>
     <h3 style="margin: 18px;" class="co">posts</h3>
-    <div id="main-post"></div>
+    <div id="main-post" class="mb-5"></div></div>
     <?php
 }else{
   ?>

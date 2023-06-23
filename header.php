@@ -42,7 +42,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/style.css?g">
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="./lib/lightbox/lightbox.min.css">
+  <link rel="stylesheet" href="./lib/lightbox/css/lightbox.min.css">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
   <script src="lib/lazyload/jquery.lazyload-any.js" defer></script>
   <script src="./js/online.js" defer></script>

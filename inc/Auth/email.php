@@ -9,9 +9,6 @@ function send_email($email, $subject, $body, $sender_email = APP_EMAIL)
   if (EMAIL_VERIFICATION) {
     mail($email, $subject, $body, $headers);
   } else {
-    die(json_encode(array(
-      'status' => 'error',
-      'msg' => 'Email is disabled.'
-    )));
+    // email is disabled
   }
 }
