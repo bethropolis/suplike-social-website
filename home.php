@@ -82,9 +82,9 @@ if (isset($_SESSION['userUid'])) {
                         </h5>
                     </a>
                     <ul class="profile-opt mb-5">
-                        <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
-                        <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-2x"></i></a>
-                        <a href="settings.php?profile" style="color: #252130;"><i class="fas fa-user-cog fa-2x"></i></a>
+                        <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-xl"></i></a>
+                        <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-xl"></i></a>
+                        <a href="settings.php?profile" style="color: #252130;"><i class="fas fa-user-cog fa-xl"></i></a>
                     </ul>
 
                 </div>

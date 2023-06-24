@@ -48,12 +48,12 @@ class Auth
         //browser token
         $sql = "SELECT `user` FROM `auth_key` WHERE `browser_auth` = ?";
         break;
-  
+
       case 28:
         //user token 
         $sql = "SELECT `user` FROM `auth_key` WHERE `user_auth` = ?";
         break;
-  
+
       case 64:
         //api key 
         $sql = "SELECT `user` FROM `auth_key` WHERE `api_key` = ?";
@@ -67,10 +67,10 @@ class Auth
     mysqli_stmt_bind_result($stmt, $this->user);
     mysqli_stmt_fetch($stmt);
     mysqli_stmt_close($stmt);
-    
+
     return $this->user;
   }
-  
+
 
   public function _queryUser($id, $type = 1)
   {
@@ -154,15 +154,19 @@ class Auth
 
   public function _isAuth()
   {
-    if (!isset($_SESSION['userId'])) {
-      die(json_encode(
-          [
-            'code' => 4,
-            'msg' => "You are not logged in",
-            'type' => 'error'
-          ]
-        ));
+    if (isset($_SESSION['userId'])) {
+      if (!$this->_isStatus($_SESSION['userId'], "blocked")) {
+        return true;
+      }
     }
+
+    die(json_encode(
+      [
+        'code' => 4,
+        'msg' => "You are not logged in",
+        'type' => 'error'
+      ]
+    ));
   }
   public function _isFollowing($user, $following)
   {
@@ -205,8 +209,19 @@ class Auth
     $stmt->bind_result($is_admin);
     $stmt->fetch();
     $stmt->close();
-
     return (bool) $is_admin;
+  }
+  public function _isStatus($user, $status)
+  {
+    $db_status = '';
+    $sql = "SELECT `status` FROM `users` WHERE `idusers` = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $user);
+    $stmt->execute();
+    $stmt->bind_result($db_status);
+    $stmt->fetch();
+    $stmt->close();
+    return $db_status == $status;
   }
   public function _isEmail_verified($user)
   {

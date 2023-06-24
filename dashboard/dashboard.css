@@ -209,6 +209,10 @@ table.dataTable tbody tr, table.dataTable tbody tr:hover {
     background: var(--top) !important;
 }
 
+.c-ho{
+     color: var(--ho) !important;
+}
+
 .co,.dataTables_info{
     color: var(--co) !important;
     text-decoration: none;

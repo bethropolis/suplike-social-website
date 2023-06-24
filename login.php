@@ -12,7 +12,7 @@ require "header.php";
   if (isset($_GET['error'])) {
     echo '<div class="alert alert-danger text-center" role="alert">';
     if ($_GET['error'] == 'notset') {
-      echo '<h5><a href="./inc/dbh.inc.php">setup Database config</a></h5>';
+      echo '<h5>the database has not been configured <a href="./inc/setup/"><button class="btn mx-2 btn-info">setup</button> </a></h5> ';
     }
     if ($_GET['error'] == 'emptyfields') {
       echo '<h5 > enter input on all fields</h5>';

@@ -405,6 +405,7 @@ if (isset($_GET['del_post'])) {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     $user = $row['userid'];
+    die(print_r($row));
 
     if ($user == $_SESSION['userId']) {
         $sql = "DELETE FROM `posts` WHERE `post_id`=?";

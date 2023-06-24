@@ -66,7 +66,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
     </script>
 </head>
 
-<body onload="app.load()">
+<body>
     <div id="app">
         <nav class="navbar navbar-dark sticky-top nav-color flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 bg" href="#">
@@ -96,43 +96,43 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     <div class="sidebar-sticky pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="#" :class="stage == 0? 'active':''" @click.prevent="stage = 0">
+                                <a class="nav-link" href="#" :class="stage == 0? 'active':''" @click.prevent="changeStage(0)">
                                     <i class="fas fa-tachometer-alt"></i>
                                     <span class="ml-2">Dashboard</span> <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" :class="stage == 1? 'active':''" @click.prevent="stage = 1">
+                                <a class="nav-link" href="#" :class="stage == 1? 'active':''" @click.prevent="changeStage(1)">
                                     <i class="fas fa-users"></i>
                                     <span class="ml-2">Users</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" :class="stage == 2? 'active':''" @click.prevent="stage = 2">
+                                <a class="nav-link" href="#" :class="stage == 2? 'active':''" @click.prevent="changeStage(2)">
                                     <i class="fas fa-file-alt"></i>
                                     <span class="ml-2">Posts</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" :class="stage == 3? 'active':''" @click.prevent="stage = 3">
+                                <a class="nav-link" href="#" :class="stage == 3? 'active':''" @click.prevent="changeStage(3)">
                                     <i class="fas fa-eye"></i>
                                     <span class="ml-2">Visits</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" :class="stage == 4? 'active':''" @click.prevent="stage = 4">
+                                <a class="nav-link" href="#" :class="stage == 4? 'active':''" @click.prevent="changeStage(4)">
                                     <i class="fas fa-chart-bar"></i>
                                     <span class="ml-2">Social Engagement</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" :class="stage == 5? 'active':''" @click.prevent="stage = 5">
+                                <a class="nav-link" href="#" :class="stage == 5? 'active':''" @click.prevent="changeStage(5)">
                                     <i class="fas fa-flag"></i>
                                     <span class="ml-2">Moderation</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" :class="stage == 6? 'active':''" @click.prevent="stage = 6">
+                                <a class="nav-link" href="#" :class="stage == 6? 'active':''" @click.prevent="changeStage(6)">
                                     <i class="fas fa-layer-group"></i>
                                     <span class="ml-2">Integrations</span>
                                 </a>
@@ -143,19 +143,19 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                 <span>ADMIN: {{user}}</span>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" :class="stage == 10? 'active':''" @click.prevent="stage = 10" href="#">
+                                <a class="nav-link" :class="stage == 10? 'active':''" @click.prevent="changeStage(10)" href="#">
                                     <i class="fas fa-cog"></i>
                                     <span class="ml-2">Settings</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" :class="stage == 11? 'active':''" @click.prevent="stage = 11" href="#">
+                                <a class="nav-link" :class="stage == 11? 'active':''" @click.prevent="changeStage(11)" href="#">
                                     <i class="fas fa-exclamation-circle"></i>
                                     <span class="ml-2">Logs</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" :class="stage == 12? 'active':''" @click.prevent="stage = 12" href="#">
+                                <a class="nav-link" :class="stage == 12? 'active':''" @click.prevent="changeStage(12)" href="#">
                                     <i class="fas fa-info-circle"></i>
                                     <span class="ml-2">About</span>
                                 </a>
@@ -275,9 +275,9 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                 <tr>
                                                     <th>id</th>
                                                     <th>username</th>
-                                                    <th>name</th>
                                                     <th>last online</th>
                                                     <th>data joined</th>
+                                                    <th>status</th>
                                                     <th>action</th>
                                                 </tr>
                                             </thead>
@@ -285,26 +285,27 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                 <tr>
                                                     <th>id</th>
                                                     <th>username</th>
-                                                    <th>name</th>
                                                     <th>last online</th>
                                                     <th>data joined</th>
+                                                    <th>status</th>
                                                     <th>action</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
                                                 <tr v-for="user in users">
-                                                    <td>{{user.id}}</td>
-                                                    <td>{{user.username}}</td>
-                                                    <td>{{user.name}}</td>
-                                                    <td>{{user.status}}</td>
-                                                    <td>{{user.joined}}</td>
-                                                    <td class="text-center align-middle vertic">
+                                                    <td class="text-center align-middle">{{user.id}}</td>
+                                                    <td class="text-center align-middle justify-content-around">{{user.username}} <i v-if="user.admin" class="fa fa-user-shield c-ho"></i></td>
+                                                    <td class="text-center align-middle">{{user.online}}</td>
+                                                    <td class="text-center align-middle">{{user.joined}}</td>
+                                                    <td class="text-center align-middle">{{user.status}}</td>
+                                                    <td class="text-center align-middle">
                                                         <a class="dropdown-toggle co" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="fa fa-ellipsis-v"></i></a>
                                                         <div class="dropdown-menu cob dropdown-menu-right shadow animated--fade-in bga" aria-labelledby="dropdownMenuLink">
-                                                            <a class="dropdown-item" href="#">make admin</a>
-                                                            <a class="dropdown-item" href="#">block user</a>
-                                                            <a class="dropdown-item text-danger" href="#">delete user</a>
+                                                            <a  class="dropdown-item" :href="'../profile.php?id='+user.token">visit profile</a>
+                                                            <a v-if="user.id != 1" class="dropdown-item" href="#" @click="toggleAdmin(user)">{{user.admin == 1 ? "revoke admin" : "make admin"}}</a>
+                                                            <a v-if="user.id != 1" class="dropdown-item" href="#" @click="blockUser(user)">{{user.status == "blocked" ? "unblock user" : " block user"}}</a>
+                                                            <a v-if="user.id != 1" class="dropdown-item text-danger" href="#" @click="deleteUser(user)">delete user</a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -580,12 +581,10 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     <!-------------------------- Logs --------------------------------------------->
                     <div class="about co" v-show="stage == 11">
                         <h1 class="mt-2">Error Logs</h1>
-                        <textarea name="hi" id="log-textarea" class="col-12 mx-auto wra form-control bg-dark text-light" style="height: 60vh; font-family: monospace; white-space: pre; overflow-x: scroll;" wrap="off"><?php require "./../inc/errors/error.log.txt"; ?>
-  </textarea>
-
+                        <textarea name="hi" id="log-textarea" class="col-12 mx-auto wra form-control bg-dark text-light" style="height: 60vh; font-family: monospace; white-space: pre; overflow-x: scroll;" wrap="off"><?php require "./../inc/errors/error.log.txt"; ?></textarea>
                         <div class="row m-2">
-                            <button class="btn btn-danger mx-2 p-1 px-2" @click="clearLog">Clear</button>
-                            <button class="btn btn-primary bg mx-2 p-1 px-2" @click="saveLog">Save</button>
+                            <button class="btn btn-danger mx-2 p-1 px-2" @click="clearLog"><i class="fas fa-trash-alt"></i> Clear</button>
+                            <button class="btn btn-primary bg mx-2 p-1 px-2" @click="saveLog"><i class="fas fa-file-download"></i> Save</button>
                         </div>
                     </div>
 
@@ -627,9 +626,6 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             </div>
         </div>
     </div>
-    <script>
-        $('.dropdown-toggle').dropdown()
-    </script>
     <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="dashboard.js?opf"></script>
 </body>

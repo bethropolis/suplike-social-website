@@ -20,12 +20,8 @@ let app = new Vue({
         token: sessionStorage.getItem("user") || "Unknown",
     },
     methods: {
-        load: function () {
-            this.getUsers();
-            this.getData();
-        },
-        getData: function () {
-            $.get("../inc/data/data.inc.php?key", (data) => {
+        getData: async function () {
+            await $.get("../inc/data/data.inc.php?key", (data) => {
                 this.chat = data.chat.length || 0;
                 this.post = data.posts.length || 0;
                 this.follows = data.following.length || 0;
@@ -35,13 +31,14 @@ let app = new Vue({
                 this.comments = data.comments.length || 0;
             });
 
-            $.get("../inc/data/data.a.inc.php?type=all&key=" + this.token, (data) => {
+            await $.get("../inc/data/data.a.inc.php?type=all&key=" + this.token, (data) => {
                 this.data = data;
             });
 
-            $.get("../inc/data/users.inc.php?online", (data) => {
+            await $.get("../inc/data/users.inc.php?online", (data) => {
                 this.online = data;
             });
+            return
         },
         day: function (day, type = "users", m = null) {
             if (m === null && this.data?.[type]?.[day]) {
@@ -51,6 +48,10 @@ let app = new Vue({
             } else {
                 return;
             }
+        },
+        changeStage: function (index) {
+            sessionStorage.setItem("dashStage", index);
+            this.stage = index;
         },
         getReports: function (a) {
             this.reports = null;
@@ -77,7 +78,7 @@ let app = new Vue({
                 method: 'POST'
             });
         },
-        saveLog: function() {
+        saveLog: function () {
             const logText = $('#log-textarea').val();
             const blob = new Blob([logText], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
@@ -88,20 +89,52 @@ let app = new Vue({
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-          },          
-        getUsers: function () {
-            $.get("../inc/data/users.inc.php?key", (users) => {
+        },
+        getUsers: async function () {
+            this.users = [];
+            await $.get("../inc/data/users.inc.php?key", (users) => {
                 users.forEach((user) => {
-                    let name = user.usersFirstname + " " + user.usersSecondname;
                     this.users.push({
                         id: user.idusers,
                         username: user.uidusers,
-                        name: name,
-                        status: user.last_online,
+                        status: user.status,
+                        online: user.last_online,
                         joined: user.date_joined,
+                        admin: parseInt(user.isAdmin),
+                        token: user.token,
                     });
                 });
             });
+        },
+        toggleAdmin(user) {
+            if (user.admin == 1) {
+                $.post("../inc/data/users.inc.php", { revoke: user.id }, (data) => {
+                    if (data.status == "error") alert(data.message);
+                    return this.getUsers();
+                });
+            } else {
+                $.post("../inc/data/users.inc.php", { admin: user.id }, (data) => {
+                    if (data.status == "error") alert(data.message);
+                    return this.getUsers();
+                });
+            }
+        },
+        blockUser(user) {
+            $.post("../inc/data/users.inc.php", {  block: user.id, set: user.status == "blocked"  }, (data) => {
+                    if (data.status == "error") alert(data.message);
+                    return this.getUsers();
+            });
+        },
+        deleteUser(user) {
+            let confirmation = confirm(`are you sure you want to delete user ${user.username}`);
+            if (confirmation) {
+                $.post("../inc/delete.inc.php", { user: user.id, delete_profile: true }, (data) => {
+                    if (data.status == "success") alert(`user ${user.username} has been deleted`);
+                    if (data.status != "success") alert("could not delete the user");
+                    this.getUsers();
+                    $("#dataTable").DataTable();
+                });
+            }
         },
         chart: function () {
             // Create chart with data
@@ -129,14 +162,12 @@ let app = new Vue({
                     {
                         label: "online users",
                         data: dataPoints,
-                        lineTension: 0.05,
+                        lineTension: 0.3,
                         backgroundColor: "transparent",
                         borderColor: "#6c5ce7",
-                        borderWidth: 4,
-                        pointRadius: 3,
+                        borderWidth: 3,
+                        pointRadius: 0.7,
                         pointBackgroundColor: "#6c5ce7",
-
-                        pointBackgroundColor: "rgb(214, 211, 211)",
                     },
                 ],
             };
@@ -170,7 +201,7 @@ let app = new Vue({
                             backgroundColor: bg,
                             hoverBackgroundColor: hbg,
                             hoverBorderColor: "rgba(234, 236, 244, 1)",
-                            borderColor: "transparent" 
+                            borderColor: "transparent"
                         },
                     ],
                 },
@@ -346,6 +377,7 @@ let app = new Vue({
                     this.visitline($("#visitsChart"), "new signup");
                     break;
                 case 4:
+                    console.log(app.data)
                     setTimeout(() => {
                         this.createLineChart();
                         this.doughnut(
@@ -369,7 +401,7 @@ let app = new Vue({
                             ["#e0ff40", "#8040ff"],
                             ["#ffe020", "#8020ff"]
                         );
-                    }, 0);
+                    }, 100);
 
                     break;
                 case 5:
@@ -446,5 +478,10 @@ let app = new Vue({
         newUserPercentage: function () {
             return Math.round((this.newUser / this.users?.length) * 100)
         }
+    },
+    mounted: async function () {
+        await this.getData();
+        await this.getUsers();
+        this.stage = parseInt(sessionStorage.getItem("dashStage")) || 0;
     },
 });

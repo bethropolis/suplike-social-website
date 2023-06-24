@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="./css/chat.css?kk">
   <link rel="stylesheet" href="./lib/lightbox/css/lightbox.min.css">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
-  <script src="./lib/lazyload/lazysizes.min.js"></script>
+  <script src="./lib/lazyload/lazysizes.min.js" defer></script>
   <script src="./lib/vue/vue.min.js"></script>
   <script>
     if (localStorage.getItem('theme') == 'dark') {
@@ -192,7 +192,7 @@ if (isset($_GET['id'])) {
     });
   </script>
   <script src="./js/chat.js"></script>
-  <script src="./lib/lightbox/js/lightbox.min.js"></script>
+  <script src="./lib/lightbox/js/lightbox.min.js" defer></script>
 </body>
 
 </html>

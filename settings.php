@@ -52,7 +52,7 @@ $user_id = $_SESSION['token'];
         <h3 class="co ml-4">password</h3>
       </div>
     </a>
-    <a href="?developer" class="page-link tab_bg">
+    <a href="?developer" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
         <h3 class="co ml-4">developer</h3>
       </div>
@@ -209,10 +209,11 @@ $user_id = $_SESSION['token'];
               <div class="input-group">
                 <input type="email" class="form-control" name="email" id="email" value="<?php echo $result['emailusers']; ?>">
                 <?php
-                if($un_ravel->_isEmail_verified($user_id)){ 
+                if(!$un_ravel->_isEmail_verified($user_id) && !empty($result['emailusers'])){ 
                 ?>
-                <button type="button" class="btn <?= $un_ravel->_isEmail_verified($user_id)  ? "bg-success" : "bg"?>"  id="send-v"> 
-                "Verify"
+                <button type="button" class="btn <?= $un_ravel->_isEmail_verified($user_id)  ? "bg-success" : "bg"?>" 
+                 id="send-v" style="display: none;"> 
+                Verify
                 </button>
                 <?php } ?>
               </div>
@@ -346,14 +347,15 @@ require 'footer.php';
     })
   });
 
-  if (localStorage.getItem('send_click') == null) {
-    $('#email-v').show();
+  if (sessionStorage.getItem('send_click') == null) {
+    $('#send-v').show();
   }
   $('#send-v').click(function() {
     $.get('inc/send_verification.php?id=' + '<?= $_SESSION['token'] ?>', function(data) {
       if (data) {
-        localStorage.setItem('send_click', 'true');
-        $('#email-v').hide();
+        alert("verification email sent");
+        sessionStorage.setItem('send_click', 'true');
+        $('#send-v').hide();
       }
     });
   });

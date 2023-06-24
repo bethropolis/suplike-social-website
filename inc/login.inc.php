@@ -16,10 +16,10 @@ if (isset($_POST['login-submit'])) {
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            $check_setup = file_get_contents("./setup.suplike.json");
+            $check_setup = file_get_contents("./setup/setup.suplike.json");
             $setup_data = json_decode($check_setup);
 
-            if ($setup_data->setup) {
+            if (!$setup_data->setup) {
                 header("Location: ../login.php?error=notset");
                 exit();
             }
@@ -32,6 +32,7 @@ if (isset($_POST['login-submit'])) {
             $result = mysqli_stmt_get_result($stmt);
 
             if ($row = mysqli_fetch_assoc($result)) {
+                if($row['status'] == )
                 $pwdCheck = password_verify($password, $row['pwdUsers']);
 
                 if ($pwdCheck === false) {
