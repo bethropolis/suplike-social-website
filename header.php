@@ -38,7 +38,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
   <meta name="theme-color" content="#6c5ce7">
   <link rel="apple-touch-icon" href="img/icon/apple-touch-icon.png" />
   <link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="lib/font-awesome/css/all.min.css" defer>
+  <link rel="stylesheet" href="./lib/font-awesome/css/all.min.css" defer>
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/style.css?g">
   <link rel="manifest" href="manifest.json">

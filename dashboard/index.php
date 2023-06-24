@@ -27,7 +27,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
     <title>Admin Dashboard</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
     <link rel="icon" type="image/png" href="../img/logo.png">
-    <link rel="stylesheet" href="../lib/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="../lib/font-awesome/css/all.css">
     <!-- Bootstrap core CSS -->
     <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../lib/jquery/jquery.dataTables.min.css">
@@ -270,7 +270,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive co">
-                                        <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table " id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>id</th>
@@ -298,7 +298,15 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                     <td>{{user.name}}</td>
                                                     <td>{{user.status}}</td>
                                                     <td>{{user.joined}}</td>
-                                                    <td class="text-center align-middle vertic"><i class="fa fa-ellipsis-h"></i></td>
+                                                    <td class="text-center align-middle vertic">
+                                                        <a class="dropdown-toggle co" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-ellipsis-v"></i></a>
+                                                        <div class="dropdown-menu cob dropdown-menu-right shadow animated--fade-in bga" aria-labelledby="dropdownMenuLink">
+                                                            <a class="dropdown-item" href="#">make admin</a>
+                                                            <a class="dropdown-item" href="#">block user</a>
+                                                            <a class="dropdown-item text-danger" href="#">delete user</a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -537,9 +545,11 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                         <div class="row co m-0">
                             <div v-for="(report, index) in reports" class="col-12 row border-bottom p-2">
                                 <h4 class="col-2">{{parseInt(report.post_id)||parseInt(report.comment_id)}}</h4>
-                                <div class="col-3"> <a :href="parseInt(report.is_comment) ? '../comment?id=' + report.slug + '&comment=' + report.comment_id + '#comment-'+ report.comment_id : '../post?id=' + report.slug">
+                                <div class="col-3 text-muted">
+                                    <a class="text-muted" :href="parseInt(report.is_comment) ? '../comment?id=' + report.slug + '&comment=' + report.comment_id + '#comment-'+ report.comment_id : '../post?id=' + report.slug">
                                         <i class="fas fa-eye fa-2x"></i>
-                                    </a></div>
+                                    </a>
+                                </div>
                                 <span class="col-4">type: {{parseInt(report.is_comment) ? 'comment' : 'post'}}</span>
                                 <div class="col-3 text-right">
                                     <button class="btn btn-danger" @click="sendReport(index)">
@@ -617,6 +627,9 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             </div>
         </div>
     </div>
+    <script>
+        $('.dropdown-toggle').dropdown()
+    </script>
     <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="dashboard.js?opf"></script>
 </body>

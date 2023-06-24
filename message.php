@@ -21,14 +21,16 @@ if (isset($_GET['id'])) {
   <title>live chat</title>
   <link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./lib/font-awesome/font-awesome.min.css">
+  <link rel="stylesheet" href="./lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="./css/chat.css?kk">
+  <link rel="stylesheet" href="./lib/lightbox/css/lightbox.min.css">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
   <script src="./lib/lazyload/lazysizes.min.js"></script>
   <script src="./lib/vue/vue.min.js"></script>
   <script>
     if (localStorage.getItem('theme') == 'dark') {
-      let css = `:root{--bg:#333!important;--co:#fff!important;--ho:#a89ef5;--ac:rgba(50, 159, 192, 0.844)!important;--inp:rgb(214, 211, 211)!important;--light:#f8f9fa!important;--dark:#333!important;--msg-message:#969eaa!important;--chat-text-bg:#f1f2f6!important;--chat-text-owner:hsl(249, 85%, 71%)!important;--theme-color:#0086ff!important;--msg-date:#c0c7d2!important;--theme-1:#1a1d21!important;--theme-2:#212529!important;--theme-3:#343a40!important;--theme-4:#495057!important;--theme-5:#6c757d!important;--theme-6:#adb5bd!important;--theme-7:#ced4da!important;--theme-8:#dee2e6!important;--theme-9:#f8f9fa!important}.st-1{background-color:var(--theme-1)!important;color:var(--co)}.st-2{background-color:var(--theme-2)!important;color:var(--co)}.st-3{background-color:var(--theme-3)!important;color:var(--co)}.st-4{background-color:var(--theme-4)!important;color:var(--co)}.st-5{background-color:var(--theme-5)!important;color:var(--co)}.st-6{background-color:var(--theme-6)!important;color:var(--co)}.st-7{background-color:var(--theme-7)!important;color:var(--co)}.st-8{background-color:var(--theme-8)!important;color:var(--co)}.st-9{background-color:var(--theme-9)!important;color:var(--co)}`
+      let css = `:root{--bg:#1a1a1a!important;--co:#f8f9fc!important;--ho:#a080ff;--ac:rgba(50, 159, 192, 0.844)!important;--inp:rgb(41, 38, 38)!important;--light:#f8f9fa!important;--dark:#333!important;--msg-message:#969eaa!important;--chat-text-bg:#ededf8!important;--chat-text-owner:var(--ho)!important;--theme-color:#00ffff!important;--msg-date:#c0c7d2!important;--theme-1:#1a1a1a!important;--theme-2:#212121!important;--theme-3:#333333!important;--theme-4:#444444!important;--theme-5:#555555!important;--theme-6:#666666!important;--theme-7:#777777!important;--theme-8:#888888!important;--theme-9:#999999!important}
+                .co{color: var(--co) !important}.st-1{background-color:var(--theme-1)!important;color:var(--co)}.st-2{background-color:var(--theme-2)!important;color:var(--co)}.st-3{background-color:var(--theme-3)!important;color:var(--co)}.st-4{background-color:var(--theme-4)!important;color:var(--co)}.st-5{background-color:var(--theme-5)!important;color:var(--co)}.st-6{background-color:var(--theme-6)!important;color:var(--co)}.st-7{background-color:var(--theme-7)!important;color:var(--co)}.st-8{background-color:var(--theme-8)!important;color:var(--co)}.st-9{background-color:var(--theme-9)!important;color:var(--co)}`
       let style = document.createElement('style');
       style.type = 'text/css';
       style.appendChild(document.createTextNode(css));
@@ -50,12 +52,12 @@ if (isset($_GET['id'])) {
         <div id="status" class=" text-success ml-1">{{status}}</div>
       </div>
       <div class="nav-content">
-        <i @click="goBack" class="fa fas co fa-arrow-left toShow fa-2x" v-show="chatwith != null"></i>
+        <i @click="goBack" class="fa fas co fa-arrow-left toShow fa-xl" v-show="chatwith != null"></i>
         <a href="./" class="home">
-          <i class="fa fas co  fa-home fa-2x"></i>
+          <i class="fa fas co  fa-home fa-xl"></i>
         </a>
         <a href="inc/logout.inc.php" class="log-out">
-          <i class="fa fas co  fa-sign-out fa-2x"></i>
+          <i class="fa fas co  fa-sign-out fa-xl"></i>
         </a>
       </div>
     </nav>
@@ -89,13 +91,12 @@ if (isset($_GET['id'])) {
     </div>
 
     <!--  messaging box -->
-    <div class="message-box box row st-5 p-0" v-if="chatwith != null">
+    <div class="message-box box row st-3 p-0 m-0" v-if="chatwith != null">
       <div class="col-3 yellow center toHide p-0">
-        <ul class="center col-12 p-0 side-list">
+        <ul class="center col-12 side-list p-0 m-0">
           <div class='mt-2 py-1'>
-            <i @click="goBack" class="fa fas fa-arrow-left fa-2x"></i>
           </div>
-          <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4" :class="user.online? 'online': ''" tabindex="0">
+          <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-3" :class="user.online? 'online': ''" tabindex="0">
             <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/M.jpg' ">
             <div class="msg-detail col-9 p-0">
               <div class="msg-username text-left">{{user.full_name}}</div>
@@ -120,8 +121,8 @@ if (isset($_GET['id'])) {
         </ul>
       </div>
 
-      <div class="col-9 pl-0 pt-2 chat-area st-4 direct-message">
-        <div class="chat-area-main mt-3 p-0 st-4 messages">
+      <div class="col-9 px-0 pt-2 chat-area st-4 direct-message">
+        <div class="chat-area-main mt-3 p-0 st-4 messages mx-0">
           <div v-for="(msg, index) in messages" class="chat-msg" :class="msg.to? 'owner':''">
             <div class="chat-msg-profile">
               <div class="chat-msg-date">{{msg.time}}</div>
@@ -140,7 +141,9 @@ if (isset($_GET['id'])) {
                 <i @click="play(msg.audio_id)" class="fa col-2 my-auto " :class="msg.audio_id == playing ?'fa-pause':'fa-play'"></i>
               </div>
               <div v-if="msg.type == 'img'" class="msg-image-wrapper ">
-                <img :data-src="'inc/'+msg.message" class="lazyload msg-image " alt="msg.message" loading="lazy">
+                <a :href="'inc/'+msg.message" :data-lightbox="index">
+                  <img :data-src="'inc/'+msg.message" class="lazyload msg-image " alt="msg.message" loading="lazy">
+                </a>
               </div>
             </div>
           </div>
@@ -151,12 +154,12 @@ if (isset($_GET['id'])) {
         <form @submit.prevent="sendMessage" class="form-inline row st-4 light message-form" method="post">
           <!-- improve this form, it contains an image, audio and text input fields -->
           <label for="imgUpload" class="col-1" tabindex='0'><input class="hide" type="file" id="imgUpload" accept="image/*"><i class="fa fa-image"></i></label>
-          <label for="songUpload" class="col-1" tabindex='0'><input class="hide" type="file" id="songUpload" accept="audio/*"><i class="fa fa-music " ></i></label>
+          <label for="songUpload" class="col-1" tabindex='0'><input class="hide" type="file" id="songUpload" accept="audio/*"><i class="fa fa-music "></i></label>
           <div class="col-8 p-0">
             <input type="text" class="form-input co" placeholder="enter message..." id="msg-form" autocomplete="off" autofocus="true">
           </div>
           <div class="col-1 p-0">
-            <button type="submit" class="btn btn-send"><i class="fa fa-send"></i></button>
+            <button type="submit" class="btn btn-send p-0"><i class="fas fa-paper-plane"></i></button>
           </div>
         </form>
       </div>
@@ -189,8 +192,7 @@ if (isset($_GET['id'])) {
     });
   </script>
   <script src="./js/chat.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="./lib/lightbox/js/lightbox.min.js"></script>
 </body>
 
 </html>

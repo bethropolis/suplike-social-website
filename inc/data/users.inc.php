@@ -45,3 +45,6 @@ if (isset($_GET['online'])) {
 	print_r(json_encode($arr));
   }
   
+
+# make user an admin
+if

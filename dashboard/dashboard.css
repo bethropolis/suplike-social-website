@@ -167,6 +167,10 @@ table.dataTable tbody tr, table.dataTable tbody tr:hover {
     font-size: .75rem;
     text-transform: uppercase;
 }
+.dropdown-toggle::after {
+    display: none;
+  }
+  
 
 /*
  * Navbar
