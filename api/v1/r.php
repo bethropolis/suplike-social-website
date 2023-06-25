@@ -18,6 +18,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-Type');
 require_once "dbh.inc.php";
 require_once "auth.php";
 require_once "notification.class.php";
+require "bot/bot.php";
 require_once "error.inc.php";
 require_once "xss-clean.func.php";
 

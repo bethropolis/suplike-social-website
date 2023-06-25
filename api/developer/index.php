@@ -1,5 +1,7 @@
 <?php
 require '../../inc/dbh.inc.php';
+require "../v1/bot/bot.php";
+
 session_start();
 if (!isset($_SESSION['userId'])) {
     header("Location: ../../index.php?error=notloggedin");
@@ -16,27 +18,9 @@ if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) {
 
 
 
-
 // Fake data for bots
-$bots = [
-    [
-        "name" => "Suplike Bot",
-        "username" => "@suplikebot",
-        "icon" => "../../img/aliu.svg",
-        "description" => "A bot that likes your posts on Suplike",
-        "bot_id" => "kld43ieo9"
-    ],
-    [
-        "name" => "Supchat Bot",
-        "username" => "@supchatbot",
-        "icon" => "../../img/admin.svg",
-        "description" => "A bot that chats with you on Suplike",
-        "bot_id" => "kld43ieo9",
-        "token" => "kldjffjdldfjs",
-        "folowers" => "",
+$bots = $bot->getUserBots($id);
 
-    ]
-];
 
 $title = "Developer dashboard";
 
@@ -145,15 +129,17 @@ if (isset($_GET['api'])) {
                             <?php foreach ($bots as $bot) { ?>
                                 <li class="bot-item border-bottom row">
                                     <div class="col-md-8">
-                                        <a href="../../profile.php?id="><img src="<?= $bot['icon'] ?>" alt="Bot Icon"></a>
+                                        <a href="../../profile.php?id=<?= $bot['bot_token'] ?>"><img src="../../img/<?= $bot['icon'] ?>" alt="Bot Icon"></a>
                                         <div class="bot-info">
                                             <h5><?= $bot['name'] ?></h5>
-                                            <p><?= $bot['username'] ?></p>
+                                            <div class="row justify-content-between  mt-1 mx-2">
+                                                <span>@<?= $bot['username'] ?></span> <span><?= $bot['status'] ?></span>
+                                            </div>
                                             <p><?= $bot['description'] ?></p>
                                         </div>
                                     </div>
                                     <div class="col-md-4 mb-1">
-                                        <a href="?delete=<?= $bot['bot_id'] ?>"> <button class="delete-bot btn btn-danger"><i class="fa fa-trash"></i> delete</button></a>
+                                        <a id="<?= $bot['bot_id'] ?>" data-status="<?= $bot['status'] ?>" class="disable-btn" href="#"><button class="delete-bot btn"><i class="fa fa-ban"></i> disable</button></a>
                                         <a href="?view=<?= $bot['bot_id'] ?>"><button class="edit-bot btn btn-primary bg"><i class="fa fa-eye"></i> view</button></a>
                                     </div>
                                 </li>
@@ -167,7 +153,7 @@ if (isset($_GET['api'])) {
                     <!-- Create Bot Section -->
                     <div class="create-bot-section" class="mb-5">
                         <h4>Create Bot</h4>
-                        <form action="#" method="POST" enctype="multipart/form-data" class="mb-5">
+                        <form action="#" method="POST" enctype="multipart/form-data" class="mb-5" id="bot-form">
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" id="name" name="name" class="form-control" required>
@@ -200,11 +186,11 @@ if (isset($_GET['api'])) {
                             </div>
                             <div class="form-group">
                                 <label for="icon">Icon</label>
-                                <input type="file" id="icon" name="icon" class="form-control-file" required>
+                                <input type="file" id="icon" name="icon" class="form-control-file">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea id="bio" name="bio" class="form-control" required></textarea>
+                                <textarea id="bio" name="bio" class="form-control" maxlength="200" required></textarea>
                             </div>
                             <button type="submit" class="create-bot-submit btn btn-primary"><i class="fa fa-check"></i> Create</button>
                         </form>
@@ -256,6 +242,7 @@ if (isset($_GET['api'])) {
     <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
+            let token = "<?= $token ?>";
             $('.generate-btn').click(function() {
                 $.ajax({
                     url: '../../inc/Auth/a.php',
@@ -272,6 +259,56 @@ if (isset($_GET['api'])) {
                     }
                 });
             });
+            $(".disable-btn").click(function() {
+                // set your auth token
+                const authToken = `Bearer ${token}`;
+
+                $.ajax({
+                    url: '../v1/bot/',
+                    headers: {
+                        'Authorization': authToken
+                    },
+                    type: 'POST',
+                    data: {
+                        block: $(this).attr('id'),
+                        set: ($(this).attr('data-status') == "blocked")
+                    },
+                    success: () =>{
+                        $(this).html('disabled');
+                    },
+                    error: function() {
+                        alert("could not disable")
+                    }
+                });
+            })
+
+
+            $('form').submit(function(e) {
+                e.preventDefault();
+
+
+                // Get form data
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: '../v1/bot/',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + token); // Set the authorization header
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
         });
     </script>
 </body>

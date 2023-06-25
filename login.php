@@ -20,6 +20,9 @@ require "header.php";
     if ($_GET['error'] == 'sqlerror') {
       echo '<h5>there is a server error. please contact admin</h5>';
     }
+    if ($_GET['error'] == 'disabled') {
+      echo '<h5>account has been disabled, contact admin.</h5>';
+    }
     if ($_GET['error'] == 'wrongpwd') {
       echo '<h5>wrong password</h5>';
     }

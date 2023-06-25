@@ -302,7 +302,7 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                                         <a class="dropdown-toggle co" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="fa fa-ellipsis-v"></i></a>
                                                         <div class="dropdown-menu cob dropdown-menu-right shadow animated--fade-in bga" aria-labelledby="dropdownMenuLink">
-                                                            <a  class="dropdown-item" :href="'../profile.php?id='+user.token">visit profile</a>
+                                                            <a class="dropdown-item" :href="'../profile.php?id='+user.token">visit profile</a>
                                                             <a v-if="user.id != 1" class="dropdown-item" href="#" @click="toggleAdmin(user)">{{user.admin == 1 ? "revoke admin" : "make admin"}}</a>
                                                             <a v-if="user.id != 1" class="dropdown-item" href="#" @click="blockUser(user)">{{user.status == "blocked" ? "unblock user" : " block user"}}</a>
                                                             <a v-if="user.id != 1" class="dropdown-item text-danger" href="#" @click="deleteUser(user)">delete user</a>

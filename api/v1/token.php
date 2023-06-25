@@ -36,6 +36,7 @@ function checkUserToken()
 function checkSessionId($uuid)
 {
   global $conn, $error;
+  $user_id = "";
   $stmt = $conn->prepare("SELECT user_id FROM `session` WHERE `session_id` = ?");
   $stmt->bind_param("s", $uuid);
   $stmt->execute();

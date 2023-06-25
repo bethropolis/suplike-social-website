@@ -32,7 +32,10 @@ if (isset($_POST['login-submit'])) {
             $result = mysqli_stmt_get_result($stmt);
 
             if ($row = mysqli_fetch_assoc($result)) {
-                if($row['status'] == )
+                if($row['status'] == "blocked"){
+                    header("Location: ../login.php?error=disabled");
+                    exit();                
+                }
                 $pwdCheck = password_verify($password, $row['pwdUsers']);
 
                 if ($pwdCheck === false) {

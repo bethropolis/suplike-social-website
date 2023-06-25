@@ -121,9 +121,9 @@ if (isset($_GET['id'])) {
         </ul>
       </div>
 
-      <div class="col-9 px-0 pt-2 chat-area st-4 direct-message">
-        <div class="chat-area-main mt-3 p-0 st-4 messages mx-0">
-          <div v-for="(msg, index) in messages" class="chat-msg" :class="msg.to? 'owner':''">
+      <div class="col-9 px-0 chat-area st-4 direct-message">
+        <div class="chat-area-main p-0 st-4 messages mx-0">
+          <div v-for="(msg, index) in messages" class="chat-msg mt-2" :class="msg.to? 'owner':''">
             <div class="chat-msg-profile">
               <div class="chat-msg-date">{{msg.time}}</div>
             </div>
