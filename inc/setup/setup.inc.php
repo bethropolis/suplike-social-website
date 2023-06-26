@@ -129,6 +129,7 @@ if (!createUser($conn, $auth, $user, $email, $password, true)) {
     die();
 }
 $setupData->setup = true;
+$setupData->owner = $user;
 $setupData->setupDate = date("c");
 file_put_contents('./setup.suplike.json', json_encode($setupData));
 header('location: ../../login.php?dbSet=success');

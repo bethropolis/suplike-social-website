@@ -92,6 +92,7 @@ class Bot
 
         return $count > 0;
     }
+    
     public function disableBot($botId, $set = false)
     {
         if ($this->botBelongsToUser($botId, $_SESSION['userId'])) {

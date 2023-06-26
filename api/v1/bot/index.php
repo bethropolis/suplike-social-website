@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
         $iconName = "M.jpg";
     }
 
-    if (!preg_match("/^[a-zA-Z0-9][a-zA-Z0-9_-]{3,19}$/", $username)) {
+    if (!preg_match("/^[a-zA-Z0-9][a-zA-Z0-9_.]{3,19}$/", $username)) {
         $error->err("API", 23, "username should be 4 characters long and contain only letters,numbers,underscore and fullstop");
         die();
     }

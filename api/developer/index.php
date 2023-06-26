@@ -1,5 +1,6 @@
 <?php
 require '../../inc/dbh.inc.php';
+require '../../inc/Auth/auth.php';
 require "../v1/bot/bot.php";
 
 session_start();
@@ -28,15 +29,24 @@ if (isset($_GET['bots']) || isset($_GET['new'])) {
     $bots = $bot->getUserBots($id);
     $title = "Bots";
 }
+
 if (isset($_GET['view'])) {
-    $bots = $bot->getUserBots($id, $_GET['view'])[0];
-    $img = $bots["icon"] ? $bots["icon"]  : 'M.jpg';
-    $bot_token = $bots["bot_token"];
-    $title = "<a href='../../profile.php?id=$bot_token' style='text-decoration: none;'>
-    <img src='../../img/$img' alt=' width='35px' height='35px' class='shadow rounded-circle'>
-    <b class='co'>$bots[username]</b>
-</a>";
+    $view_id = $un_ravel->_getUser($_GET['view']);
+    $bots = [];
+    if ($view_id) {
+        $bots = $bot->getUserBots($id, $view_id);
+        if (!empty($bots)) {
+            $bots = $bots[0];
+            $img = $bots["icon"] ? $bots["icon"]  : 'M.jpg';
+            $bot_token = $bots["bot_token"];
+            $title = "<a href='../../profile.php?id=$bot_token' style='text-decoration: none;'>
+        <img src='../../img/$img' alt=' width='35px' height='35px' class='shadow rounded-circle'>
+        <b class='co'>$bots[username]</b>
+        </a>";
+        }
+    }
 }
+
 
 if (isset($_GET['api'])) {
     $title = "Api";
@@ -132,7 +142,7 @@ if (isset($_GET['api'])) {
                         <h4>API</h4>
                         <p>Use the API token above to authenticate your requests to the API. The API endpoint is located at <code>{INSTANCE_URL}/api/v1</code>.</p>
                         <p>With the API, you can perform various actions such as retrieving data, sending messages, and more.</p>
-                        <p>For detailed information about the available endpoints, request parameters, and response formats, please refer to the <a href="https://your-api-docs-url" target="_blank">API documentation</a>.</p>
+                        <p>For detailed information about the available endpoints, request parameters, and response formats, please refer to the <a href="https://your-api-docs-url" class="text-primary" target="_blank">API documentation</a>.</p>
                     </article>
                 <?php } elseif (isset($_GET['bots'])) { ?>
                     <!-- Bots Section -->
@@ -156,7 +166,7 @@ if (isset($_GET['api'])) {
                                     </div>
                                     <div class="col-md-4 mb-1">
                                         <a id="<?= $bot['bot_id'] ?>" data-status="<?= $bot['status'] ?>" class="disable-btn" href="#"><button class="delete-bot btn"><i class="fa <?= $button_icon ?>"></i> <?= $button_text ?></button></a>
-                                        <a href="?view=<?= $bot['bot_id'] ?>"><button class="edit-bot btn bg"><i class="fa fa-eye"></i> view</button></a>
+                                        <a href="?view=<?= $bot['bot_token'] ?>"><button class="edit-bot btn bg"><i class="fa fa-eye"></i> view</button></a>
                                     </div>
                                 </li>
                             <?php } ?>
@@ -225,64 +235,95 @@ if (isset($_GET['api'])) {
                             <button type="submit" class="create-bot-submit btn btn-primary"><i class="fa fa-check"></i> Create</button>
                         </form>
                     </div>
-                <?php } elseif (isset($_GET['view'])) {
+                    <?php } elseif (isset($_GET['view'])) {
 
-                    $button_text = $bots['status'] == "active" ? "disable" : "enable";
-                    $button_icon = $bots['status'] == "active" ? "fa fa-ban" : "fa fa-check";
-                ?>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-9 mx-auto">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="app-name">Bot Name</label>
-                                        <input type="text" class="form-control" id="app-name" value="<?= $bots['name'] ?>" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="app-version">access token <sup class="text-danger">*</sup> </label>
-                                        <div class="input-group">
-                                            <input type="url" id="webhook" name="webhook" class="form-control" value="<?= $bots['auth_token'] ?>" disabled data-toggle="tooltip" data-placement="right" title="this is required to access your account through the API">
-                                            <div class="input-group-prepend">
-                                                <button class="input-group-text" id="copy-btn" data-toggle="tooltip" data-placement="bottom" title="Copy to clipboard">
-                                                    <i class="fa fa-clipboard text-muted fa-lg"></i>
-                                                </button>
+                    if (empty($bots)) {
+                        // Show Bootstrap banner saying "bot not found"
+                        echo '<div class="alert alert-warning text-center" role="alert"><h4>Bot not found</h4></div>';
+                    } elseif (isset($_GET['view'])) {
+                        $button_text = $bots['status'] == "active" ? "disable" : "enable";
+                        $button_icon = $bots['status'] == "active" ? "fa fa-ban" : "fa fa-check";
+
+                    ?>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-9 mx-auto">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="app-name">Bot Name</label>
+                                            <input type="text" class="form-control" id="app-name" value="<?= $bots['name'] ?>" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="app-version">access token <sup class="text-danger">*</sup> </label>
+                                            <div class="input-group">
+                                                <input type="url" id="webhook" name="webhook" class="form-control" value="<?= $bots['auth_token'] ?>" disabled data-toggle="tooltip" data-placement="right" title="this is required to access your account through the API">
+                                                <div class="input-group-prepend">
+                                                    <button class="input-group-text" id="copy-btn" data-toggle="tooltip" data-placement="bottom" title="Copy to clipboard">
+                                                        <i class="fa fa-clipboard text-muted fa-lg"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="app-version">chat token </label>
-                                        <div class="input-group">
-                                            <input type="url" id="chat-token" name="chat-token" class="form-control" value="<?= $bots['chat_token'] ?>" disabled data-toggle="tooltip" data-placement="right" title="this is required to chat through the API">
+                                        <div class="form-group">
+                                            <label for="app-version">chat token </label>
+                                            <div class="input-group">
+                                                <input type="url" id="chat-token" name="chat-token" class="form-control" value="<?= $bots['chat_token'] ?>" disabled data-toggle="tooltip" data-placement="right" title="this is required to chat through the API">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="app-version">webhook url</label>
-                                        <div class="input-group">
-                                            <input type="url" id="webhook-url" class="form-control" value="<?= $bots['webhook'] ?>" disabled data-toggle="tooltip" data-placement="right" title="this is the endpint url">
+                                        <div class="form-group">
+                                            <label for="app-version">webhook url</label>
+                                            <div class="input-group">
+                                                <input type="url" id="webhook-url" class="form-control" value="<?= $bots['webhook'] ?>" disabled data-toggle="tooltip" data-placement="right" title="this is the endpint url">
+                                            </div>
                                         </div>
+                                        <div class="form-group ">
+                                            <label for="app-date">Description</label>
+                                            <textarea type="text" class="form-control" id="app-date" disabled><?= $bots['description'] ?></textarea>
+                                        </div>
+                                    </form>
+                                    <div class="p-2 my-2">
+                                        <button class="btn btn-outline-primary" id="add-to-sidebar" data-name="<?= $bots['username'] ?>" data-id="<?= $bots['bot_token'] ?>">Toggle Bot Shortcut</button>
+                                        <a id="<?= $bots['bot_id'] ?>" data-status="<?= $bots['status'] ?>" class="disable-btn" href="#"><button class="delete-bot btn btn-outline-info "><i class="fa <?= $button_icon ?>"></i> <?= $button_text ?></button></a>
+                                        <button class="btn  btn-outline-danger" data-bot-id="<?= $bots['bot_id'] ?>" id="delete-bot">delete bot</button>
                                     </div>
-                                    <div class="form-group ">
-                                        <label for="app-date">Description</label>
-                                        <textarea type="text" class="form-control" id="app-date" disabled><?= $bots['description'] ?></textarea>
-                                    </div>
-                                </form>
-                                <div class="p-2 my-2">
-                                    <button class="btn btn-outline-primary" id="add-to-sidebar" data-name="<?= $bots['username'] ?>" data-id="<?= $bots['bot_id'] ?>">add to sidebar</button>
-                                    <a id="<?= $bots['bot_id'] ?>" data-status="<?= $bots['status'] ?>" class="disable-btn" href="#"><button class="delete-bot btn btn-outline-info "><i class="fa <?= $button_icon ?>"></i> <?= $button_text ?></button></a>
-                                    <button class="btn  btn-outline-danger" id="delete-bot">delete bot</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
             </div>
-        <?php } else { ?>
-            <!-- Default Dashboard Content -->
-            <div class="text-center">
-                <h1>Welcome to the Developer Dashboard!</h1>
-                <p>Choose an option from the sidebar.
-                </p>
+        <?php }
+                } else { ?>
+        <!-- Default Dashboard Content -->
+        <div class="text-center">
+            <h1>Welcome to the Developer Dashboard!</h1>
+            <p>Choose an option from the cards below.</p>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <a href="?bots">
+                        <div class="card text-center  st-4">
+                            <div class="card-body text-center">
+                                <i class="fa fa-robot fa-5x"></i>
+                            </div>
+                            <h4>Your Bots</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="?api">
+                        <div class="card text-center st-4">
+                            <div class="card-body text-center">
+                                <i class="fa fa-code fa-5x"></i>
+                            </div>
+                            <h4>Your API key</h4>
+                        </div>
+                    </a>
+                </div>
             </div>
-        <?php } ?>
+        </div>
+
+    <?php } ?>
         </div>
     </div>
 
@@ -304,7 +345,6 @@ if (isset($_GET['api'])) {
                 </li>
                 `);
             }
-
             $("#add-to-sidebar").click(function() {
                 let newObject = {
                     name: $("#add-to-sidebar").attr("data-name"),
@@ -316,9 +356,15 @@ if (isset($_GET['api'])) {
                 if (!sidebarOptions.some((option) => option.id === newObject.id)) {
                     sidebarOptions.push(newObject);
                     localStorage.setItem("sidebarOptions", JSON.stringify(sidebarOptions));
-                    location.reload();
+                } else {
+                    // Remove the option from the sidebar
+                    sidebarOptions = sidebarOptions.filter((option) => option.id !== newObject.id);
+                    localStorage.setItem("sidebarOptions", JSON.stringify(sidebarOptions));
                 }
+
+                location.reload();
             });
+
 
 
 
@@ -338,10 +384,11 @@ if (isset($_GET['api'])) {
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                        console.error(error);
                     }
                 });
             });
+
             $('.delete-btn').click(function() {
                 $.ajax({
                     url: '../../inc/Auth/a',
@@ -359,11 +406,35 @@ if (isset($_GET['api'])) {
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log(xhr.responseText);
+                        console.error(error);
                     }
                 });
             });
 
+            $('#delete-bot').click(function() {
+                $.ajax({
+                    url: '../../inc/delete.inc',
+                    type: 'POST',
+                    data: {
+                        delete_profile: true,
+                        user: $(this).attr('data-bot-id')
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status == "success") {
+                            alert("bot deleted");
+                            // load url to ?bots
+                            location.href = "?bots"
+
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
             $('.copy-token-btn').click(function() {
                 var tokenField = $('.token-field');
                 tokenField.select();
@@ -420,13 +491,13 @@ if (isset($_GET['api'])) {
                         xhr.setRequestHeader('Authorization', 'Bearer ' + token); // Set the authorization header
                     },
                     success: function(response) {
-                        console.log(response);
-
-                        // Clear the form
-                        $('form')[0].reset();
-
-                        // Display success banner
-                        $('.success-banner').fadeIn().delay(2000).fadeOut();
+                        if (response.type == "error") {
+                            alert(response.msg);
+                        } else {
+                            // Clear the form
+                            $('form')[0].reset();
+                            $('.success-banner').fadeIn().delay(2000).fadeOut();
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error(error);

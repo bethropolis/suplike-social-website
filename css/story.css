@@ -130,7 +130,7 @@ img {
 
 .slide:has(p) {
     background: rgb(40, 15, 232);
-    background: linear-gradient(0deg, rgba(40, 15, 232, 1) 0%, rgba(108, 92, 231, 1) 81%);
+    background: linear-gradient(0deg, rgba(40, 15, 232, 1) 0%, var(--ho) 81%);
 }
 
 .slide-items {

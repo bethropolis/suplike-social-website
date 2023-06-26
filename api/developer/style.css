@@ -14,11 +14,14 @@
   padding: 20px;
   height: 100vh;
 }
+
 a {
   text-decoration: none;
   color: var(--co);
 }
+
 a:hover {
+  text-decoration: none;
   color: var(--hover-color);
 }
 .stick {

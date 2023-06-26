@@ -59,6 +59,8 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
       style.appendChild(document.createTextNode(css));
       document.head.appendChild(style);
     }
+    // acent color
+    
   </script>
 </head>
 

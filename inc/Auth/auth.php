@@ -118,6 +118,12 @@ class Auth
     $this->user = (mysqli_fetch_assoc($this->conn->query($sql)))['uidusers'];
     return $this->user;
   }
+  public function _userid($id)
+  {
+    $sql = "SELECT `idusers` FROM `users` WHERE `uidusers` = '$id'";
+    $us  = (mysqli_fetch_assoc($this->conn->query($sql)))['idusers'];
+    return $us;
+  }
   public function _isValid($var)
   {
     $length = strlen($var);
@@ -239,17 +245,18 @@ class Auth
 
   public function _isBot($to = null)
   {
-    if ($to) {
-      $this->user = $to;
-    }
-    $sql = "SELECT `isBot` FROM `users` WHERE `idusers` = $this->user ";
-    $result = $this->conn->query($sql)->fetch_assoc();
-    if ($result['isBot']) {
-      return true;
-    } else {
-      return false;
-    }
+      if ($to) {
+          $this->user = $to;
+      }
+      $sql = sprintf("SELECT isBot FROM users WHERE idusers = '%s'", $this->user);
+      $result = $this->conn->query($sql);
+      if ($result === false) {
+          return false;
+      }
+      $row = $result->fetch_assoc();
+      return $row !== null && $row['isBot'] === '1';
   }
+
   public function _profile_picture($user)
   {
     $sql = "SELECT `profile_picture` FROM `users` WHERE `idusers` = '$user'";

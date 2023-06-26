@@ -355,7 +355,8 @@ ul {
   position: relative;
 }
 .msg:hover {
-  background-color: #695dc669 !important;
+  background-color: var(--ho) !important;
+  opacity: 0.9;
 }
 
 .msg.online:before {

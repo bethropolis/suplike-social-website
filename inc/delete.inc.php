@@ -11,24 +11,38 @@ $isAdmin = $un_ravel->_isAdmin($_SESSION['userId']);
 if (isset($_POST['delete_profile'])) {
 
 	$post_user = $_POST['user'];
-	if ($isAdmin || $un_ravel->_isBot()) {
+	$isBot = $un_ravel->_isBot($post_user);
+
+
+	if ($isAdmin) {
 		$user = $_POST['user'];
+	} elseif ($isBot) {
+		if ($bot->botBelongsToUser($post_user, $_SESSION['userId'])) {
+			$user = $post_user;
+		} else {
+			die(json_encode(["status" => "error"]));
+		}
 	} else {
 		$user = $_SESSION['userId'];
 	}
+
+	# die(print_r(["isbot" => $isBot, "isAdmin" => $isAdmin, "user" => $user]));
 	if ($user == 1) {
 		die(json_encode(["status" => "error"]));
 	}
 	$query = "SELECT * FROM `users` WHERE `idusers`='" . $user . "'";
 	$result = $conn->query($query)->fetch_assoc();
-	if (!$isAdmin) {
-		$pwdCheck = password_verify($old, $result['pwdUsers']);
+	if (!($isAdmin || $isBot)) {
+		$pwdCheck = password_verify($post_user, $result['pwdUsers']);
 		if ($pwdCheck === false) {
 			header('Location: ../settings.php?delete&err=wrongpassword');
 			exit();
 		}
 	}
-	$name = $_SESSION['userUid'];
+
+
+
+	$name = $result['uidusers'];
 
 	# delete users posts
 	$sql = "DELETE FROM `posts` WHERE `userid`=" . $user;
@@ -47,6 +61,11 @@ if (isset($_POST['delete_profile'])) {
 	# delete auth keys 
 	$sql = "DELETE FROM `auth_key` WHERE `auth_key`.`user`=" . $user;
 	$conn->query($sql);
+
+	# delete bot
+	$sql = "DELETE FROM `bots` WHERE `userid`=" . $_SESSION['userId'] . " AND `bot_id`=" . $user;
+	$conn->query($sql);
+
 
 	# delete user
 	$sql = "DELETE FROM `users` WHERE `idusers`=" . $user;
@@ -67,7 +86,18 @@ if (isset($_POST['delete_profile'])) {
 	$sql = "DELETE FROM `api` WHERE `api`.`user`=" . $user;
 	$conn->query($sql);
 
-	if (!$isAdmin) {
+	# delete sessions
+	$sql = "DELETE FROM `session` WHERE `user_id`=" . $user;
+	$conn->query($sql);
+
+	if (!$isBot) {
+		# delete  users bot
+		$sql = "DELETE FROM `bots` WHERE `userid`=" . $_SESSION['userId'];
+		$conn->query($sql);
+	}
+
+
+	if (!($isAdmin || $isBot)) {
 		header('Location: logout.inc.php?acc_deleted');
 	}
 	die(json_encode(["status" => "success"]));

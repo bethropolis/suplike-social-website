@@ -59,10 +59,13 @@ if (!empty($name)) {
     }
 }
 
-$start_time = microtime(true);
-$prof = saveSvgImage($username);
-$end_time = microtime(true);
-$elapsed_time = $end_time - $start_time;
+$prof = "M.jpg";
+
+# This is for giving each user an svg icon
+// $start_time = microtime(true);
+// $prof = saveSvgImage($username);
+// $end_time = microtime(true);
+// $elapsed_time = $end_time - $start_time;
 
 
 
@@ -89,7 +92,6 @@ $result = [
     'user_token' => $oauth->token,
     'chat_key' => $oauth->chat_auth,
     'session_token' => $session_token,
-    "time" => $elapsed_time
 ];
 print_r(json_encode($result));
 
