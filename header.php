@@ -50,8 +50,10 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
   <script>
     // load css if localstorage  theme = dark
     let theme = localStorage.getItem('theme') || null;
+
     if (theme === 'dark') {
-      let css = `:root{--bg:#1f1f1f;--co:#fff;--ho:#a89ef5;--option:grey;--light:#333; --dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light);--card:#292929;--comment-card: var(--card); --tab:#343a40;--muted-text:#dbdbdb;--purple:#a29bfe;--pink:#fd79a8;--yellow:#ffeaa7;--teal:#81ecec;--blue: #74b9ff; }`;
+      let accent = localStorage.getItem('color') || "#a89ef5";
+      let css = `:root{--bg:#1f1f1f;--co:#fff;--ho: ${accent};--nav: ${accent};--option:grey;--light:#333; --dark:#f6f6f6;--white:#333;--icon-dark:var(--icon-light);--card:#292929;--comment-card: var(--card); --tab:#343a40;--muted-text:#dbdbdb;--purple:#a29bfe;--pink:#fd79a8;--yellow:#ffeaa7;--teal:#81ecec;--blue: #74b9ff; }`;
       let style = document.createElement('style');
       style.type = 'text/css';
       style.appendChild(document.createTextNode(css));

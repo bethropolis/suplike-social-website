@@ -1,20 +1,39 @@
-/* Set background color for the page */
+:root {
+  --primary-color: #7289da;
+  --secondary-color: #fff;
+  --text-color: #333;
+  --accent-color: #f0e8ff;
+  --hover-color: #677bc4;
+  --co: #333;
+  --purple: #733dd8;
+}
 
-/* Style for the sidebar */
 .sidebar {
-  background-color: #7289da;
-  color: #fff;
-  padding: 20px; 
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 20px;
   height: 100vh;
 }
-.stick{
-  position: sticky;
-   top: 0; 
-   z-index: 100;   
+a {
+  text-decoration: none;
+  color: var(--co);
 }
+a:hover {
+  color: var(--hover-color);
+}
+.stick {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 .sidebar h2 {
   font-size: 1.2em;
   margin-top: 0;
+}
+.bg{
+  background-color: var(--hover-color);
+  color: var(--accent-color);
 }
 
 .sidebar ul {
@@ -28,7 +47,7 @@
 }
 
 .sidebar a {
-  color: #fff;
+  color: var(--secondary-color);
   text-decoration: none;
 }
 
@@ -36,10 +55,9 @@
   font-weight: bold;
 }
 
-/* Style for the main content */
 .main {
-  background-color: #fff;
-  color: #333;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   padding: 20px;
   margin: auto;
 }
@@ -54,7 +72,6 @@
   margin-top: 10px;
 }
 
-/* Style for the API token section */
 .token-section {
   margin-top: 20px;
 }
@@ -71,29 +88,22 @@
   font-size: 1.2em;
   border: none;
   border-radius: 5px;
-  background-color: #f0e8ff;
+  background-color: var(--accent-color);
 }
 
 .generate-btn {
-  margin-top: 10px;
-  padding: 10px;
   font-size: 1.2em;
   border: none;
   border-radius: 5px;
-  background-color: #7289da;
-  color: #fff;
-}
-
-.bg {
-  background-color: #7289da;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .generate-btn:hover,
 .bg:hover {
-  background-color: #677bc4;
+  background-color: var(--hover-color);
 }
 
-/* Style for the bots section */
 .bots-section {
   margin-top: 20px;
 }
@@ -142,15 +152,14 @@
   font-size: 1.2em;
   border: none;
   border-radius: 5px;
-  background-color: #7289da;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .create-bot-btn:hover {
-  background-color: #677bc4;
+  background-color: var(--hover-color);
 }
 
-/* Style for the create bot section */
 .create-bot-section {
   margin-top: 20px;
 }
@@ -176,11 +185,22 @@
   font-size: 1.2em;
   border: none;
   border-radius: 5px;
-  background-color: #f0e8ff;
+  background-color: var(--accent-color);
 }
 
 .form-control-file {
   margin-top: 5px;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border-color: var(--purple);
+  color: var(--purple);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+  background: var(--purple);
+  color: #ffffff;
 }
 
 .create-bot-submit {
@@ -189,19 +209,19 @@
   font-size: 1.2em;
   border: none;
   border-radius: 5px;
-  background-color: #7289da;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .create-bot-submit:hover {
-  background-color: #677bc4;
+  background-color: var(--hover-color);
 }
+
 @media screen and (max-width: 600px) {
   .sidebar {
     height: fit-content;
   }
-  .stick{
+  .stick {
     position: relative;
   }
 }
-

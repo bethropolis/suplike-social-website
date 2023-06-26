@@ -64,6 +64,9 @@ class Bot
     // notify webhook (sendWebhook)
     public function sendWebhook()
     {
+        if ($this->isDisabled($this->bot)) {
+            return;
+        }
         $payload = json_encode($this->info);
 
         $ch = curl_init($this->webhookUrl);
@@ -97,7 +100,6 @@ class Bot
             } else {
                 $status = 'blocked';
             }
-            die($status);
             $sql = "UPDATE users SET status = ? WHERE idusers = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("si", $status, $botId);
@@ -111,6 +113,23 @@ class Bot
         }
     }
 
+    public function isDisabled($botId)
+    {
+        $status = '';
+        $sql = 'SELECT status FROM users WHERE idusers = ?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $botId);
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($status);
+            $stmt->fetch();
+            $stmt->close();
+
+            return $status === 'blocked';
+        }
+
+        return false;
+    }
 
 
 

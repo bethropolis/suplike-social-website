@@ -1,18 +1,17 @@
 <?php
 header('content-type: application/json');
-require 'dbh.inc.php';
-require 'Auth/auth.php';
-require 'errors/error.inc.php';
+require_once 'dbh.inc.php';
+require_once 'Auth/auth.php';
+require_once '../api/v1/bot/bot.php';
+require_once 'errors/error.inc.php';
 session_start();
 $un_ravel->_isAuth();
 
 $isAdmin = $un_ravel->_isAdmin($_SESSION['userId']);
 if (isset($_POST['delete_profile'])) {
 
-
-
-	$old = $_POST['user'];
-	if ($isAdmin) {
+	$post_user = $_POST['user'];
+	if ($isAdmin || $un_ravel->_isBot()) {
 		$user = $_POST['user'];
 	} else {
 		$user = $_SESSION['userId'];
@@ -58,7 +57,7 @@ if (isset($_POST['delete_profile'])) {
 	$conn->query($sql);
 
 	# update comments to deleted
-	$sql = "UPDATE `comments` SET `comment`='[deleted]', `user`='deleted' WHERE `user`='$name'";
+	$sql = "UPDATE `comments` SET `user`='deleted' WHERE `user`='$name'";
 	$conn->query($sql);
 
 	# delete notifications

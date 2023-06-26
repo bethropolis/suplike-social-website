@@ -65,19 +65,19 @@ body {
     border-radius: 50%;
     overflow: hidden;
     padding: 3px;
-    background: linear-gradient(45deg, rgb(148, 95, 239), rgb(68, 89, 244) 80%);
+    background: linear-gradient(129deg, var(--ho), var(--purple) 114%);
 }
 
 .add {
     background: white !important;
     display: grid;
     place-content: center;
-    border: 1px solid #6c5ce7;
+    border: 0.1rem solid var(--ho);
     border-color: linear-gradient(45deg, rgb(148, 95, 239), rgb(68, 89, 244) 80%);
 }
 
 .add .fa {
-    color: #6c5ce7;
+    color:  var(--ho);
 }
 
 .anchor {
@@ -200,7 +200,7 @@ p.content-text {
     right: 12px;
     margin-left: auto;
     position: absolute;
-    color: #6c5ce7;
+    color:  var(--ho);
 }
 
 .slide-thumb-item {

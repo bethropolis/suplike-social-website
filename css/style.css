@@ -40,11 +40,15 @@ body {
   background: var(--bg);
   overflow-x: hidden;
 }
+i {
+  color: var(--co);
+}
 
 a {
   color: var(--dark);
 }
-a:hover:not(.nav-link) {
+
+a:hover:not(.nav-link),a:hover:not(.link) > i {
   color: var(--ho) !important;
   text-decoration: none;
 }
@@ -56,10 +60,6 @@ a:visited {
 }
 a:focus i {
   color: var(--ho);
-}
-
-i {
-  color: var(--co);
 }
 .co {
   color: var(--co) !important;

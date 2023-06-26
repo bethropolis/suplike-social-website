@@ -76,91 +76,95 @@ $user_id = $_SESSION['token'];
       </div>
       <div class="settings-body pt-2">
         <h3 class="co">app theme</h3>
-        <div class="row w-75 mx-auto text-left">
-          <label for="chat-theme" class="col-6 co">select theme</label>
-          <select id="chat-theme" class="col-4" name="chat-theme">
+        <div class="row w-75 mx-auto text-left my-2 pt-2">
+          <label for="theme" class="col-6 co">Select theme</label>
+          <select id="theme" class="col-4" name="chat-theme">
             <option value="none" disabled selected>default</option>
             <option value="light">light</option>
             <option value="dark">dark</option>
           </select>
         </div>
-
-      <?php
+        <div class="row w-75 mx-auto text-left my-2 pt-2">
+          <span for="color" class="col-6 co">Accent color <span class="small text-muted">(dark mode)</span> </span>
+          <input type="color" name="huntry" id="color" value="#6c5ce7" class="border-0 bg-transparent ">
+        </div>
+      </div>
+    <?php
 
     } else if (isset($_GET['developer'])) {
       // developer page
-      ?>
-        <div class="settings-content py-5 mt-4">
-          <h2 class="co">Developer</h2>
-          <div class="mt-4">
-            <label for="developer-dashboard" class="form-label">Developer Dashboard</label>
-            <p class="text-muted">Access the developer dashboard for API and Bot features.</p>
-            <a href="./api/developer/">
-              <button id="developer-dashboard" class="btn text-white bg">
-                <i class="fa text-white  fa-code"></i> Go to Developer Dashboard
-              </button></a>
-          </div>
+    ?>
+      <div class="settings-content py-5 mt-4">
+        <h2 class="co">Developer</h2>
+        <div class="mt-4">
+          <label for="developer-dashboard" class="form-label">Developer Dashboard</label>
+          <p class="text-muted">Access the developer dashboard for API and Bot features.</p>
+          <a href="./api/developer/">
+            <button id="developer-dashboard" class="btn text-white bg">
+              <i class="fa text-white  fa-code"></i> Go to Developer Dashboard
+            </button></a>
         </div>
+      </div>
 
-      <?php
+    <?php
     } else if (isset($_GET['delete'])) {
       // delete account page
-      ?>
+    ?>
 
-        <div class="settings-header py-4">
-          <h2 class="co">delete account</h2>
-        </div>
-        <?php
-        if (isset($_GET['err']) && $_GET['err'] == 'wrongpassword') {
-          echo '<div class="alert alert-danger" role="alert">
+      <div class="settings-header py-4">
+        <h2 class="co">delete account</h2>
+      </div>
+      <?php
+      if (isset($_GET['err']) && $_GET['err'] == 'wrongpassword') {
+        echo '<div class="alert alert-danger" role="alert">
         <strong>Error!</strong> wrong password.
       </div>';
-        }
-        ?>
-        <div class="settings-body">
-          <form action="inc/delete.inc.php" method="POST" class="w-75 mx-auto text-left">
-            <div class="form-group">
-              <label for="delete-user">type your password</label>
-              <!-- use bootstrap tooltips -->
+      }
+      ?>
+      <div class="settings-body">
+        <form action="inc/delete.inc.php" method="POST" class="w-75 mx-auto text-left">
+          <div class="form-group">
+            <label for="delete-user">type your password</label>
+            <!-- use bootstrap tooltips -->
 
-              <input type="password" class="form-control w-100 delete-user" name="user" id="delete-user">
-            </div>
-            <button type="submit" name='delete_profile' class="btn btn-danger delete-btn" disabled>Delete</button>
-          </form>
-        </div>
-      <?php
+            <input type="password" class="form-control w-100 delete-user" name="user" id="delete-user">
+          </div>
+          <button type="submit" name='delete_profile' class="btn btn-danger delete-btn" disabled>Delete</button>
+        </form>
+      </div>
+    <?php
     } else if (isset($_GET['password'])) {
       // password page
-      ?>
-        <div class="settings-header py-4">
-          <h2 class="co">change password</h2>
-        </div>
-        <?php
-        if (isset($_GET['err']) && $_GET['err'] == 'wrongpassword') {
-          echo '<div class="alert alert-danger" role="alert">
+    ?>
+      <div class="settings-header py-4">
+        <h2 class="co">change password</h2>
+      </div>
+      <?php
+      if (isset($_GET['err']) && $_GET['err'] == 'wrongpassword') {
+        echo '<div class="alert alert-danger" role="alert">
         <strong>Error!</strong> wrong password.
       </div>';
-        }
-        if (isset($_GET['success']) && $_GET['success'] == 'passwordchanged') {
-          echo '<div class="alert alert-success" role="alert">
+      }
+      if (isset($_GET['success']) && $_GET['success'] == 'passwordchanged') {
+        echo '<div class="alert alert-success" role="alert">
         <strong>Success!</strong> Password changed successfully.
       </div>';
-        }
-        ?>
-        <div class="settings-body">
-          <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto text-left">
-            <div class="form-group">
-              <label for="current-password">Current password</label>
-              <input type="password" class="form-control w-100 submit" name="current" id="current-password">
-            </div>
-            <div class="form-group">
-              <label for="new-password">New password</label>
-              <input type="password" class="form-control w-100 submit" name="newpass" id="new-password">
-            </div>
-            <button type="submit" name="password_change" class="btn bg post-btn">Save</button>
-          </form>
-        </div>
-      <?php
+      }
+      ?>
+      <div class="settings-body">
+        <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto text-left">
+          <div class="form-group">
+            <label for="current-password">Current password</label>
+            <input type="password" class="form-control w-100 submit" name="current" id="current-password">
+          </div>
+          <div class="form-group">
+            <label for="new-password">New password</label>
+            <input type="password" class="form-control w-100 submit" name="newpass" id="new-password">
+          </div>
+          <button type="submit" name="password_change" class="btn bg post-btn">Save</button>
+        </form>
+      </div>
+    <?php
     } else {
       // settings page
       if (isset($_GET["error"])) {
@@ -173,68 +177,65 @@ $user_id = $_SESSION['token'];
         <p>your info has been updated.</p>
       </div>';
       }
-      
-      ?>
-        <div class="settings-header py-4">
 
-          <h2 class="co">settings</h2>
-        </div>
-        <div class="settings-body">
-          <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="profile-pic" class="profile-pic shadow-sm">
-                <img src="img/<?php echo $prmimg; ?>" alt="profile-pic" class="img-thumbnail" onerror="this.error = null; this.src ='img/M.jpg' " style="background-size: cover; width: 120px;height: 120px; border-radius: 50%;">
-              </label>
-              <input type="file" title="change profile pic" accept=".png,.gif,.jpg,.webp" name="file" id="profile-pic" style="display: none;" data-toggle="tooltip" data-placement="top" title="click to select image" multiple required /><br>
-            </div>
-            <button class="btn profile-btn" for="profile-pic" type="submit" style="background:#6c5ce7;width: fit-content;margin: 0 auto;" data-toggle="tooltip" data-placement="bottom" title="click above image to upload" disabled>change profile picture</button>
+    ?>
+      <div class="settings-header py-4">
 
-          </form>
-          <br><br>
-          <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto mb-4 text-left">
-            <div class="form-group">
-              <label for="username" data-toggle="tooltip" data-placement="top" title="usernane cannot be changed">username<sup class="text-danger">*</sup> </label>
-              <input type="text" class="form-control w-100" name="username" id="username" value="<?= $_SESSION['userUid']; ?>" disabled>
-            </div>
-            <div class="form-group">
-              <label for="fname">First name</label>
-              <input type="text" class="form-control w-100" name="firstname" id="fname" value="<?php echo $result['usersFirstname']; ?>">
-            </div>
-            <div class="form-group">
-              <label for="sname">Second name</label>
-              <input type="text" class="form-control w-100" name="lastname" id="sname" value="<?php echo $result['usersSecondname']; ?>">
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <div class="input-group">
-                <input type="email" class="form-control" name="email" id="email" value="<?php echo $result['emailusers']; ?>">
-                <?php
-                if(!$un_ravel->_isEmail_verified($user_id) && !empty($result['emailusers'])){ 
-                ?>
-                <button type="button" class="btn <?= $un_ravel->_isEmail_verified($user_id)  ? "bg-success" : "bg"?>" 
-                 id="send-v" style="display: none;"> 
-                Verify
-                </button>
-                <?php } ?>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="bio">Bio</label>
-              <textarea name="bio" id="bio" cols="30" rows="10" placeholder="enter your bio here...." title="not more than 200 words" maxlength="200" class="form-control w-100"><?php echo $result['bio']; ?></textarea>
-            </div>
-
-            <button type="submit" name="profile_btn" class="btn bg post-btn btn-lg">Save</button>
-          </form>
-        </div>
-
-
-      <?php
-    }
-      ?>
-
+        <h2 class="co">settings</h2>
       </div>
+      <div class="settings-body">
+        <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="profile-pic" class="profile-pic shadow-sm">
+              <img src="img/<?php echo $prmimg; ?>" alt="profile-pic" class="img-thumbnail" onerror="this.error = null; this.src ='img/M.jpg' " style="background-size: cover; width: 120px;height: 120px; border-radius: 50%;">
+            </label>
+            <input type="file" title="change profile pic" accept=".png,.gif,.jpg,.webp" name="file" id="profile-pic" style="display: none;" data-toggle="tooltip" data-placement="top" title="click to select image" required /><br>
+          </div>
+          <button class="btn profile-btn bg" for="profile-pic" type="submit" style="width: fit-content;margin: 0 auto;" data-toggle="tooltip" data-placement="bottom" title="click above image to upload" disabled>change profile picture</button>
+
+        </form>
+        <br><br>
+        <form action="inc/settings.inc.php" method="POST" class="w-75 mx-auto mb-4 text-left">
+          <div class="form-group">
+            <label for="username" data-toggle="tooltip" data-placement="top" title="usernane cannot be changed">username<sup class="text-danger">*</sup> </label>
+            <input type="text" class="form-control w-100" name="username" id="username" value="<?= $_SESSION['userUid']; ?>" disabled>
+          </div>
+          <div class="form-group">
+            <label for="fname">First name</label>
+            <input type="text" class="form-control w-100" name="firstname" id="fname" value="<?php echo $result['usersFirstname']; ?>">
+          </div>
+          <div class="form-group">
+            <label for="sname">Second name</label>
+            <input type="text" class="form-control w-100" name="lastname" id="sname" value="<?php echo $result['usersSecondname']; ?>">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-group">
+              <input type="email" class="form-control" name="email" id="email" value="<?php echo $result['emailusers']; ?>">
+              <?php
+              if (!$un_ravel->_isEmail_verified($user_id) && !empty($result['emailusers'])) {
+              ?>
+                <button type="button" class="btn <?= $un_ravel->_isEmail_verified($user_id)  ? "bg-success" : "bg" ?>" id="send-v" style="display: none;">
+                  Verify
+                </button>
+              <?php } ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea name="bio" id="bio" cols="30" rows="10" placeholder="enter your bio here...." title="not more than 200 words" maxlength="200" class="form-control w-100"><?php echo $result['bio']; ?></textarea>
+          </div>
+
+          <button type="submit" name="profile_btn" class="btn bg post-btn btn-lg">Save</button>
+        </form>
+      </div>
+
+
+    <?php
+    }
+    ?>
+
   </div>
-</div>
 </div>
 <br>
 <br>
@@ -332,11 +333,19 @@ require 'footer.php';
 
     });
     // use: JQuery when chat theme is changed store value into local storage
-    $('#chat-theme').change(function() {
+    $('#theme').change(function() {
       var theme = $(this).val();
       localStorage.setItem('theme', theme);
       window.location.reload();
     });
+
+    $('#color').change(function() {
+      var color = $(this).val();
+      localStorage.setItem('color', color);
+    });
+    if(localStorage.getItem('color')){
+       $('#color').val(localStorage.getItem('color'))
+    }
 
     $('.delete-user').on('input', function() {
       if ($('.delete-user').val() != '') {

@@ -112,11 +112,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
 } 
 
 
-if($_POST["block"]){
-if($bot->disableBot($_POST["block"], $_POST["set"])){
+if(isset($_POST["block"])){
+if($bot->disableBot($_POST["block"], filter_var($_POST['set'], FILTER_VALIDATE_BOOLEAN))){
+    $msg = !$_POST['set'] ? "Bot enabled" : "Bot disabled";
     $response = array(
         'status' => 'success',
-        'message' => 'Bot disabled'
+        'message' => $msg
     );
     echo json_encode($response);
 }else{
