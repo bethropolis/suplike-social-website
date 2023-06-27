@@ -308,7 +308,7 @@ ul {
   align-items: flex-end;
 }
 .owner .chat-msg-text {
-  background-color: var(--chat-text-owner);
+  background-color: var(--ho);
   color: #fff;
   border-radius: 20px 20px 0 20px;
 }

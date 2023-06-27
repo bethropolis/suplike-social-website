@@ -76,8 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     mysqli_stmt_close($stmt);
 
-    if ($un_ravel->_isBot($from)) {
-        $bot->send("chat", $to, $chatId); 
+    if($un_ravel->_isBot($to)){
+        $bot->setBot($to);
+        $bot->send("chat", $_POST['from'], $id);
     }
 
     return print_r(json_encode([

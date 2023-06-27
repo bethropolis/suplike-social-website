@@ -3,6 +3,7 @@ include_once 'dbh.inc.php';
 include_once 'Auth/auth.php';
 include_once 'extra/notification.class.php';
 include_once 'extra/xss-clean.func.php';
+include_once "../api/v1/bot/bot.php";
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $notification = new Notification();
@@ -48,12 +49,20 @@ if (isset($_POST['from'])) {
 		$stmt = $conn->prepare($sql);
 		$stmt->bind_param("sss", $from, $to, $clean_text);
 		$stmt->execute();
+		// get id
+		$id = $conn->insert_id;
+
 		$stmt->close();
 		$result = [
 			'code' => 0,
 			'msg' => "message sent",
 			'type' => 'success'
 		];
+
+		if($un_ravel->_isBot($to)){
+			$bot->setBot($to);
+			$bot->send("chat", $_POST['from'], $id);
+		}
 
 		$from_name = $un_ravel->_username($from);
 		$from_chat_auth = $un_ravel->_queryUser($from, 2);

@@ -28,14 +28,21 @@ if (isset($_GET['id'])) {
   <script src="./lib/lazyload/lazysizes.min.js" defer></script>
   <script src="./lib/vue/vue.min.js"></script>
   <script>
-    if (localStorage.getItem('theme') == 'dark') {
-      let accent = localStorage.getItem('color') || "#a89ef5";
-      let css = `:root{--bg:#1a1a1a!important;--co:#f8f9fc!important;--ho: ${accent};--ac:rgba(50, 159, 192, 0.844)!important;--inp:rgb(41, 38, 38)!important;--light:#f8f9fa!important;--dark:#333!important;--msg-message:#969eaa!important;--chat-text-bg:#ededf8!important;--chat-text-owner:var(--ho)!important;--theme-color:#00ffff!important;--msg-date:#c0c7d2!important;--theme-1:#1a1a1a!important;--theme-2:#212121!important;--theme-3:#333333!important;--theme-4:#444444!important;--theme-5:#555555!important;--theme-6:#666666!important;--theme-7:#777777!important;--theme-8:#888888!important;--theme-9:#999999!important}
+    let theme = localStorage.getItem('theme') || '<?= defined('DEFAULT_THEME') ? DEFAULT_THEME : 'light' ?>';
+    if (theme == 'dark') {
+      let css = `:root{--bg:#1a1a1a!important;--co:#f8f9fc!important;--ho: #a89ef5;--ac:rgba(50, 159, 192, 0.844)!important;--inp:rgb(41, 38, 38)!important;--light:#f8f9fa!important;--dark:#333!important;--msg-message:#969eaa!important;--chat-text-bg:#ededf8!important;--chat-text-owner:var(--ho)!important;--theme-color:#00ffff!important;--msg-date:#c0c7d2!important;--theme-1:#1a1a1a!important;--theme-2:#212121!important;--theme-3:#333333!important;--theme-4:#444444!important;--theme-5:#555555!important;--theme-6:#666666!important;--theme-7:#777777!important;--theme-8:#888888!important;--theme-9:#999999!important}
                 .co{color: var(--co) !important}.st-1{background-color:var(--theme-1)!important;color:var(--co)}.st-2{background-color:var(--theme-2)!important;color:var(--co)}.st-3{background-color:var(--theme-3)!important;color:var(--co)}.st-4{background-color:var(--theme-4)!important;color:var(--co)}.st-5{background-color:var(--theme-5)!important;color:var(--co)}.st-6{background-color:var(--theme-6)!important;color:var(--co)}.st-7{background-color:var(--theme-7)!important;color:var(--co)}.st-8{background-color:var(--theme-8)!important;color:var(--co)}.st-9{background-color:var(--theme-9)!important;color:var(--co)}`
       let style = document.createElement('style');
       style.type = 'text/css';
       style.appendChild(document.createTextNode(css));
       document.head.appendChild(style);
+    }
+
+    let defaultAccentColor = '<?= (defined('ACCENT_COLOR') && ACCENT_COLOR ? ACCENT_COLOR : null) ?? null  ?>';
+    if (localStorage.getItem('color') || defaultAccentColor) {
+      let setColor = localStorage.getItem('color') || defaultAccentColor;
+      document.documentElement.style.setProperty('--ho', setColor);
+      document.documentElement.style.setProperty('--nav', setColor);
     }
   </script>
 </head>
@@ -48,7 +55,7 @@ if (isset($_GET['id'])) {
       </a>
       <div v-if="chatwith_detail && chatwith" id="title" class="row center" style="align-items: center;">
         <a :href="'profile.php?id='+chatwith_detail.token">
-          <img class="msg-profile" :src="'img/'+chatwith_detail.profile_picture" alt="" style="width:32px; height: 32px;" onerror="this.error = null; this.src ='img/M.jpg' "></a>
+          <img class="msg-profile" :src="'img/'+chatwith_detail.profile_picture" alt="" style="width:32px; height: 32px;" onerror="this.error = null; this.src ='img/default.jpg' "></a>
         <div>{{chatwith_detail.full_name}}</div>
         <div id="status" class=" text-success ml-1">{{status}}</div>
       </div>
@@ -68,7 +75,7 @@ if (isset($_GET['id'])) {
     <div v-if="chatwith==null" class=" st-3 conversation-area">
       <h4>users</h4>
       <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4" :class="user.online? 'online': ''">
-        <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/M.jpg' ">
+        <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/default.jpg' ">
         <div class="msg-detail">
           <div class="msg-username">{{user.full_name}}</div>
           <div class="msg-content">
@@ -98,7 +105,7 @@ if (isset($_GET['id'])) {
           <div class='mt-2 py-1'>
           </div>
           <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-3" :class="user.online? 'online': ''" tabindex="0">
-            <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/M.jpg' ">
+            <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/default.jpg' ">
             <div class="msg-detail col-9 p-0">
               <div class="msg-username text-left">{{user.full_name}}</div>
               <div class="msg-content col-12 small p-0" :class="user.type !== '' ? 'justify-content-between' : ''">

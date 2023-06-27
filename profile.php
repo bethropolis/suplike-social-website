@@ -62,7 +62,7 @@ if ($login) {
       <div class="card m-auto bg-light p-2  text-center shadow">
         <div class="col-sm-12">
           <div class="card-img-top col-xs-6 col-md-12">
-            <img src="img/M.jpg" class="profile-pic img-profile rounded-circle p-1 shadow-lg" alt="profile picture" style="width: 150px;height:150px;background: linear-gradient(270deg,#57d2ff,var(--ho));" />
+            <img src="img/default.jpg" class="profile-pic img-profile rounded-circle p-1 shadow-lg" alt="profile picture" style="width: 150px;height:150px;background: linear-gradient(270deg,#57d2ff,var(--ho));" />
           </div>
           <div class="card-body mx-0 px-0  d-flex flex-column">
             <h5 class="card-title " id="profile-name"></h5>

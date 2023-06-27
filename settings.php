@@ -13,7 +13,7 @@ $result = $conn->query($query)->fetch_assoc();
 if (!is_null($_SESSION['profile-pic'])) {
   $prmimg = $_SESSION['profile-pic'];
 } else {
-  $prmimg = 'M.jpg';
+  $prmimg = 'default.jpg';
 }
 $user_id = $_SESSION['token'];
 ?>
@@ -84,9 +84,11 @@ $user_id = $_SESSION['token'];
             <option value="dark">dark</option>
           </select>
         </div>
-        <div class="row w-75 mx-auto text-left my-2 pt-2">
+        <div class="row w-75 mx-auto text-left my-2 pt-2 align-items-center ">
           <span for="color" class="col-6 co">Accent color <span class="small text-muted">(dark mode)</span> </span>
-          <input type="color" name="huntry" id="color" value="#6c5ce7" class="border-0 bg-transparent ">
+          <input type="color" name="huntry" id="color" value="#6c5ce7" class="border-0 mx-2 bg-transparent ">
+          <button id="apply-color" class="btn bg mx-2" onclick="location.reload()">aply</button>
+          <button id="reset-color" class="btn btn-outline-info mx-2">reset</button>
         </div>
       </div>
     <?php
@@ -187,7 +189,7 @@ $user_id = $_SESSION['token'];
         <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label for="profile-pic" class="profile-pic shadow-sm">
-              <img src="img/<?php echo $prmimg; ?>" alt="profile-pic" class="img-thumbnail" onerror="this.error = null; this.src ='img/M.jpg' " style="background-size: cover; width: 120px;height: 120px; border-radius: 50%;">
+              <img src="img/<?php echo $prmimg; ?>" alt="profile-pic" class="img-thumbnail" onerror="this.error = null; this.src ='img/default.jpg' " style="background-size: cover; width: 120px;height: 120px; border-radius: 50%;">
             </label>
             <input type="file" title="change profile pic" accept=".png,.gif,.jpg,.webp" name="file" id="profile-pic" style="display: none;" data-toggle="tooltip" data-placement="top" title="click to select image" required /><br>
           </div>
@@ -332,17 +334,23 @@ require 'footer.php';
 
 
     });
-    // use: JQuery when chat theme is changed store value into local storage
     $('#theme').change(function() {
       var theme = $(this).val();
       localStorage.setItem('theme', theme);
       window.location.reload();
     });
 
+
     $('#color').change(function() {
       var color = $(this).val();
       localStorage.setItem('color', color);
+      $("#apply-color").css('background',color);
     });
+    $('#reset-color').click(function() {
+      $('#color').val("#6c5ce7")
+      localStorage.setItem('color', "#6c5ce7");
+    })
+
     if(localStorage.getItem('color')){
        $('#color').val(localStorage.getItem('color'))
     }

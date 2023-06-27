@@ -7,7 +7,7 @@ class Err
    private $time;
    private $name;
    private $error;
-   private $log = 'errors/error.log.txt';
+   private $log = __DIR__ . '/error.log.txt';
    public function __construct($status = null)
    {
       $this->code = $status;
@@ -75,6 +75,15 @@ class Err
       $txt .= "Type: " . $this->name . " occurred Error: " . $this->error . "    " . $this->time->format("Y-m-d H:i:s") . "  on  " . $_SERVER['SCRIPT_FILENAME'] . "\n";
       file_put_contents($this->log, $txt);
    }
+
+   public function clear()
+   {
+      file_put_contents($this->log, "");
+   }
 }
 
 $error = new Err();
+
+if (isset($_POST["page"]) && $_POST["page"] == "clear") {
+   $error->clear();
+}

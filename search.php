@@ -94,7 +94,7 @@ if (isset($_GET['q'])) {
                 <img src="./img/<?php if (!is_null($row['profile_picture'])) {
                   echo $row['profile_picture'];
                 } else {
-                  echo 'M.jpg"';
+                  echo 'default.jpg"';
                 } ?>" class="list-item-image">
               </div>
             </a>

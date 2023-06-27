@@ -1,5 +1,5 @@
 <?php
-require 'setup/env.php';
+require_once 'setup/env.php';
 $servername = DB_HOST;
 $dBUsername = DB_USERNAME;
 $dBPassword = DB_PASSWORD;

@@ -29,7 +29,7 @@ if (isset($_GET['user'])) {
         ";
         $resp = $conn->query($sql);
         while ($row = mysqli_fetch_assoc($resp)) {
-            $row['pic'] = $row['pic'] ? $row['pic'] : 'M.jpg';
+            $row['pic'] = $row['pic'] ? $row['pic'] : 'default.jpg';
             $arr[$row["username"]][] = $row;
         }
     }

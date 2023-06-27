@@ -37,7 +37,7 @@ if (isset($_GET['view'])) {
         $bots = $bot->getUserBots($id, $view_id);
         if (!empty($bots)) {
             $bots = $bots[0];
-            $img = $bots["icon"] ? $bots["icon"]  : 'M.jpg';
+            $img = $bots["icon"] ? $bots["icon"]  : 'default.jpg';
             $bot_token = $bots["bot_token"];
             $title = "<a href='../../profile.php?id=$bot_token' style='text-decoration: none;'>
         <img src='../../img/$img' alt=' width='35px' height='35px' class='shadow rounded-circle'>
@@ -118,7 +118,7 @@ if (isset($_GET['api'])) {
                         </li>
                         <li class="nav-item mx-1">
                             <a href="../../profile.php">
-                                <img src="../../img/<?= $_SESSION['profile-pic'] ?? 'M.jpg' ?>" alt="" width="35px" height="35px" class="shadow rounded-circle">
+                                <img src="../../img/<?= $_SESSION['profile-pic'] ?? 'default.jpg' ?>" alt="" width="35px" height="35px" class="shadow rounded-circle">
                             </a>
                         </li>
                     </ul>

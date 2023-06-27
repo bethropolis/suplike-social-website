@@ -59,7 +59,7 @@ if (!empty($name)) {
     }
 }
 
-$prof = "M.jpg";
+$prof = "default.jpg";
 
 # This is for giving each user an svg icon
 // $start_time = microtime(true);

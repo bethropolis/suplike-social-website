@@ -36,6 +36,7 @@ if (!defined('SESSION_UNVERIFY')) {
         checkSessionId($_GET["uuid"]);
     } else {
         $error->err("API access", 22, "User authentication failed");
+        die();
     }
 }
 

@@ -3,12 +3,12 @@ require "header.php";
 
 
 $name = '';
-$pic = 'M.jpg';
+$pic = 'default.jpg';
 $user = 'anonymous';
 
 if (isset($_SESSION['userUid'])) {
     $name = $_SESSION['firstname'] . " " . $_SESSION['lastname'];
-    $pic = $_SESSION['profile-pic'] ?? 'M.jpg';
+    $pic = $_SESSION['profile-pic'] ?? 'default.jpg';
     $user = $_SESSION['userUid'];
 }
 
@@ -62,7 +62,7 @@ if (isset($_SESSION['userUid'])) {
                     </form>
 
                 </div>
-                <!--  ----------------------------------------------------------------this is the 3rd view or something-------------------------------------- -->
+                <!--  ----------------------------------------------------------------this is the 3rd view-------------------------------------- -->
                 <div id="main-post">
                     <noscript style="color:red">this site requires javascript to function</noscript>
                 </div>

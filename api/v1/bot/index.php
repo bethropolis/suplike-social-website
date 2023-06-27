@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
         move_uploaded_file($iconTempPath, $iconDestination);
     } else {
         // Use a default file name
-        $iconName = "M.jpg";
+        $iconName = "default.jpg";
     }
 
     if (!preg_match("/^[a-zA-Z0-9][a-zA-Z0-9_.]{3,19}$/", $username)) {

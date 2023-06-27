@@ -65,11 +65,11 @@ $id = $_GET['id'] ?? '';
 
     function following_func(user, name, id, img, token) {
       if (img === null) {
-        img = 'M.jpg';
+        img = 'default.jpg';
       }
       return `
 <div class="follower-div">
- <img src="img/${img}" class="img-profile" onerror="this.error = null; this.src ='img/M.jpg' " alt="${user}">   
+ <img src="img/${img}" class="img-profile" onerror="this.error = null; this.src ='img/default.jpg' " alt="${user}">   
     <div class="user">
     <a href="profile.php?id=${token}"><h2>${name}</h2></a>
     <p class="co">@${user}</p>

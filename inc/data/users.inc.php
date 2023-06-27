@@ -3,6 +3,7 @@
 header('content-type: application/json');
 require '../dbh.inc.php';
 require '../Auth/auth.php';
+require_once "../extra/date.func.php";
 
 session_start();
 $un_ravel->_isAuth();
@@ -16,11 +17,11 @@ if (isset($_GET['key'])) {
 	$key = $_GET['key'];
 
 	$arr = [];
-	$query = "SELECT `idusers`,`uidusers`,`isAdmin`,`date_joined`,`status`,`last_online`,`token` FROM `users`,`auth_key` WHERE `idusers`> 0 AND `auth_key`.`user` = `idusers`";
+	$query = "SELECT `idusers`,`uidusers`,`isAdmin`,`isBot`,`date_joined`,`status`,`last_online`,`token` FROM `users`,`auth_key` WHERE `idusers`> 0 AND `auth_key`.`user` = `idusers`";
 	$result = $conn->query($query);
 	$i = 0;
 	while ($row = mysqli_fetch_assoc($result)) {
-
+		$row['last_online'] =format_date($row['last_online']);
 		$arr[$i] = $row;
 		$i++;
 	}

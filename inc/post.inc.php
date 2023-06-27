@@ -10,10 +10,6 @@ session_start();
 $un_ravel->_isAuth();
 
 
-define("FILE_EXTENSIONS", array("jpeg", "jpg", "png", "gif", "webp"));
-define("FILE_SIZE_LIMIT", 6291456);
-define("RANDOM_BYTES_LENGTH", 4);
-
 function validate_input($type, $image_text, $file_size, $file_ext)
 {
     // print_r([$type, $image_text, $file_size, $file_ext]);
@@ -283,72 +279,45 @@ if (isset($_GET['user'])) {
     $result_array = [];
     $user = $un_ravel->_getUser($_GET['user']);
 
-    # STAGE 1: GETTING THE USERS
-    $query = "SELECT users.idusers, users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture, auth_key.token, auth_key.chat_auth
-              FROM users
+    $query = "SELECT posts.*, COUNT(comments.id) AS comments_count,
+                users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture,
+                auth_key.token, auth_key.chat_auth,
+                IF(likes.user_id = ?, 1, 0) AS liked
+              FROM posts
+              INNER JOIN users ON posts.userid = users.idusers
               INNER JOIN auth_key ON users.idusers = auth_key.user
+              LEFT JOIN comments ON posts.post_id = comments.post_id
+              LEFT JOIN likes ON posts.id = likes.post_id AND likes.user_id = ?
               WHERE users.idusers = ?
-              
-              UNION
-              
-              SELECT users.idusers, users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture, auth_key.token, auth_key.chat_auth
-              FROM following
-              INNER JOIN users ON following.following = users.idusers
-              INNER JOIN auth_key ON following.following = auth_key.user
-              WHERE following.user = ?";
+                  OR EXISTS (
+                      SELECT 1 FROM following
+                      WHERE following.user = ?
+                      AND following.following = users.idusers
+                  )
+              GROUP BY posts.id
+              ORDER BY posts.id DESC
+              LIMIT 50";
 
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("ii", $user, $user);
+    $stmt->bind_param("iiii", $user, $user, $user, $user);
     $stmt->execute();
     $result = $stmt->get_result();
-    $users = $result->fetch_all(MYSQLI_ASSOC);
+    $result_array = $result->fetch_all(MYSQLI_ASSOC);
 
-    # STAGE 2: GETTING THE POSTS FROM EACH USER
-    foreach ($users as $key) {
-        $acc = $key["idusers"];
-        $usr = $key["uidusers"];
-        $sql = "SELECT posts.*, COUNT(comments.id) AS comments_count
-                FROM posts
-                LEFT JOIN comments ON posts.post_id = comments.post_id
-                WHERE posts.userid = ?
-                GROUP BY posts.id
-                ORDER BY posts.id DESC
-                LIMIT 20";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $acc);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $posts = $result->fetch_all(MYSQLI_ASSOC);
-
-        foreach ($posts as $row) {
-            $row['profile_picture'] = $un_ravel->_profile_picture($key["idusers"]);
-            $text = $row['image_text'];
-            $text = trim(preg_replace('/\s+/', ' ', $text));
-            $text = trim(preg_replace('/\s\s+/', ' ', $text));
-            $row['image_text'] = $text;
-            $row['user'] = ['id' => $un_ravel->_queryUser($acc, 4), 'name' => $usr];
-            $id = $row['id'];
-            $post_id = $row['post_id'];
-            $sql = "SELECT * FROM `likes` WHERE `post_id`=? AND `user_id`=?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $id, $user);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $r = $result->fetch_assoc();
-            # STAGE 3: DETERMINING IF THE USER HAS LIKED IT
-            $row['liked'] = !is_null($r);
-            $row['comments'] = $row['comments_count'];
-            unset($row['comments_count']);
-            $result_array[] = $row;
-        }
+    foreach ($result_array as &$row) {
+        $text = $row['image_text'];
+        $text = trim(preg_replace('/\s+/', ' ', $text));
+        $text = trim(preg_replace('/\s\s+/', ' ', $text));
+        $row['image_text'] = $text;
+        $row['user'] = ['id' => $un_ravel->_queryUser($row['userid'], 4), 'name' => $row['uidusers']];
+        $row['comments'] = $row['comments_count'];
+        unset($row['comments_count']);
     }
-    # sort posts by id in descending order
-    usort($result_array, function ($a, $b) {
-        return $b['id'] - $a['id'];
-    });
+    unset($row);
+
     print_r(json_encode($result_array));
 }
+
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -361,7 +330,7 @@ if (isset($_GET['id'])) {
     $user = $row['userid'];
 
     # get user
-    $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token`,`chat_auth` FROM `users`,`auth_key` WHERE `users`.`idusers`=? AND `auth_key`.`user` = ?";
+    $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token` FROM `users`,`auth_key` WHERE `users`.`idusers`=? AND `auth_key`.`user` = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $user, $user);
     $stmt->execute();

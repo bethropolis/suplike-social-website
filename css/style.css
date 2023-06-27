@@ -107,7 +107,7 @@ a:focus i {
 .text-muted {
   color: var(--muted-text) !important;
 }
-.link:hover span {
+.link:hover i {
   color: #333 !important;
 }
 no-style:hover {
@@ -239,7 +239,7 @@ li {
   font-size: 1.4rem;
 }
 .tab-nav-container {
-  background-color: var(--tab);
+  background-color: var(--light);
   display: flex;
   padding: 12px;
   margin: 0 auto;
@@ -251,7 +251,6 @@ li {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 .tab {
-  background-color: var(--tab);
   border-radius: 50px;
   cursor: pointer;
   display: flex;
@@ -484,7 +483,7 @@ textarea {
   color: #fff !important;
 }
 .img-profile {
-  background-image: url("../img/M.jpg");
+  background-image: url("../img/default.jpg");
 }
 
 

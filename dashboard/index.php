@@ -6,16 +6,13 @@ if (!$_SESSION['isAdmin']) {
 }
 
 require_once '../inc/extra/date.func.php';
-
+require_once '../inc/setup/env.php';
 $setupData = json_decode(file_get_contents("../inc/setup/setup.suplike.json"));
 
 $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
 ?>
 <!doctype html>
-<!----
-the dashboard is from the bootstrap demo doc 
-url: https://getbootstrap.com/docs/4.5/examples/dashboard/
------>
+
 <html lang="en">
 
 <head>
@@ -55,20 +52,24 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
     <script src="../lib/vue/vue.min.js"></script>
     <script>
         // load css if localstorage  theme = dark
-        let theme = localStorage.getItem('theme') || null;
-        if (theme === 'dark') {
+        function darkMode() {
             let css = `:root{--bg:#1a1a1a;--co:#f8f9fc;--ho:#a080ff;--top:#a080ff;--card:#333;--card-top:#444;--icon:#eee;--ac:#bcabf7;--nav:#333;--lighter:#6c5ce7;--box-shadow:0 0 5px var(--light)}`;
             let style = document.createElement('style');
             style.type = 'text/css';
+            style.setAttribute("data-name", "theme");
             style.appendChild(document.createTextNode(css));
             document.head.appendChild(style);
+        }
+        let theme = localStorage.getItem('theme') || null;
+        if (theme === 'dark') {
+            darkMode()
         }
     </script>
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-dark sticky-top nav-color flex-md-nowrap p-0 shadow">
+        <nav class="navbar navbar-dark sticky-top nav-color flex-md-nowrap p-0 top-nav shadow">
             <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 bg" href="#">
                 Suplike<sup class="beta">BETA</sup>
             </a>
@@ -78,10 +79,17 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             <input class="form-control form-control-dark" type="text" placeholder="Search..." aria-label="Search">
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
+                    <input class="form-check-input" type="checkbox" id="darkModeToggle" v-model="darkMode" hidden>
+                    <label class="form-check-label" for="darkModeToggle"><i v-if="darkMode" class="fa fa-sun"></i><i v-if="!darkMode" class="fa fa-moon"></i> </label>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
                     <a class="co" title="home" href="../"><i class="fa fa-home"></i></a>
                 </li>
-
             </ul>
+
             <ul class="navbar-nav  px-3">
                 <li class="nav-item text-nowrap">
                     <a class="co" :title="user" href="../profile.php"><img src="../img/<?= $_SESSION["profile-pic"] ?>" class="profile-img rounded-circle " alt="profile"></a>
@@ -137,17 +145,17 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                     <span class="ml-2">Integrations</span>
                                 </a>
                             </li>
-                        </ul>
-                        <ul class="nav flex-column mb-2">
-                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                <span>ADMIN: {{user}}</span>
-                            </h6>
                             <li class="nav-item">
                                 <a class="nav-link" :class="stage == 10? 'active':''" @click.prevent="changeStage(10)" href="#">
                                     <i class="fas fa-cog"></i>
                                     <span class="ml-2">Settings</span>
                                 </a>
                             </li>
+                        </ul>
+                        <ul class="nav flex-column mb-2">
+                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                <span>ADMIN: {{user}}</span>
+                            </h6>
                             <li class="nav-item">
                                 <a class="nav-link" :class="stage == 11? 'active':''" @click.prevent="changeStage(11)" href="#">
                                     <i class="fas fa-exclamation-circle"></i>
@@ -273,31 +281,33 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                         <table class="table " id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>id</th>
-                                                    <th>username</th>
-                                                    <th>last online</th>
-                                                    <th>data joined</th>
-                                                    <th>status</th>
-                                                    <th>action</th>
+                                                    <th class="text-center align-middle">id</th>
+                                                    <th class="text-center align-middle">username</th>
+                                                    <th class="text-center align-middle">last online</th>
+                                                    <th class="text-center align-middle">data joined</th>
+                                                    <th class="text-center align-middle">status</th>
+                                                    <th class="text-center align-middle">action</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
-                                                    <th>id</th>
-                                                    <th>username</th>
-                                                    <th>last online</th>
-                                                    <th>data joined</th>
-                                                    <th>status</th>
-                                                    <th>action</th>
+                                                    <th class="text-center align-middle">id</th>
+                                                    <th class="text-center align-middle">username</th>
+                                                    <th class="text-center align-middle">last online</th>
+                                                    <th class="text-center align-middle">data joined</th>
+                                                    <th class="text-center align-middle">status</th>
+                                                    <th class="text-center align-middle">action</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
                                                 <tr v-for="user in users">
                                                     <td class="text-center align-middle">{{user.id}}</td>
-                                                    <td class="text-center align-middle justify-content-around">{{user.username}} <i v-if="user.admin" class="fa fa-user-shield c-ho"></i></td>
+                                                    <td class="text-center align-middle justify-content-around"> <span class="mx-1">{{user.username}}</span> <i v-if="user.admin" class="fa fa-user-shield c-ho"></i> <i v-if="user.bot" class="fa fa-robot c-ho"></i></td>
                                                     <td class="text-center align-middle">{{user.online}}</td>
                                                     <td class="text-center align-middle">{{user.joined}}</td>
-                                                    <td class="text-center align-middle">{{user.status}}</td>
+                                                    <td class="text-center align-middle">
+                                                        <span v-if="user.status == 'active'" class="badge px-3 py-1  bg-gradient-success">ACTIVE</span>
+                                                        <span v-if="user.status == 'blocked'" class="badge px-3 py-1  badge-dark">BLOCKED</span>
                                                     <td class="text-center align-middle">
                                                         <a class="dropdown-toggle co" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="fa fa-ellipsis-v"></i></a>
@@ -570,12 +580,98 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                     <!-------------------------------- the settings section ----------------->
                     <div class="settings co" v-show="stage == 10">
                         <h1 class="mt-2">Settings</h1>
-                        <hr>
+                        <ul class="nav nav-tabs mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link c-ho" @click.prevent="settings = 1" :class="settings == 1 ? 'active':''" href="#">general</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link c-ho" @click.prevent="settings = 2" :class="settings == 2 ? 'active':''" href="#">config</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link c-ho" @click.prevent="settings = 3" :class="settings == 3 ? 'active': ''" href="#">updates</a>
+                            </li>
+                        </ul>
                         <!-- dark mode toggle -->
-                        <div class="form-check form-switch">
+                        <div v-if="settings == 3" class="container">
+                            <form>
+                                <div class="form-group">
+                                </div>
+                                <button type="button" class="btn btn-primary bg" @click="checkLatestRelease(<?= $setupData->version ?>)"> Check Latest Release
+                                    <i class="fa fa-spinner fa-spin" id="updates-spinner" style="display: none"></i></button>
 
-                            <input class="form-check-input" type="checkbox" id="darkModeToggle" v-model="darkMode">
-                            <label class="form-check-label" for="darkModeToggle">Switch between dark mode and light mode.</label>
+                                <div id="latestReleaseInfo" class="mt-4" style="display: none;">
+                                    <h2>Latest Version Information</h2>
+                                    <p id="versionText"></p>
+                                    <p>Installed Version: <?= $setupData->version ?> </p>
+
+                                    <div class="update-field">
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div v-if="settings == 2" class="container mb-4">
+                            <form @submit.prevent="saveConfig">
+                                <div class="form-group">
+                                    <label for="dbDatabase">Database Name</label>
+                                    <input type="text" class="form-control" id="dbDatabase" v-model="config.dbDatabase">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dbHost">Database Host</label>
+                                    <input type="text" class="form-control" id="dbHost" v-model="config.dbHost">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dbUsername">Database Username</label>
+                                    <input type="text" class="form-control" id="dbUsername" v-model="config.dbUsername">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dbPassword">Database Password</label>
+                                    <input type="password" class="form-control" id="dbPassword" v-model="config.dbPassword">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dbPort">Database Port</label>
+                                    <input type="number" class="form-control" id="dbPort" v-model="config.dbPort">
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="emailVerification" v-model="config.emailVerification">
+                                    <label class="form-check-label" for="emailVerification">Enable Email Verification</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appEmail">App Email <span class="small text-muted">(the email used to send verifications)</span></label>
+                                    <input type="email" class="form-control" id="appEmail" v-model="config.appEmail">
+                                </div>
+                                <button type="submit" class="btn btn-primary bg">Save Config</button>
+                            </form>
+                        </div>
+                        <div v-if="settings === 1" class="container">
+                            <form @submit.prevent="saveConfig">
+                                <div class="form-group">
+                                    <label for="appName">Application Name</label>
+                                    <input type="text" class="form-control" v-model="config.appName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fileSizeLimit">File Size Limit (in MB)</label>
+                                    <input type="number" class="form-control" v-model="config.fileSizeLimit">
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="apiAccess" v-model="config.apiAccess">
+                                    <label class="form-check-label" for="apiAccess">Enable API Access</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="defaultTheme">Default Theme</label>
+                                    <select class="form-control" v-model="config.defaultTheme">
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                        <option value="install" disabled>Install New Themes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="accentColor">Accent Color</label>
+                                    <input type="color" class="border-0 mx-3" v-model="config.accentColor">
+                                    <button class="btn"  @click="config.accentColor = ''">reset</button>
+                                </div>
+                                <button type="submit" class="btn btn-primary bg">Save Settings</button>
+                            </form>
                         </div>
                     </div>
                     <!-------------------------- Logs --------------------------------------------->
@@ -616,6 +712,11 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
                                             <i class="fab fa-twitter fa-2x"></i></a>
 
                                     </div>
+                                    <div class="text-center">
+                                        <a href="../LICENSE">
+                                            <p class="text-muted">License MIT</p>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -626,8 +727,24 @@ url: https://getbootstrap.com/docs/4.5/examples/dashboard/
             </div>
         </div>
     </div>
-    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const envConfig = {
+            dbDatabase: '<?= DB_DATABASE ?>',
+            dbHost: '<?= DB_HOST ?>',
+            dbUsername: '<?= DB_USERNAME ?>',
+            dbPassword: '',
+            dbPort: <?= DB_PORT ?>,
+            emailVerification: <?= EMAIL_VERIFICATION ? 'true' : 'false' ?>,
+            appEmail: '<?= APP_EMAIL ?>',
+            appName: '<?= defined('APP_NAME') ? APP_NAME : '' ?>',
+            fileSizeLimit: <?= defined('FILE_SIZE_LIMIT') ? FILE_SIZE_LIMIT : 0 ?>,
+            apiAccess: <?= (defined('API_ACCESS') ? API_ACCESS : "false") ? 'true' : 'false'   ?>,
+            defaultTheme: '<?= defined('DEFAULT_THEME') ? DEFAULT_THEME : 'light' ?>',
+            accentColor: '<?= (defined('ACCENT_COLOR') ? ACCENT_COLOR : '') ?? '' ?>'
+        };
+    </script>
     <script src="dashboard.js?opf"></script>
+    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

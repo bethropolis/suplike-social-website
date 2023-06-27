@@ -1,4 +1,3 @@
-
 let app = new Vue({
     el: "#app",
     data: {
@@ -14,7 +13,9 @@ let app = new Vue({
         post: null,
         newUser: null,
         data: null,
+        settings: 1,
         reports: [],
+        config:{ ...envConfig },
         darkMode: localStorage.getItem('theme') === 'dark',
         user: sessionStorage.getItem("name") || "Unknown",
         token: sessionStorage.getItem("user") || "Unknown",
@@ -77,6 +78,7 @@ let app = new Vue({
                 data: { page: 'clear' },
                 method: 'POST'
             });
+            location.reload();
         },
         saveLog: function () {
             const logText = $('#log-textarea').val();
@@ -101,6 +103,7 @@ let app = new Vue({
                         online: user.last_online,
                         joined: user.date_joined,
                         admin: parseInt(user.isAdmin),
+                        bot: parseInt(user.isBot),
                         token: user.token,
                     });
                 });
@@ -120,12 +123,13 @@ let app = new Vue({
             }
         },
         blockUser(user) {
-            $.post("../inc/data/users.inc.php", {  block: user.id, set: user.status == "blocked"  }, (data) => {
-                    if (data.status == "error") alert(data.message);
-                    return this.getUsers();
+            $.post("../inc/data/users.inc.php", { block: user.id, set: user.status == "blocked" }, (data) => {
+                if (data.status == "error") alert(data.message);
+                return this.getUsers();
             });
         },
         deleteUser(user) {
+
             let confirmation = confirm(`are you sure you want to delete user ${user.username}`);
             if (confirmation) {
                 $.post("../inc/delete.inc.php", { user: user.id, delete_profile: true }, (data) => {
@@ -135,6 +139,31 @@ let app = new Vue({
                     $("#dataTable").DataTable();
                 });
             }
+        },
+        checkLatestRelease: function (version) {
+            $("#updates-spinner").show();
+            // Make the GET request to the GitHub API
+            $.get(`https://api.github.com/repos/bethropolis/suplike-social-website/releases/latest`)
+                .done(function (data) {
+                    $("#updates-spinner").hide();
+                    let latestTag = data.tag_name;
+                    let htmlUrl = data.html_url;
+                    $('#versionText').text('Latest version: ' + latestTag);
+                    $('#latestReleaseInfo').show();
+                    if (latestTag != version) {
+                        $(".update-field").html(`<a href="${htmlUrl}" target="_blank"> <p class='text-info h3'>New version available</p></a>`)
+                        return
+                    }
+                    $(".update-field").html("<p class='text-success h3'>Version is upto date</p>")
+                })
+                .fail(function () {
+                    alert('Failed to fetch the latest release.');
+                });
+        },
+        saveConfig() {
+            $.post('../inc/setup/save_config',this.config, function(data) {
+                console.log(data);
+            });
         },
         chart: function () {
             // Create chart with data
@@ -412,7 +441,13 @@ let app = new Vue({
             }
         },
         darkMode: function () {
-            this.darkMode ? localStorage.setItem('theme', 'dark') : localStorage.setItem('theme', 'light');
+            if (this.darkMode) {
+                localStorage.setItem('theme', 'dark');
+                darkMode();
+            } else {
+                localStorage.setItem('theme', 'light');
+                $("style[data-name='theme']").remove();
+            }
         },
         data: function () {
             this.dataLoaded = true;

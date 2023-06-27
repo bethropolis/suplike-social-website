@@ -10,12 +10,13 @@ async function mainload(url = "./inc/post.inc.php?user=") {
     $("#imagedisp").attr("src", m);
   });
 
+
   async function getUsers(url) {
     await $.get(url + _user_id, function (posts) {
       if (posts instanceof Array) {
         posts.forEach(async (post) => {
           if (!post.profile_picture) {
-            post.profile_picture = "M.jpg";
+            post.profile_picture = "default.jpg";
           }
           await $("#main-post").append(render(post));
         });
@@ -23,16 +24,24 @@ async function mainload(url = "./inc/post.inc.php?user=") {
         add_lightbox();
       } else if (posts instanceof Object) {
         if (posts?.type === 'error') return
-        posts.data.forEach((post) => {
-          if (!post.profile_picture) {
-            post.profile_picture = "M.jpg";
-          }
-          $("#main-post").append(render(post));
+        if (posts.data) {
+          posts.data.forEach((post) => {
+            if (!post.profile_picture) {
+              post.profile_picture = "default.jpg";
+            }
+            $("#main-post").append(render(post));
 
-        });
+          });
+
+          post_no = posts.data.length;
+        } else {
+          if (!posts.profile_picture) {
+            posts.profile_picture = "default.jpg";
+          }
+          $("#main-post").append(render(posts));
+        }
         addClick();
         add_lightbox();
-        post_no = posts.data.length;
       } else {
         $("#main-post")
           .append(`<div class='post-div shadow no-user' class='text-center'><h4> you need to follow someone in order to view post on your feed</h4>
@@ -369,7 +378,7 @@ function profile_request(profile) {
       if (user.user.profile_picture !== null) {
         $(".profile-pic").attr("src", "img/" + user.user.profile_picture);
       } else {
-        $(".profile-pic").attr("src", "img/M.jpg");
+        $(".profile-pic").attr("src", "img/default.jpg");
       }
 
       if (user == user.user.uidusers) {
@@ -379,7 +388,7 @@ function profile_request(profile) {
       if (user.posts) {
         user.posts.forEach(async (post) => {
           if (!post.profile_picture) {
-            post.profile_picture = "M.jpg";
+            post.profile_picture = "default.jpg";
           }
           await $("#main-post").append(render(post));
         });
@@ -398,7 +407,7 @@ function post_request(profile) {
   $.get(url, function (post) {
     post.profile_picture = post.user.profile_picture;
     if (!post.profile_picture) {
-      post.profile_picture = "img/M.jpg";
+      post.profile_picture = "img/default.jpg";
     }
     $("#main-post").append(render(post));
     addClick();
