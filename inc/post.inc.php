@@ -366,7 +366,6 @@ if (isset($_GET['del_post'])) {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     $user = $row['userid'];
-    die(print_r($row));
 
     if ($user == $_SESSION['userId']) {
         $sql = "DELETE FROM `posts` WHERE `post_id`=?";
@@ -386,7 +385,7 @@ if (isset($_GET['del_post'])) {
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
-        header("Location: ../?delpost");
+        header("Location: ../home.php?delpost");
     } else {
         // status code 403
         header("HTTP/1.0 403 Forbidden");

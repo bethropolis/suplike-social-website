@@ -17,7 +17,6 @@
 - new settings page
 
 
-
 ## v1.40
 > going mobile
 <p>17 march 2022<p>

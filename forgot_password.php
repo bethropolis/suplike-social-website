@@ -111,7 +111,7 @@ require "header.php";
   </form>
   <!-- Add these script tags at the end of the <body> tag -->
   <script src="./lib/jquery/jquery.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="lib/sweetalert/sweetalert.js"></script>
   <script>
     $(document).ready(function () {
       $('form').submit(function (event) {

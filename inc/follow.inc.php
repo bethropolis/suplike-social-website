@@ -1,8 +1,9 @@
 <?php
-require 'dbh.inc.php';
-require 'Auth/auth.php';
-require 'errors/error.inc.php';
-require 'extra/notification.class.php';
+require_once  'dbh.inc.php';
+require_once  'Auth/auth.php';
+require_once  'errors/error.inc.php';
+require_once  'extra/notification.class.php';
+require_once   __DIR__.'/../api/v1/bot/bot.php';
 header('content-type: application/json');
 $notification = new Notification();
 session_start();
@@ -18,8 +19,7 @@ if (isset($_GET['user'])) {
         die();
     }
 
-
-    $following = $un_ravel->_getUser($_GET['user']);
+    $following = $un_ravel->_getUser($_SESSION['token']);
     $followed = $un_ravel->_getUser($_GET['following']);
     $key = $_GET['key'];
 
@@ -81,8 +81,15 @@ if (isset($_GET['user'])) {
         $followed_user_followers = $followed_user_followers + 1;
         $sql  = "INSERT INTO following (`user`,`following`) VALUES ($following, $followed)";
         $conn->query($sql);
+        $id = $conn->insert_id;
         $user = $un_ravel->_username($following);
         $notification->notify($followed,"$user followed you", 'follow');
+
+        if($un_ravel->_isBot($followed)){
+            print_r([$followed,$id,$_GET['following']]);
+			$bot->setBot($followed);
+			$bot->send("follow", $_GET['following'], $id);
+		}
     }
 
     if (!is_null($result) && $key == 'false') {

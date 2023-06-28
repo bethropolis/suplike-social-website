@@ -375,7 +375,7 @@ function get_popular_tags() {
 function follow(user_id) {
   user_id = user_id || _user_id;
   $(".follow-btn").click(function () {
-    var profile_id = this.id || profile_id;
+    var profile_id = this.id || profile;
     var is_following = $(this).children("span").text().trim() === "follow";
     var following_count_el = $("#followers");
     var following_count = parseInt(following_count_el.text());

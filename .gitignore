@@ -5,3 +5,4 @@ img/
 vendor/
 inc/setup/setup.suplike.json
 error.log.txt
+*.txt

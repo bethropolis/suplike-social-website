@@ -26,9 +26,18 @@ require "bot/bot.php";
 $error_log_path = __DIR__ . "/../../inc/errors/error.log.txt";
 $error->_set_log($error_log_path);
 
+
+// check if api access is activated
+if (!defined("API_ACCESS") or !API_ACCESS) {
+    $error->err("API access", 33, "API access has been disabled");
+}
+
+
 // Check user token and authorization
 require_once "token.php";
 checkUserToken();
+
+
 
 // Check session ID
 if (!defined('SESSION_UNVERIFY')) {

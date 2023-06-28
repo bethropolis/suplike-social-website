@@ -412,6 +412,10 @@ if (isset($_GET['api'])) {
             });
 
             $('#delete-bot').click(function() {
+                // confirm 
+                let conf = confirm("Are you sure you want to delete this bot?");
+                if (!conf) return
+
                 $.ajax({
                     url: '../../inc/delete.inc',
                     type: 'POST',
