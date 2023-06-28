@@ -15,7 +15,7 @@ let app = new Vue({
         data: null,
         settings: 1,
         reports: [],
-        config:{ ...envConfig },
+        config: { ...envConfig },
         darkMode: localStorage.getItem('theme') === 'dark',
         user: sessionStorage.getItem("name") || "Unknown",
         token: sessionStorage.getItem("user") || "Unknown",
@@ -157,11 +157,13 @@ let app = new Vue({
                     $(".update-field").html("<p class='text-success h3'>Version is upto date</p>")
                 })
                 .fail(function () {
+                    $("#updates-spinner").hide();
+
                     alert('Failed to fetch the latest release.');
                 });
         },
         saveConfig() {
-            $.post('../inc/setup/save_config',this.config, function(data) {
+            $.post('../inc/setup/save_config', this.config, function (data) {
                 console.log(data);
             });
         },
@@ -406,7 +408,6 @@ let app = new Vue({
                     this.visitline($("#visitsChart"), "new signup");
                     break;
                 case 4:
-                    console.log(app.data)
                     setTimeout(() => {
                         this.createLineChart();
                         this.doughnut(

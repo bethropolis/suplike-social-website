@@ -32,9 +32,9 @@ if (isset($_POST['login-submit'])) {
             $result = mysqli_stmt_get_result($stmt);
 
             if ($row = mysqli_fetch_assoc($result)) {
-                if($row['status'] == "blocked"){
+                if ($row['status'] == "blocked") {
                     header("Location: ../login.php?error=disabled");
-                    exit();                
+                    exit();
                 }
                 $pwdCheck = password_verify($password, $row['pwdUsers']);
 
@@ -56,8 +56,8 @@ if (isset($_POST['login-submit'])) {
                     $_SESSION['profile-pic'] = $row['profile_picture'];
                     $_SESSION['isAdmin'] = $row['isAdmin'];
                     // set a cookie for the user to remember them for a week called token ($auth->user)
-                    if($_POST['remember']){
-                        setcookie('token', $auth->user, time() + (86400 * 7),'/');
+                    if ($_POST['remember']) {
+                        setcookie('token', $auth->user, time() + (86400 * 7), '/');
                     }
                     header("Location: ../home.php?login=success");
                     exit();

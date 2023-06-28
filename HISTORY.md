@@ -1,11 +1,13 @@
 # timeline
 
-## v1.30
+
+
+## v1.46
 > going notified
 
 <p>14 april 2022<p>
 
-###  new features in v1.36
+###  new features in v1.46
 - notification page
 - UI upgrade on all pages
 - new sign up method
@@ -13,20 +15,58 @@
 - share
 - new post page
 - new settings page
+
+
+
+## v1.40
+> going mobile
+<p>17 march 2022<p>
+
+### new features in v1.40
 - PWA
-- improved search
+- improved search and following page
+
+
+
+## v1.37
+> going dark
+<p>6 march 2022<p>
+
+### new features in v1.30
+- full dark mode implementation
+- improved posting page
+
+
+
+## v1.31
+> going lazy
+<p>2 february 2022<p>
+
+### new features in v1.31
+- image lazy loading added
+- added lightbox for nice image view
+
+
+## v1.27
+> going prepared
+<p>23 january 2022<p>
+
+### new features in v1.276
+- extensive use of prepared statements
+- XSS cleaning script
+
 
 ## v1.25
-> going open
+> going extensible
 <p>29 december 2021<p>
 
-### new features in v1.225
-- API
+### new features in v1.25
+- API endpoints added
 - profile picture change
 
 ## v1.23
-> going comments
-<p>29 december 2021<p>
+> going opinionated
+<p>28 december 2021<p>
 
 ### new features in v1.225
 - comments page
@@ -54,9 +94,10 @@
 
 
 ## v1.210
->going admin
+>going MOD
 
 <p>27 December 2020<p>
+
 ### new features in v1.2
 - Admin dashboard
 - moderation

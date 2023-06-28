@@ -5,7 +5,12 @@ if (isset($_GET['tag'])) {
     $tag = $_GET['tag'];
 }
 ?>
+<?php
+if (isset($_GET['id'])) {
+?>
+    <link rel="stylesheet" href="css/post.css">
 
+<?php } ?>
 
 
 <main>
@@ -14,19 +19,22 @@ if (isset($_GET['tag'])) {
         .hide {
             display: none;
         }
+        .post-div{
+            width: 100%;
+        }
     </style>
     <?php
     if (!isset($_GET['id'])) {
     ?>
-        <div class="card co">
+        <div class="card col-lg-9 mx-auto co">
             <div class="card-body">
                 <h5 class="card-title">Create Post</h5>
                 <div id="toast"></div>
                 <form id="postForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="communitySelect">Post to</label>
-                        <select class="form-select co" id="communitySelect" name="community">
-                            <option value="account" <?= isset($_GET['story']) ?: "selected" ?>>Your page</option> <!-- added a default option -->
+                        <select class="form-select" id="communitySelect" name="community">
+                            <option value="account"  <?= isset($_GET['story']) ?: "selected" ?>>Your page</option> <!-- added a default option -->
                             <option value="story" <?= !isset($_GET['story']) ?: "selected" ?>>Your story</option>
                         </select>
                     </div>

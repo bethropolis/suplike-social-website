@@ -10,6 +10,7 @@ require_once '../inc/setup/env.php';
 $setupData = json_decode(file_get_contents("../inc/setup/setup.suplike.json"));
 
 $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
+
 ?>
 <!doctype html>
 
@@ -585,14 +586,21 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                 <a class="nav-link c-ho" @click.prevent="settings = 1" :class="settings == 1 ? 'active':''" href="#">general</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link c-ho" @click.prevent="settings = 2" :class="settings == 2 ? 'active':''" href="#">config</a>
+                                <a class="nav-link c-ho" @click.prevent="settings = 2" :class="settings == 2 ? 'active':''" href="#">API</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link c-ho" @click.prevent="settings = 3" :class="settings == 3 ? 'active':''" href="#">Email</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link c-ho" @click.prevent="settings = 3" :class="settings == 3 ? 'active': ''" href="#">updates</a>
+                                <a class="nav-link c-ho" @click.prevent="settings = 4" :class="settings == 4 ? 'active':''" href="#">config</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link c-ho" @click.prevent="settings = 5" :class="settings == 5 ? 'active': ''" href="#">updates</a>
                             </li>
                         </ul>
                         <!-- dark mode toggle -->
-                        <div v-if="settings == 3" class="container">
+                        <div v-if="settings == 5" class="container">
                             <form>
                                 <div class="form-group">
                                 </div>
@@ -610,7 +618,7 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                 </div>
                             </form>
                         </div>
-                        <div v-if="settings == 2" class="container mb-4">
+                        <div v-if="settings == 4" class="container mb-4">
                             <form @submit.prevent="saveConfig">
                                 <div class="form-group">
                                     <label for="dbDatabase">Database Name</label>
@@ -632,17 +640,33 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                     <label for="dbPort">Database Port</label>
                                     <input type="number" class="form-control" id="dbPort" v-model="config.dbPort">
                                 </div>
+                                <button type="submit" class="btn btn-primary bg">Save Config</button>
+                            </form>
+                        </div>
+
+                        <div v-if="settings === 3" class="container">
+                            <form @submit.prevent="saveConfig">
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="emailVerification" v-model="config.emailVerification">
                                     <label class="form-check-label" for="emailVerification">Enable Email Verification</label>
                                 </div>
                                 <div class="form-group">
                                     <label for="appEmail">App Email <span class="small text-muted">(the email used to send verifications)</span></label>
-                                    <input type="email" class="form-control" id="appEmail" v-model="config.appEmail">
+                                    <input type="email" class="form-control" id="appEmail" v-model="config.appEmail" placeholder="eg. test@<?= $_SERVER['HTTP_HOST'] ?>">
                                 </div>
-                                <button type="submit" class="btn btn-primary bg">Save Config</button>
+                                <button type="submit" class="btn btn-primary bg">Save Settings</button>
                             </form>
                         </div>
+                        <div v-if="settings === 2" class="container">
+                            <form @submit.prevent="saveConfig">
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="apiAccess" v-model="config.apiAccess">
+                                    <label class="form-check-label" for="apiAccess">Enable API Access</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary bg">Save Settings</button>
+                            </form>
+                        </div>
+
                         <div v-if="settings === 1" class="container">
                             <form @submit.prevent="saveConfig">
                                 <div class="form-group">
@@ -650,12 +674,8 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                     <input type="text" class="form-control" v-model="config.appName">
                                 </div>
                                 <div class="form-group">
-                                    <label for="fileSizeLimit">File Size Limit (in MB)</label>
+                                    <label for="fileSizeLimit">File Size Limit (<span id="mbCalc">{{ (config.fileSizeLimit/(1024*1024)).toFixed(3) }}</span> MB)</label>
                                     <input type="number" class="form-control" v-model="config.fileSizeLimit">
-                                </div>
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="apiAccess" v-model="config.apiAccess">
-                                    <label class="form-check-label" for="apiAccess">Enable API Access</label>
                                 </div>
                                 <div class="form-group">
                                     <label for="defaultTheme">Default Theme</label>
@@ -668,7 +688,7 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                 <div class="form-group">
                                     <label for="accentColor">Accent Color</label>
                                     <input type="color" class="border-0 mx-3" v-model="config.accentColor">
-                                    <button class="btn"  @click="config.accentColor = ''">reset</button>
+                                    <button class="btn" @click="config.accentColor = ''">reset</button>
                                 </div>
                                 <button type="submit" class="btn btn-primary bg">Save Settings</button>
                             </form>
@@ -693,7 +713,7 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                     <h1 class="text-center">About</h1>
                                     <form>
                                         <div class="form-group">
-                                            <label for="app-name">App Name</label>
+                                            <label for="app-name">System App Name</label>
                                             <input type="text" class="form-control" id="app-name" value="<?= $setupData->name ?>" disabled>
                                         </div>
                                         <div class="form-group">

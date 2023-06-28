@@ -135,7 +135,7 @@ require "header.php";
               Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: response.message
+                text: response.msg
               });
             }
           },

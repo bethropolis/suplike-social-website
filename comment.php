@@ -14,8 +14,10 @@ $user = isset($_SESSION['userUid']) ? $_SESSION['userUid'] : '';
 $post_id = $_GET['id'];
 $sql = "SELECT `users`.`uidusers`, `users`.`profile_picture`, `users`.`usersFirstname`, `users`.`usersSecondname`, `comments`.* 
         FROM `users`, `comments`
-        WHERE `comments`.`post_id` ='$post_id' AND ((`uidusers` = `comments`.`user`) OR (`comments`.`user` = 'deleted')) 
+        WHERE `comments`.`post_id` = '$post_id' 
+        AND (`uidusers` = `comments`.`user` OR `comments`.`user` = 'deleted' AND `uidusers` IS NOT NULL) 
         ORDER BY `comments`.`date` DESC";
+
 
 
 $active = isset($_GET['comment']) ? $_GET['comment'] : '';
@@ -63,7 +65,7 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
         ?>
               <div class="comment-container <?= ($comment['parent_id'] !== null) ? 'reply-container' : '' ?> <?= $active == $comment['id'] ? 'highlight shadow' : '' ?>" id="comment-<?= $comment['id'] ?>" style="margin-left: <?= $indent ?>px" data-comment-id="<?= ($comment['id'] ?? null) ?>">
                 <div class="comment-header">
-                  <img src="img/<?= ($comment["user"] !== "deleted" ? $comment['profile_picture'] : "default.jpg") ?? 'default.jpg' ?>" class="user-image" loading="lazy">
+                  <img src="img/<?= $comment['profile_picture']  ?? 'default.jpg' ?>" class="user-image" loading="lazy">
                   <div class="user-info">
                     <span class="user-name co">
                       <?= $comment["user"] ?>

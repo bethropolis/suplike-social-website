@@ -3,6 +3,10 @@ define('SESSION_UNVERIFY', true);
 require "../r.php";
 session_start();
 
+if ($un_ravel->_isStatus($_SESSION['userId'], 'blocked')) {
+    $error->err("API access", 22, "account has been blocked. contact admin");
+    die();
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     $name = $_POST['name'];
     $username = $_POST['username'];
@@ -70,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     $usersSql = "INSERT INTO users (uidusers, emailusers, pwdUsers, usersFirstname, usersSecondname, isBot, profile_picture, bio) 
                 VALUES (?, '', ?,?,?, 1, ?, ?)";
     $usersStmt = $conn->prepare($usersSql);
-    $usersStmt->bind_param("ssssss", $username, $hashedPwd,$firstname,$lastname ,$iconName, $bio);
+    $usersStmt->bind_param("ssssss", $username, $hashedPwd, $firstname, $lastname, $iconName, $bio);
     $usersStmt->execute();
 
     $usersStmt->close();
@@ -109,18 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
         'chat_token' => $chatToken
     );
     echo json_encode($response);
-} 
-
-
-if(isset($_POST["block"])){
-if($bot->disableBot($_POST["block"], filter_var($_POST['set'], FILTER_VALIDATE_BOOLEAN))){
-    $msg = !$_POST['set'] ? "Bot enabled" : "Bot disabled";
-    $response = array(
-        'status' => 'success',
-        'message' => $msg
-    );
-    echo json_encode($response);
-}else{
-    $error->err("API", 26, "Could not disable bot" );
 }
+
+
+if (isset($_POST["block"])) {
+    if ($bot->disableBot($_POST["block"], filter_var($_POST['set'], FILTER_VALIDATE_BOOLEAN))) {
+        $msg = !$_POST['set'] ? "Bot enabled" : "Bot disabled";
+        $response = array(
+            'status' => 'success',
+            'message' => $msg
+        );
+        echo json_encode($response);
+    } else {
+        $error->err("API", 26, "Could not disable bot");
+    }
 }

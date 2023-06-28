@@ -31,7 +31,7 @@ if (isset($_SESSION['userUid'])) {
                 ?>
             </div>
 
-            <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
+            <!-- ------------------------------------------- this is the stories viewer  --------------------------------------------------------------->
             <div class="cont">
                 <i class="fa fa-times fa-2x text-white" id="stop_it"></i>
                 <div data-slide="slide" class="slide">
@@ -46,8 +46,13 @@ if (isset($_SESSION['userUid'])) {
                     </nav>
                 </div>
             </div>
+
+            <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
             <div class="col-sm-6 p-0">
-                <?php require "./story.php" ?>
+                <?php
+                require_once 'template/alert.php';
+                require_once "./story.php";
+                ?>
                 <div class="container-lg nav-hide">
                     <form action="inc/post.inc.php" class="mx-auto ca p-2 my-2 col-12 form bg-light text-center postform" method="POST" enctype="multipart/form-data">
                         <img src="" id="imagedisp" alt="" class="mx-auto my-3" style="max-height: 172px; width: auto; margin: 7px;">
@@ -76,7 +81,7 @@ if (isset($_SESSION['userUid'])) {
                         <?php echo $name; ?>
                     </h4>
 
-                    <a href="./profile.php" class="w-75 mx-auto" >
+                    <a href="./profile.php" class="w-75 mx-auto">
                         <h5 class="text-center  userName co">
                             <?php echo "@" . $user; ?>
                         </h5>

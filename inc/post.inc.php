@@ -277,7 +277,7 @@ if (isset($_POST['upload'])) {
 
 if (isset($_GET['user'])) {
     $result_array = [];
-    $user = $un_ravel->_getUser($_GET['user']);
+    $user = $_SESSION["userId"];
 
     $query = "SELECT posts.*, COUNT(comments.id) AS comments_count,
                 users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture,
@@ -320,48 +320,40 @@ if (isset($_GET['user'])) {
 
 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $sql = "SELECT * FROM `posts` WHERE `post_id`=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
+    $result_array = [];
+    $user = $_SESSION['userId'];
+    $post_id = $_GET['id'];
+
+
+    $query = "SELECT posts.*, COUNT(comments.id) AS comments_count,
+    users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture,
+    auth_key.token, auth_key.chat_auth,
+    IF(likes.user_id = ?, 1, 0) AS liked
+  FROM posts
+  INNER JOIN users ON posts.userid = users.idusers
+  INNER JOIN auth_key ON users.idusers = auth_key.user
+  LEFT JOIN comments ON posts.post_id = comments.post_id
+  LEFT JOIN likes ON posts.id = likes.post_id AND likes.user_id = ?
+  WHERE posts.post_id = ?";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("iis", $user, $user, $post_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $user = $row['userid'];
+    $result_array = $result->fetch_all(MYSQLI_ASSOC);
 
-    # get user
-    $sql = "SELECT `idusers`,`uidusers`,`usersFirstname`,`usersSecondname`,`profile_picture`,`token` FROM `users`,`auth_key` WHERE `users`.`idusers`=? AND `auth_key`.`user` = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $user, $user);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $resp = $result->fetch_assoc();
-    $row['user'] = ['id' => $un_ravel->_queryUser($user, 4), 'name' => $resp['uidusers'], 'profile_picture' => $resp['profile_picture']];
-    $post_id = $row['post_id'];
-
-    # get number of likes
-    $sql = "SELECT * FROM `likes` WHERE `post_id`=? AND `user_id`=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $id, $user);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $r = $result->fetch_assoc();
-
-    if (!is_null($r)) {
-        $row['liked'] = true;
-    } else {
-        $row['liked'] = false;
+    foreach ($result_array as &$row) {
+        $text = $row['image_text'];
+        $text = trim(preg_replace('/\s+/', ' ', $text));
+        $text = trim(preg_replace('/\s\s+/', ' ', $text));
+        $row['image_text'] = $text;
+        $row['user'] = ['id' => $un_ravel->_queryUser($row['userid'], 4), 'name' => $row['uidusers']];
+        $row['comments'] = $row['comments_count'];
+        unset($row['comments_count']);
     }
+    unset($row);
 
-    # get number of comments
-    $sql = "SELECT * FROM `comments` WHERE `post_id`=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $post_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row['comments'] = $result->num_rows;
-
-    print_r(json_encode($row));
+    print_r(json_encode($result_array));
 }
 
 if (isset($_GET['del_post'])) {

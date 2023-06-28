@@ -42,19 +42,20 @@ $user_id = $_SESSION['token'];
         <h3 class="co ml-4">appearance</h3>
       </div>
     </a>
-    <a href="?delete" class="page-link tab_bg border-bottom">
-      <div class="settings-option text-left">
-        <h3 class="co ml-4">delete account</h3>
-      </div>
-    </a>
     <a href="?password" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
         <h3 class="co ml-4">password</h3>
       </div>
     </a>
+    <a href="?delete" class="page-link tab_bg border-bottom">
+      <div class="settings-option text-left">
+        <h3 class="co ml-4">delete account</h3>
+      </div>
+    </a>
+
     <a href="?developer" class="page-link tab_bg border-bottom">
       <div class="settings-option text-left">
-        <h3 class="co ml-4">developer</h3>
+        <h3 class="co ml-4">advanced</h3>
       </div>
     </a>
     <a href="inc/logout.inc.php" onclick="sessionStorage.clear();sessionStorage.setItem('load', true)" class="page-link tab_bg border-bottom">
@@ -88,7 +89,7 @@ $user_id = $_SESSION['token'];
           <span for="color" class="col-6 co">Accent color <span class="small text-muted">(dark mode)</span> </span>
           <input type="color" name="huntry" id="color" value="#6c5ce7" class="border-0 mx-2 bg-transparent ">
           <button id="apply-color" class="btn bg mx-2" onclick="location.reload()">aply</button>
-          <button id="reset-color" class="btn btn-outline-info mx-2">reset</button>
+          <button id="reset-color" class="btn excl btn-outline-info mx-2">reset</button>
         </div>
       </div>
     <?php
@@ -193,7 +194,8 @@ $user_id = $_SESSION['token'];
             </label>
             <input type="file" title="change profile pic" accept=".png,.gif,.jpg,.webp" name="file" id="profile-pic" style="display: none;" data-toggle="tooltip" data-placement="top" title="click to select image" required /><br>
           </div>
-          <button class="btn profile-btn bg" for="profile-pic" type="submit" style="width: fit-content;margin: 0 auto;" data-toggle="tooltip" data-placement="bottom" title="click above image to upload" disabled>change profile picture</button>
+          <button class="btn profile-btn bg" for="profile-pic" type="submit" style="width: fit-content;margin: 0 auto;" data-toggle="tooltip" data-placement="bottom" title="click above image to upload" disabled>change profile
+            picture</button>
 
         </form>
         <br><br>
@@ -215,9 +217,9 @@ $user_id = $_SESSION['token'];
             <div class="input-group">
               <input type="email" class="form-control" name="email" id="email" value="<?php echo $result['emailusers']; ?>">
               <?php
-              if (!$un_ravel->_isEmail_verified($user_id) && !empty($result['emailusers'])) {
+              if (!$un_ravel->_isEmail_verified($user_id) && !empty($result['emailusers']) && EMAIL_VERIFICATION) {
               ?>
-                <button type="button" class="btn <?= $un_ravel->_isEmail_verified($user_id)  ? "bg-success" : "bg" ?>" id="send-v" style="display: none;">
+                <button type="button" class="btn <?= $un_ravel->_isEmail_verified($user_id) ? "bg-success" : "bg" ?>" id="send-v" style="display: none;">
                   Verify
                 </button>
               <?php } ?>
@@ -344,15 +346,15 @@ require 'footer.php';
     $('#color').change(function() {
       var color = $(this).val();
       localStorage.setItem('color', color);
-      $("#apply-color").css('background',color);
+      $("#apply-color").css('background', color);
     });
     $('#reset-color').click(function() {
       $('#color').val("#6c5ce7")
-      localStorage.setItem('color', "#6c5ce7");
+      localStorage.removeItem('color');
     })
 
-    if(localStorage.getItem('color')){
-       $('#color').val(localStorage.getItem('color'))
+    if (localStorage.getItem('color')) {
+      $('#color').val(localStorage.getItem('color'))
     }
 
     $('.delete-user').on('input', function() {

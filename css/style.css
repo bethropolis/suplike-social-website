@@ -210,7 +210,7 @@ li {
 .bg {
   background: var(--ho);
 }
-.btn {
+.btn:not(.excl) {
   color: var(--btn-co);
 }
 .btn:focus {
@@ -313,7 +313,6 @@ input[type="email"],
 input[type="password"],
 .cookie {
   width: 76%;
-  outline: none;
   border: none;
   color: #121212;
   font-family: inherit;

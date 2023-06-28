@@ -8,8 +8,6 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website/badge)](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website)
 ![code](https://badgen.net/github/license/micromatch/micromatch)
 
-
-
 <p>
  suplike is a social website similar to instagram and facebook for socializing and communications.<br />
  I built it some years back and it has been one of my favourite projects.<br/>
@@ -21,9 +19,8 @@ check out [demo]('https://suplike.xyz);
 
 </p>
 
+# Table
 
-
-# Table 
 - [getting started](#getting-started)
   - [Installation](#installation)
   - [instalation steps](#installation-steps)
@@ -55,40 +52,42 @@ check out [demo]('https://suplike.xyz);
 
 1. Download the latest release file.
 
-   * [v1.46 zip file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.zip)
-   * [v1.46 tar.gz file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.tar.gz)
+   - [v1.46 zip file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.zip)
+   - [v1.46 tar.gz file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.tar.gz)
 
    you can get other releases [here](https://github.com/bethropolis/suplike-social-website/releases).
 
 2. unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using.
-> I recommend renaming the folder to `suplike` (the url will be shorter).
+   > I recommend renaming the folder to `suplike` (the url will be shorter).
 
 <br/>
 
 alternatively you can clone the repository to your `htdocs` or `www` folder.
-   ```
-     git clone https://github.com/bethropolis/suplike-social-website.git suplike
-   ```
-> now you are ready to setup.
 
+```
+  git clone https://github.com/bethropolis/suplike-social-website.git suplike
+```
+
+> now you are ready to setup.
 
 ## setup and configure database
 
 ### using the GUI
- the GUI is a nicer interface which will automatically setup the database and create admin account for you easily.
+
+the GUI is a nicer interface which will automatically setup the database and create admin account for you easily.
 
 ![GUI](_githubasserts/gui.png)
 <br>
 To open the GUI, start apache if off, then on the browser navigate to `https://localhost/suplike/inc/setup/`, insert the credentials to your database and admin account after which you will automatically be logged in as admin.
 
 > please note in the url, replace `suplike` with what you named the folder or the folders name.
-<br>
+> <br>
 
 ### incase GUI doesn't work
 
-1. Edit the `inc/setup/setup.suplike.json` file and set the value of `"setup"` to  `false` then reopen the GUI in your browser.
+1. Edit the `inc/setup/setup.suplike.json` file and set the value of `"setup"` to `false` then reopen the GUI in your browser.
 
-2. Do it Manually, Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function. Next, change the code below to the respective database credentials and insert it into `inc/setup/env.php`  ; 
+2. Do it Manually, Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function. Next, change the code below to the respective database credentials and insert it into `inc/setup/env.php` ;
 
 ```php
  if (!defined('DB_DATABASE'))        define('DB_DATABASE', 'suplike');
@@ -153,7 +152,9 @@ check `HISTORY.md`
 </p>
 
 # features
+
 ## Mobile UI
+
 <img src="./_githubasserts/mobile.jpg" align="center" style="width: 70%">
 <br/>
 The site is mobile friendly with a cool and nice mobile UI + dark theme
@@ -182,6 +183,7 @@ and it is more mobile responsive than previous and the only client page that use
 ## home page
 
 <img src="./_githubasserts/10.png" align="center" style="width: 70%"><br>
+
 the home page is the main page where you can see post from some of the people you follow
 and the first page you will land on.
 
@@ -211,6 +213,7 @@ the search page is where you can search for users for now.
 The following page is where you can vue the users you follow (for now);
 
 ## other user pages
+
 <img src="./_githubasserts/8.png" align="center" style="width: 70%"><br>
 <br/>
 
@@ -243,7 +246,7 @@ The Admin Dashboard allows you to see analytics and perform moderation functions
 
 # inspiration
 
-my biggest inspiration to make this website was was the [KLIK social website](https://github.com/msaad1999/KLiK-SocialMediaWebsite) on github
+my biggest inspiration to make this app was was the [KLIK social website](https://github.com/msaad1999/KLiK-SocialMediaWebsite) on github
 whom I also made > 50% of the Readme from, thank you [msaad1999](https://github.com/msaad1999) for making an amazing project.
 
 # behind it all

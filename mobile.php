@@ -2,7 +2,7 @@
   <a href="home" class="no-style">
     <div class="tab purple">
       <i class="fas fa-home"></i>
-      <p class="mt-2" style="margin-bottom: .5rem;">Home</p>
+      <p class="mt-2" style="margin-bottom: .5rem;">home</p>
     </div>
   </a>
   <a href="social" class="no-style">
@@ -20,13 +20,13 @@
   <a href="notification" class="no-style">
     <div class="tab teal">
       <i class="far fa-bell"></i>
-      <p class="mt-2" style="margin-bottom: .5rem;">Notifications</p>
+      <p class="mt-2" style="margin-bottom: .5rem;">notifications</p>
     </div>
   </a>
   <a href="profile" class="no-style">
     <div class="tab blue">
       <i class="fas fa-user"></i>
-      <p class="mt-2" style="margin-bottom: .5rem;">Profile</p>
+      <p class="mt-2" style="margin-bottom: .5rem;">profile</p>
     </div>
   </a>
 </div>
