@@ -141,7 +141,7 @@ nav.navbar {
 nav.fa {
   color: var(--icon-dark) !important;
 }
-nav img {
+nav svg {
   height: 40px;
   width: 40px;
 }

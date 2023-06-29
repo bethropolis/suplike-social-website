@@ -89,15 +89,19 @@ function render(post) {
     <div class="post-div shadow">
       <div class="d-flex justify-content-between p-2 px-3">
         <div class="d-flex flex-row align-items-center">
+            <a href="profile.php?id=${_user.id}">
           <img
             src="img/${post.profile_picture}"
             width="36px"
             height="36px"
             class="rounded-circle"
           />
+            </a>
           <div class="d-flex flex-column ml-2">
             <a href="profile.php?id=${_user.id}">
-              <small class="text-left text-muted text-primary usn py-2 ml-1">@${_user.name}</small>
+              <small class="text-left text-muted text-primary usn py-2 ml-1">@${_user.name}
+              ${post.admin ? "<i class='fa fa-user-shield text-muted  mx-1'></i>" : ""}  
+              ${post.bot ? "<i class='fa fa-robot text-muted  mx-1'></i>" : ""}</small>
             </a>
           </div>
         </div>

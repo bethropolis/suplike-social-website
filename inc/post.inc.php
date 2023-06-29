@@ -280,7 +280,7 @@ if (isset($_GET['user'])) {
     $user = $_SESSION["userId"];
 
     $query = "SELECT posts.*, COUNT(comments.id) AS comments_count,
-                users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture,
+                users.uidusers, users.usersFirstname, users.usersSecondname, users.isAdmin as 'admin', users.isBot as 'bot', users.profile_picture,
                 auth_key.token, auth_key.chat_auth,
                 IF(likes.user_id = ?, 1, 0) AS liked
               FROM posts
@@ -327,7 +327,7 @@ if (isset($_GET['id'])) {
 
     $query = "SELECT posts.*, COUNT(comments.id) AS comments_count,
     users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture,
-    auth_key.token, auth_key.chat_auth,
+    users.isAdmin as 'admin', users.isBot as 'bot',auth_key.token, auth_key.chat_auth,
     IF(likes.user_id = ?, 1, 0) AS liked
   FROM posts
   INNER JOIN users ON posts.userid = users.idusers

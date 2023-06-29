@@ -164,7 +164,7 @@ let app = new Vue({
         },
         saveConfig() {
             $.post('../inc/setup/save_config', this.config, function (data) {
-                console.log(data);
+                $('.success-banner').fadeIn().delay(2000).fadeOut();
             });
         },
         chart: function () {

@@ -581,6 +581,12 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                     <!-------------------------------- the settings section ----------------->
                     <div class="settings co" v-show="stage == 10">
                         <h1 class="mt-2">Settings</h1>
+
+                        <div class="success-banner" style="display: none;">
+                            <div class="alert alert-success" role="alert">
+                                Success! The form has been submitted.
+                            </div>
+                        </div>
                         <ul class="nav nav-tabs mb-2">
                             <li class="nav-item">
                                 <a class="nav-link c-ho" @click.prevent="settings = 1" :class="settings == 1 ? 'active':''" href="#">general</a>

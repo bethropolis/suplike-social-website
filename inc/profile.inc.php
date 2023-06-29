@@ -29,7 +29,7 @@ if (!empty($id)) {
   $query = "SELECT `users`.`uidusers`, `users`.`usersFirstname`, `users`.`usersSecondname`, `users`.`last_online`, `users`.`profile_picture`, `users`.`followers`, `users`.`following`, `users`.`bio`, `users`.`date_joined`,`chat_auth`,`user_auth` FROM `users`,`auth_key` WHERE `users`.`idusers` = $id AND `auth_key`.`user` ='$id' ";
   $answer['user'] = $conn->query($query)->fetch_assoc();
 
-  $query = "SELECT * FROM `posts` WHERE `userid`='$id' ORDER BY `time` DESC";
+  $query = "SELECT * FROM `posts` WHERE `userid`='$id' ORDER BY `time` DESC LIMIT 100";
   $result = $conn->query($query);
   $answer['user']['no_posts'] = $result->num_rows;
 

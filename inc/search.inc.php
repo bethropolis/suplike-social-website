@@ -122,7 +122,8 @@ if (isset($_GET['query'])) {
         }
     } else if ($type === 'post-tags') {
         // Fetch the posts that match the tag name
-        $sql = "SELECT p.id, p.post_id, p.repost, p.image, p.image_text, p.userid, p.type, p.date_posted, p.post_likes, p.day, p.time, u.idusers, u.uidusers, u.profile_picture, u.usersFirstname, u.usersSecondname,
+        $sql = "SELECT p.id, p.post_id, p.repost, p.image, p.image_text, p.userid, p.type, p.date_posted, p.post_likes, p.day, p.time,
+                 u.idusers, u.uidusers, u.profile_picture, u.usersFirstname, u.usersSecondname,u.isAdmin, u.isBot,
         (CASE WHEN EXISTS (SELECT id FROM likes WHERE post_id = p.id AND user_id = ?) THEN true ELSE false END) AS liked,
         GROUP_CONCAT(t.name) AS tags,
         (SELECT COUNT(*) FROM comments WHERE post_id = p.post_id) AS comment_count
@@ -164,6 +165,8 @@ if (isset($_GET['query'])) {
                     "image_text" => $row["image_text"],
                     "userid" => $row["userid"],
                     "type" => $row["type"],
+                    "admin" => $row["isAdmin"],
+                    "bot" => $row["isBot"],
                     "date_posted" => $row["date_posted"],
                     "post_likes" => $row["post_likes"],
                     "day" => $row["day"],
