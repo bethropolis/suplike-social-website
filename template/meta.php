@@ -1,14 +1,14 @@
 
-<title>Suplike social website</title>
-<meta name="description" content="suplike social is a website for friends and family to share" />
+<title><?= APP_NAME ?></title>
+<meta name="description" content="<?= APP_NAME ?> is a website for friends and family to share" />
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://bethro.alwaysdata.net" />
+<meta property="og:url" content="<?= BASE_URL ?>" />
 <meta property="og:title" content="join in and meet with others" />
-<meta property="og:site_name" content="suplike social website">
-<meta property="og:description" content="suplike social is a website for friends and family to share" />
-<meta property="og:image" content="https://bethro.alwaysdata.net/img/graphic.png" />
-<link itemprop="thumbnailUrl" href="https://bethro.alwaysdata.net/img/graphic.png" />
+<meta property="og:site_name" content="<?= APP_NAME ?> website">
+<meta property="og:description" content="<?= APP_NAME ?> is a website for friends and family to share" />
+<meta property="og:image" content="<?= BASE_URL ?>/img/graphic.png" />
+<link itemprop="thumbnailUrl" href="<?= BASE_URL ?>/img/graphic.png" />
 <meta property="og:image:width" content="300">
 <meta property="og:image:height" content="150">
 <!-- No need to change anything here -->
@@ -17,9 +17,9 @@
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content="https://bethro.alwaysdata.net" />
-<meta property="twitter:title" content="suplike social" />
-<meta property="twitter:description" content="suplike social is a website for friends and family to share" />
-<meta property="twitter:image" content="https://bethro.alwaysdata.net/img/graphic.png" />
+<meta property="twitter:url" content="<?= BASE_URL ?>" />
+<meta property="twitter:title" content="<?= APP_NAME ?>" />
+<meta property="twitter:description" content="<?= APP_NAME ?> is a website for friends and family to share" />
+<meta property="twitter:image" content="<?= BASE_URL ?>/img/graphic.png" />
 
-<meta name="theme-color" content="#6c5ce7">
+<meta name="theme-color" content="<?= ACCENT_COLOR ?>">

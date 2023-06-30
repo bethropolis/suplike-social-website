@@ -592,11 +592,10 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                 <a class="nav-link c-ho" @click.prevent="settings = 1" :class="settings == 1 ? 'active':''" href="#">general</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link c-ho" @click.prevent="settings = 2" :class="settings == 2 ? 'active':''" href="#">API</a>
+                                <a class="nav-link c-ho" @click.prevent="settings = 3" :class="settings == 3 ? 'active':''" href="#">application</a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link c-ho" @click.prevent="settings = 3" :class="settings == 3 ? 'active':''" href="#">Email</a>
+                                <a class="nav-link c-ho" @click.prevent="settings = 2" :class="settings == 2 ? 'active':''" href="#">API</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link c-ho" @click.prevent="settings = 4" :class="settings == 4 ? 'active':''" href="#">config</a>
@@ -654,7 +653,19 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                             <form @submit.prevent="saveConfig">
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="emailVerification" v-model="config.emailVerification">
-                                    <label class="form-check-label" for="emailVerification">Enable Email Verification</label>
+                                    <label class="form-check-label" for="emailVerification">Enable/Disable Email Verification</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="userSignup" v-model="config.userSignup">
+                                    <label class="form-check-label" for="userSignup">Enable/Disable User Signup</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="userPost" v-model="config.userPost">
+                                    <label class="form-check-label" for="userPost">Enable/Disable User Post</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="userComments" v-model="config.userComments">
+                                    <label class="form-check-label" for="userComments">Enable/Disable User Comments</label>
                                 </div>
                                 <div class="form-group">
                                     <label for="appEmail">App Email <span class="small text-muted">(the email used to send verifications)</span></label>
@@ -663,6 +674,7 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                 <button type="submit" class="btn btn-primary bg">Save Settings</button>
                             </form>
                         </div>
+
                         <div v-if="settings === 2" class="container">
                             <form @submit.prevent="saveConfig">
                                 <div class="form-group form-check">
@@ -764,9 +776,12 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
             appEmail: '<?= APP_EMAIL ?>',
             appName: '<?= defined('APP_NAME') ? APP_NAME : '' ?>',
             fileSizeLimit: <?= defined('FILE_SIZE_LIMIT') ? FILE_SIZE_LIMIT : 0 ?>,
-            apiAccess: <?= (defined('API_ACCESS') ? API_ACCESS : "false") ? 'true' : 'false'   ?>,
+            apiAccess: <?= defined('API_ACCESS') ? API_ACCESS ? 'true' : 'false' : 'false' ?>,
             defaultTheme: '<?= defined('DEFAULT_THEME') ? DEFAULT_THEME : 'light' ?>',
-            accentColor: '<?= (defined('ACCENT_COLOR') ? ACCENT_COLOR : '') ?? '' ?>'
+            accentColor: '<?= defined('ACCENT_COLOR') ? ACCENT_COLOR : '' ?>',
+            userSignup: <?= defined('USER_SIGNUP') ? USER_SIGNUP ? 'true' : 'false' : 'false' ?>,
+            userPost: <?= defined('USER_POST') ? USER_POST ? 'true' : 'false' : 'false' ?>,
+            userComments: <?= defined('USER_COMMENTS') ? USER_COMMENTS ? 'true' : 'false' : 'false' ?>
         };
     </script>
     <script src="dashboard.js?opf"></script>

@@ -85,7 +85,6 @@ require "footer.php";
     let no_posts = mainload('./inc/search.inc.php?type=post-tags&query=<?= $topic ?>&user=')
     get_popular_tags();
     no_posts.then(data=>{
-    console.log(data)
     $('#topic-no').text(data);
     })
 </script>

@@ -3,17 +3,27 @@ header('content-type: application/json');
 include_once './dbh.inc.php';
 include_once './Auth/auth.php';
 include_once './extra/notification.class.php';
+include_once './extra/xss-clean.func.php';
 include_once './errors/error.inc.php';
 $notify = new Notification();
 session_start();
 
 $un_ravel->_isAuth();
 
+if (!defined("USER_COMMENTS") or !USER_COMMENTS) {
+    $error->err("Comments", 22, "commenting has been disabled by admin.");
+    exit();
+}
+
+
 if (isset($_POST['id'])) {
-    $comment = $_POST['comment'];
+    $comment = xss_clean($_POST['comment']);
+
     if (empty($comment)) {
-        die(json_encode(array('status' => 'error', 'message' => 'Comment cannot be empty')));
+        $error->err("Comments", 22, "Comment cannot be empty");
+        die();
     }
+
     $post = $_POST['id'];
     $user = $_SESSION['userUid'];
     $parent_id = isset($_POST['parent_id']) ? $_POST['parent_id'] : null;
@@ -32,7 +42,10 @@ if (isset($_POST['id'])) {
         $notify->notify($user, $text, 'post');
     }
 
-    print_r(json_encode('commented'));
+    print_r(json_encode([
+        "type" => "success",
+        "msg" => "commented",
+    ]));
 }
 
 
@@ -45,10 +58,10 @@ if (isset($_POST['del_comment_id'])) {
         $sql = "UPDATE `comments` SET `comment`='[deleted]', `user`='deleted' WHERE `id`='$comment_id'";
         $conn->query($sql);
         print_r(json_encode([
-            "type"=> "success",
-            "msg"=> "deleted",
+            "type" => "success",
+            "msg" => "deleted",
         ]));
-    }else{
-        $error->err("Comments",22,"not authorised to delete this comment");
+    } else {
+        $error->err("Comments", 22, "not authorised to delete this comment");
     }
 }

@@ -19,7 +19,7 @@ if (isset($_GET['user'])) {
         die();
     }
 
-    $following = $un_ravel->_getUser($_SESSION['token']);
+    $following = $un_ravel->_getUser($_GET['user']);
     $followed = $un_ravel->_getUser($_GET['following']);
     $key = $_GET['key'];
 
@@ -86,9 +86,8 @@ if (isset($_GET['user'])) {
         $notification->notify($followed,"$user followed you", 'follow');
 
         if($un_ravel->_isBot($followed)){
-            print_r([$followed,$id,$_GET['following']]);
 			$bot->setBot($followed);
-			$bot->send("follow", $_GET['following'], $id);
+			$bot->send("follow", $_GET['user'], $id);
 		}
     }
 

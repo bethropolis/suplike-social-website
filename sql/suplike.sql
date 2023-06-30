@@ -29,6 +29,15 @@ CREATE TABLE IF NOT EXISTS `auth_key` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='still in beta';
 
+CREATE TABLE IF NOT EXISTS `bots` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bot_id` int(11) NOT NULL,
+  `userid` int(11) NOT NULL COMMENT 'creator',
+  `webhook` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bot_uid` (`bot_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE IF NOT EXISTS `chat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -157,11 +166,11 @@ CREATE TABLE IF NOT EXISTS `tags` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `idusers` int(11) NOT NULL AUTO_INCREMENT,
-  `uidusers` tinytext NOT NULL,
+  `uidusers` varchar(21) NOT NULL,
   `emailusers` tinytext NOT NULL,
   `pwdUsers` varchar(255) NOT NULL,
-  `usersFirstname` tinytext DEFAULT NULL,
-  `usersSecondname` tinytext DEFAULT NULL,
+  `usersFirstname` tinytext DEFAULT '',
+  `usersSecondname` tinytext DEFAULT '',
   `isAdmin` tinyint(1) NOT NULL DEFAULT 0,
   `isBot` tinyint(1) NOT NULL DEFAULT 0,
   `email_verified` tinyint(1) DEFAULT 0,
@@ -173,10 +182,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `followers` int(11) NOT NULL,
   `following` int(11) NOT NULL,
   `bio` longtext NOT NULL,
+  `status` varchar(12) NOT NULL DEFAULT 'active',
   `date_joined` date NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`idusers`)
+  PRIMARY KEY (`idusers`),
+  UNIQUE KEY `uidusers` (`uidusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+ALTER TABLE `bots`
+  ADD CONSTRAINT `bots_ibfk_1` FOREIGN KEY (`bot_id`) REFERENCES `users` (`idusers`);
 
 ALTER TABLE `following`
   ADD CONSTRAINT `following_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`idusers`) ON DELETE NO ACTION ON UPDATE NO ACTION;

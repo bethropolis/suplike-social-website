@@ -1,13 +1,17 @@
 <?php
 
-require 'dbh.inc.php';
-require 'Auth/auth.php';
-require 'extra/xss-clean.func.php';
+require_once 'dbh.inc.php';
+require_once 'Auth/auth.php';
+require_once 'errors/error.inc.php';
+require_once 'extra/xss-clean.func.php';
 header('content-type: application/json');
 session_start();
 
 //auth check
 $un_ravel->_isAuth();
+
+
+
 
 
 function validate_input($type, $image_text, $file_size, $file_ext)
@@ -18,6 +22,7 @@ function validate_input($type, $image_text, $file_size, $file_ext)
     if ($type != "img" && $type != "txt") {
         return 'invalid post type';
     }
+
     // Check if the image text is empty
     if ($type == "txt" && $image_text === "") {
         return 'post text cannot be empty';
@@ -145,11 +150,23 @@ function insert_story($conn, $image_text, $image, $type, $user)
 // Check if upload is set
 if (isset($_POST['upload'])) {
 
+
     // Get the type and user from POST
     $type = $_POST['type'];
     $user = $_SESSION['userId'];
     $tags = $_POST['tags'];
 
+
+
+
+    if (!defined("USER_POST") or !USER_POST) {
+        if ($_POST['upload'] == 'post') {
+            $error->err("POST disabled", 33, "creating posts has been disabled");
+        } else {
+            header("Location: ../home.php?error=postoff");
+        }
+        die();
+    }
     // Create a DateTime object with timezone
     $d = new DateTime("now", $timeZone);
 
@@ -164,6 +181,7 @@ if (isset($_POST['upload'])) {
 
     // Get the check value from POST or false if not set
     $check = isset($_POST['community']) && $_POST['community'] == 'story' ? true : false;
+
 
     // Check if the type is image
     if ($type == 'img') {
@@ -182,14 +200,7 @@ if (isset($_POST['upload'])) {
         $validate = validate_input($type, $image_text, $file_size, $file_ext);
         if ($validate !== true) {
             if ($_POST['upload'] == 'post') {
-                print_r(
-                    json_encode(
-                        [
-                            "type" => 'error',
-                            "message" => $validate,
-                        ]
-                    )
-                );
+                $error->err("Post failed", 32, $validate );
             } else {
                 header("Location: ../home.php?upload=invalid");
             }
@@ -229,14 +240,7 @@ if (isset($_POST['upload'])) {
         $validate = validate_input($type, $image_text, 0, "");
         if ($validate !== true) {
             if ($_POST['upload'] == 'post') {
-                print_r(
-                    json_encode(
-                        [
-                            "type" => 'error',
-                            "message" => $validate,
-                        ]
-                    )
-                );
+                $error->err("Post failed", 32, $validate );
             } else {
                 header("Location: ../home.php?upload=invalid");
             }

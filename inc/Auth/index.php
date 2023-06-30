@@ -1,11 +1,10 @@
 <?php
 require "../dbh.inc.php";
 require "../errors/error.inc.php";
+session_start();
 
-$err->_set_log('../errors/error.log.txt'); // set where errors will be writen  
-
-if (!isset($_SESSION['userUid'])) {
-    $err->err('unkown', 7);
+if (!isset($_SESSION['userId'])) {
+    $error->err('unkown', 7);
     header('Location: ./login.php');
     exit();
 }
@@ -13,7 +12,7 @@ if (!isset($_SESSION['userUid'])) {
 if (isset($_GET["auth"])) {
     $auth = $_GET["auth"];
 } else {
-    $err->err($_SESSION['userId'], 7);
+    $error->err($_SESSION['userId'], 7);
     die("<h1> Cannot authenticate app </h1>");
 }
 
@@ -27,6 +26,9 @@ if (isset($_GET["auth"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>suplike Auth</title>
     <style>
+        body{
+            line-height: 1.6;
+        }
         .logo {
             background: url("../../img/logo.png");
             background-repeat: no-repeat;
@@ -39,7 +41,7 @@ if (isset($_GET["auth"])) {
 
         label {
             font-style: bold;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-family: arial-black, monospace;
         }
 
@@ -49,8 +51,8 @@ if (isset($_GET["auth"])) {
 
         .container {
             width: 80%;
-            max-width: 300px;
-            margin: 10px auto;
+            max-width: 600px;
+            margin: 1em auto;
         }
 
         .allow_button {
@@ -59,15 +61,15 @@ if (isset($_GET["auth"])) {
         }
 
         details {
-            font-size: 15px;
+            font-size: 20px;
         }
 
         details li {
-            font-size: 14px;
+            font-size: 18px;
         }
 
         p {
-            font-size: 11px;
+            font-size: 16px;
         }
 
         .allow {
@@ -78,6 +80,10 @@ if (isset($_GET["auth"])) {
             background: hsl(256, 80%, 58%);
             border: none;
             border-radius: 1.2rem;
+        }
+        .allow:hover,.allow:focus{
+            transform: scale(.9);
+            opacity: .7;
         }
     </style>
 </head>
@@ -90,7 +96,7 @@ if (isset($_GET["auth"])) {
         </div>
         <label for="request">the app requests The following access</label>
         <ul>
-            <details>
+            <details open>
                 <summary>account access</summary>
                 <li>user acount</li>
                 <li>see your email</li>

@@ -24,7 +24,9 @@ $fileSizeLimit = $_POST['fileSizeLimit'];
 $apiAccess = $_POST['apiAccess'] === 'true'   ? true : false;
 $defaultTheme = $_POST['defaultTheme'];
 $accentColor = $_POST['accentColor'];
-
+$userSignup = $_POST['userSignup'] === 'true' ? true : false;
+$userPost = $_POST['userPost'] === 'true' ? true : false;
+$userComments = $_POST['userComments'] === 'true' ? true : false;
 
 // Read the existing env.php file
 $envContent = file_get_contents('env.php');
@@ -68,6 +70,16 @@ if (!empty($defaultTheme) && $defaultTheme !== DEFAULT_THEME) {
 }
 if ($accentColor !== ACCENT_COLOR) {
     $envContent = preg_replace("/define\('ACCENT_COLOR',\s*'[^']*'\);/", "define('ACCENT_COLOR', '$accentColor');", $envContent);
+}
+
+if ($userSignup !== USER_SIGNUP) {
+    $envContent = preg_replace("/define\('USER_SIGNUP',\s*(true|false)\);/", "define('USER_SIGNUP', " . ($userSignup ? 'true' : 'false') . ");", $envContent);
+}
+if ($userPost !== USER_POST) {
+    $envContent = preg_replace("/define\('USER_POST',\s*(true|false)\);/", "define('USER_POST', " . ($userPost ? 'true' : 'false') . ");", $envContent);
+}
+if ($userComments !== USER_COMMENTS) {
+    $envContent = preg_replace("/define\('USER_COMMENTS',\s*(true|false)\);/", "define('USER_COMMENTS', " . ($userComments ? 'true' : 'false') . ");", $envContent);
 }
 
 // Save the updated content to env.php file

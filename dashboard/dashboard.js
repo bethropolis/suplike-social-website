@@ -452,7 +452,6 @@ let app = new Vue({
         },
         data: function () {
             this.dataLoaded = true;
-            console.log("data loaded");
         },
         online: function () {
             this.chart();

@@ -75,7 +75,7 @@ check out [demo]('https://bethro.alwaysdata.net/');
 
 1. Download the latest release file.
   
-  | File  | Description    |
+  | File                                                                                                     | Description                |
   | -------------------------------------------------------------------------------------------------------- | -------------------------- |
   | [v1.46 zip file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.zip)       | Latest release zip file    |
   | [v1.46 tar.gz file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.tar.gz) | Latest release tar.gz file |
@@ -102,13 +102,13 @@ the GUI is a nicer interface which will automatically setup the database and cre
 
 ![GUI](_githubasserts/gui.png)
 <br>
-by default the GUI should open by default on the first time you run the app. If it doesn't then on the browser navigate to `https://localhost/suplike/inc/setup/`.
+by default the GUI should open by default on the first time you run the app. If it doesn't then on the browser navigate to `{HOST_URL}/suplike/inc/setup/`.
 
 on the GUI you insert the credentials to your database and admin account after which you will automatically be logged in as admin.
 
 
 
-> please note in the url, replace `suplike` with what you named the folder or the folders name.
+> please note in the url, replace `suplike` with what you named the folder or the folders name (also remove if the app is on the root directory).
 > <br>
 
 ### incase GUI doesn't work
@@ -141,6 +141,7 @@ CSS3
 
 ```
 apache 2.4+
+MYSQL 9.0+
 ```
 
 #### Database
@@ -179,8 +180,8 @@ check `HISTORY.md`
 
 ![Alt text](_githubasserts/mobile.png)
 
-The app is mobile friendly and responsive + dark theme.
-
+The app is mobile friendly and responsive.
+the app's themes can easily be changed
 
 ## live messaging/chat system (whole new look)
 <details>
@@ -291,8 +292,7 @@ The Admin Dashboard allows you to see analytics and perform moderation functions
 
 # inspiration
 
-my biggest inspiration to make this app was was the [KLIK social website](https://github.com/msaad1999/KLiK-SocialMediaWebsite) on github
-whom I also made > 50% of the Readme from, thank you [msaad1999](https://github.com/msaad1999) for making an amazing project.
+my biggest inspiration to make this app was was the [KLIK social website](https://github.com/msaad1999/KLiK-SocialMediaWebsite) on github, thank you [msaad1999](https://github.com/msaad1999) for making an amazing project.
 
 # behind it all
 

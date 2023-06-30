@@ -4,20 +4,22 @@ require 'Auth/auth.php';
 require 'Auth/email.php';
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 
-$url = $protocol . $_SERVER['HTTP_HOST']."/";
+$url = $protocol . $_SERVER['HTTP_HOST'] . "/";
 if (isset($_POST['signup-submit'])) {
     $username = strtolower($_POST['uid']);
     $email = $_POST['mail'];
     $password = $_POST['pwd'];
     $oauth = new Auth();
 
-    if (empty($username) || empty($email) || empty($password)) {
+    if (!defined("USER_SIGNUP") or !USER_SIGNUP) {
+        header("Location: ../signup.php?error=signupoff");
+        exit();
+    }
+
+    if (empty($username) || empty($password)) {
         header("Location: ../signup.php?error=emptyfields&uid=" . $username . "&mail=" . $email);
         exit();
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match("/^[a-zA-Z0-9]*$/", $username)) {
-        header("Location: ../signup.php?error=invalidmail&uid");
-        exit();
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } else if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: ../signup.php?error=invalidmail&uid=" . $username);
         exit();
     } else if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
@@ -51,7 +53,7 @@ if (isset($_POST['signup-submit'])) {
                     mysqli_stmt_store_result($stmt);
                     $resultcheck = mysqli_stmt_num_rows($stmt);
 
-                    if ($resultcheck > 0) {
+                    if (!empty($email) && $resultcheck > 0) {
                         header("Location: ../signup.php?error=emailtaken&uid=" . $username);
                         exit();
                     }
@@ -72,10 +74,11 @@ if (isset($_POST['signup-submit'])) {
                     $response = (mysqli_fetch_assoc($conn->query($getId)))['idusers'];
                     $outhsql = "INSERT INTO `auth_key` (`user`,`user_auth`,`chat_auth`,`browser_auth`,`token`,`api_key`) VALUES ($response,'$oauth->user_auth','$oauth->chat_auth','$oauth->browser_auth','$oauth->token','$oauth->api_key') ";
                     $conn->query($outhsql);
-                    $link = "$url/inc/Auth/verify.php?id=" . $oauth->user_auth;
-                    $email_template = "Hey $username, <br> please confirm your email by clicking on the link below: <br> <a href='$link'>Confirm Email</a>";
-                    send_email($email, 'Suplike: Confirm your email', $email_template);
-
+                    if (!empty($email)) {
+                        $link = "$url/inc/Auth/verify.php?id=" . $oauth->user_auth;
+                        $email_template = "Hey $username, <br> please confirm your email by clicking on the link below: <br> <a href='$link'>Confirm Email</a>";
+                        send_email($email, 'Suplike: Confirm your email', $email_template);
+                    }
                     setcookie('token', $oauth->token, time() + (86400 * 30), "/");
                     $_SESSION['userId'] = $getId;
                     header("Location: ../search.php?q=e&id=$response&token=$oauth->token");

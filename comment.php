@@ -5,9 +5,10 @@ include_once './inc/extra/date.func.php';
 require_once 'header.php';
 
 if (!isset($_GET['id'])) {
-  echo "<h1 class='text-center'>Comment could not be found. Go <a href='./' class='alert text-info '>back</a></h1>";
+  echo "<h1 class='text-center co'>Comment could not be found. Go <a href='./' class='alert text-info '>back</a></h1>";
   die();
 }
+
 $user = isset($_SESSION['userUid']) ? $_SESSION['userUid'] : '';
 
 
@@ -90,11 +91,11 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
                       echo '<a href="#delete" onclick="deleteComment(' . $comment['id'] . ')"><i class="fas fa-trash-alt"></i> Delete</a>';
                     }
                     ?>
-                     <?php
+                    <?php
                     if ($comment["user"] != $user) {
-                      echo '<a href="./inc/report.inc.php?comment='.$comment['id'].'><i class="fas fa-exclamation-triangle"></i> Report</a>';
+                      echo '<a href="./inc/report.inc.php?comment=' . $comment['id'] . '><i class="fas fa-exclamation-triangle"></i> Report</a>';
                     }
-                      ?>
+                    ?>
 
                   <?php } ?>
                 </div>
@@ -144,7 +145,13 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       },
-      success: postSuccess,
+      success:function(data, textStatus, jqXHR) {
+        if (data.type == 'success') {
+          window.location.reload();
+          return
+        }
+        alert(data.msg)
+      }, 
       error: postError
     });
   }
@@ -201,7 +208,14 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       },
-      success: postSuccess,
+      success: function(data) {
+
+        if (data.type == "success") {
+          postSuccess()
+          return
+        }
+        alert(data.msg);
+      },
       error: postError
     });
   }

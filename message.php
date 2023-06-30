@@ -78,7 +78,7 @@ if (isset($_GET['id'])) {
 
 
     <!--    list of people  -->
-    <div v-if="chatwith==null" class=" st-3 conversation-area">
+    <div v-if="chatwith==null" class=" st-4 conversation-area">
       <h4>users</h4>
       <div v-for="(user,index) in online" @click="startChat(index)" class="msg st-4" :class="user.online? 'online': ''">
         <img class="msg-profile" :src="'img/'+user.profile_picture" alt="" onerror="this.error = null; this.src ='img/default.jpg' ">

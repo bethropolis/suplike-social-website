@@ -87,6 +87,14 @@ function render(post) {
   if (post.type == "img" || post.type == "txt") {
     return `
     <div class="post-div shadow">
+    ${post.repost !="" ?  `
+      <div class="d-flex justify-content-left py-1 px-3">
+      <a
+      href="post.php?id=${post.repost}"
+    >
+      <i class="fas fa-retweet"></i>
+       <span class="mx-2">repost</span></a>
+      </div>`:""}
       <div class="d-flex justify-content-between p-2 px-3">
         <div class="d-flex flex-row align-items-center">
             <a href="profile.php?id=${_user.id}">
@@ -105,6 +113,7 @@ function render(post) {
             </a>
           </div>
         </div>
+
         <div class="d-flex flex-row mt-1 ellipsis">
           <small class="mr-2 text-muted">${post.date_posted}</small>
           <a
