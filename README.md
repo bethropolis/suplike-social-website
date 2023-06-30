@@ -1,12 +1,12 @@
-<!-- ![logo](https://github.com/bethropolis/suplike-social-website/blob/master/img/suplike.png) -->
+![logo](https://github.com/bethropolis/suplike-social-website/blob/master/img/suplike.png)
 
 # hello welcome to suplike
 
-<!-- ![suplike](https://img.shields.io/badge/project-suplike%20%F0%9F%92%9C-%236c5ce7)
+![suplike](https://img.shields.io/badge/project-suplike%20%F0%9F%92%9C-%236c5ce7)
 [![github](https://badgen.net/badge/icon/github?icon=github&label)](https://github.com/bethropolis/suplike-social-website)
 ![watch](https://img.shields.io/github/stars/bethropolis/suplike-social-website.svg)
 [![CodeFactor](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website/badge)](https://www.codefactor.io/repository/github/bethropolis/suplike-social-website)
-![code](https://badgen.net/github/license/micromatch/micromatch) -->
+![code](https://badgen.net/github/license/micromatch/micromatch)
 
 <p>
  suplike social is a feature rich fully open source social network that is easy to selfhost.<br />
@@ -140,7 +140,7 @@ CSS3
 #### Development Environment
 
 ```
-xampp v3.2.4+
+apache 2.4+
 ```
 
 #### Database
@@ -177,8 +177,7 @@ check `HISTORY.md`
 
 ## Mobile UI
 
-![Alt text](_githubasserts/mobile.jpg)
-
+![Alt text](_githubasserts/mobile.png)
 
 The app is mobile friendly and responsive + dark theme.
 
