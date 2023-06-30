@@ -93,7 +93,7 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
 
             <ul class="navbar-nav  px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="co" :title="user" href="../profile.php"><img src="../img/<?= $_SESSION["profile-pic"] ?>" class="profile-img rounded-circle " alt="profile"></a>
+                    <a class="co" :title="user" href="../profile.php"><img :src="'../img/'+'<?= $_SESSION["profile-pic"] ?>'||'default.jpg'" class="profile-img rounded-circle " alt="profile"></a>
                 </li>
             </ul>
         </nav>

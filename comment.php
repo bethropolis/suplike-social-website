@@ -25,7 +25,7 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
 
 ?>
 
-<link rel="stylesheet" href="css/comment.css">
+<link rel="stylesheet" href="css/comment.min.css">
 <div class="row mob-m-0 p-0">
   <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
     <?php

@@ -25,7 +25,6 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
   <script src="lib/lazyload/jquery.lazyload-any.js" defer></script>
   <script src="./js/online.min.js" defer></script>
   <script src="registerSW.js"></script>
-  <script src="js/loader.min.js"></script>
   <script>
     // load css if localstorage  theme = dark
     let theme = localStorage.getItem('theme') || '<?= defined('DEFAULT_THEME') ? DEFAULT_THEME : 'light' ?>';
@@ -52,6 +51,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
     <progress-ring stroke="4" radius="60" progress="0"></progress-ring>
     <h2>suplike</h2>
   </div>
+  <script src="js/loader.min.js"></script>
   <header style="position: sticky;top: 0;z-index: 20;">
     <nav class="navbar sticky-top nav-hide navbar-expand-md p-1">
       <a href="./">
@@ -73,7 +73,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
         ?>
           <ul class="navbar-nav ml-auto mr-1">
             <?php
-            if ($_SESSION['isAdmin'] === 1) {
+            if ($_SESSION['isAdmin'] == 1) {
               echo '<div id="header-addons">';
               echo '<a href="./dashboard/"><i title="dashboard" class="fas fa-user-shield fa-2x"></i></a> ';
               echo '</div>';
@@ -130,7 +130,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
         ?>
           <a href="post.php"><i class="fas fa-plus mx-1"></i></a>
           <?php
-          if ($_SESSION['isAdmin'] === 1) {
+          if ($_SESSION['isAdmin'] == 1) {
           ?>
             <a href="./dashboard/">
               <i class="fas fa-user-shield"></i>

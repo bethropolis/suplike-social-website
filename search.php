@@ -43,7 +43,7 @@ if (isset($_GET['q'])) {
 
 ?>
 ,
-<link rel="stylesheet" href="css/search.css">
+<link rel="stylesheet" href="css/search.min.css">
 <div class="row">
   <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
     <?php

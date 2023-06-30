@@ -8,7 +8,7 @@ if (isset($_GET['tag'])) {
 <?php
 if (isset($_GET['id'])) {
 ?>
-    <link rel="stylesheet" href="css/post.css">
+    <link rel="stylesheet" href="css/post.min.css">
 
 <?php } ?>
 

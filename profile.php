@@ -30,10 +30,10 @@ if ($login) {
   $user_id = $usrtk;
 }
 ?>
-<link rel="stylesheet" href="css/post.css">
+<link rel="stylesheet" href="css/post.min.css">
 <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
 <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="js/index.js?v1.3"></script>
+<script type="text/javascript" src="js/index.min.js?v1.3"></script>
 <script>
   profile = "<?= $profile ?>";
   // took me long to debug but it is here where the post are rendered

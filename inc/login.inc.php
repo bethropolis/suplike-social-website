@@ -53,7 +53,7 @@ if (isset($_POST['login-submit'])) {
                     $_SESSION['firstname'] = $row['usersFirstname'];
                     $_SESSION['lastname'] = $row['usersSecondname'];
                     $_SESSION['age'] = $row['usersAge'];
-                    $_SESSION['profile-pic'] = $row['profile_picture'];
+                    $_SESSION['profile-pic'] = $row['profile_picture'] ? $row['profile_picture'] : 'default.jpg';
                     $_SESSION['isAdmin'] = $row['isAdmin'];
                     // set a cookie for the user to remember them for a week called token ($auth->user)
                     if ($_POST['remember']) {
