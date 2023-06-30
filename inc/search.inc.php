@@ -122,16 +122,20 @@ if (isset($_GET['query'])) {
         }
     } else if ($type === 'post-tags') {
         // Fetch the posts that match the tag name
-        $sql = "SELECT p.id, p.post_id, p.repost, p.image, p.image_text, p.userid, p.type, p.date_posted, p.post_likes, p.day, p.time, u.uidusers, u.profile_picture, u.usersFirstname, u.usersSecondname,
+        $sql = "SELECT p.id, p.post_id, p.repost, p.image, p.image_text, p.userid, p.type, p.date_posted, p.post_likes, p.day, p.time,
+                 u.idusers, u.uidusers, u.profile_picture, u.usersFirstname, u.usersSecondname,u.isAdmin, u.isBot,
         (CASE WHEN EXISTS (SELECT id FROM likes WHERE post_id = p.id AND user_id = ?) THEN true ELSE false END) AS liked,
-        GROUP_CONCAT(t.name) as tags
- FROM posts p
- INNER JOIN users u ON p.userid = u.idusers
- INNER JOIN post_tags pt ON pt.post_id = p.id
- INNER JOIN tags t ON t.id = pt.tag_id
- WHERE t.name LIKE ? AND p.deleted = false
- GROUP BY p.id
- ORDER BY p.time DESC LIMIT 15
+        GROUP_CONCAT(t.name) AS tags,
+        (SELECT COUNT(*) FROM comments WHERE post_id = p.post_id) AS comment_count
+    FROM posts p
+    INNER JOIN users u ON p.userid = u.idusers
+    INNER JOIN post_tags pt ON pt.post_id = p.id
+    INNER JOIN tags t ON t.id = pt.tag_id
+    WHERE t.name LIKE ? AND p.deleted = false
+    GROUP BY p.id
+    ORDER BY p.post_likes DESC
+    LIMIT 15
+    
 ";
         $stmt = $conn->prepare($sql);
         $query = "%$query%";
@@ -150,15 +154,19 @@ if (isset($_GET['query'])) {
                 while ($tag_row = $tags_result->fetch_assoc()) {
                     array_push($tags, $tag_row['name']);
                 }
-                $name = $row["usersFirstname"] . " " . $row["usersSecondname"];
+                $name = $row["uidusers"];
+                $profile_token = $un_ravel->_queryUser($row['idusers'], 4);
                 $result_array[] = array(
                     "id" => $row["id"],
                     "post_id" => $row["post_id"],
+                    "comments" => $row["comment_count"],
                     "repost" => $row["repost"],
                     "image" => $row["image"],
                     "image_text" => $row["image_text"],
                     "userid" => $row["userid"],
                     "type" => $row["type"],
+                    "admin" => $row["isAdmin"],
+                    "bot" => $row["isBot"],
                     "date_posted" => $row["date_posted"],
                     "post_likes" => $row["post_likes"],
                     "day" => $row["day"],
@@ -168,7 +176,7 @@ if (isset($_GET['query'])) {
                     "profile_picture" => $row["profile_picture"],
                     "user" => array(
                         "name" => $name,
-                        "profile_picture" => $row["profile_picture"],
+                        "id" => $profile_token,
                         "username" => $row["uidusers"]
                     ),
                     "liked" => $row["liked"]

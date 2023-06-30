@@ -1,4 +1,5 @@
 <?php
+
 require "header.php";
 require "mobile.php";
 $id = $_GET['id'] ?? '';
@@ -14,12 +15,12 @@ $id = $_GET['id'] ?? '';
     ?>
   </div>
 
-  <div class="col-sm-9 p-0">
+  <div class="col-sm-9 p-0 mb-4">
     <?php
 
     if (isset($_SESSION['token'])) {
       ?>
-      <main>
+      <main class="mb-5">
 
         <p class="status text center"></p>
 
@@ -64,11 +65,11 @@ $id = $_GET['id'] ?? '';
 
     function following_func(user, name, id, img, token) {
       if (img === null) {
-        img = 'M.jpg';
+        img = 'default.jpg';
       }
       return `
 <div class="follower-div">
- <img src="img/${img}" class="img-profile" onerror="this.error = null; this.src ='img/M.jpg' " alt="${user}">   
+ <img src="img/${img}" class="img-profile" onerror="this.error = null; this.src ='img/default.jpg' " alt="${user}">   
     <div class="user">
     <a href="profile.php?id=${token}"><h2>${name}</h2></a>
     <p class="co">@${user}</p>

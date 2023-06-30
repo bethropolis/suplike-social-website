@@ -1,0 +1,230 @@
+:root {
+  --primary-color: #7289da;
+  --secondary-color: #fff;
+  --text-color: #333;
+  --accent-color: #f0e8ff;
+  --hover-color: #677bc4;
+  --co: #333;
+  --purple: #733dd8;
+}
+
+.sidebar {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 20px;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: var(--co);
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--hover-color);
+}
+.stick {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.sidebar h2 {
+  font-size: 1.2em;
+  margin-top: 0;
+}
+.bg{
+  background-color: var(--hover-color);
+  color: var(--accent-color);
+}
+
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 10px 0;
+}
+
+.sidebar a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  font-weight: bold;
+}
+
+.main {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 20px;
+  margin: auto;
+}
+
+.main h1 {
+  font-size: 2em;
+  margin-top: 0;
+}
+
+.main p {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.token-section {
+  margin-top: 20px;
+}
+
+.token-section h4 {
+  font-size: 1.2em;
+  margin-top: 0;
+}
+
+.token-field {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--accent-color);
+}
+
+.generate-btn {
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.generate-btn:hover,
+.bg:hover {
+  background-color: var(--hover-color);
+}
+
+.bots-section {
+  margin-top: 20px;
+}
+
+.bots-section h4 {
+  font-size: 1.2em;
+  margin-top: 0;
+}
+
+.bot-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bot-item {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.bot-item img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.bot-info {
+  flex: 1;
+}
+
+.bot-info h5 {
+  font-size: 1.2em;
+  margin-top: 0;
+}
+
+.bot-info p {
+  font-size: 1.1em;
+  margin-top: 5px;
+}
+
+.create-bot-btn {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.create-bot-btn:hover {
+  background-color: var(--hover-color);
+}
+
+.create-bot-section {
+  margin-top: 20px;
+}
+
+.create-bot-section h4 {
+  font-size: 1.2em;
+  margin-top: 0;
+}
+
+.form-group {
+  margin-top: 10px;
+}
+
+.form-group label {
+  font-size: 1.1em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--accent-color);
+}
+
+.form-control-file {
+  margin-top: 5px;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border-color: var(--purple);
+  color: var(--purple);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+  background: var(--purple);
+  color: #ffffff;
+}
+
+.create-bot-submit {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.create-bot-submit:hover {
+  background-color: var(--hover-color);
+}
+
+@media screen and (max-width: 600px) {
+  .sidebar {
+    height: fit-content;
+  }
+  .stick {
+    position: relative;
+  }
+}

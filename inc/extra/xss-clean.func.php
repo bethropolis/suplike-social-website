@@ -1,4 +1,11 @@
 <?php
+/**
+ * Sanitizes input data to prevent cross-site scripting (XSS) attacks.
+ *
+ * @param mixed $data the data to be sanitized.
+ * @throws Exception if the input data is not in UTF-8.
+ * @return mixed the sanitized data.
+ */
 function xss_clean($data)
 {
     // Fix &entity\n;

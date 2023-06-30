@@ -16,10 +16,10 @@ if (isset($_POST['login-submit'])) {
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            $check_setup = file_get_contents("./setup.suplike.json");
+            $check_setup = file_get_contents("./setup/setup.suplike.json");
             $setup_data = json_decode($check_setup);
 
-            if ($setup_data->setup) {
+            if (!$setup_data->setup) {
                 header("Location: ../login.php?error=notset");
                 exit();
             }
@@ -32,6 +32,10 @@ if (isset($_POST['login-submit'])) {
             $result = mysqli_stmt_get_result($stmt);
 
             if ($row = mysqli_fetch_assoc($result)) {
+                if ($row['status'] == "blocked") {
+                    header("Location: ../login.php?error=disabled");
+                    exit();
+                }
                 $pwdCheck = password_verify($password, $row['pwdUsers']);
 
                 if ($pwdCheck === false) {
@@ -49,11 +53,11 @@ if (isset($_POST['login-submit'])) {
                     $_SESSION['firstname'] = $row['usersFirstname'];
                     $_SESSION['lastname'] = $row['usersSecondname'];
                     $_SESSION['age'] = $row['usersAge'];
-                    $_SESSION['profile-pic'] = $row['profile_picture'];
+                    $_SESSION['profile-pic'] = $row['profile_picture'] ? $row['profile_picture'] : 'default.jpg';
                     $_SESSION['isAdmin'] = $row['isAdmin'];
                     // set a cookie for the user to remember them for a week called token ($auth->user)
-                    if($_POST['remember']){
-                        setcookie('token', $auth->user, time() + (86400 * 7),'/');
+                    if ($_POST['remember']) {
+                        setcookie('token', $auth->user, time() + (86400 * 7), '/');
                     }
                     header("Location: ../home.php?login=success");
                     exit();

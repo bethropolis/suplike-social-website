@@ -28,10 +28,13 @@ body {
   background-color: var(--light);
   color: var(--co);
   outline: 0;
-  overflow: hidden;
-  overflow-y: hidden !important;
   box-sizing: border-box;
 } 
+
+body::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+}
 nav {
   /* sticky nav bar */
   position: sticky;
@@ -76,9 +79,12 @@ a {
   text-transform: uppercase;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.message-box{
+  position: relative;
+  top: 0;
+}
 .messages {
-  height: 82vh;
+  height: calc(100vh - 40px);
   overflow-x: hidden;
   padding: 10px;
   background: #ccc;
@@ -142,6 +148,10 @@ ul {
   transition: all 0.3s ease;
   z-index: 5;
 }
+.form-input:focus{
+  outline: 2px solid var(--ho);
+}
+
 
 
 
@@ -151,8 +161,8 @@ ul {
 
 .btn-send {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background-color: var(--ho);
   color: var(--light);
   border-radius: 50%;
@@ -206,7 +216,6 @@ ul {
   overflow: auto;
   background: var(--bg);
   /* improve scrolling */
-
 }
 .chat-area-profile {
   width: 32px;
@@ -265,7 +274,7 @@ ul {
   padding: 15px;
   min-width: 210px;
   border-radius: 20px 20px 20px 0;
-  line-height: 1.5;
+  line-height: 2.0;
   font-size: 14px;
   font-weight: 500;
    color: var(--dark);
@@ -283,7 +292,6 @@ ul {
   max-width: 372px;
   max-height: 290px;
   border-radius: 20px 20px 20px 0;
-  background-color: var(--chat-text-bg);
   padding: 15px;
   -webkit-border-radius: 20px 20px 20px 0;
   -moz-border-radius: 20px 20px 20px 0;
@@ -300,7 +308,7 @@ ul {
   align-items: flex-end;
 }
 .owner .chat-msg-text {
-  background-color: var(--chat-text-owner);
+  background-color: var(--ho);
   color: #fff;
   border-radius: 20px 20px 0 20px;
 }
@@ -347,7 +355,8 @@ ul {
   position: relative;
 }
 .msg:hover {
-  background-color: #695dc669 !important;
+  background-color: var(--ho) !important;
+  opacity: 0.9;
 }
 
 .msg.online:before {

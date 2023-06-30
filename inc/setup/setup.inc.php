@@ -1,91 +1,145 @@
 <?php
-include_once '../errors/error.inc.php';
-include_once '../Auth/auth.php';
-$oauth = new Auth();
-$error->_set_log("../errors/error.log.txt");
+require_once '../Auth/auth.php';
+require_once '../errors/error.inc.php';
 
-$check_setup = file_get_contents("./setup.suplike.json");
-$setup_data = json_decode($check_setup);
+$auth = new Auth();
+$errorHandler = new Err();
 
-if ($setup_data->setup) {
-    die("already setup");
+$setupData = json_decode(file_get_contents("./setup.suplike.json"));
+
+if ($setupData->setup) {
+    die("<h4>Already set up</h4>");
 }
 
-$servername = $_POST["server"];
-$dBuser = $_POST["name"];
-$dBPassword = $_POST["pwd"];
-
-
-
-$conn = mysqli_connect($servername, $dBuser, $dBPassword) or null;
-
-
-if (!$conn) {
-echo 'could not connect to db';    
-    print_r(file_get_contents('./setup/setup.html'));
+if (!isset($_POST["server"]) || !isset($_POST["name"]) || !isset($_POST["pwd"])) {
+    $errorHandler->err('Setup', 1, 'Missing database configuration info');
     die();
 }
-file_put_contents("env.php", "<?php");
-$fp =fopen("env.php","a");
-$conf = "\n if (!defined('DB_DATABASE'))           define('DB_DATABASE', 'suplike');";
-fwrite($fp,$conf);
-$conf = "\n if (!defined('DB_HOST'))              define('DB_HOST','$servername');";
-fwrite($fp,$conf);
-$conf = "\n if (!defined('DB_USERNAME'))          define('DB_USERNAME', '$dBuser');";
-fwrite($fp,$conf);
-$conf = "\n if (!defined('DB_PASSWORD'))           define('DB_PASSWORD', '$dBPassword');";
-fwrite($fp,$conf);
-$conf = "\n if (!defined('DB_PORT'))              define('DB_PORT',3306);";
-fwrite($fp,$conf);
-fclose($fp);
 
+$serverName = $_POST["server"];
+$dbUser = $_POST["name"];
+$dbPassword = $_POST["pwd"];
+$dbName = isset($_POST["db"]) && !empty($_POST["db"]) ? $_POST["db"] : 'suplike';
+$dropDatabase = isset($_POST["drop"]) && $_POST["drop"] == "on";
 
+// Create and select the database
+if (!$conn = mysqli_connect($serverName, $dbUser, $dbPassword)) {
+    $errorHandler->err('Setup', 2, 'Could not connect to the database');
+    die();
+}
 
-
-$sql_file = "../../sql/suplike.sql";
-
-// Temporary variable, used to store current query
-$templine = '';
-// Read in entire file
-$lines = file($sql_file);
-// Loop through each line
-foreach ($lines as $line) {
-    // Skip it if it's a comment
-    if (substr($line, 0, 2) == '--' || $line == '')
-        continue;
-
-    // Add this line to the current segment
-    $templine .= $line;
-    // If it has a semicolon at the end, it's the end of the query
-    if (substr(trim($line), -1, 1) == ';') {
-        // Perform the query
-        $conn->query($templine);
-        // Reset temp variable to empty
-        $templine = '';
+if ($dropDatabase) {
+    if (!$conn->query("DROP DATABASE IF EXISTS $dbName")) {
+        $errorHandler->err('Setup', 7, 'Error dropping the database');
+        die();
     }
 }
-$conn = mysqli_connect($servername, $dBuser, $dBPassword,'suplike');
-$user =  $_POST['user'];
-$email =  $_POST['mail'];
-$password =  $_POST['pass'];
-$admin = true;
-$sql = "SELECT uidusers FROM users WHERE uidusers='$user'";
-$r = $conn->query($sql);
-if($r->num_rows){
-    die(" username is already in use");
+
+if (!$conn->query("CREATE DATABASE IF NOT EXISTS $dbName")) {
+    $errorHandler->err('Setup', 3, 'Error creating the database');
+    die();
 }
-$hashedpwd = password_hash($password, PASSWORD_DEFAULT);
-$sql = "INSERT INTO users (uidusers, emailusers, pwdUsers, isAdmin) VALUES ('$user','$email', '$hashedpwd','$admin')";
 
-$conn->query($sql);
+if (!$conn->select_db($dbName)) {
+    $errorHandler->err('Setup', 4, 'Error selecting the database');
+    die();
+}
 
-$getId = "SELECT `idusers` FROM `users` WHERE `uidusers`='$user'";
-$response = (mysqli_fetch_assoc($conn->query($getId)))['idusers'];
-$outhsql = "INSERT INTO `auth_key` (`user`,`user_auth`,`chat_auth`,`browser_auth`,`token`,`api_key`) VALUES ($response,'$oauth->user_auth','$oauth->chat_auth','$oauth->browser_auth','$oauth->token','$oauth->api_key') ";
-$conn->query($outhsql);
-setcookie('token', $oauth->token, time() + (86400 * 30), "/");
+function createEnvFile($serverName, $dbUser, $dbPassword, $dbName)
+{
+    $fileContent = <<<EOT
+<?php
+\$protocol = (!empty(\$_SERVER['HTTPS']) && \$_SERVER['HTTPS'] !== 'off' || \$_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 
-$setup_data->setup = true;
-$setup_data->setupDate = date("c");
-file_put_contents('./setup.suplike.json', json_encode($setup_data));
+if (!defined('DB_DATABASE')) define('DB_DATABASE', '$dbName');
+if (!defined('DB_HOST')) define('DB_HOST', '$serverName');
+if (!defined('DB_USERNAME')) define('DB_USERNAME', '$dbUser');
+if (!defined('DB_PASSWORD')) define('DB_PASSWORD', '$dbPassword');
+if (!defined('DB_PORT')) define('DB_PORT', 3306);
+if (!defined('APP_NAME')) define('APP_NAME', 'Suplike social network');
+if (!defined('SETUP')) define('SETUP', true);
+if (!defined('BASE_URL')) define('BASE_URL', \$protocol . \$_SERVER['HTTP_HOST']);
+if (!defined('EMAIL_VERIFICATION')) define('EMAIL_VERIFICATION', false);
+if (!defined('USER_SIGNUP')) define('USER_SIGNUP', true);
+if (!defined('USER_POST')) define('USER_POST', true);
+if (!defined('USER_COMMENTS')) define('USER_COMMENTS', true);
+if (!defined('API_ACCESS')) define('API_ACCESS', true);
+if (!defined('APP_EMAIL')) define('APP_EMAIL', '');
+if (!defined('DEFAULT_THEME')) define('DEFAULT_THEME', 'light');
+if (!defined('ACCENT_COLOR')) define('ACCENT_COLOR', '');
+if (!defined('FILE_EXTENSIONS')) define('FILE_EXTENSIONS', array('jpeg', 'jpg', 'png', 'gif', 'webp'));
+if (!defined('FILE_SIZE_LIMIT')) define('FILE_SIZE_LIMIT', 6291456);
+if (!defined('RANDOM_BYTES_LENGTH')) define('RANDOM_BYTES_LENGTH', 4);
+EOT;
+
+    file_put_contents("env.php", $fileContent);
+}
+
+
+createEnvFile($serverName, $dbUser, $dbPassword, $dbName);
+
+function executeSqlFromFile($conn, $filename)
+{
+    $sqlFileContent = file_get_contents($filename);
+
+    $sqlQueries = explode(';', $sqlFileContent);
+
+    foreach ($sqlQueries as $query) {
+        if (trim($query) === '') {
+            continue;
+        }
+
+        if (!$conn->query($query)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+if (!executeSqlFromFile($conn, "../../sql/suplike.sql")) {
+    $errorHandler->err('Setup', 5, 'Error executing SQL file');
+    die();
+}
+
+
+function createUser($conn, $auth, $user, $email, $password, $isAdmin, $verify_mail = true)
+{
+    $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("SELECT uidusers FROM users WHERE uidusers = ?");
+    $stmt->bind_param("s", $user);
+    $stmt->execute();
+
+    if ($stmt->get_result()->num_rows) {
+        die("Username is already in use");
+    }
+
+    $stmt = $conn->prepare("INSERT INTO users (uidusers, emailusers, pwdUsers, isAdmin,email_verified) VALUES (?,?, ?, ?, ?)");
+    $stmt->bind_param("sssii", $user, $email, $hashedPwd, $isAdmin, $verify_mail);
+    $stmt->execute();
+
+    $getIdStmt = $conn->prepare("SELECT `idusers` FROM `users` WHERE `uidusers` = ?");
+    $getIdStmt->bind_param("s", $user);
+    $getIdStmt->execute();
+    $userId = $getIdStmt->get_result()->fetch_assoc()['idusers'];
+
+    $stmt = $conn->prepare("INSERT INTO `auth_key` (`user`, `token`, `chat_auth`, `browser_auth`, `user_auth`,`api_key`) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", $userId, $auth->token, $auth->chat_auth, $auth->browser_auth, $auth->user_auth, $auth->api_key);
+    $stmt->execute();
+    setcookie('token', $auth->token, time() + (86400 * 30), "/");
+    return true;
+}
+
+$user = $_POST['user'];
+$email = $_POST['mail'];
+$password = $_POST['pass'];
+if (!createUser($conn, $auth, $user, $email, $password, true)) {
+    $errorHandler->err('Setup', 6, 'Error creating user');
+    die();
+}
+$setupData->setup = true;
+$setupData->owner = $user;
+$setupData->setupDate = date("c");
+file_put_contents('./setup.suplike.json', json_encode($setupData));
 header('location: ../../login.php?dbSet=success');

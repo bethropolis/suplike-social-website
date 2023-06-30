@@ -7,7 +7,7 @@ require '../Auth/auth.php';
 session_start();
 $un_ravel->_isAuth();
 
-if(!$un_ravel->_isAdmin($_SESSION['userId'])){
+if (!$un_ravel->_isAdmin($_SESSION['userId'])) {
 	header('HTTP/1.1 403 Forbidden');
 }
 $err = new Err();
@@ -30,7 +30,7 @@ if (isset($_GET['key'])) {
 
 	$user = mysqli_fetch_assoc($auth);
 	if (!isset($_GET['type'])) {
-		$err->err($user, 8,"unknown type of data requested");
+		$err->err($user, 8, "unknown type of data requested");
 		die();
 	}
 
@@ -38,6 +38,7 @@ if (isset($_GET['key'])) {
 	$arr = [];
 	$arru = []; //users
 	$arruo = []; //users online
+	$arrauo = []; //average users online
 	$arrp = []; // post
 	$arrc = []; // chat
 	$arrl = []; // likes
@@ -93,7 +94,41 @@ if (isset($_GET['key'])) {
 			die();
 		}
 	}
+	function _get_average_online_users($stat = false)
+	{
+		global $conn, $timeZone;
+		$arr = [];
+		$date = new DateTime("now", $timeZone);
+		$date->format("Y-m-d H:i:s");
+		$arr['today'] = $date->format('l');
+		$date = $date->modify("-7 days");
+		$date = $date->format('Y-m-d');
+		$sql = "SELECT `idusers`,`last_online` FROM `users` WHERE `last_online`>'$date'";
+		$result = $conn->query($sql);
+		$totalUsers = 0;
+		$totalDays = 0;
+		$data = [];
 
+		while ($row = $result->fetch_assoc()) {
+			$dt = new DateTime($row['last_online'], $timeZone);
+			$dt = $dt->format('l');
+			$arr[$dt][] = $row;
+			$totalUsers++;
+		}
+
+		// Calculate the average online users per day
+		$totalDays = count($arr) - 1; // Excluding the 'today' key
+		$averageUsers = $totalUsers / $totalDays;
+
+		$data = ['totalUsers' => $totalUsers, 'totalDays' => $totalDays, 'averageUsers' => $averageUsers];
+		$GLOBALS['arrauo'] = $data;
+		if ($stat) {
+			print_r(json_encode($arr));
+			die();
+		}
+
+		return $arr;
+	}
 
 	function _get_comment($stat = false)
 	{
@@ -212,6 +247,9 @@ if (isset($_GET['key'])) {
 		case 'userOnline':
 			_get_user_online(true);
 			break;
+		case 'averageOnline':
+			_get_average_online_users(true);
+			break;
 		case 'post':
 			_get_post(true);
 			break;
@@ -233,6 +271,7 @@ if (isset($_GET['key'])) {
 		case 'all':
 			_get_user();
 			_get_user_online();
+			_get_average_online_users();
 			_get_post();
 			_get_chat();
 			_get_share();
@@ -243,17 +282,19 @@ if (isset($_GET['key'])) {
 		default:
 			$err->err($user, 14);
 			die();
-			break;
+		break;
 	}
 
 	$arr['users'] = $arru;
 	$arr['users_online'] = $arruo;
+	$arr['average'] = $arrauo;
 	$arr['posts'] = $arrp;
 	$arr['chat'] =  $arrc;
 	$arr['like'] =  $arrl;
 	$arr['comment'] = $arrd;
 	$arr['follow'] = $arrf;
 	$arr['share'] = $arrs;
+
 
 	print_r(json_encode($arr));
 } else {

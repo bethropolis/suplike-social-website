@@ -13,22 +13,22 @@ const app = new Vue({
         progress: 0,
         audio_meta: {},
         file_type: null,
-        timerId: null
+        timerId: null,
+        start: 0,
     },
     methods: {
         getMessage: async function () {
             const vm = this;
-            let start = 0;
 
             async function sendRequest() {
                 // Clear the previous timer if any
                 if (vm.timerId) {
                     clearTimeout(vm.timerId);
                 }
-                await $.get('./inc/message.inc.php?start=' + start + "&from=" + vm.user + "&to=" + vm.chatwith, function (data) {
+                await $.get('./inc/message.inc.php?start=' + this.start + "&from=" + vm.user + "&to=" + vm.chatwith, function (data) {
                     if (data.data) {
                         data.data.forEach(item => {
-                            start = item.id;
+                            vm.start = item.id;
                             const t = new Date(item.time);
                             const time = `${t.getHours()}:${t.getMinutes() < 10 ? '0' : ''}${t.getMinutes()}`;
                             let audio_id = null;
@@ -53,6 +53,7 @@ const app = new Vue({
                         });
                     }
                 });
+                this.start = vm.start;
 
                 if (vm.chatwith != null) {
                     // Store the new timer id
@@ -81,7 +82,8 @@ const app = new Vue({
                         last_msg: user.last_msg,
                         time: user.time,
                         type: user.type,
-                        online: user.online
+                        online: user.online,
+                        token: user.token
                     })
                 })
             })
@@ -98,6 +100,8 @@ const app = new Vue({
         startChat: function (index) {
             if (this.chatwith === this.online[index].id) return
             this.messages = [];
+            this.start = 0;
+            this.status = '';
             this.chatwith = this.online[index].id;
             this.chatwith_detail = this.online[index];
             if (this.online[index].online) this.statusSet('online');
@@ -151,12 +155,7 @@ const app = new Vue({
             this.statusbackup = this.status;
             this.status = stat;
         },
-        checkrequest: function () {
-            // $.get('./inc/checkrequest.inc.php?user=' + this.user, function(data) {
-            //   notification.setNotification(data.msg, data.type, data.id);
-            // });
-        },
-        sendMessage: function (type = 'txt') {
+        sendMessage: async function (type = 'txt') {
 
             // send message to database
             const vm = this;
@@ -168,12 +167,13 @@ const app = new Vue({
                 from: this.user,
                 to: this.chatwith
             }
-            $.post('./inc/message.inc.php', data, function (data) {
+            await $.post('./inc/message.inc.php', data, function (data) {
                 $('#msg-form').val('');
                 $('.messages').animate({
                     scrollTop: $('.messages')[0].scrollHeight
                 });
             });
+            this.getMessage();
         },
         goBack: function () {
             this.chatwith = null
@@ -235,8 +235,7 @@ const app = new Vue({
             if (to[0].online) this.statusSet('online');
 
         }
-        if(window.innerWidth > 605 && this.chatwith == null) this.startChat(0);
-        this.checkrequest();
+        if (window.innerWidth > 605 && this.chatwith == null) this.startChat(0);
         // add eventlistener to #songUpload to upload song by calling handleImageUpload
     }
 })

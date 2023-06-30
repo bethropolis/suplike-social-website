@@ -1,4 +1,3 @@
-Vue.config.productionTip = false;
 let app = new Vue({
     el: "#app",
     data: {
@@ -14,18 +13,16 @@ let app = new Vue({
         post: null,
         newUser: null,
         data: null,
+        settings: 1,
         reports: [],
+        config: { ...envConfig },
         darkMode: localStorage.getItem('theme') === 'dark',
         user: sessionStorage.getItem("name") || "Unknown",
         token: sessionStorage.getItem("user") || "Unknown",
     },
     methods: {
-        load: function () {
-            this.getUsers();
-            this.getData();
-        },
-        getData: function () {
-            $.get("../inc/data/data.inc.php?key", (data) => {
+        getData: async function () {
+            await $.get("../inc/data/data.inc.php?key", (data) => {
                 this.chat = data.chat.length || 0;
                 this.post = data.posts.length || 0;
                 this.follows = data.following.length || 0;
@@ -35,13 +32,14 @@ let app = new Vue({
                 this.comments = data.comments.length || 0;
             });
 
-            $.get("../inc/data/data.a.inc.php?type=all&key=" + this.token, (data) => {
+            await $.get("../inc/data/data.a.inc.php?type=all&key=" + this.token, (data) => {
                 this.data = data;
             });
 
-            $.get("../inc/data/users.inc.php?online", (data) => {
+            await $.get("../inc/data/users.inc.php?online", (data) => {
                 this.online = data;
             });
+            return
         },
         day: function (day, type = "users", m = null) {
             if (m === null && this.data?.[type]?.[day]) {
@@ -51,6 +49,10 @@ let app = new Vue({
             } else {
                 return;
             }
+        },
+        changeStage: function (index) {
+            sessionStorage.setItem("dashStage", index);
+            this.stage = index;
         },
         getReports: function (a) {
             this.reports = null;
@@ -70,18 +72,99 @@ let app = new Vue({
 
             this.getReports("false");
         },
-        getUsers: function () {
-            $.get("../inc/data/users.inc.php?key", (users) => {
+        clearLog: function () {
+            $.ajax({
+                url: '../inc/errors/error.inc.php',
+                data: { page: 'clear' },
+                method: 'POST'
+            });
+            location.reload();
+        },
+        saveLog: function () {
+            const logText = $('#log-textarea').val();
+            const blob = new Blob([logText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'error.log.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        },
+        getUsers: async function () {
+            this.users = [];
+            await $.get("../inc/data/users.inc.php?key", (users) => {
                 users.forEach((user) => {
-                    let name = user.usersFirstname + " " + user.usersSecondname;
                     this.users.push({
                         id: user.idusers,
                         username: user.uidusers,
-                        name: name,
-                        status: user.last_online,
+                        status: user.status,
+                        online: user.last_online,
                         joined: user.date_joined,
+                        admin: parseInt(user.isAdmin),
+                        bot: parseInt(user.isBot),
+                        token: user.token,
                     });
                 });
+            });
+        },
+        toggleAdmin(user) {
+            if (user.admin == 1) {
+                $.post("../inc/data/users.inc.php", { revoke: user.id }, (data) => {
+                    if (data.status == "error") alert(data.message);
+                    return this.getUsers();
+                });
+            } else {
+                $.post("../inc/data/users.inc.php", { admin: user.id }, (data) => {
+                    if (data.status == "error") alert(data.message);
+                    return this.getUsers();
+                });
+            }
+        },
+        blockUser(user) {
+            $.post("../inc/data/users.inc.php", { block: user.id, set: user.status == "blocked" }, (data) => {
+                if (data.status == "error") alert(data.message);
+                return this.getUsers();
+            });
+        },
+        deleteUser(user) {
+
+            let confirmation = confirm(`are you sure you want to delete user ${user.username}`);
+            if (confirmation) {
+                $.post("../inc/delete.inc.php", { user: user.id, delete_profile: true }, (data) => {
+                    if (data.status == "success") alert(`user ${user.username} has been deleted`);
+                    if (data.status != "success") alert("could not delete the user");
+                    this.getUsers();
+                    $("#dataTable").DataTable();
+                });
+            }
+        },
+        checkLatestRelease: function (version) {
+            $("#updates-spinner").show();
+            // Make the GET request to the GitHub API
+            $.get(`https://api.github.com/repos/bethropolis/suplike-social-website/releases/latest`)
+                .done(function (data) {
+                    $("#updates-spinner").hide();
+                    let latestTag = data.tag_name;
+                    let htmlUrl = data.html_url;
+                    $('#versionText').text('Latest version: ' + latestTag);
+                    $('#latestReleaseInfo').show();
+                    if (latestTag != version) {
+                        $(".update-field").html(`<a href="${htmlUrl}" target="_blank"> <p class='text-info h3'>New version available</p></a>`)
+                        return
+                    }
+                    $(".update-field").html("<p class='text-success h3'>Version is upto date</p>")
+                })
+                .fail(function () {
+                    $("#updates-spinner").hide();
+
+                    alert('Failed to fetch the latest release.');
+                });
+        },
+        saveConfig() {
+            $.post('../inc/setup/save_config', this.config, function (data) {
+                $('.success-banner').fadeIn().delay(2000).fadeOut();
             });
         },
         chart: function () {
@@ -96,37 +179,37 @@ let app = new Vue({
                 "Saturday",
             ];
             const dataPoints = [
-                this.day("Sunday", null, true),
-                this.day("Monday", null, true),
-                this.day("Tuesday", null, true),
-                this.day("Wednesday", null, true),
-                this.day("Thursday", null, true),
-                this.day("Friday", null, true),
-                this.day("Saturday", null, true),
+                this.day("Sunday", null, true) || 0,
+                this.day("Monday", null, true) || 0,
+                this.day("Tuesday", null, true) || 0,
+                this.day("Wednesday", null, true) || 0,
+                this.day("Thursday", null, true) || 0,
+                this.day("Friday", null, true) || 0,
+                this.day("Saturday", null, true) || 0,
             ];
             const chartData = {
                 labels: labelNames,
                 datasets: [
                     {
-                        label: "active users",
+                        label: "online users",
                         data: dataPoints,
-                        lineTension: 0,
+                        lineTension: 0.3,
                         backgroundColor: "transparent",
                         borderColor: "#6c5ce7",
-                        borderWidth: 4,
-                        pointBackgroundColor: "rgb(214, 211, 211)",
+                        borderWidth: 3,
+                        pointRadius: 0.7,
+                        pointBackgroundColor: "#6c5ce7",
                     },
                 ],
             };
             const chartOptions = {
                 scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                beginAtZero: false,
-                            },
-                        },
-                    ],
+                    y: {
+                        beginAtZero: true
+                    },
+                },
+                interaction: {
+                    intersect: false,
                 },
                 legend: {
                     display: false,
@@ -149,6 +232,7 @@ let app = new Vue({
                             backgroundColor: bg,
                             hoverBackgroundColor: hbg,
                             hoverBorderColor: "rgba(234, 236, 244, 1)",
+                            borderColor: "transparent"
                         },
                     ],
                 },
@@ -165,7 +249,7 @@ let app = new Vue({
                         caretPadding: 10,
                     },
                     legend: {
-                        display: false,
+                        display: true,
                     },
                     cutoutPercentage: 80,
                 },
@@ -174,91 +258,54 @@ let app = new Vue({
         visitline: function (
             chartElement,
             label,
-            type = "line",
+            type = "bar",
             dataKey = "users",
             backgroundColor = ["#90f0ff", "#00b0ff"],
-            borderWidth = 3
         ) {
             const myVisitsChart = new Chart(chartElement, {
-              type: type,
-              data: {
-                  labels: [
-                      "Sunday",
-                      "Monday",
-                      "Tuesday",
-                      "Wednesday",
-                      "Thursday",
-                      "Friday",
-                      "Saturday",
-                  ],
-                datasets: [
-                  {
-                    label: label,
-                    data: [
-                      this.day("Sunday", dataKey),
-                      this.day("Monday", dataKey),
-                      this.day("Tuesday", dataKey),
-                      this.day("Wednesday", dataKey),
-                      this.day("Thursday", dataKey),
-                      this.day("Friday", dataKey),
-                      this.day("Saturday", dataKey),
+                type: type,
+                data: {
+                    labels: [
+                        "Sunday",
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
                     ],
-                    backgroundColor: backgroundColor[0],
-                    borderColor: backgroundColor[1],
-                    borderWidth: borderWidth,
-                  },
-                ],
-              },
-              options: {
-                responsive: true,
-                layout: {
-                  padding: {
-                    left: 10,
-                    right: 25,
-                    top: 25,
-                    bottom: 0,
-                  },
+                    datasets: [
+                        {
+                            label: label,
+                            data: [
+                                this.day("Sunday", dataKey),
+                                this.day("Monday", dataKey),
+                                this.day("Tuesday", dataKey),
+                                this.day("Wednesday", dataKey),
+                                this.day("Thursday", dataKey),
+                                this.day("Friday", dataKey),
+                                this.day("Saturday", dataKey),
+                            ],
+                            backgroundColor: backgroundColor[0],
+                            borderColor: backgroundColor[1],
+
+                        },
+                    ],
                 },
-                scales: {
-                  xAxes: [
-                    {
-                      time: {
-                        unit: "date",
-                      },
-                      gridLines: {
-                        display: false,
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        maxTicksLimit: 7,
-                      },
+                options: {
+                    scales: {
+
                     },
-                  ],
-                  yAxes: [
-                    {
-                      ticks: {
-                        maxTicksLimit: 5,
-                        padding: 10,
-                      },
-                      gridLines: {
-                        color: "rgb(234, 236, 244)",
-                        zeroLineColor: "rgb(234, 236, 244)",
-                        drawBorder: false,
-                        borderDash: [2],
-                        zeroLineBorderDash: [2],
-                      },
+                    title: {
+                        display: true,
+                        text: label,
                     },
-                  ],
+                    tooltips: {
+                        mode: "index",
+                        intersect: true,
+                    },
+                    responsive: true,
                 },
-                title: {
-                  display: true,
-                  text: label,
-                },
-                tooltips: {
-                  mode: "index",
-                  intersect: true,
-                },
-              },
             });
         },
         createLineChart() {
@@ -296,7 +343,7 @@ let app = new Vue({
                 options: {
                     maintainAspectRatio: false,
                     layout: {
-                        padding: { left: 10, right: 25, top: 25, bottom: 0 },
+                        padding: { left: 0, right: 0, top: 25, bottom: 0 },
                     },
                     scales: {
                         xAxes: [
@@ -384,23 +431,27 @@ let app = new Vue({
                             ["#e0ff40", "#8040ff"],
                             ["#ffe020", "#8020ff"]
                         );
-                    }, 0);
+                    }, 100);
 
                     break;
                 case 5:
                     this.getReports("false");
                     break;
                 default:
-                    console.log("hey");
                     break;
             }
         },
-        darkMode: function() {
-            this.darkMode ? localStorage.setItem('theme', 'dark'): localStorage.setItem('theme', 'light') ;
+        darkMode: function () {
+            if (this.darkMode) {
+                localStorage.setItem('theme', 'dark');
+                darkMode();
+            } else {
+                localStorage.setItem('theme', 'light');
+                $("style[data-name='theme']").remove();
+            }
         },
         data: function () {
             this.dataLoaded = true;
-            console.log("data loaded");
         },
         online: function () {
             this.chart();
@@ -409,31 +460,31 @@ let app = new Vue({
     computed: {
         postDayM: function () {
             if (this.dataLoaded) {
-                return this.day("Monday", "posts") || "Null";
+                return this.day("Monday", "posts") || 0;
             }
             return "loading..";
         },
         postDayT: function () {
             if (this.dataLoaded) {
-                return this.day("Tuesday", "posts") || "Null";
+                return this.day("Tuesday", "posts") || 0;
             }
             return "loading..";
         },
         postDayW: function () {
             if (this.dataLoaded) {
-                return this.day("Wednesday", "posts") || "Null";
+                return this.day("Wednesday", "posts") || 0;
             }
             return "loading..";
         },
         postDayTh: function () {
             if (this.dataLoaded) {
-                return this.day("Thursday", "posts") || "Null";
+                return this.day("Thursday", "posts") || 0;
             }
             return "loading..";
         },
         postDayF: function () {
             if (this.dataLoaded) {
-                return this.day("Friday", "posts") || "Null";
+                return this.day("Friday", "posts") || 0;
             }
             return "loading..";
         },
@@ -441,7 +492,7 @@ let app = new Vue({
             if (this.dataLoaded) {
                 return (
                     (this.day("Sunday", "posts") || 0) +
-                    (this.day("Saturday", "posts") || 0) || "Null"
+                    (this.day("Saturday", "posts") || 0) || 0
                 );
             }
             return "loading..";
@@ -449,9 +500,23 @@ let app = new Vue({
         userOnline: function () {
             if (this.online) {
                 this.day(this.online.today, "happy", true);
-                return this.day(this.online.today, "happy", true) || "Null";
+                return this.day(this.online.today, "happy", true) || 0;
             }
             return "loading..";
         },
+        averageOnlineUsers: function () {
+            return Math.round(this.data?.average?.averageUsers)
+        },
+        averageOnlineUsersPercentage: function () {
+            return Math.round((Math.round(this.data?.average?.averageUsers) / this.users?.length) * 100)
+        },
+        newUserPercentage: function () {
+            return Math.round((this.newUser / this.users?.length) * 100)
+        }
+    },
+    mounted: async function () {
+        await this.getData();
+        await this.getUsers();
+        this.stage = parseInt(sessionStorage.getItem("dashStage")) || 0;
     },
 });

@@ -22,6 +22,15 @@ class Auth
     $this->email = bin2hex(openssl_random_pseudo_bytes(24));
   }
 
+  /**
+   * Retrieves the user associated with the given token, chat token, browser token,
+   * user token, or API key.
+   *
+   * @param string $str The token, chat token, browser token, user token, or API key.
+   * @throws Exception If an error occurs while querying the database.
+   * @return string|null The user associated with the given token, chat token, browser token,
+   * user token, or API key, or null if no user is found.
+   */
   public function _getUser($str)
   {
     $length = strlen($str);
@@ -29,35 +38,41 @@ class Auth
     switch ($length) {
       case 42:
         //token
-        $sql = "SELECT `user` FROM `auth_key` WHERE `token` = '$str'";
-
+        $sql = "SELECT `user` FROM `auth_key` WHERE `token` = ?";
         break;
       case 16:
         //chat token
-        $sql = "SELECT `user` FROM `auth_key` WHERE `chat_auth` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `chat_auth` = ?";
         break;
       case 32:
         //browser token
-        $sql = "SELECT `user` FROM `auth_key` WHERE `browser_auth` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `browser_auth` = ?";
         break;
 
       case 28:
         //user token 
-        $sql = "SELECT `user` FROM `auth_key` WHERE `user_auth` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `user_auth` = ?";
         break;
 
       case 64:
         //api key 
-        $sql = "SELECT `user` FROM `auth_key` WHERE `api_key` = '$str'";
+        $sql = "SELECT `user` FROM `auth_key` WHERE `api_key` = ?";
         break;
       default:
         die("auth Error");
     }
-    $this->user = (mysqli_fetch_assoc($this->conn->query($sql)))['user'];
+    $stmt = mysqli_prepare($this->conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $str);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $this->user);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+
     return $this->user;
   }
 
-  public function _queryUser($id, $type)
+
+  public function _queryUser($id, $type = 1)
   {
     $sql = '';
     $ty = '';
@@ -103,6 +118,12 @@ class Auth
     $this->user = (mysqli_fetch_assoc($this->conn->query($sql)))['uidusers'];
     return $this->user;
   }
+  public function _userid($id)
+  {
+    $sql = "SELECT `idusers` FROM `users` WHERE `uidusers` = '$id'";
+    $us  = (mysqli_fetch_assoc($this->conn->query($sql)))['idusers'];
+    return $us;
+  }
   public function _isValid($var)
   {
     $length = strlen($var);
@@ -139,17 +160,19 @@ class Auth
 
   public function _isAuth()
   {
-    if (!isset($_SESSION['userId'])) {
-      die(
-        json_encode(
-          [
-            'code' => 4,
-            'msg' => "You are not logged in",
-            'type' => 'error'
-          ]
-        )
-      );
+    if (isset($_SESSION['userId'])) {
+      if (!$this->_isStatus($_SESSION['userId'], "blocked")) {
+        return true;
+      }
     }
+
+    die(json_encode(
+      [
+        'code' => 4,
+        'msg' => "You are not logged in",
+        'type' => 'error'
+      ]
+    ));
   }
   public function _isFollowing($user, $following)
   {
@@ -175,44 +198,65 @@ class Auth
   {
     $sql = "INSERT INTO `following` (`user`, `following`) VALUES ('$user', '$following')";
     $this->conn->query($sql);
+    // update following count in users table
+    $sql = "UPDATE `users` SET `following` = `following` + 1 WHERE `idusers` = '$user'";
+    $this->conn->query($sql);
+    // update followers count in users table
+    $sql = "UPDATE `users` SET `followers` = `followers` + 1 WHERE `idusers` = '$following'";
+    $this->conn->query($sql);
   }
   public function _isAdmin($user)
   {
-    $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = '$user'";
-    $result = $this->conn->query($sql)->fetch_assoc();
-
-    if ($result["isAdmin"]) {
-      return true;
-    } else {
-      return false;
-    }
+    $is_admin = '';
+    $sql = "SELECT `isAdmin` FROM `users` WHERE `idusers` = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $user);
+    $stmt->execute();
+    $stmt->bind_result($is_admin);
+    $stmt->fetch();
+    $stmt->close();
+    return (bool) $is_admin;
+  }
+  public function _isStatus($user, $status)
+  {
+    $db_status = '';
+    $sql = "SELECT `status` FROM `users` WHERE `idusers` = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $user);
+    $stmt->execute();
+    $stmt->bind_result($db_status);
+    $stmt->fetch();
+    $stmt->close();
+    return $db_status == $status;
   }
   public function _isEmail_verified($user)
   {
-      $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = ?";
-      $stmt = $this->conn->prepare($sql);
-      $stmt->bind_param("i", $user);
-      $stmt->execute();
-      $stmt->bind_result($emailVerified);
-      $stmt->fetch();
-      $stmt->close();
-  
-      return (bool) $emailVerified;
+    $emailVerified = '';
+    $sql = "SELECT `email_verified` FROM `users` WHERE `idusers` = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("i", $user);
+    $stmt->execute();
+    $stmt->bind_result($emailVerified);
+    $stmt->fetch();
+    $stmt->close();
+
+    return (bool) $emailVerified;
   }
-  
+
   public function _isBot($to = null)
   {
-    if ($to) {
-      $this->user = $to;
-    }
-    $sql = "SELECT `isBot` FROM `users` WHERE `idusers` = $this->user ";
-    $result = $this->conn->query($sql)->fetch_assoc();
-    if ($result['isBot']) {
-      return true;
-    } else {
-      return false;
-    }
+      if ($to) {
+          $this->user = $to;
+      }
+      $sql = sprintf("SELECT isBot FROM users WHERE idusers = '%s'", $this->user);
+      $result = $this->conn->query($sql);
+      if ($result === false) {
+          return false;
+      }
+      $row = $result->fetch_assoc();
+      return $row !== null && $row['isBot'] === '1';
   }
+
   public function _profile_picture($user)
   {
     $sql = "SELECT `profile_picture` FROM `users` WHERE `idusers` = '$user'";

@@ -1,6 +1,4 @@
 <?php
-require_once 'dbh.inc.php';
-
 function checkUserToken()
 {
   global $conn;
@@ -36,6 +34,7 @@ function checkUserToken()
 function checkSessionId($uuid)
 {
   global $conn, $error;
+  $user_id = "";
   $stmt = $conn->prepare("SELECT user_id FROM `session` WHERE `session_id` = ?");
   $stmt->bind_param("s", $uuid);
   $stmt->execute();
@@ -48,19 +47,23 @@ function checkSessionId($uuid)
     define('SESSION_ID', $session_id);
   } else {
     $error->err("API access", 23, "User authentication failed");
+
   }
 }
 function authentication_check($user)
 {
   global $error;
   // print_r("user:".$user);
-  // print_r("SESSION_ID:".SESSION_ID);
+  // print_r("SESSION_ID:".constant('SESSION_ID'));
 
-  // compare user to SESSION_ID
-  if ($user == SESSION_ID) {
-    return true;
+  // compare user to constant('SESSION_ID')
+  if (defined('SESSION_ID')) {
+    if ($user == constant('SESSION_ID')) {
+      return true;
+    }
   }
   $error->err("API access", 23, "User authentication failed");
+  die();
 }
 
 function create_session_token($user)

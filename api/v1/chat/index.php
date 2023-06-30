@@ -7,10 +7,9 @@ $upload_dir = "/image/";
 // Handle POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $from = $un_ravel->_getUser(filter_input(INPUT_POST, 'from'));
-    $to =  $un_ravel->_getUser(filter_input(INPUT_POST, 'to'));
+    $to = $un_ravel->_getUser(filter_input(INPUT_POST, 'to'));
     $message = filter_input(INPUT_POST, 'message');
     $type = filter_input(INPUT_POST, 'type') ?: 'txt';
-
 
     // check if session is valid
     authentication_check($from);
@@ -73,8 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'type' => 'error'
         ]));
     }
+    $chatId = mysqli_insert_id($conn);
 
     mysqli_stmt_close($stmt);
+
+    if($un_ravel->_isBot($to)){
+        $bot->setBot($to);
+        $bot->send("chat", $_POST['from'], $id);
+    }
 
     return print_r(json_encode([
         'code' => 0,
@@ -82,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'type' => 'success'
     ]));
 }
+
 
 function upload_file($file, $type)
 {

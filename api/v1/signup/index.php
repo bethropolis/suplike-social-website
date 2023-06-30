@@ -7,6 +7,7 @@ $username = isset($_POST["username"]) ? filter_input(INPUT_POST, 'username') : "
 $email =  isset($_POST["email"]) ? filter_input(INPUT_POST, 'email') : "";
 $password = isset($_POST["password"]) ? filter_input(INPUT_POST, 'password') : "";
 $name = isset($_POST["name"]) ? filter_input(INPUT_POST, 'name') : "";
+$bio = isset($_POST["bio"]) ? filter_input(INPUT_POST, 'bio') : "";
 $oauth = new Auth();
 $firstname = null;
 $lastname = null;
@@ -20,7 +21,7 @@ if (empty($username) || empty($email) || empty($password)) {
 }
 
 // Check if username is valid and does not already exist
-if (!preg_match("/^[a-zA-Z0-9][a-zA-Z0-9_.-]{3,19}$/", $username)) {
+if (!preg_match("/^[a-zA-Z0-9][a-zA-Z0-9_-]{3,19}$/", $username)) {
     $error->err("API", 23, "username should be 4 characters long and contain only letters,numbers,underscore and fullstop");
     die();
 }
@@ -58,10 +59,13 @@ if (!empty($name)) {
     }
 }
 
-$start_time = microtime(true);
-$prof = saveSvgImage($username);
-$end_time = microtime(true);
-$elapsed_time = $end_time - $start_time;
+$prof = "default.jpg";
+
+# This is for giving each user an svg icon
+// $start_time = microtime(true);
+// $prof = saveSvgImage($username);
+// $end_time = microtime(true);
+// $elapsed_time = $end_time - $start_time;
 
 
 
@@ -88,7 +92,6 @@ $result = [
     'user_token' => $oauth->token,
     'chat_key' => $oauth->chat_auth,
     'session_token' => $session_token,
-    "time" => $elapsed_time
 ];
 print_r(json_encode($result));
 

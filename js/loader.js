@@ -58,17 +58,17 @@ window.customElements.define('progress-ring', ProgressRing);
 // emulate progress attribute change
 let progress = 0;
 const el = document.querySelector('progress-ring')
-if (!sessionStorage.getItem('load')) {  
-$('.loader').css('display', 'flex');  
-const interval = setInterval(() => {
-  progress += 10;
-  el.setAttribute('progress', progress);
-  if (progress === 100) {
-    sessionStorage.setItem('load', true) 
-    clearInterval(interval);
-    hideDiv()
-  }
-}, 360);
+if (!sessionStorage.getItem('load')) {
+  $('.loader').css('display', 'flex');
+  const interval = setInterval(() => {
+    progress += 10;
+    el.setAttribute('progress', progress);
+    if (progress === 100) {
+      sessionStorage.setItem('load', true)
+      clearInterval(interval);
+      hideDiv()
+    }
+  }, 360);
 }
 
 function hideDiv() {

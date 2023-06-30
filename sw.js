@@ -5,6 +5,16 @@ self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
     await cache.add(new Request(OFFLINE_URL, {cache: 'reload'}));
+
+    await cache.addAll([
+      // List the URLs of the files in the 'libs' folder
+      './lib/font-awesome/css/all.min.css',
+      './lib/font-awesome/webfonts/fa-solid-900.woff2',
+      './lib/font-awesome/webfonts/fa-regular-400.woff2',
+      './lib/bootstrap/css/bootstrap.min.css',
+      './lib/bootstrap/js/bootstrap.bundle.min.js',
+    ]);
+
   })());
 });
 
@@ -31,6 +41,20 @@ self.addEventListener('fetch', (event) => {
           return preloadResponse;
         }
 
+        // Check if the requested resource is one of the library files
+        const requestUrl = new URL(event.request.url);
+        if (
+          requestUrl.href.includes('lib/font-awesome/') ||
+          requestUrl.href.includes('lib/bootstrap/')
+        ) {
+          const cache = await caches.open(CACHE_NAME);
+          const cachedResponse = await cache.match(event.request);
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+        }
+
+        // If the requested resource is not in cache, fetch it from the network
         const networkResponse = await fetch(event.request);
         return networkResponse;
       } catch (error) {

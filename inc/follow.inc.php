@@ -1,8 +1,9 @@
 <?php
-require 'dbh.inc.php';
-require 'Auth/auth.php';
-require 'errors/error.inc.php';
-require 'extra/notification.class.php';
+require_once  'dbh.inc.php';
+require_once  'Auth/auth.php';
+require_once  'errors/error.inc.php';
+require_once  'extra/notification.class.php';
+require_once   __DIR__.'/../api/v1/bot/bot.php';
 header('content-type: application/json');
 $notification = new Notification();
 session_start();
@@ -17,7 +18,6 @@ if (isset($_GET['user'])) {
         $error->err('Empty',33,'Empty variables provided');
         die();
     }
-
 
     $following = $un_ravel->_getUser($_GET['user']);
     $followed = $un_ravel->_getUser($_GET['following']);
@@ -81,8 +81,14 @@ if (isset($_GET['user'])) {
         $followed_user_followers = $followed_user_followers + 1;
         $sql  = "INSERT INTO following (`user`,`following`) VALUES ($following, $followed)";
         $conn->query($sql);
+        $id = $conn->insert_id;
         $user = $un_ravel->_username($following);
         $notification->notify($followed,"$user followed you", 'follow');
+
+        if($un_ravel->_isBot($followed)){
+			$bot->setBot($followed);
+			$bot->send("follow", $_GET['user'], $id);
+		}
     }
 
     if (!is_null($result) && $key == 'false') {
@@ -93,13 +99,13 @@ if (isset($_GET['user'])) {
     }
 
     if (!is_null($result) && $key == 'true') {
-        $err = new Err(13);
-        $err->err('Followed');
+        $err = new Err();
+        $err->err('Followed',12, "already followed the user");
         die();
     }
 
     if (is_null($result) && $key == 'false') {
-        $err = new Err(1);
+        $err = new Err();
         $err->err('Error');
         die();
     }

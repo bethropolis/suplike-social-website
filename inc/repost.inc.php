@@ -13,12 +13,12 @@ $sql = "SELECT * FROM `posts` WHERE `post_id` = '$id'";
 $result = $conn->query($sql);
 $row = mysqli_fetch_assoc($result);
 if (empty($row)) {
-    header('Location: ../?error=notexist');
+    header('Location: ../home?error=notexist');
     exit();
 }
 
 if ($row['userid'] == $user) {
-    header('Location: ../?error=yrpost'); 
+    header('Location: ../home?error=yrpost'); 
     exit();
 }
 
@@ -26,7 +26,7 @@ $sql = "SELECT `id` FROM `posts` WHERE `repost` = '$id' AND `userid`='$user'";
 $result = $conn->query($sql);
 
 if(!empty(mysqli_fetch_assoc($result))){ 
-    header('Location: ../?error=reposting'); 
+    header('Location: ../home?error=reposting'); 
      exit(); 
 }
 
@@ -52,6 +52,6 @@ if($row['type'] == 'img'){
 }
 
 
-header('Location: ../?success=reposted');  
+header('Location: ../home?success=reposted');  
  exit(); 
 

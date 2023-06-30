@@ -3,12 +3,12 @@ require "header.php";
 
 
 $name = '';
-$pic = 'M.jpg';
+$pic = 'default.jpg';
 $user = 'anonymous';
 
 if (isset($_SESSION['userUid'])) {
     $name = $_SESSION['firstname'] . " " . $_SESSION['lastname'];
-    $pic = $_SESSION['profile-pic'] ?? 'M.jpg';
+    $pic = $_SESSION['profile-pic'] ?? 'default.jpg';
     $user = $_SESSION['userUid'];
 }
 
@@ -21,8 +21,8 @@ if (isset($_SESSION['userUid'])) {
     };
 </script>
 <main>
-    <link rel="stylesheet" href="./css/post.css">
-    <link rel="stylesheet" href="./css/story.css?v.15">
+    <link rel="stylesheet" href="./css/post.min.css">
+    <link rel="stylesheet" href="./css/story.min.css?v.15">
     <div class="p-0">
         <div class="row mob-m-0">
             <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
@@ -31,13 +31,13 @@ if (isset($_SESSION['userUid'])) {
                 ?>
             </div>
 
-            <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
+            <!-- ------------------------------------------- this is the stories viewer  --------------------------------------------------------------->
             <div class="cont">
-                <i class="fa fa-times fa-2x" id="stop_it"></i>
+                <i class="fa fa-times fa-2x text-white" id="stop_it"></i>
                 <div data-slide="slide" class="slide">
                     <div class="slide-items">
                     </div>
-                    <p class="content-text">heeeeelo</p>
+                    <p class="content-text"></p>
                     <i class="far fa-heart fa-2x " id="like-btn"></i>
                     <nav class="slide-nav">
                         <div class="slide-thumbs"></div>
@@ -46,8 +46,13 @@ if (isset($_SESSION['userUid'])) {
                     </nav>
                 </div>
             </div>
+
+            <!-- ------------------------------------------- this is the posting area  --------------------------------------------------------------->
             <div class="col-sm-6 p-0">
-                <?php require "./story.php" ?>
+                <?php
+                require_once 'template/alert.php';
+                require_once "./story.php";
+                ?>
                 <div class="container-lg nav-hide">
                     <form action="inc/post.inc.php" class="mx-auto ca p-2 my-2 col-12 form bg-light text-center postform" method="POST" enctype="multipart/form-data">
                         <img src="" id="imagedisp" alt="" class="mx-auto my-3" style="max-height: 172px; width: auto; margin: 7px;">
@@ -56,13 +61,13 @@ if (isset($_SESSION['userUid'])) {
                         <!--also this -->
                         <textarea id="text" cols="40" class="textinput p-2" rows="4" name="postText" placeholder="what would you like to post about.." oninvalid="this.setCustomValidity('Please you have to write something about this, text cannnot be empty')" oninput="setCustomValidity('')" required></textarea>
                         <div class=" ml-auto mr-1 post-options">
-                            <label for="image_post"><i class="fa fa-image fa-2x"></i></label>
+                            <label for="image_post" tabindex="0"><i class="fa fa-image fa-2x"></i></label>
                             <button class="btn bg post-btn" name="upload">post</button>
                         </div>
                     </form>
 
                 </div>
-                <!--  ----------------------------------------------------------------this is the 3rd view or something-------------------------------------- -->
+                <!--  ----------------------------------------------------------------this is the 3rd view-------------------------------------- -->
                 <div id="main-post">
                     <noscript style="color:red">this site requires javascript to function</noscript>
                 </div>
@@ -72,19 +77,19 @@ if (isset($_SESSION['userUid'])) {
                     <a href="./profile.php">
                         <img class="profile-pic img-profile shadow-sm" <?php echo 'src="img/' . $pic . '"'; ?> title=" " alt="profile picture" style="width: 70px;height: 70px; border-radius: 50%;">
                     </a>
-                    <a href="./profile.php" class="nameanchor">
-                        <h4 id="profile-name">
-                            <?php echo $name; ?>
-                        </h4>
+                    <h4 id="profile-name">
+                        <?php echo $name; ?>
+                    </h4>
 
+                    <a href="./profile.php" class="w-75 mx-auto">
+                        <h5 class="text-center  userName co">
+                            <?php echo "@" . $user; ?>
+                        </h5>
                     </a>
-                    <h5 class="text-center userName co">
-                        <?php echo "@" . $user; ?>
-                    </h5>
                     <ul class="profile-opt mb-5">
-                        <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-2x"></i></a>
-                        <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-2x"></i></a>
-                        <a href="settings.php?profile" style="color: #252130;"><i class="fas fa-user-cog fa-2x"></i></a>
+                        <a href="profile.php" style="color: #252130;"><i class="fa fa-user fa-xl"></i></a>
+                        <a href="post.php" style="color: #252130;" style="color: #252130;"><i class="fa fa-edit fa-xl"></i></a>
+                        <a href="settings.php?profile" style="color: #252130;"><i class="fas fa-user-cog fa-xl"></i></a>
                     </ul>
 
                 </div>
@@ -108,7 +113,7 @@ if (isset($_SESSION['userUid'])) {
 require "mobile.php";
 require "footer.php";
 ?>
-<script src="./js/story.js?u"></script>
+<script src="./js/story.min.js?u"></script>
 <!--------- main script----->
 <script defer>
     active_page(0);

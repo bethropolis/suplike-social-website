@@ -93,7 +93,9 @@
 .comment-actions i {
   margin-right: 5px;
 }
-
+.highlight {
+  border: 1px solid var(--ho);
+}
 /* Reply form */
 .reply-form {
   margin-left: 20px;

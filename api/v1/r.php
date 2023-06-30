@@ -15,23 +15,40 @@ header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Authorization, Content-Type');
 
 // Include helper scripts
-require_once "dbh.inc.php";
-require_once "auth.php";
-require_once "notification.class.php";
-require_once "error.inc.php";
-require_once "xss-clean.func.php";
+require_once __DIR__ . "/../../inc/dbh.inc.php";
+require_once __DIR__ . "/../../inc/Auth/auth.php";
+require_once __DIR__ . "/../../inc/extra/notification.class.php";
+require_once __DIR__ . "/../../inc/errors/error.inc.php";
+require_once __DIR__ . "/../../inc/extra/xss-clean.func.php";
+require "bot/bot.php";
 
 // Set error log path
-$error->_set_log("../error.log.txt");
+$error_log_path = __DIR__ . "/../../inc/errors/error.log.txt";
+$error->_set_log($error_log_path);
 
-// Check user token
+
+// check if api access is activated
+if (!defined("API_ACCESS") or !API_ACCESS) {
+    $error->err("API access", 33, "API access has been disabled");
+}
+
+
+// Check user token and authorization
 require_once "token.php";
 checkUserToken();
+
+
 
 // Check session ID
 if (!defined('SESSION_UNVERIFY')) {
     if (isset($_GET["uuid"])) {
         checkSessionId($_GET["uuid"]);
+        if (defined("SESSION_ID")) {
+            if ($un_ravel->_isStatus(SESSION_ID, 'blocked')) {
+                $error->err("API access", 22, "account has been blocked. contact admin");
+                die();
+            }
+        }
     } else {
         $error->err("API access", 22, "User authentication failed");
     }
