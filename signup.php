@@ -16,7 +16,7 @@ $username = $_GET['uid'] ?? null;
           <input type="text" id="uid" name="uid" value="<?= $username ?>" class="w-100 text-dark form-control" title="enter your username" placeholder="username..." autofocus required>
         </div>
         <div class="form-label-group">
-          <label for="mail" class="w-100 text-left">email</label>
+          <label for="mail" class="w-100 text-left">email (optional)</label>
           <input type="email" id="mail" name="mail" value="<?= $mail ?>" class="w-100 text-dark form-control" title="enter your email" placeholder="email..." >
         </div>
         <div class="form-label-group">

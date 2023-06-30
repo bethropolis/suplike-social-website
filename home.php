@@ -21,8 +21,8 @@ if (isset($_SESSION['userUid'])) {
     };
 </script>
 <main>
-    <link rel="stylesheet" href="./css/post.css">
-    <link rel="stylesheet" href="./css/story.css?v.15">
+    <link rel="stylesheet" href="./css/post.min.css">
+    <link rel="stylesheet" href="./css/story.min.css?v.15">
     <div class="p-0">
         <div class="row mob-m-0">
             <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
@@ -113,7 +113,7 @@ if (isset($_SESSION['userUid'])) {
 require "mobile.php";
 require "footer.php";
 ?>
-<script src="./js/story.js?u"></script>
+<script src="./js/story.min.js?u"></script>
 <!--------- main script----->
 <script defer>
     active_page(0);

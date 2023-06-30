@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
   <link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="./css/chat.css?kk">
+  <link rel="stylesheet" href="./css/chat.min.css?kk">
   <link rel="stylesheet" href="./lib/lightbox/css/lightbox.min.css">
   <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
   <script src="./lib/lazyload/lazysizes.min.js" defer></script>
@@ -205,7 +205,7 @@ if (isset($_GET['id'])) {
 
     });
   </script>
-  <script src="./js/chat.js"></script>
+  <script src="./js/chat.min.js"></script>
   <script src="./lib/lightbox/js/lightbox.min.js" defer></script>
 </body>
 

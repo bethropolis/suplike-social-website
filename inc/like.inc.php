@@ -68,7 +68,7 @@ if (isset($_GET['id'])) {
     if (is_null($result) && $key == 'true') {
         $sql  = "INSERT INTO likes (`user_id`,`post_id`) VALUES ($user, $post)";
         $conn->query($sql);
-        if($user != $post_user){
+        if ($user != $post_user) {
             $text = "$user_name liked your <a href='post.php?id=$post'>post</a>";
             $notification->notify($post_user, $text, 'like');
         }
@@ -100,7 +100,6 @@ if (isset($_GET['id'])) {
             array(
                 'code' => 21,
                 "type" => 'successful'
-
             )
         )
     );

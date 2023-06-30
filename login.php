@@ -12,7 +12,7 @@ require "header.php";
   require_once 'template/alert.php';
   if (isset($_GET['dbSet'])) {
     echo '<div class="alert alert-success text-center" role="alert">';
-    echo '<h5>Database configurations have been set</h5>';
+    echo '<h5>Database configurations have been set successfully. now login.</h5>';
     echo '</div>';
   }
   if (isset($_GET['acc'])) {
@@ -75,7 +75,3 @@ require "header.php";
   sessionStorage.setItem('load', true)
 </script>
 
-
-<?php
-require "footer.php"
-?>

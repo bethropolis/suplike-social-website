@@ -86,9 +86,9 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
             </ul>
 
             <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="co" title="home" href="../"><i class="fa fa-home"></i></a>
-                </li>
+                    <a class="co" title="home" href="../">
+                <li class="nav-item text-nowrap"><i class="fa fa-home"></i>
+                </li></a>
             </ul>
 
             <ul class="navbar-nav  px-3">
@@ -689,15 +689,15 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                             <form @submit.prevent="saveConfig">
                                 <div class="form-group">
                                     <label for="appName">Application Name</label>
-                                    <input type="text" class="form-control" v-model="config.appName">
+                                    <input type="text" id="appName" class="form-control" v-model="config.appName">
                                 </div>
                                 <div class="form-group">
                                     <label for="fileSizeLimit">File Size Limit (<span id="mbCalc">{{ (config.fileSizeLimit/(1024*1024)).toFixed(3) }}</span> MB)</label>
-                                    <input type="number" class="form-control" v-model="config.fileSizeLimit">
+                                    <input type="number" id="fileSizeLimit" class="form-control" v-model="config.fileSizeLimit">
                                 </div>
                                 <div class="form-group">
                                     <label for="defaultTheme">Default Theme</label>
-                                    <select class="form-control" v-model="config.defaultTheme">
+                                    <select class="form-control" id="defaultTheme" v-model="config.defaultTheme">
                                         <option value="light">Light</option>
                                         <option value="dark">Dark</option>
                                         <option value="install" disabled>Install New Themes</option>
@@ -705,7 +705,7 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                                 </div>
                                 <div class="form-group">
                                     <label for="accentColor">Accent Color</label>
-                                    <input type="color" class="border-0 mx-3" v-model="config.accentColor">
+                                    <input type="color" id="accentColor" class="border-0 mx-3" v-model="config.accentColor">
                                     <button class="btn" @click="config.accentColor = ''">reset</button>
                                 </div>
                                 <button type="submit" class="btn btn-primary bg">Save Settings</button>
