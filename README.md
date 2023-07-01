@@ -271,7 +271,8 @@ other pages include comments page, post page, settings page, topics page, storie
 ## Admin dashboard
 <details>
 <summary>read more</summary>
-<img src="./_githubasserts/dashboard.webp" align="center"><br>
+
+![Alt text](_githubasserts/dashboard.png)
 The Admin Dashboard allows you to see analytics and perform moderation functions<br>
 
 ### you can do the following on the dashboard
