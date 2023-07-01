@@ -75,13 +75,14 @@ check out [demo]('https://bethro.alwaysdata.net/');
 
 1. Download the latest release file.
   
-  | File                                                                                                     | Description                |
-  | -------------------------------------------------------------------------------------------------------- | -------------------------- |
-  | [v1.46 zip file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.zip)       | Latest release zip file    |
-  | [v1.46 tar.gz file](https://github.com/bethropolis/suplike-social-website/archive/refs/tags/1.46.tar.gz) | Latest release tar.gz file |
+  | File                                                                                                                    | Description               |Size        |
+  | ------------------------------------------------------------------------------------------------------------------------| --------------------------|------------| 
+  | [v1.5 zip file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.zip)| Latest release zip file   |  1.4 MB    |
+  | [v1.5 tar file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.tar)| Latest release tar.gz file|   3.0 MB   |
+  | [v1.5 installer-script.php](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/installer-script.php)|  installer script    |   2 kB     |
 
 
-1. unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using.
+1. unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using. (installer script does this automatically)
    > I recommend renaming the extracted folder to `suplike` (the url will be shorter).
 
 <br/>
