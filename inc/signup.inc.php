@@ -2,9 +2,7 @@
 require 'dbh.inc.php';
 require 'Auth/auth.php';
 require 'Auth/email.php';
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-
-$url = $protocol . $_SERVER['HTTP_HOST'] . "/";
+require_once  'extra/session.func.php';
 
 if (!isset($_POST['signup-submit'])) {
     header("location: ../signup.php");
@@ -92,11 +90,12 @@ $getId = "SELECT `idusers` FROM `users` WHERE `uidusers`='$username'";
 $response = (mysqli_fetch_assoc($conn->query($getId)))['idusers'];
 $outhsql = "INSERT INTO `auth_key` (`user`,`user_auth`,`chat_auth`,`browser_auth`,`token`,`api_key`) VALUES ($response,'$oauth->user_auth','$oauth->chat_auth','$oauth->browser_auth','$oauth->token','$oauth->api_key') ";
 $conn->query($outhsql);
-$link = "$url/inc/Auth/verify.php?id=" . $oauth->user_auth;
+$link = BASE_URL."/inc/Auth/verify.php?id=" . $oauth->user_auth;
 $email_template = "Hey $username, <br> please confirm your email by clicking on the link below: <br> <a href='$link'>Confirm Email</a>";
 send_email($email, 'Suplike: Confirm your email', $email_template);
 
-setcookie('token', $oauth->token, time() + (86400 * 30), "/");
+$session = create_session_token($getId);
+setcookie('token', $session, time() + (86400 * 7), '/');
 $_SESSION['userId'] = $getId;
 header("Location: ../search.php?q=e&id=$response&token=$oauth->token");
 

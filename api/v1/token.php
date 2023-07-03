@@ -47,7 +47,6 @@ function checkSessionId($uuid)
     define('SESSION_ID', $session_id);
   } else {
     $error->err("API access", 23, "User authentication failed");
-
   }
 }
 function authentication_check($user)
@@ -76,13 +75,23 @@ function create_session_token($user)
     $bytes = random_bytes($length);
     return substr(bin2hex($bytes), 0, $length);
   }
-  // generate session token
+
   $session_token = generate_session_token();
 
-  // insert session into database
-  $stmt = $conn->prepare("INSERT INTO session (session_id, user_id) VALUES (?, ?)");
-  $stmt->bind_param("si", $session_token, $user);
-  $stmt->execute();
+  $stmt_check = $conn->prepare("SELECT session_id FROM session WHERE user_id = ?");
+  $stmt_check->bind_param("i", $user);
+  $stmt_check->execute();
+  $result = $stmt_check->get_result();
+
+  if ($result->num_rows > 0) {
+    $stmt_update = $conn->prepare("UPDATE session SET session_id = ? WHERE user_id = ?");
+    $stmt_update->bind_param("si", $session_token, $user);
+    $stmt_update->execute();
+  } else {
+    $stmt_insert = $conn->prepare("INSERT INTO session (session_id, user_id) VALUES (?, ?)");
+    $stmt_insert->bind_param("si", $session_token, $user);
+    $stmt_insert->execute();
+  }
 
   return $session_token;
 }

@@ -83,7 +83,7 @@ $conn->query($outhsql);
 // generate session token
 $session_token = create_session_token($response);
 
-$actual_link = BASE_URL . "{$prof}";
+$actual_link = BASE_URL . "/{$prof}";
 $result = [
     'type' => 'success',
     'profile_picture' => $actual_link,

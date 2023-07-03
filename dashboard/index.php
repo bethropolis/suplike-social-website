@@ -30,7 +30,7 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
     <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../lib/jquery/jquery.dataTables.min.css">
     <!-- Custom styles for this template -->
-    <link href="dashboard.css?b4" rel="stylesheet">
+    <link href="dashboard.css?v1.5" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -86,14 +86,15 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
             </ul>
 
             <ul class="navbar-nav px-3">
-                    <a class="co" title="home" href="../">
-                <li class="nav-item text-nowrap"><i class="fa fa-home"></i>
-                </li></a>
+                <a class="co" title="home" href="../">
+                    <li class="nav-item text-nowrap"><i class="fa fa-home"></i>
+                    </li>
+                </a>
             </ul>
 
             <ul class="navbar-nav  px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="co" :title="user" href="../profile.php"><img :src="'../img/'+'<?= $_SESSION["profile-pic"] ?>'||'default.jpg'" class="profile-img rounded-circle " alt="profile"></a>
+                    <a class="co" :title="user" href="../profile.php"><img :src="'../img/'+'<?= $_SESSION["profile-pic"] ?>'||'default.jpg'" class="profile-img rounded-circle " width="21px" height="21px" alt="profile"></a>
                 </li>
             </ul>
         </nav>

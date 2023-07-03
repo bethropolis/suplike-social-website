@@ -61,7 +61,7 @@ if (isset($_GET['username'])) {
         $profile = [
             'username' => $row['uidusers'],
             'name' => $row['usersFirstname'] . ' ' . $row['usersSecondname'],
-            'picture' => BASE_URL . "{$row['profile_picture']}",
+            'picture' => BASE_URL . "/{$row['profile_picture']}",
             'token' => $row['token'],
             'isFollowing' => $un_ravel->_isFollower($user, $from),
             'followers' => $row['followers'],

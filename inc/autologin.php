@@ -8,7 +8,7 @@ if (isset($_GET['login'])) {
         //code...
         $token = $_COOKIE['token'];
 
-        $id = $un_ravel->_getUser($token);
+        $id = get_user_id_from_session_token($token);
         if ($id) {
             $sql = "SELECT * FROM users WHERE idusers = '$id'";
             $result = $conn->query($sql);
@@ -33,7 +33,7 @@ if (isset($_GET['login'])) {
         }
     } catch (\Throwable $th) {
         //throw $th;
-        header("Location: ../home.php?login=error");
+        header("Location: ./logout.inc.php");
     }
 } else {
     // send to login page

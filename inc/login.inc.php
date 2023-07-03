@@ -1,8 +1,10 @@
 <?php
+require_once 'dbh.inc.php';
+require_once  'Auth/auth.php';
+require_once  'extra/session.func.php';
+
 if (isset($_POST['login-submit'])) {
 
-    include 'dbh.inc.php';
-    require 'Auth/auth.php';
 
     $mailuid = $_POST['mailuid'];
     $password = $_POST['pwd'];
@@ -57,7 +59,8 @@ if (isset($_POST['login-submit'])) {
                     $_SESSION['isAdmin'] = $row['isAdmin'];
                     // set a cookie for the user to remember them for a week called token ($auth->user)
                     if ($_POST['remember']) {
-                        setcookie('token', $auth->user, time() + (86400 * 7), '/');
+                        $session = create_session_token($row['idusers']);
+                        setcookie('token', $session, time() + (86400 * 7), '/');
                     }
                     header("Location: ../home.php?login=success");
                     exit();
