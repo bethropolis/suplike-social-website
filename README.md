@@ -9,16 +9,15 @@
 ![code](https://badgen.net/github/license/micromatch/micromatch)
 
 <p>
- suplike social is a feature rich fully open source social network that is easy to selfhost.<br />
+ suplike social is a feature rich fully open source social network.<br />
 
 
  it's made using <b> PHP/HTML/JS/CSS</b> <br />
   
-it's easy to install and setup[features](#features);
+it's easy to install and [setup](#installation);
 
-check out [demo]('https://bethro.alwaysdata.net/');
+ check out [demo](https://bethro.alwaysdata.net)
 
-</p>
 
 # Table of Contents
 
