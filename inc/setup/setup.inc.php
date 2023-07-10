@@ -1,53 +1,82 @@
 <?php
 require_once '../Auth/auth.php';
 require_once '../errors/error.inc.php';
+header('Content-Type: application/json');
 
 $auth = new Auth();
 $errorHandler = new Err();
 
-$setupData = json_decode(file_get_contents("./setup.suplike.json"));
+function handleSetupRequest($conn, $auth, $errorHandler)
+{
 
-if ($setupData->setup) {
-    die("<h4>Already set up</h4>");
-}
+    $setupData = json_decode(file_get_contents("./setup.suplike.json"));
 
-if (!isset($_POST["server"]) || !isset($_POST["name"]) || !isset($_POST["pwd"])) {
-    $errorHandler->err('Setup', 1, 'Missing database configuration info');
-    die();
-}
+    if ($setupData->setup) {
+        return [
+            'success' => true,
+            'msg' => 'Already set up'
+        ];  
+    }
 
-$serverName = $_POST["server"];
-$dbUser = $_POST["name"];
-$dbPassword = $_POST["pwd"];
-$dbName = isset($_POST["db"]) && !empty($_POST["db"]) ? $_POST["db"] : 'suplike';
-$dropDatabase = isset($_POST["drop"]) && $_POST["drop"] == "on";
-
-// Create and select the database
-if (!$conn = mysqli_connect($serverName, $dbUser, $dbPassword)) {
-    $errorHandler->err('Setup', 2, 'Could not connect to the database');
-    die();
-}
-
-if ($dropDatabase) {
-    if (!$conn->query("DROP DATABASE IF EXISTS $dbName")) {
-        $errorHandler->err('Setup', 7, 'Error dropping the database');
+    if (!isset($_POST["server"]) || !isset($_POST["name"]) || !isset($_POST["pwd"])) {
+        $errorHandler->err('Setup', 1, 'Missing database configuration info');
         die();
     }
-}
 
-if (!$conn->query("CREATE DATABASE IF NOT EXISTS $dbName")) {
-    $errorHandler->err('Setup', 3, 'Error creating the database');
-    die();
-}
+    $serverName = $_POST["server"];
+    $dbUser = $_POST["name"];
+    $dbPassword = $_POST["pwd"];
+    $dbName = isset($_POST["db"]) && !empty($_POST["db"]) ? $_POST["db"] : 'sup';
+    $dropDatabase = isset($_POST["drop"]) && $_POST["drop"] == "on";
 
-if (!$conn->select_db($dbName)) {
-    $errorHandler->err('Setup', 4, 'Error selecting the database');
-    die();
-}
+    try {
+        if (!$conn = @mysqli_connect($serverName, $dbUser, $dbPassword)) {
+            $errorMessage = 'Could not connect to the database';
 
-function createEnvFile($serverName, $dbUser, $dbPassword, $dbName)
-{
-    $fileContent = <<<EOT
+            if (isset($errorHandler)) {
+                $errorHandler->err('Setup', 2, $errorMessage);
+            }
+            die();
+        }
+    } catch (Exception $e) {
+        $errorMessage = 'Could not connect to the database';
+        $errorHandler->err('Setup', 2, $errorMessage);
+        die();
+    }
+
+
+    if ($dropDatabase) {
+        if (!$conn->query("DROP DATABASE IF EXISTS $dbName")) {
+            $errorHandler->err('Setup', 7, 'Error dropping the database');
+            die();
+        }
+    }
+
+
+    if (!$dropDatabase) {
+        $checkDatabaseQuery = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$dbName'";
+        $checkDatabaseResult = $conn->query($checkDatabaseQuery);
+
+        if ($checkDatabaseResult && $checkDatabaseResult->num_rows > 0) {
+            $errorMessage = "Database '$dbName' already exists";
+            $errorHandler->err('Setup', 8, $errorMessage);
+            die();
+        }
+    }
+
+    if (!$conn->query("CREATE DATABASE IF NOT EXISTS $dbName")) {
+        $errorHandler->err('Setup', 3, 'Error creating the database');
+        die();
+    }
+
+    if (!$conn->select_db($dbName)) {
+        $errorHandler->err('Setup', 4, 'Error selecting the database');
+        die();
+    }
+
+    function createEnvFile($serverName, $dbUser, $dbPassword, $dbName)
+    {
+        $fileContent = <<<EOT
 <?php
 \$protocol = (!empty(\$_SERVER['HTTPS']) && \$_SERVER['HTTPS'] !== 'off' || \$_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 
@@ -72,74 +101,96 @@ if (!defined('FILE_SIZE_LIMIT')) define('FILE_SIZE_LIMIT', 6291456);
 if (!defined('RANDOM_BYTES_LENGTH')) define('RANDOM_BYTES_LENGTH', 4);
 EOT;
 
-    file_put_contents("env.php", $fileContent);
-}
+        file_put_contents("env.php", $fileContent);
+    }
 
 
-createEnvFile($serverName, $dbUser, $dbPassword, $dbName);
+    createEnvFile($serverName, $dbUser, $dbPassword, $dbName);
 
-function executeSqlFromFile($conn, $filename)
-{
-    $sqlFileContent = file_get_contents($filename);
+    function executeSqlFromFile($conn, $filename)
+    {
+        global $errorHandler;
+        $sqlFileContent = file_get_contents($filename);
 
-    $sqlQueries = explode(';', $sqlFileContent);
+        $sqlQueries = explode(';', $sqlFileContent);
 
-    foreach ($sqlQueries as $query) {
-        if (trim($query) === '') {
-            continue;
+        foreach ($sqlQueries as $query) {
+            if (trim($query) === '') {
+                continue;
+            }
+
+            try {
+                if (!$conn->query($query)) {
+                    return false;
+                }
+            } catch (Exception $e) {
+                $errorHandler->err('Setup', 6, "error in creating database: " . $e->getMessage());
+                die();
+            }
         }
 
-        if (!$conn->query($query)) {
+        return true;
+    }
+
+    if (!executeSqlFromFile($conn, "../../sql/suplike.sql")) {
+        $errorHandler->err('Setup', 5, 'Error executing SQL file');
+        die();
+    }
+
+
+    function createUser($conn, $auth, $user, $email, $password, $isAdmin, $verify_mail = true)
+    {
+        global $errorHandler;
+
+        $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare("SELECT uidusers FROM users WHERE uidusers = ?");
+        $stmt->bind_param("s", $user);
+        $stmt->execute();
+
+        if ($stmt->get_result()->num_rows) {
             return false;
         }
+
+        $stmt = $conn->prepare("INSERT INTO users (uidusers, emailusers, pwdUsers, isAdmin,email_verified) VALUES (?,?, ?, ?, ?)");
+        $stmt->bind_param("sssii", $user, $email, $hashedPwd, $isAdmin, $verify_mail);
+        $stmt->execute();
+
+        $getIdStmt = $conn->prepare("SELECT `idusers` FROM `users` WHERE `uidusers` = ?");
+        $getIdStmt->bind_param("s", $user);
+        $getIdStmt->execute();
+        $userId = $getIdStmt->get_result()->fetch_assoc()['idusers'];
+
+        $stmt = $conn->prepare("INSERT INTO `auth_key` (`user`, `token`, `chat_auth`, `browser_auth`, `user_auth`,`api_key`) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssss", $userId, $auth->token, $auth->chat_auth, $auth->browser_auth, $auth->user_auth, $auth->api_key);
+        $stmt->execute();
+
+        setcookie('token', $auth->token, time() + (86400 * 30), "/");
+        return true;
     }
 
-    return true;
-}
-
-if (!executeSqlFromFile($conn, "../../sql/suplike.sql")) {
-    $errorHandler->err('Setup', 5, 'Error executing SQL file');
-    die();
-}
-
-
-function createUser($conn, $auth, $user, $email, $password, $isAdmin, $verify_mail = true)
-{
-    $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
-
-    $stmt = $conn->prepare("SELECT uidusers FROM users WHERE uidusers = ?");
-    $stmt->bind_param("s", $user);
-    $stmt->execute();
-
-    if ($stmt->get_result()->num_rows) {
-        die("Username is already in use");
+    $user = !empty($_POST['user']) ? $_POST['user'] : 'admin';
+    $email = !empty($_POST['mail']) ? $_POST['mail'] : 'admin@localhost';
+    $password = $_POST['pass'];
+    if (!createUser($conn, $auth, $user, $email, $password, true)) {
+        $errorHandler->err('Setup', 6, 'Error creating user');
+        die();
     }
+    $setupData->setup = true;
+    $setupData->owner = $user;
+    $setupData->setupDate = date("c");
+    file_put_contents('./setup.suplike.json', json_encode($setupData));
 
-    $stmt = $conn->prepare("INSERT INTO users (uidusers, emailusers, pwdUsers, isAdmin,email_verified) VALUES (?,?, ?, ?, ?)");
-    $stmt->bind_param("sssii", $user, $email, $hashedPwd, $isAdmin, $verify_mail);
-    $stmt->execute();
 
-    $getIdStmt = $conn->prepare("SELECT `idusers` FROM `users` WHERE `uidusers` = ?");
-    $getIdStmt->bind_param("s", $user);
-    $getIdStmt->execute();
-    $userId = $getIdStmt->get_result()->fetch_assoc()['idusers'];
-
-    $stmt = $conn->prepare("INSERT INTO `auth_key` (`user`, `token`, `chat_auth`, `browser_auth`, `user_auth`,`api_key`) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $userId, $auth->token, $auth->chat_auth, $auth->browser_auth, $auth->user_auth, $auth->api_key);
-    $stmt->execute();
-    setcookie('token', $auth->token, time() + (86400 * 30), "/");
-    return true;
+    return [
+        'success' => true,
+        'msg' => 'Setup completed successfully'
+    ];
 }
 
-$user = $_POST['user'];
-$email = $_POST['mail'];
-$password = $_POST['pass'];
-if (!createUser($conn, $auth, $user, $email, $password, true)) {
-    $errorHandler->err('Setup', 6, 'Error creating user');
-    die();
+
+// Check if the request method is POST and call the handler function
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $response = handleSetupRequest($conn, $auth, $errorHandler);
+    echo json_encode($response);
 }
-$setupData->setup = true;
-$setupData->owner = $user;
-$setupData->setupDate = date("c");
-file_put_contents('./setup.suplike.json', json_encode($setupData));
-header('location: ../../login.php?dbSet=success');
