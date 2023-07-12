@@ -1,3 +1,5 @@
+> Checkout [https://bethro.alwaysdata.net/](https://bethro.alwaysdata.net/) for latest version
+
 ![logo](https://github.com/bethropolis/suplike-social-website/raw/master/img/suplike.svg) 
  
 # hello welcome to suplike 
