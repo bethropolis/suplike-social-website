@@ -3,4 +3,6 @@ inc/music/
 inc/image/
 img/
 vendor/
-*error.log.txt
+plugins/intergrations/
+plugins/PluginSystem/config/config.json
+plugins/PluginSystem/errors/errors.log.txt

@@ -39,7 +39,6 @@ if (isset($_POST['login-submit'])) {
                     exit();
                 }
                 $pwdCheck = password_verify($password, $row['pwdUsers']);
-
                 if ($pwdCheck === false) {
                     header("Location: ../login.php?error=wrongpwd");
                     exit();
