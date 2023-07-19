@@ -20,6 +20,7 @@ require_once __DIR__ . "/../../inc/Auth/auth.php";
 require_once __DIR__ . "/../../inc/extra/notification.class.php";
 require_once __DIR__ . "/../../inc/errors/error.inc.php";
 require_once __DIR__ . "/../../inc/extra/xss-clean.func.php";
+require_once __DIR__ . "/../../inc/extra/ratelimit.class.php";
 require "bot/bot.php";
 
 // Set error log path

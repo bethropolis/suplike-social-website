@@ -1,8 +1,9 @@
 <?php
-require 'dbh.inc.php';
-require 'Auth/auth.php';
-require 'Auth/email.php';
+require_once 'dbh.inc.php';
+require_once 'Auth/auth.php';
+require_once 'Auth/email.php';
 require_once  'extra/session.func.php';
+require_once "extra/ratelimit.class.php";
 
 if (!isset($_POST['signup-submit'])) {
     header("location: ../signup.php");
