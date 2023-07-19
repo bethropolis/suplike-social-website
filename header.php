@@ -14,17 +14,6 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <?php require_once "template/meta.php" ?>
-  <link rel="apple-touch-icon" href="img/icon/apple-touch-icon.png" />
-  <link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="./lib/font-awesome/css/all.min.css" defer>
-  <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./css/style.min.css?g">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="./lib/lightbox/css/lightbox.min.css">
-  <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
-  <script src="lib/lazyload/jquery.lazyload-any.js" defer></script>
-  <script src="./js/online.min.js" defer></script>
-  <script src="registerSW.js"></script>
   <script>
     // load css if localstorage  theme = dark
     let theme = localStorage.getItem('theme') || '<?= defined('DEFAULT_THEME') ? DEFAULT_THEME : 'light' ?>';

@@ -2,32 +2,41 @@
 require 'dbh.inc.php';
 require 'Auth/auth.php';
 session_start();
+include_once '../plugins/load.php';
+use Bethropolis\PluginSystem\System;
 
-//auth check
+// Auth check
 $un_ravel->_isAuth();
 
 $id = $_GET['id'];
 $user = $_SESSION['userId'];
 
-$sql = "SELECT * FROM `posts` WHERE `post_id` = '$id'";
-$result = $conn->query($sql);
-$row = mysqli_fetch_assoc($result);
+// Fetch the original post
+$stmt = $conn->prepare("SELECT * FROM posts WHERE post_id = ?");
+$stmt->bind_param("s", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
 if (empty($row)) {
     header('Location: ../home?error=notexist');
     exit();
 }
 
 if ($row['userid'] == $user) {
-    header('Location: ../home?error=yrpost'); 
+    header('Location: ../home?error=yrpost');
     exit();
 }
 
-$sql = "SELECT `id` FROM `posts` WHERE `repost` = '$id' AND `userid`='$user'"; 
-$result = $conn->query($sql);
+// Check if already reposted
+$stmt = $conn->prepare("SELECT id FROM posts WHERE repost = ? AND userid = ?");
+$stmt->bind_param("ss", $id, $user);
+$stmt->execute();
+$result = $stmt->get_result();
 
-if(!empty(mysqli_fetch_assoc($result))){ 
-    header('Location: ../home?error=reposting'); 
-     exit(); 
+if (!empty($result->fetch_assoc())) {
+    header('Location: ../home?error=reposting');
+    exit();
 }
 
 $d = new DateTime('now', $timeZone);
@@ -35,23 +44,15 @@ $date = $d->format('j M');
 $day = $d->format('l');
 $image = $row['image'];
 $image_text = $row['image_text'];
-$bin =bin2hex(openssl_random_pseudo_bytes(4));
+$bin = bin2hex(openssl_random_pseudo_bytes(4));
 
-if($row['type'] == 'txt'){
-    $type = "txt";
-    $sql = "INSERT INTO posts (`post_id`,`image_text`, `userid`,`repost`,`type` ,`date_posted`, `day`) VALUES ('$bin', '$image_text', $user,'$id', '$type', '$date', '$day')";
-    $conn->query($sql); 
+$type = $row['type'];
+$stmt = $conn->prepare("INSERT INTO posts (post_id, image, image_text, repost, type, userid, date_posted, day) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssssss", $bin, $image, $image_text, $id, $type, $user, $date, $day);
+$stmt->execute();
 
-}
+// Trigger plugin events for reposting
+System::triggerEvent("post_reposted",null, ['post_id' => $bin, 'user_id' => $user]);
 
-if($row['type'] == 'img'){ 
-    $type = "img";
-    $sql = "INSERT INTO posts (`post_id`,`image`, `image_text`,`repost`, `type`, `userid`, `date_posted`, `day`) VALUES ('$bin','$image','$image_text','$id','$type',$user,'$date','$day')";
-    $conn->query($sql); 
-    print_r($sql);
-}
-
-
-header('Location: ../home?success=reposted');  
- exit(); 
-
+header('Location: ../home?success=reposted');
+exit();

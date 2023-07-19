@@ -1,21 +1,25 @@
 <?php
 include_once 'dbh.inc.php';
 include_once 'Auth/auth.php';
+include_once '../plugins/load.php';
+use Bethropolis\PluginSystem\System;
 
 session_start();
-//auth check
+// Auth check
 $un_ravel->_isAuth();
 
 header('Content-Type: application/json');
+
 if (isset($_POST['id'])) {
 	if (!empty($_POST['id'])) {
 		$id = $_POST['id'];
 		$sql = "INSERT INTO `reports` (`post_id`) VALUES ($id)";
 		$result = $conn->query($sql);
-		print_r(json_encode("reported"));
+		System::executeHook('report_hook', null, ['id' => $id]);
+		echo json_encode("reported");
 		exit();
 	} else {
-		print_r(json_encode("error could not be reported"));
+		echo json_encode("error could not be reported");
 	}
 }
 
@@ -25,14 +29,13 @@ if (isset($_GET['comment'])) {
 	$conn->query($sql);
 	$from = $_SERVER['HTTP_REFERER'] . '&act=reported';
 	header('Location: ' . $from);
+	exit();
 }
-
-
 
 // ADMIN SECTION
 
 if (!$un_ravel->_isAdmin($_SESSION['userId'])) {
-	print_r(json_encode("error not auth"));
+	echo json_encode("error not auth");
 	exit();
 }
 
@@ -43,7 +46,7 @@ if (isset($_POST['del'])) {
 
 	$sql = "DELETE FROM `posts` WHERE `id`=$id";
 	$conn->query($sql);
-	print_r(json_encode("deleted"));
+	echo json_encode("deleted");
 	exit();
 }
 
@@ -54,7 +57,8 @@ if (isset($_POST['delc'])) {
 	$conn->query($sql);
 	$sql = "DELETE FROM `comments` WHERE `comments`.`id` = " . $c;
 	$conn->query($sql);
-	print_r(json_encode("deleted"));
+	echo json_encode("deleted");
+	exit();
 }
 
 if (isset($_GET['report'])) {
@@ -66,15 +70,14 @@ if (isset($_GET['report'])) {
 	$stmt->execute();
 	$response = $stmt->get_result();
 	while ($row = $response->fetch_assoc()) {
+		$post_id = "";
 		if ($row['is_comment']) {
 			$sql = "SELECT `post_id` FROM `comments` WHERE `id` = ?";
-		} else {
-			$sql = "SELECT `post_id` FROM `posts` WHERE `id` = ?";
-		}
-		$stmt = $conn->prepare($sql);
-		if ($row['is_comment']) {
+			$stmt = $conn->prepare($sql);
 			$stmt->bind_param("i", $row['comment_id']);
 		} else {
+			$sql = "SELECT `post_id` FROM `posts` WHERE `id` = ?";
+			$stmt = $conn->prepare($sql);
 			$stmt->bind_param("i", $row['post_id']);
 		}
 		$stmt->execute();
@@ -84,8 +87,7 @@ if (isset($_GET['report'])) {
 			$row['slug'] = $post_id;
 			$arr[] = $row;
 		}
-		
 	}
-	
+
 	echo json_encode($arr);
 }

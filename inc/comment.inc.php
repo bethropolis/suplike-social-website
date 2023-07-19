@@ -5,16 +5,17 @@ include_once './Auth/auth.php';
 include_once './extra/notification.class.php';
 include_once './extra/xss-clean.func.php';
 include_once './errors/error.inc.php';
+include_once '../plugins/load.php';
+use Bethropolis\PluginSystem\System;
 $notify = new Notification();
 session_start();
 
 $un_ravel->_isAuth();
 
-if (!defined("USER_COMMENTS") or !USER_COMMENTS) {
-    $error->err("Comments", 22, "commenting has been disabled by admin.");
+if (!defined("USER_COMMENTS") || !USER_COMMENTS) {
+    $error->err("Comments", 22, "Commenting has been disabled by the admin.");
     exit();
 }
-
 
 if (isset($_POST['id'])) {
     $comment = xss_clean($_POST['comment']);
@@ -42,26 +43,31 @@ if (isset($_POST['id'])) {
         $notify->notify($user, $text, 'post');
     }
 
+    System::executeHook("comment_created", null, ["post_id" => $post, "user_id" => $user]);
+
     print_r(json_encode([
         "type" => "success",
-        "msg" => "commented",
+        "msg" => "Commented",
     ]));
 }
-
 
 // Delete comment if it is the user's comment
 if (isset($_POST['del_comment_id'])) {
     $comment_id = $_POST['del_comment_id'];
     $sql = "SELECT `user` FROM `comments` WHERE `id`='$comment_id'";
-    $user = (mysqli_fetch_assoc($conn->query($sql)))['user'];
+    $user = mysqli_fetch_assoc($conn->query($sql))['user'];
+    
     if ($user == $_SESSION['userUid'] || $un_ravel->_isAdmin($_SESSION['userId'])) {
         $sql = "UPDATE `comments` SET `comment`='[deleted]', `user`='deleted' WHERE `id`='$comment_id'";
         $conn->query($sql);
+
+        System::executeHook("comment_deleted", null, ["comment_id" => $comment_id]);
+
         print_r(json_encode([
             "type" => "success",
-            "msg" => "deleted",
+            "msg" => "Deleted",
         ]));
     } else {
-        $error->err("Comments", 22, "not authorised to delete this comment");
+        $error->err("Comments", 22, "Not authorized to delete this comment");
     }
 }

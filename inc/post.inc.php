@@ -4,60 +4,107 @@ require_once 'dbh.inc.php';
 require_once 'Auth/auth.php';
 require_once 'errors/error.inc.php';
 require_once 'extra/xss-clean.func.php';
+include_once '../plugins/load.php';
+use Bethropolis\PluginSystem\System;
+
 header('content-type: application/json');
 session_start();
 
-//auth check
+// Auth check
 $un_ravel->_isAuth();
 
-
-
-
-
+/**
+ * Validates the input values for the post.
+ *
+ * @param string $type The type of the post ('img' or 'txt')
+ * @param string $image_text The text of the post
+ * @param int $file_size The size of the image file (for 'img' type)
+ * @param string $file_ext The extension of the image file (for 'img' type)
+ * @return string|true The validation error message, or true if all checks pass
+ */
 function validate_input($type, $image_text, $file_size, $file_ext)
 {
-    // print_r([$type, $image_text, $file_size, $file_ext]);
-    // die();
-
-    if ($type != "img" && $type != "txt") {
-        return 'invalid post type';
+    if ($type !== "img" && $type !== "txt") {
+        return 'Invalid post type';
     }
 
-    // Check if the image text is empty
-    if ($type == "txt" && $image_text === "") {
-        return 'post text cannot be empty';
-    }
-    // Check if the file size and extension are valid
-    if ($type == "img" && !in_array($file_ext, FILE_EXTENSIONS)) {
-        return 'unsupported file format';
+    if ($type === "txt" && empty($image_text)) {
+        return 'Post text cannot be empty';
     }
 
-    if ($type == "img" && $file_size > FILE_SIZE_LIMIT) {
-        return 'file too large';
+    if ($type === "img" && !in_array($file_ext, FILE_EXTENSIONS)) {
+        return 'Unsupported file format';
     }
-    // Return true if all checks pass
+
+    if ($type === "img" && $file_size > FILE_SIZE_LIMIT) {
+        return 'File too large';
+    }
+
     return true;
 }
 
+/**
+ * Generates a unique post ID.
+ *
+ * @return string The generated post ID
+ */
 function generate_post_id()
 {
     return bin2hex(openssl_random_pseudo_bytes(RANDOM_BYTES_LENGTH));
 }
 
+/**
+ * Inserts a post into the database.
+ *
+ * @param mysqli $conn The database connection object
+ * @param string $image_text The text of the post
+ * @param string $image The image filename (for 'img' type)
+ * @param string $type The type of the post ('img' or 'txt')
+ * @param int $user The user ID
+ * @param DateTime $d The current DateTime object
+ * @return string The generated post ID
+ */
 function insert_post($conn, $image_text, $image, $type, $user, $d)
 {
-    // Prepare the SQL statement with named parameters
-    $sql = "INSERT INTO posts (`post_id`, `image_text`,`image`, `type`, `userid`, `date_posted`, `day`) VALUES (?, ?, ?, ?, ?,?,?)";
+    $sql = "INSERT INTO posts (`post_id`, `image_text`, `image`, `type`, `userid`, `date_posted`, `day`) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    // Bind the parameters with the values
+
     $day = $d->format('l');
     $date = $d->format('j M');
     $post_id = generate_post_id();
+
     $stmt->bind_param("sssssss", $post_id, $image_text, $image, $type, $user, $date, $day);
-    // Execute the statement
     $stmt->execute();
+    $stmt->close();
 
     return $post_id;
+}
+
+/**
+ * Inserts data into the stories table.
+ *
+ * @param mysqli $conn The database connection.
+ * @param string $image_text The text of the story.
+ * @param string $image The image URL of the story.
+ * @param string $type The type of the story.
+ * @param string $user The user ID of the story.
+ * @return bool
+ */
+function insert_story($conn, $image_text, $image, $type, $user)
+{
+    // Prepare the SQL statement with named parameters
+    $sql = "INSERT INTO stories (`post_id`, `text`,`image`, `type`, `userid`) VALUES (?, ?,?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+
+    // Bind the parameters with the values
+    $post_id = generate_post_id();
+    $stmt->bind_param("sssss", $post_id, $image_text, $image, $type, $user);
+
+    // Execute the statement
+    $stmt->execute();
+    $stmt->close();
+
+    return;
 }
 
 /**
@@ -70,7 +117,6 @@ function insert_post($conn, $image_text, $image, $type, $user, $d)
 function getPostId($conn, $post_id)
 {
     $post_id = mysqli_real_escape_string($conn, $post_id);
-
     $sql = "SELECT id FROM posts WHERE post_id = '$post_id'";
     $result = mysqli_query($conn, $sql);
 
@@ -82,7 +128,6 @@ function getPostId($conn, $post_id)
     return false;
 }
 
-
 /**
  * Retrieves the ID from the tags table based on the tag name.
  *
@@ -93,7 +138,6 @@ function getPostId($conn, $post_id)
 function getTagIdByName($conn, $tag_name)
 {
     $tag_name = mysqli_real_escape_string($conn, $tag_name);
-
     $sql = "SELECT id FROM tags WHERE name = '$tag_name'";
     $result = mysqli_query($conn, $sql);
 
@@ -104,7 +148,6 @@ function getTagIdByName($conn, $tag_name)
 
     return false;
 }
-
 
 /**
  * Inserts tags of a post into the post_tags and tags tables.
@@ -117,11 +160,11 @@ function insertPostTags($conn, $postId, $tags)
 {
     $id = getPostId($conn, $postId);
     $tagArray = array_map('trim', explode(',', $tags));
+
     foreach ($tagArray as $tagName) {
         if (!empty($tagName)) {
             $tagName = mysqli_real_escape_string($conn, $tagName);
 
-            // Use IGNORE keyword to ignore duplicate tag names
             $sql = "INSERT IGNORE INTO tags (name) VALUES ('$tagName')";
             mysqli_query($conn, $sql);
 
@@ -132,41 +175,22 @@ function insertPostTags($conn, $postId, $tags)
     }
 }
 
-
-
-// Define a function to insert data into the stories table
-function insert_story($conn, $image_text, $image, $type, $user)
-{
-    // Prepare the SQL statement with named parameters
-    $sql = "INSERT INTO stories (`post_id`, `text`,`image`, `type`, `userid`) VALUES (?, ?,?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    // Bind the parameters with the values
-    $post_id = generate_post_id();
-    $stmt->bind_param("sssss", $post_id, $image_text, $image, $type, $user);
-    // Execute the statement
-    $stmt->execute();
-}
-
 // Check if upload is set
 if (isset($_POST['upload'])) {
-
-
-    // Get the type and user from POST
+    // Get the type, user, and tags from POST
     $type = $_POST['type'];
     $user = $_SESSION['userId'];
     $tags = $_POST['tags'];
 
-
-
-
-    if (!defined("USER_POST") or !USER_POST) {
-        if ($_POST['upload'] == 'post') {
-            $error->err("POST disabled", 33, "creating posts has been disabled");
+    if (!defined("USER_POST") || !USER_POST) {
+        if ($_POST['upload'] === 'post') {
+            $error->err("POST disabled", 33, "Creating posts has been disabled");
         } else {
             header("Location: ../home.php?error=postoff");
         }
         die();
     }
+
     // Create a DateTime object with timezone
     $d = new DateTime("now", $timeZone);
 
@@ -180,27 +204,23 @@ if (isset($_POST['upload'])) {
     $image_text = preg_replace('~[\r\n]+~', '', $image_text);
 
     // Get the check value from POST or false if not set
-    $check = isset($_POST['community']) && $_POST['community'] == 'story' ? true : false;
-
+    $check = isset($_POST['community']) && $_POST['community'] === 'story';
 
     // Check if the type is image
-    if ($type == 'img') {
-
+    if ($type === 'img') {
         // Get the file size, tmp, type, and extension from FILES
         $file_size = $_FILES['image']['size'];
         $file_tmp = $_FILES['image']['tmp_name'];
         $file_type = $_FILES['image']['type'];
         $dot = explode('.', $_FILES['image']['name']);
         $file_ext = strtolower(end($dot));
-
-        // Generate a random image name
         $image = rand(12, 2000) . '_' . generate_post_id() . "." . $file_ext;
 
         // Validate the input
         $validate = validate_input($type, $image_text, $file_size, $file_ext);
         if ($validate !== true) {
-            if ($_POST['upload'] == 'post') {
-                $error->err("Post failed", 32, $validate );
+            if ($_POST['upload'] === 'post') {
+                $error->err("Post failed", 32, $validate);
             } else {
                 header("Location: ../home.php?upload=invalid");
             }
@@ -211,60 +231,52 @@ if (isset($_POST['upload'])) {
         $target = "../img/" . $image;
         move_uploaded_file($file_tmp, $target);
 
-        // Check if check is false
         if (!$check) {
             // Insert data into the posts table with image
             $id = insert_post($conn, $image_text, $image, $type, $user, $d);
             insertPostTags($conn, $id, $tags);
         } else {
             // Insert data into the stories table with image
-            insert_story($conn, $image_text, $image, $type, $user);
+             $id = insert_story($conn, $image_text, $image, $type, $user);
         }
 
-        if ($_POST['upload'] == 'post') {
-            print_r(
-                json_encode(
-                    [
-                        "type" => 'success',
-                        "message" => "Post uploaded successfully to " . $_POST['community'],
-                    ]
-                )
-            );
+        if ($_POST['upload'] === 'post') {
+            System::executeHook("post_upload", null, ["user" => $user, "post_id" => $id]);
+            echo json_encode([
+                "type" => 'success',
+                "message" => "Post uploaded successfully to " . $_POST['community'],
+            ]);
         } else {
             header("Location: ../home.php?upload=success");
         }
         die();
-    } else if ($type == 'txt') {
-
+    } elseif ($type === 'txt') {
         // Validate the input
         $validate = validate_input($type, $image_text, 0, "");
         if ($validate !== true) {
-            if ($_POST['upload'] == 'post') {
-                $error->err("Post failed", 32, $validate );
+            if ($_POST['upload'] === 'post') {
+                $error->err("Post failed", 32, $validate);
             } else {
                 header("Location: ../home.php?upload=invalid");
             }
             die();
         }
 
-        // Check if check is false
         if (!$check) {
             // Insert data into the posts table without image
             $id = insert_post($conn, $image_text, NULL, $type, $user, $d);
             insertPostTags($conn, $id, $tags);
         } else {
             // Insert data into the stories table without image
-            insert_story($conn, $image_text, '', $type, $user);
+            $id = insert_story($conn, $image_text, '', $type, $user);
         }
 
-        // Redirect to the appropriate page based on upload value
-        if ($_POST['upload'] == 'post') {
-            die(json_encode(
-                [
-                    "type" => 'success',
-                    "message" => "Post uploaded successfully to " . $_POST['community'],
-                ]
-            ));
+        if ($_POST['upload'] === 'post') {
+            System::executeHook("post_upload", null, ["user" => $user, "post_id" => $id]);
+            echo json_encode([
+                "type" => 'success',
+                "message" => "Post uploaded successfully to " . $_POST['community'],
+            ]);
         } else {
             header("Location: ../home.php?upload=success");
         }
@@ -272,6 +284,7 @@ if (isset($_POST['upload'])) {
         die();
     }
 }
+
 
 
 
