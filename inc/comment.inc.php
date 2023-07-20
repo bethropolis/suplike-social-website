@@ -5,8 +5,11 @@ include_once './Auth/auth.php';
 include_once './extra/notification.class.php';
 include_once './extra/xss-clean.func.php';
 include_once './errors/error.inc.php';
+include_once './extra/commentnotify.func.php';
 include_once '../plugins/load.php';
+
 use Bethropolis\PluginSystem\System;
+
 $notify = new Notification();
 session_start();
 
@@ -35,7 +38,10 @@ if (isset($_POST['id'])) {
     $stmt->bind_param("ssss", $post, $user, $comment, $parent_id);
     $stmt->execute();
     $stmt->store_result();
+    $comment_id = $stmt->insert_id; // Get the inserted comment ID
     $stmt->close();
+
+    commentNotify($comment, $post, $comment_id);
 
     if ($user != $_SESSION['userId']) {
         $user_name = $un_ravel->_username($_SESSION['userId']);
@@ -56,7 +62,7 @@ if (isset($_POST['del_comment_id'])) {
     $comment_id = $_POST['del_comment_id'];
     $sql = "SELECT `user` FROM `comments` WHERE `id`='$comment_id'";
     $user = mysqli_fetch_assoc($conn->query($sql))['user'];
-    
+
     if ($user == $_SESSION['userUid'] || $un_ravel->_isAdmin($_SESSION['userId'])) {
         $sql = "UPDATE `comments` SET `comment`='[deleted]', `user`='deleted' WHERE `id`='$comment_id'";
         $conn->query($sql);

@@ -1,5 +1,5 @@
 <?php
-
+require_once "../inc/dbh.inc.php";
 require __DIR__."/PluginSystem/autoload.php";
 
 use Bethropolis\PluginSystem\System;

@@ -2,6 +2,7 @@
 include_once 'dbh.inc.php';
 include_once 'Auth/auth.php';
 include_once '../plugins/load.php';
+
 use Bethropolis\PluginSystem\System;
 
 session_start();
@@ -15,7 +16,7 @@ if (isset($_POST['id'])) {
 		$id = $_POST['id'];
 		$sql = "INSERT INTO `reports` (`post_id`) VALUES ($id)";
 		$result = $conn->query($sql);
-		System::executeHook('report_hook', null, ['id' => $id]);
+		System::executeHook('report_hook', null, ['id' => $id, "type" => "post"]);
 		echo json_encode("reported");
 		exit();
 	} else {
@@ -27,6 +28,7 @@ if (isset($_GET['comment'])) {
 	$c = $_GET['comment'];
 	$sql = "INSERT INTO `reports` (`comment_id`,`is_comment`) VALUE ('$c',TRUE)";
 	$conn->query($sql);
+	System::executeHook('report_hook', null, ['id' => $id, "type" => "comment"]);
 	$from = $_SERVER['HTTP_REFERER'] . '&act=reported';
 	header('Location: ' . $from);
 	exit();
@@ -35,7 +37,7 @@ if (isset($_GET['comment'])) {
 // ADMIN SECTION
 
 if (!$un_ravel->_isAdmin($_SESSION['userId'])) {
-	echo json_encode("error not auth");
+	header('HTTP/1.1 401 Unauthorized');
 	exit();
 }
 

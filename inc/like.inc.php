@@ -65,7 +65,7 @@ if (!$likeResult && $key == 'true') {
         $notification->notify($postResult['userid'], $text, 'like');
     }
 
-    System::executeHook("like_post", null, ["name" => $user_name, "post_id" => $post]);
+    System::executeHook("like_post", null, ["post_id" => $post]);
 }
 
 if ($likeResult && $key == 'false') {

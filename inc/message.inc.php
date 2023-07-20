@@ -73,8 +73,6 @@ if (isset($_POST['from'])) {
 		$text = "You have a new message from <a href='message.php?id=$from_chat_auth'>$from_name</a>";
 		$notification->notify($to, $text, 'chat');
 
-		// Trigger plugin hook for chat message sent
-		System::executeHook('chat_message_sent', null);
 	} else {
 		$result = [
 			'code' => 1,

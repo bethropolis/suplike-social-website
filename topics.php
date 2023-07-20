@@ -56,7 +56,7 @@ if (isset($_GET['t'])) {
                         <span id='topic-no'></span> posts
                     </h5>
                     <ul class="profile-opt mb-5">
-                       <a href="post.php?tag=<?= $topic ?>" class="btn bg text-white nav-link no-h w-100">add a post</a> 
+                        <a href="post.php?tag=<?= $topic ?>" class="btn bg text-white nav-link no-h w-100">add a post</a>
                     </ul>
 
                 </div>
@@ -84,7 +84,7 @@ require "footer.php";
 <script defer>
     let no_posts = mainload('./inc/search.inc.php?type=post-tags&query=<?= $topic ?>&user=')
     get_popular_tags();
-    no_posts.then(data=>{
-    $('#topic-no').text(data);
+    no_posts.then(data => {
+        $('#topic-no').text(data);
     })
 </script>

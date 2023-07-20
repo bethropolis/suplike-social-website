@@ -131,9 +131,21 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
         <?php
         } else if (in_array($current_page, $pages_array_3)) {
         ?>
+
+          <?php
+          if ($current_page == "search") {
+          ?>
+            <a href='topics' id="topics">
+              <i class="fas fa-newspaper"></i>
+            </a>
+          <?php } ?>
+
+
           <a href='<?= $_SERVER['HTTP_REFERER'] ?? '#' ?>' id="back">
             <i class="fas fa-arrow-left"></i>
           </a>
+
+
         <?php
         } else if (in_array($current_page, $pages_array_4)) {
         ?>

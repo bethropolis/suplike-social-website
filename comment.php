@@ -145,13 +145,13 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       },
-      success:function(data, textStatus, jqXHR) {
+      success: function(data, textStatus, jqXHR) {
         if (data.type == 'success') {
           window.location.reload();
           return
         }
         alert(data.msg)
-      }, 
+      },
       error: postError
     });
   }
