@@ -1,6 +1,8 @@
 <?php
 require 'dbh.inc.php';
 require 'Auth/auth.php';
+require_once  'extra/session.func.php';
+
 $auth = new Auth();
 
 if (isset($_GET['login'])) {
@@ -8,7 +10,7 @@ if (isset($_GET['login'])) {
         //code...
         $token = $_COOKIE['token'];
 
-        $id = $un_ravel->_getUser($token);
+        $id = get_user_id_from_session_token($token);
         if ($id) {
             $sql = "SELECT * FROM users WHERE idusers = '$id'";
             $result = $conn->query($sql);
@@ -16,7 +18,7 @@ if (isset($_GET['login'])) {
                 $row = $result->fetch_assoc();
                 session_start();
                 $_SESSION['userId'] = $row['idusers'];
-                $_SESSION['token'] = $token;
+                $_SESSION['token'] = $auth->_queryUser($row['idusers']);
                 $auth->_queryUser($row['idusers'], 2);
                 $_SESSION['chat_token'] = $auth->user;
                 $_SESSION['userUid'] = $row['uidusers'];
@@ -32,8 +34,8 @@ if (isset($_GET['login'])) {
             header("Location: ./logout.inc.php");
         }
     } catch (\Throwable $th) {
-        //throw $th;
-        header("Location: ../home.php?login=error");
+        // throw $th;
+        header("Location: ./logout.inc.php");
     }
 } else {
     // send to login page

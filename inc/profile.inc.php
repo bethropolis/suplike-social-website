@@ -3,10 +3,7 @@ require 'dbh.inc.php';
 require 'Auth/auth.php';
 require 'errors/error.inc.php';
 header('content-type: application/json');
-# this is an api that gives the whole of user data on request
-# from the database.
-# the api is called by the frontend
-# the api is called by the frontend
+
 session_start();
 
 
@@ -16,7 +13,7 @@ $user = isset($_GET['user']) && $_GET['user'] != null ? $_GET['user'] : $id;
 
 
 if (!is_null($id)) {
-  $id =  $un_ravel->_getUser($id);
+  $id = $un_ravel->_getUser($id);
 }
 
 if (!is_null($user)) {

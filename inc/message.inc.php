@@ -4,32 +4,36 @@ include_once 'Auth/auth.php';
 include_once 'extra/notification.class.php';
 include_once 'extra/xss-clean.func.php';
 include_once "../api/v1/bot/bot.php";
+include_once '../plugins/load.php';
+use Bethropolis\PluginSystem\System;
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
+
 $notification = new Notification();
 session_start();
 $result = array();
-$auth =  new Auth();
+$auth = new Auth();
 
 $auth->_isAuth(); # check if user is logged in
-
 
 # STAGE 1: GETTING THE USERS
 $result_array = [];
 $result = [];
+
 if (isset($_POST['from'])) {
 	$message = $_POST['message'];
-	$from =  $un_ravel->_getUser($_POST['from']);
-	$to =  $un_ravel->_getUser($_POST['to']);
+	$from = $un_ravel->_getUser($_POST['from']);
+	$to = $un_ravel->_getUser($_POST['to']);
+
 	if ($from === $to) {
-		die(json_encode(
-			[
-				'code' => 6,
-				'msg' => "cannot message yourself",
-				'type' => 'error'
-			]
-		));
+		die(json_encode([
+			'code' => 6,
+			'msg' => "cannot message yourself",
+			'type' => 'error'
+		]));
 	}
+
 	# if user $from does not follow user $to automatically follow
 	$is_following = $auth->_isFollowing($from, $to);
 	if (!$is_following) {
@@ -59,7 +63,7 @@ if (isset($_POST['from'])) {
 			'type' => 'success'
 		];
 
-		if($un_ravel->_isBot($to)){
+		if ($un_ravel->_isBot($to)) {
 			$bot->setBot($to);
 			$bot->send("chat", $_POST['from'], $id);
 		}
@@ -68,6 +72,7 @@ if (isset($_POST['from'])) {
 		$from_chat_auth = $un_ravel->_queryUser($from, 2);
 		$text = "You have a new message from <a href='message.php?id=$from_chat_auth'>$from_name</a>";
 		$notification->notify($to, $text, 'chat');
+
 	} else {
 		$result = [
 			'code' => 1,
@@ -75,14 +80,16 @@ if (isset($_POST['from'])) {
 			'type' => 'error'
 		];
 	}
+
 	print_r(json_encode($result));
 }
 
 
+
 if (isset($_GET['start'])) {
 	$start = intval($_GET['start']);
-	$from =  $un_ravel->_getUser($_GET['from']);
-	$to =  $un_ravel->_getUser($_GET['to']);
+	$from = $un_ravel->_getUser($_GET['from']);
+	$to = $un_ravel->_getUser($_GET['to']);
 	$query = "SELECT * FROM chat WHERE `id`>$start AND ((who_from = '$from' AND who_to = '$to') OR (who_from = '$to' AND who_to = '$from'))  ORDER BY id DESC LIMIT 25";
 	$result = $conn->query($query);
 	if ($result->num_rows > 0) {

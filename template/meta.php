@@ -1,5 +1,6 @@
-
-<title><?= APP_NAME ?></title>
+<title>
+    <?= APP_NAME ?>
+</title>
 <meta name="description" content="<?= APP_NAME ?> is a website for friends and family to share" />
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -23,3 +24,16 @@
 <meta property="twitter:image" content="<?= BASE_URL ?>/img/graphic.png" />
 
 <meta name="theme-color" content="<?= ACCENT_COLOR ?>">
+
+<!-- HEADER -->
+<link rel="apple-touch-icon" href="img/icon/apple-touch-icon.png" />
+<link rel="shortcut icon" href="img/icon/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="./lib/font-awesome/css/all.min.css" defer>
+<link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/style.min.css?g">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="./lib/lightbox/css/lightbox.min.css">
+<script type="text/javascript" src="./lib/jquery/jquery.js"></script>
+<script src="lib/lazyload/jquery.lazyload-any.js" defer></script>
+<script src="./js/online.min.js" defer></script>
+<script src="registerSW.js"></script>

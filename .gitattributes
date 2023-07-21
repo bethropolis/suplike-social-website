@@ -2,3 +2,4 @@ lib/*.js  linguist-detectable=false
 libs/* linguist-vendored
 *.php linguist-language=php
 lib/*.js linguist-vendored
+_githubasserts  export-ignore

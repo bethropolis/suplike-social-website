@@ -1,6 +1,7 @@
 <?php
 require 'dbh.inc.php';
 require './Auth/auth.php';
+require './errors/error.inc.php';
 header("Content-Type: application/json");
 session_start();
 
@@ -9,7 +10,6 @@ $un_ravel->_isAuth();
 
 $user = $_SESSION['userId'];
 if (isset($_FILES['file'])) {
-    $errors = array();
     $file_name = $_FILES['file']['name'];
     $file_size = $_FILES['file']['size'];
     $file_tmp = $_FILES['file']['tmp_name'];
@@ -21,19 +21,16 @@ if (isset($_FILES['file'])) {
     $file_path =  $random_string . "." . $file_ext;
     $sql = "UPDATE `users` SET `profile_picture` = '$file_path' WHERE `idusers` = '$user'";
     if (in_array($file_ext, $expensions) === false) {
-        die(json_encode(array('error' => 'Extension not allowed, please choose a JPEG or PNG file.')));
+        $errors->err('profile_picture', 3, 'Extension not allowed, please choose a JPEG or PNG file.');
+        die();
     }
 
     if ($file_size > 2097152) {
+        
         die(json_encode(array('error' => 'File size must be excately 2 MB')));
     }
-
-    if (empty($errors) == true) {
-        move_uploaded_file($file_tmp, "../img/" . $file_path);
-        $_SESSION['profile-pic'] = $file_path;
-        $conn->query($sql);
-        die(json_encode(array('success' => 'Successfully uploaded')));
-    } else {
-        print_r(json_encode($errors));
-    }
+    move_uploaded_file($file_tmp, "../img/" . $file_path);
+    $_SESSION['profile-pic'] = $file_path;
+    $conn->query($sql);
+    die(json_encode(array('success' => 'Successfully uploaded')));
 }

@@ -14,6 +14,12 @@ let app = new Vue({
         newUser: null,
         data: null,
         settings: 1,
+        successMessage: '',
+        plugins: {
+            activeTab: 'installed',
+            installedPlugins: [],
+            marketplacePlugins: [],
+        },
         reports: [],
         config: { ...envConfig },
         darkMode: localStorage.getItem('theme') === 'dark',
@@ -39,6 +45,11 @@ let app = new Vue({
             await $.get("../inc/data/users.inc.php?online", (data) => {
                 this.online = data;
             });
+
+            await $.get("../plugins/?get", (data) => {
+                this.plugins.installedPlugins = data;
+            });
+
             return
         },
         day: function (day, type = "users", m = null) {
@@ -161,6 +172,29 @@ let app = new Vue({
 
                     alert('Failed to fetch the latest release.');
                 });
+        },
+        changeTab(tab) {
+            this.plugins.activeTab = tab;
+        },
+        installPlugin(plugin) {
+            $.post("../plugins/?install", { url: plugin.install_url }, (data) => {
+                if (data) {
+                    this.successMessage = `Plugin "${plugin.name}" has been installed successfully.`;
+                } else {
+                    alert(`Plugin "${plugin.name}" could not be installed.`);
+                }
+            })
+        },
+        uninstallPlugin(plugin) {
+            let agree = confirm(`Are you sure you want to uninstall plugin "${plugin.name}"?`);
+            if (!agree) return;
+            $.post("../plugins/?uninstall", { name: plugin.id }, (data) => {
+                if (data) {
+                    this.successMessage = `Plugin "${plugin.name}" has been uninstalled successfully.`;
+                } else {
+                    alert(`Plugin "${plugin.name}" could not be uninstalled.`);
+                }
+            })
         },
         saveConfig() {
             $.post('../inc/setup/save_config', this.config, function (data) {
@@ -437,6 +471,10 @@ let app = new Vue({
                 case 5:
                     this.getReports("false");
                     break;
+                case 6:
+                    $.get("../,./../../compresed/marketplace.json", (data) => {
+                        this.plugins.marketplacePlugins = data.filter(plugin => !this.plugins.installedPlugins.some(installedPlugin => installedPlugin.id === plugin.id));
+                    });
                 default:
                     break;
             }

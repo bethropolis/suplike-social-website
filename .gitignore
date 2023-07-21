@@ -3,6 +3,7 @@ inc/music/
 inc/image/
 img/
 vendor/
-inc/setup/setup.suplike.json
-error.log.txt
-*.txt
+plugins/intergrations/
+plugins/PluginSystem/config/config.json
+plugins/PluginSystem/errors/errors.log.txt
+plugins/PluginSystem/config/plugins.json

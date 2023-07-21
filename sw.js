@@ -4,7 +4,7 @@ const OFFLINE_URL = 'offline.html';
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    await cache.add(new Request(OFFLINE_URL, {cache: 'reload'}));
+    await cache.add(new Request(OFFLINE_URL, { cache: 'reload' }));
 
     await cache.addAll([
       // List the URLs of the files in the 'libs' folder
