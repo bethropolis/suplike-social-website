@@ -68,35 +68,41 @@ class Manager
 
         // Register the plugin
         $pluginName = basename($pluginDirPath);
-        self::registerPlugin($pluginName);
+        self::registerPlugin();
         self::$lifeCycle->onInstallation($pluginName);
 
         // Clean up the temporary file and register the plugin
         unlink($tempFilePath);
         return true;
     }
+
     public static function uninstallPlugin($pluginName)
     {
         $pluginNamespace = __NAMESPACE__ . '\\' . $pluginName . "Plugin\\Load";
         $pluginNamespace = stripslashes(strtolower($pluginNamespace));
 
 
-
         if (!self::pluginExists($pluginNamespace)) {
-            return Error::handleException(new \Exception("Plugin does not exist."));
+            Error::handleException(new \Exception("Plugin does not exist."));
+            return;
         }
 
-        if (self::isPluginActive($pluginNamespace)) {
-            return Error::handleException(new \Exception("Cannot uninstall an active plugin. Deactivate it first."));
-        }
+        self::deactivatePlugin($pluginNamespace);
+
+        // if (self::isPluginActive($pluginNamespace)) {
+        //     Error::handleException(new \Exception("Cannot uninstall an active plugin. Deactivate it first."));
+        //     return;
+        // }
 
         $pluginDir = self::$pluginsDir . '/' . $pluginName;
         if (!is_dir($pluginDir)) {
             Error::handleException(new \Exception("Plugin directory not found."));
+            return;
         }
 
         if (!self::deleteDirectory($pluginDir)) {
             Error::handleException(new \Exception("Unable to remove the plugin directory."));
+            return;
         }
 
         self::unregisterPlugin($pluginNamespace);
@@ -104,6 +110,7 @@ class Manager
 
         unset(self::$config['plugins'][$pluginName]);
         self::saveConfig();
+        return true;
     }
 
     private static function deleteDirectory($dir)
@@ -130,10 +137,9 @@ class Manager
     }
 
 
-    public static function registerPlugin($pluginName)
+    public static function registerPlugin()
     {
-        self::$config['plugins'][$pluginName] = [];
-        self::$config['activated_plugins'][$pluginName] = true;
+        self::$config = self::initializeConfig();
         self::saveConfig();
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Bethropolis\PluginSystem;
 
 class Autoloader
@@ -16,7 +15,7 @@ class Autoloader
     {
         try {
             if (file_exists($file)) {
-                require_once $file;
+                include_once $file;
                 return true;
             }
             return false;
@@ -39,7 +38,7 @@ class Autoloader
         $classFile = $pluginsDir . $folder . '/' . $className . '.php';
         try {
             if (file_exists($classFile)) {
-                require_once $classFile;
+                include_once $classFile;
                 return true;
             } else {
                 return false;

@@ -46,7 +46,7 @@ let app = new Vue({
                 this.online = data;
             });
 
-            await $.get("../plugins/", (data) => {
+            await $.get("../plugins/?get", (data) => {
                 this.plugins.installedPlugins = data;
             });
 
@@ -177,14 +177,24 @@ let app = new Vue({
             this.plugins.activeTab = tab;
         },
         installPlugin(plugin) {
-            // Implement the installation logic here
-            // For the dummy data, we will just show a success message.
-            this.successMessage = `Plugin "${plugin.name}" has been installed successfully.`;
+            $.post("../plugins/?install", { url: plugin.install_url }, (data) => {
+                if (data) {
+                    this.successMessage = `Plugin "${plugin.name}" has been installed successfully.`;
+                } else {
+                    alert(`Plugin "${plugin.name}" could not be installed.`);
+                }
+            })
         },
         uninstallPlugin(plugin) {
-            // Implement the uninstallation logic here
-            // For the dummy data, we will just show a success message.
-            this.successMessage = `Plugin "${plugin.name}" has been uninstalled successfully.`;
+            let agree = confirm(`Are you sure you want to uninstall plugin "${plugin.name}"?`);
+            if (!agree) return;
+            $.post("../plugins/?uninstall", { name: plugin.id }, (data) => {
+                if (data) {
+                    this.successMessage = `Plugin "${plugin.name}" has been uninstalled successfully.`;
+                } else {
+                    alert(`Plugin "${plugin.name}" could not be uninstalled.`);
+                }
+            })
         },
         saveConfig() {
             $.post('../inc/setup/save_config', this.config, function (data) {
@@ -461,6 +471,10 @@ let app = new Vue({
                 case 5:
                     this.getReports("false");
                     break;
+                case 6:
+                    $.get("../,./../../compresed/marketplace.json", (data) => {
+                        this.plugins.marketplacePlugins = data.filter(plugin => !this.plugins.installedPlugins.some(installedPlugin => installedPlugin.id === plugin.id));
+                    });
                 default:
                     break;
             }

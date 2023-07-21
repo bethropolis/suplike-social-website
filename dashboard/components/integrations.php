@@ -72,7 +72,7 @@
                     <div class="right">
                         <a :href="plugin.homepage" v-if="plugin.homepage" class="btn btn-link" target="_blank"><i class="fas fa-home-alt"></i></a>
                         <a :href="plugin.github" v-if="plugin.github" class="btn btn-link" target="_blank"><i class="fab fa-github"></i></a>
-                        <button class="btn btn-danger btn-sm" @click="uninstallPlugin(plugin)">Uninstall</button>
+                        <button class="btn btn-success btn-sm" @click="installPlugin(plugin)">Install</button>
                     </div>
                 </div>
             </div>
