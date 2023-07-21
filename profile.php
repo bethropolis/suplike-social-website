@@ -12,14 +12,16 @@ if (!isset($_SESSION['token']) && !isset($_GET['id']) && !isset($_COOKIE['token'
   }
 }
 
-
-
 if ($login) {
   $profile = isset($_GET['id']) ? $_GET['id'] : $_SESSION['token'];
   $follow = 'follow';
-  $usrtk = isset($_SESSION['token']) ? $un_ravel->_getUser($_SESSION['token']) : 133;
-  $query = "SELECT * FROM `following` WHERE user=" . $usrtk . " AND `following`=" . $un_ravel->_getUser($profile);
-  $result = $conn->query($query)->fetch_assoc();
+  $usertkId = $un_ravel->_getUser($profile);
+  $usrtk = isset($_SESSION['token']) ? $un_ravel->_getUser($_SESSION['token']) : null;
+  $query = "SELECT * FROM `following` WHERE user=? AND `following`=?";
+  $stmt = $conn->prepare($query);
+  $stmt->bind_param("ii", $usrtk, $usertkId);
+  $stmt->execute();
+  $result = $stmt->get_result()->fetch_assoc();
   if (!is_null($result)) {
     $follow = 'following';
   }
@@ -28,7 +30,7 @@ if ($login) {
   $isBot = $un_ravel->_isBot($usr);
   $un_ravel->_increment_page_visit($usr);
   $user_id = $usrtk;
-}
+} 
 ?>
 <link rel="stylesheet" href="css/post.min.css">
 <script type="text/javascript" src="./lib/jquery/jquery.js"></script>

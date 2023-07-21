@@ -72,6 +72,14 @@ class Auth
   }
 
 
+  /**
+   * Retrieves a specific user token or authentication key based on the provided user ID and type.
+   *
+   * @param int $id The ID of the user.
+   * @param int $type The type of the authentication key to retrieve. Defaults to 1.
+   * @throws Some_Exception_Class auth Error
+   * @return string The requested authentication key.
+   */
   public function _queryUser($id, $type = 1)
   {
     $sql = '';

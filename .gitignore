@@ -6,3 +6,4 @@ vendor/
 plugins/intergrations/
 plugins/PluginSystem/config/config.json
 plugins/PluginSystem/errors/errors.log.txt
+plugins/PluginSystem/config/plugins.json

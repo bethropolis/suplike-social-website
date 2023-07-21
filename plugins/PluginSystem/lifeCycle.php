@@ -2,46 +2,37 @@
 
 namespace Bethropolis\PluginSystem;
 
-
 use Bethropolis\PluginSystem\System;
+use Bethropolis\PluginSystem\Info;
 
 class LifeCycle
 {
     private $pluginDir;
+    private $info;
 
     public function __construct()
     {
         $this->pluginDir = System::getPluginsDir();
+        $this->info = new Info();
     }
 
     public function onInstallation($pluginName)
     {
-        $pluginConfigFile = $this->getPluginConfigPath($pluginName);
-
-        if (file_exists($pluginConfigFile)) {
-            $pluginConfig = json_decode(file_get_contents($pluginConfigFile), true);
-
-            if (isset($pluginConfig['files'])) {
-                foreach ($pluginConfig['files'] as $file) {
-                    if (isset($file['target']) && isset($file['require'])) {
-                        $targetFile = $this->resolveAbsolutePath(__DIR__ . '/' . $file['target']);
-                        $requireFile = $this->resolveRelativePath($file['require'], $this->getPluginPath($pluginName));
-                        if (file_exists($targetFile) && file_exists($requireFile)) {
-                            // Append the require statement to the target file
-                            $this->appendRequireStatement($targetFile, $requireFile);
-                        }
-                    }
-                }
-            }
-        }
+        $this->processPluginFiles($pluginName, 'append');
     }
 
     public function onUninstallation($pluginName)
+    {
+        $this->processPluginFiles($pluginName, 'remove');
+    }
+
+    private function processPluginFiles($pluginName, $action)
     {
         $pluginConfigFile = $this->getPluginConfigPath($pluginName);
 
         if (file_exists($pluginConfigFile)) {
             $pluginConfig = json_decode(file_get_contents($pluginConfigFile), true);
+            $this->info->addPlugin($pluginName, $pluginConfig);
 
             if (isset($pluginConfig['files'])) {
                 foreach ($pluginConfig['files'] as $file) {
@@ -50,8 +41,8 @@ class LifeCycle
                         $requireFile = $this->resolveRelativePath($file['require'], $this->getPluginPath($pluginName));
 
                         if (file_exists($targetFile) && file_exists($requireFile)) {
-                            // Remove the appended require statement from the target file
-                            $this->removeRequireStatement($targetFile, $requireFile);
+                            // Perform the specified action (append or remove) on the target file
+                            $this->$action($targetFile, $requireFile, $pluginName);
                         }
                     }
                 }
@@ -69,10 +60,11 @@ class LifeCycle
         return $this->pluginDir . $pluginName;
     }
 
-    private function appendRequireStatement($targetFile, $requireFile)
+    private function append($targetFile, $requireFile, $pluginName)
     {
         $content = file_get_contents($targetFile);
         $requireStatement = 'require "' . str_replace('\\', '/', $requireFile) . '";';
+
 
         // Append the require statement to the target file if it doesn't exist already
         if (strpos($content, $requireStatement) === false) {
@@ -81,8 +73,9 @@ class LifeCycle
         }
     }
 
-    private function removeRequireStatement($targetFile, $requireFile)
+    private function remove($targetFile, $requireFile, $pluginName)
     {
+        $this->info->removePlugin($pluginName);
         $content = file_get_contents($targetFile);
         $requireStatement = 'require "' . str_replace('\\', '/', $requireFile) . '";';
 

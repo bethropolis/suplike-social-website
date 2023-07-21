@@ -14,6 +14,12 @@ let app = new Vue({
         newUser: null,
         data: null,
         settings: 1,
+        successMessage: '',
+        plugins: {
+            activeTab: 'installed',
+            installedPlugins: [],
+            marketplacePlugins: [],
+        },
         reports: [],
         config: { ...envConfig },
         darkMode: localStorage.getItem('theme') === 'dark',
@@ -39,6 +45,11 @@ let app = new Vue({
             await $.get("../inc/data/users.inc.php?online", (data) => {
                 this.online = data;
             });
+
+            await $.get("../plugins/", (data) => {
+                this.plugins.installedPlugins = data;
+            });
+
             return
         },
         day: function (day, type = "users", m = null) {
@@ -161,6 +172,19 @@ let app = new Vue({
 
                     alert('Failed to fetch the latest release.');
                 });
+        },
+        changeTab(tab) {
+            this.plugins.activeTab = tab;
+        },
+        installPlugin(plugin) {
+            // Implement the installation logic here
+            // For the dummy data, we will just show a success message.
+            this.successMessage = `Plugin "${plugin.name}" has been installed successfully.`;
+        },
+        uninstallPlugin(plugin) {
+            // Implement the uninstallation logic here
+            // For the dummy data, we will just show a success message.
+            this.successMessage = `Plugin "${plugin.name}" has been uninstalled successfully.`;
         },
         saveConfig() {
             $.post('../inc/setup/save_config', this.config, function (data) {

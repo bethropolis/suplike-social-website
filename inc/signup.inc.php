@@ -97,12 +97,12 @@ $conn->query($outhsql);
 $link = BASE_URL . "/inc/Auth/verify.php?id=" . $oauth->user_auth;
 $email_template = "Hey $username, <br> please confirm your email by clicking on the link below: <br> <a href='$link'>Confirm Email</a>";
 send_email($email, 'Suplike: Confirm your email', $email_template);
-System::executeHook("signup_hook", null, ["user_id" => $getId]);
+System::executeHook("signup_hook", null, ["user_id" => $response, "username" => $username]);
 
 
-$session = create_session_token($getId);
+$session = create_session_token($response);
 setcookie('token', $session, time() + (86400 * 7), '/');
-$_SESSION['userId'] = $getId;
+$_SESSION['userId'] = $response;
 header("Location: ../search.php?q=e&id=$response&token=$oauth->token");
 
 mysqli_stmt_close($stmt);

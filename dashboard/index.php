@@ -104,7 +104,6 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
             <div class="row">
                 <?php include_once("./components/nav.php"); ?>
 
-
                 <!-- the main focus -->
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 main mt-2">
 
@@ -151,6 +150,8 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
                     <div class="settings co" v-show="stage == 10">
                         <?php include_once("./components/settings.php"); ?>
                     </div>
+
+                    <?php include_once("./components/extended.php"); ?>
                     <!-------------------------- Logs --------------------------------------------->
                     <div class="about co" v-show="stage == 11">
                         <h1 class="mt-2">Error Logs</h1>
@@ -192,4 +193,5 @@ $date = $setupData->setupDate ? format_date($setupData->setupDate) : '';
     <script src="dashboard.js?opf"></script>
     <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

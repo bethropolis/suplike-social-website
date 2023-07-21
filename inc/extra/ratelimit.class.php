@@ -110,3 +110,5 @@ $rateLimits = [
 
 $limiter = new RateLimiter($rateLimits);
 $limiter->handleRequest();
+
+session_destroy();
