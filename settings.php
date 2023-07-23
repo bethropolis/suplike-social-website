@@ -241,9 +241,7 @@ $user_id = $_SESSION['token'];
 
   </div>
 </div>
-<br>
-<br>
-<br>
+
 <?php
 require 'footer.php';
 ?>

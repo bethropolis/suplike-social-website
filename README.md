@@ -14,7 +14,9 @@
 
  it's made using <b> PHP/HTML/JS/CSS</b> <br />
   
+
 it's easy to install and [setup](#installation);
+
 
  check out [demo](https://bethro.alwaysdata.net)
 
@@ -33,9 +35,7 @@ it's easy to install and [setup](#installation);
   - [Components](#components)
       - [Languages](#languages)
       - [Development Environment](#development-environment)
-      - [Database](#database)
-      - [DBMS](#dbms)
-      - [Frameworks and Libraries](#frameworks-and-libraries)
+      - [DBMS (optional)](#dbms-optional)
 - [versions](#versions)
 - [features](#features)
   - [Mobile UI](#mobile-ui)
@@ -74,19 +74,26 @@ it's easy to install and [setup](#installation);
 
 1. Download the latest release file.
   
-  | File                                                                                                                    | Description               |Size        |
-  | ------------------------------------------------------------------------------------------------------------------------| --------------------------|------------| 
-  | [v1.5 zip file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.zip)| Latest release zip file   |  1.4 MB    |
-  | [v1.5 tar file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.tar)| Latest release tar.gz file|   3.0 MB   |
-  | [v1.5 installer-script.php](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/installer-script.php)|  installer script    |   2 kB     |
+  | File                                                                                                                          | Description                | Size   |
+  | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------ |
+  | [v1.5.1 zip file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.zip)      | Latest release zip file    | 1.4 MB |
+  | [v1.5.1 tar file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.tar)      | Latest release tar.gz file | 3.0 MB |
+  | [v1.5.1 installer-script.php](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/installer-script.php) | installer script           | 2 kB   |
 
 
-1. unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using. (installer script does this automatically)
+ unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using. (installer script does this automatically)
    > I recommend renaming the extracted folder to `suplike` (the url will be shorter).
+
+
+2. if you choose to use the installer script then first you need to download the script into your server folder then run the following command.
+
+```bash
+  php installer-script.php
+```
 
 <br/>
 
-alternatively you can clone the repository to your `htdocs` or `www` folder. 
+3. you can clone the repository to your `htdocs` or `www` folder. 
 
 ```bash
   git clone https://github.com/bethropolis/suplike-social-website.git suplike
@@ -113,9 +120,9 @@ on the GUI you insert the credentials to your database and admin account after w
 
 ### incase GUI doesn't work
 
-1. Edit the `inc/setup/setup.suplike.json` file and set the value of `"setup"` to `false` then reopen the GUI in your browser again.
+1. Edit the `inc/setup/setup.suplike.json` and `inc/setup/env.php` file and set the value of `"setup"` to `false` then reopen the GUI in your browser again.
 
-2. Do it Manually, Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. This will create the database required for the application to function. Next, change the following part of code below in the  `inc/setup/env.php`  to the respective database credentials.
+2. Do it Manually, create a database `suplike` and Import the `suplike.sql` file in the `sql` folder into phpMyAdmin. There is no need for any change in the .sql file. Next, change the following part of code below in the  `inc/setup/env.php`  to the respective database credentials.
 
 ```php
  if (!defined('DB_DATABASE'))        define('DB_DATABASE', 'suplike');
@@ -125,12 +132,14 @@ on the GUI you insert the credentials to your database and admin account after w
  if (!defined('DB_PORT'))            define('DB_PORT',3306);
 ```
 
+> you'll also manually have to change you account to admin account in the database.
+
 ## Components
 
 #### Languages
 
 ```
-PHP 7.1.0+
+PHP 8.0+
 SQL 14.0+
 JavaScript ES 6
 HTML5
@@ -144,37 +153,23 @@ apache 2.4+
 MYSQL 9.0+
 ```
 
-#### Database
+#### DBMS (optional)
 
 ```
-MySQL Database 8.0.13
-```
-
-#### DBMS
-
-```
-phpMyAdmin 4.8.3
-```
-
-#### Frameworks and Libraries
-
-```
-JQuery v3.3.1
-BootStrap v4.2.1
-font awsome v6.0.0
-vue v2.6
+phpMyAdmin 5.0+
 ```
 
 
 # versions
 
-check `HISTORY.md`
+check `HISTORY.md` or [releases](https://github.com/bethropolis/suplike-social-website/releases)
 
 <p>
   more improvements will continue to be done to this project please stay and watch 👀.
 </p>
 
 # features
+
 
 ## Mobile UI
 
@@ -184,7 +179,7 @@ The app is mobile friendly and responsive.
 the app's themes can easily be changed
 
 ## live messaging/chat system (whole new look)
-<details>
+<details open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/messages.png)
@@ -200,7 +195,7 @@ and it is more mobile responsive than previous and the only client page that use
 
 
 ## home page
-<details>
+<details open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/10.png)
@@ -209,7 +204,7 @@ and the first page you will land on after authentication.
 </details>
 
 ## profile page 
-<details>
+<details  open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/3.png) 
@@ -218,7 +213,7 @@ access to your profile page and other users profile page.
 
 
 ## login/signup system
-<details>
+<details  open>
 <summary>read more</summary>
 
  ![Alt text](_githubasserts/7.png)
@@ -226,7 +221,7 @@ you will have login or sign up to full use the app features.
 </details>
 
 ## search page
-<details>
+<details  open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/6.png)
@@ -237,7 +232,7 @@ the search page is where you can search for users for now.
 
 
 ## following page
-<details>
+<details  open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/4.png)
@@ -269,7 +264,7 @@ The Developer Page empowers you to create API keys and Bots, which can be utiliz
 other pages include comments page, post page, settings page, topics page, stories page and notifications page.
 
 ## Admin dashboard
-<details>
+<details  open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/dashboard.png)
@@ -279,6 +274,7 @@ The Admin Dashboard allows you to see analytics and perform moderation functions
 
 - see post,visits,activities analytics
 - moderate
+- install/uninstall plugins
 - see new users and old users
 - users online
 - edit default app theme, name and configurations
@@ -289,11 +285,12 @@ The Admin Dashboard allows you to see analytics and perform moderation functions
 
 </details>
 
-> you can show support to this project by staring this repo, it really means alot to me.
+
 
 # inspiration
 
 my biggest inspiration to make this app was was the [KLIK social website](https://github.com/msaad1999/KLiK-SocialMediaWebsite) on github, thank you [msaad1999](https://github.com/msaad1999) for making an amazing project.
+
 
 # behind it all
 
@@ -309,6 +306,8 @@ check it out, all ideas aloud.
 
 [bethropolis](https://github.com/bethropolis)
 
+> you can show support to this project by staring this repo, it really means alot to me.
+
 # License
 
-it is licensed under my favourate License [MIT license](https://mit-license.org/).
+it is licensed under my favourate License [MIT license](https://mit-license.org/) _(do what you want)_.

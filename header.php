@@ -1,5 +1,5 @@
 <?php
-require_once "inc/setup/env.php";
+require_once __DIR__ . "/inc/setup/env.php";
 session_start();
 if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['token'])) {
   header("Location: inc/autologin.php?login");
@@ -13,7 +13,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <?php require_once "template/meta.php" ?>
+  <?php require_once __DIR__ . "/template/meta.php" ?>
   <script>
     // load css if localstorage  theme = dark
     let theme = localStorage.getItem('theme') || '<?= defined('DEFAULT_THEME') ? DEFAULT_THEME : 'light' ?>';
@@ -61,6 +61,7 @@ if (isset($_COOKIE['token']) && !isset($_SESSION['token']) && !isset($_GET['toke
         if (isset($_SESSION['token'])) {
         ?>
           <ul class="navbar-nav ml-auto mr-1">
+          <a href="home.php"><i title="home" class="fa fa-home fa-2x"></i></a>
             <?php
             if ($_SESSION['isAdmin'] == 1) {
               echo '<div id="header-addons">';

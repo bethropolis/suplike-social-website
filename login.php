@@ -69,6 +69,7 @@ require "header.php";
     </form>
     <p class="my-2 co">don't have an account?<a href="./signup.php" style="color: var(--ac);"> signup</a> or<a href="./forgot_password.php" style="color: var(--ac);"> forgot password</a> </p>
   </div>
+
 </main>
 <script>
   sessionStorage.clear()

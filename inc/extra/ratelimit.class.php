@@ -17,7 +17,7 @@ class RateLimiter
 
     public function handleRequest($userRole = 'default')
     {
-        session_start();
+        @session_start();
 
         try {
             $this->initializeSessionVariables();
@@ -75,15 +75,22 @@ class RateLimiter
             $_SESSION[$this->sessionKey]['start_time'] = $now;
             $_SESSION[$this->sessionKey][$userRole] = 1;
         } elseif ($requestCount > $rateLimit['max_requests']) {
-            $this->setRetryAfterHeader($startTime, $rateLimit['time_period']);
+            $this->setRetryAfterHeader($startTime, $rateLimit['time_period'], $requestCount);
             http_response_code(429);
             exit();
         }
     }
 
-    private function setRetryAfterHeader($startTime, $timePeriod)
+    private function setRetryAfterHeader($startTime, $timePeriod, $requestCount)
     {
-        $this->retryAfter = $startTime + $timePeriod - time();
+
+        $remainingTime = $startTime + $timePeriod - time();
+
+        $extraPenalty = $requestCount * 60;
+
+        $this->retryAfter = $remainingTime + $extraPenalty;
+        $_SESSION[$this->sessionKey]['start_time'] = $startTime + $remainingTime + $extraPenalty;
+
         header("Retry-After: {$this->retryAfter}");
     }
 
@@ -99,16 +106,14 @@ class RateLimiter
 
 $rateLimits = [
     'default' => [
-        'time_period' => 60,
+        'time_period' => 30,
         'max_requests' => 60
     ],
     'admin' => [
         'time_period' => 30,
-        'max_requests' => 100
+        'max_requests' => 300
     ]
 ];
 
 $limiter = new RateLimiter($rateLimits);
 $limiter->handleRequest();
-
-session_destroy();

@@ -2,9 +2,10 @@
 require 'dbh.inc.php';
 require 'errors/error.inc.php';
 include_once '../plugins/load.php';
+require_once "extra/ratelimit.class.php";
+
 use Bethropolis\PluginSystem\System;
 
-session_start();
 
 try {
     $user = $_SESSION['userId'];

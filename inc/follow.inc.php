@@ -7,6 +7,7 @@ require_once 'errors/error.inc.php';
 require_once 'extra/notification.class.php';
 require_once __DIR__ . '/../api/v1/bot/bot.php';
 include_once '../plugins/load.php';
+
 use Bethropolis\PluginSystem\System;
 
 
@@ -35,7 +36,7 @@ if ($following === $followed) {
 }
 
 if (!is_numeric($followed) || !is_numeric($following)) {
-    $error->err('Invalid', 33, 'Invalid value in parameter');
+    $error->err('Invalid', 33, "Invalid value in parameter. Followed: {$following}, followed: {$followed}");
     die();
 }
 

@@ -18,7 +18,6 @@ $info = new Info();
 
 Manager::initialize();
 
-$info->refreshPlugins();
 
 if (isset($_GET["refresh"])) {
     $info->refreshPlugins();

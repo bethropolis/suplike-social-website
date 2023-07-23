@@ -78,7 +78,7 @@ if (isset($_POST['forgot_password'])) {
   $message .= "<p>You recently requested to reset your password for your account with us. Click the button below to reset it.</p>";
   $message .= '<a href="' . $reset_password_url . '" style="background:#6c5ce7 ;background-color: '.ACCENT_COLOR.'; border: none; color: white; padding: 12px 28px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 5px;">Reset your password</a>';
   $message .= "<p>If you did not request a password reset, please ignore this email or contact us if you have any questions.</p>";
-  $message .= "<p>Best regards,<br>Your Name</p>";
+  $message .= "<p>Best regards,<br>Suplike</p>";
   $message .= "</body></html>";
 
   send_email($email, 'Suplike: reset password', $message);

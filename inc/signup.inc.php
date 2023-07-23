@@ -84,7 +84,7 @@ if (!mysqli_stmt_prepare($stmt, $sql)) {
     exit();
 }
 
-session_start();
+@session_start();
 $hashedpwd = password_hash($password, PASSWORD_DEFAULT);
 
 mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedpwd);

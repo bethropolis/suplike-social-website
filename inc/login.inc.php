@@ -52,7 +52,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     }
 
     if ($pwdCheck === true) {
-        session_start();
+        @session_start();
         $_SESSION['userId'] = $row['idusers'];
         $auth->_queryUser($row['idusers'], 1);
         $_SESSION["token"] = $auth->user; # check Auth/auth.php to understand
