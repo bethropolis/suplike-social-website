@@ -76,9 +76,9 @@ it's easy to install and [setup](#installation);
   
   | File                                                                                                                          | Description                | Size   |
   | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------ |
-  | [v1.5.1 zip file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.zip)      | Latest release zip file    | 1.4 MB |
-  | [v1.5.1 tar file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.tar)      | Latest release tar.gz file | 3.0 MB |
-  | [v1.5.1 installer-script.php](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/installer-script.php) | installer script           | 2 kB   |
+  | [v1.5.1 zip file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5.1/compressed-suplike-v1.5.1.zip)| Latest release zip file    | 1.4 MB |
+  | [v1.5.1 tar file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5.1/compressed-suplike-v1.5.1.tar)| Latest release tar.gz file | 3.0 MB |
+  | [v1.5.1 installer-script.php](https://github.com/bethropolis/suplike-social-website/releases/download/1.5.1/installer-script.php)| installer script        | 2 kB   |
 
 
  unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using. (installer script does this automatically)
