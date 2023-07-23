@@ -9,16 +9,17 @@
 ![code](https://badgen.net/github/license/micromatch/micromatch)
 
 <p>
- suplike social is a feature rich fully open source social network that is easy to selfhost.<br />
+ suplike social is a feature rich fully open source social network.<br />
 
 
  it's made using <b> PHP/HTML/JS/CSS</b> <br />
   
-it's easy to install and [setup](#features);
 
-check out [demo]('https://bethro.alwaysdata.net/');
+it's easy to install and [setup](#installation);
 
-</p>
+
+ check out [demo](https://bethro.alwaysdata.net)
+
 
 # Table of Contents
 
@@ -265,7 +266,8 @@ other pages include comments page, post page, settings page, topics page, storie
 ## Admin dashboard
 <details  open>
 <summary>read more</summary>
-<img src="./_githubasserts/dashboard.webp" align="center"><br>
+
+![Alt text](_githubasserts/dashboard.png)
 The Admin Dashboard allows you to see analytics and perform moderation functions<br>
 
 ### you can do the following on the dashboard
