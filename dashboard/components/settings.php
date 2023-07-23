@@ -27,7 +27,7 @@
     <form>
         <div class="form-group">
         </div>
-        <button type="button" class="btn btn-primary bg" @click="checkLatestRelease(<?= $setupData->version ?>)"> Check Latest Release
+        <button type="button" class="btn btn-primary bg" @click="checkLatestRelease('<?= $setupData->version ?>')"> Check Latest Release
             <i class="fa fa-spinner fa-spin" id="updates-spinner" style="display: none"></i></button>
 
         <div id="latestReleaseInfo" class="mt-4" style="display: none;">

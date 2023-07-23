@@ -34,9 +34,7 @@ check out [demo]('https://bethro.alwaysdata.net/');
   - [Components](#components)
       - [Languages](#languages)
       - [Development Environment](#development-environment)
-      - [Database](#database)
-      - [DBMS](#dbms)
-      - [Frameworks and Libraries](#frameworks-and-libraries)
+      - [DBMS (optional)](#dbms-optional)
 - [versions](#versions)
 - [features](#features)
   - [Mobile UI](#mobile-ui)
@@ -75,11 +73,11 @@ check out [demo]('https://bethro.alwaysdata.net/');
 
 1. Download the latest release file.
   
-  | File                                                                                                                    | Description               |Size        |
-  | ------------------------------------------------------------------------------------------------------------------------| --------------------------|------------| 
-  | [v1.5 zip file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.zip)| Latest release zip file   |  1.4 MB    |
-  | [v1.5 tar file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.tar)| Latest release tar.gz file|   3.0 MB   |
-  | [v1.5 installer-script.php](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/installer-script.php)|  installer script    |   2 kB     |
+  | File                                                                                                                          | Description                | Size   |
+  | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------ |
+  | [v1.5 zip file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.zip)      | Latest release zip file    | 1.4 MB |
+  | [v1.5 tar file](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/compressed-suplike-v1.5.tar)      | Latest release tar.gz file | 3.0 MB |
+  | [v1.5 installer-script.php](https://github.com/bethropolis/suplike-social-website/releases/download/1.5/installer-script.php) | installer script           | 2 kB   |
 
 
 1. unzip the file and extract all the files into your `htdocs` or `www` directory depending on what you are using. (installer script does this automatically)
@@ -131,7 +129,7 @@ on the GUI you insert the credentials to your database and admin account after w
 #### Languages
 
 ```
-PHP 7.1.0+
+PHP 8.0+
 SQL 14.0+
 JavaScript ES 6
 HTML5
@@ -145,37 +143,23 @@ apache 2.4+
 MYSQL 9.0+
 ```
 
-#### Database
+#### DBMS (optional)
 
 ```
-MySQL Database 8.0.13
-```
-
-#### DBMS
-
-```
-phpMyAdmin 4.8.3
-```
-
-#### Frameworks and Libraries
-
-```
-JQuery v3.3.1
-BootStrap v4.2.1
-font awsome v6.0.0
-vue v2.6
+phpMyAdmin 5.0+
 ```
 
 
 # versions
 
-check `HISTORY.md`
+check `HISTORY.md` or [releases](https://github.com/bethropolis/suplike-social-website/releases)
 
 <p>
   more improvements will continue to be done to this project please stay and watch 👀.
 </p>
 
 # features
+
 
 ## Mobile UI
 
@@ -201,7 +185,7 @@ and it is more mobile responsive than previous and the only client page that use
 
 
 ## home page
-<details>
+<details open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/10.png)
@@ -210,7 +194,7 @@ and the first page you will land on after authentication.
 </details>
 
 ## profile page 
-<details>
+<details  open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/3.png) 
@@ -219,7 +203,7 @@ access to your profile page and other users profile page.
 
 
 ## login/signup system
-<details>
+<details  open>
 <summary>read more</summary>
 
  ![Alt text](_githubasserts/7.png)
@@ -227,7 +211,7 @@ you will have login or sign up to full use the app features.
 </details>
 
 ## search page
-<details>
+<details  open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/6.png)
@@ -238,7 +222,7 @@ the search page is where you can search for users for now.
 
 
 ## following page
-<details>
+<details  open>
 <summary>read more</summary>
 
 ![Alt text](_githubasserts/4.png)
@@ -270,7 +254,7 @@ The Developer Page empowers you to create API keys and Bots, which can be utiliz
 other pages include comments page, post page, settings page, topics page, stories page and notifications page.
 
 ## Admin dashboard
-<details>
+<details  open>
 <summary>read more</summary>
 <img src="./_githubasserts/dashboard.webp" align="center"><br>
 The Admin Dashboard allows you to see analytics and perform moderation functions<br>
