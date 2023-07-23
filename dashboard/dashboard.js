@@ -20,6 +20,7 @@ let app = new Vue({
             installedPlugins: [],
             marketplacePlugins: [],
         },
+        marketplaceUrl: "https://raw.githubusercontent.com/bethropolis/suplike-plugins/main/plugins.json",
         reports: [],
         config: { ...envConfig },
         darkMode: localStorage.getItem('theme') === 'dark',
@@ -472,7 +473,9 @@ let app = new Vue({
                     this.getReports("false");
                     break;
                 case 6:
-                    $.get("../,./../../compresed/marketplace.json", (data) => {
+                    $.get(this.marketplaceUrl, (data) => {
+                        if (!data) return;
+                        data = JSON.parse(data);
                         this.plugins.marketplacePlugins = data.filter(plugin => !this.plugins.installedPlugins.some(installedPlugin => installedPlugin.id === plugin.id));
                     });
                 default:

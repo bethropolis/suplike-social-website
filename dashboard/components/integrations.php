@@ -1,4 +1,4 @@
-<h1 class="mt-2">Plugins</h1>
+<h1 class="mt-2 co">Plugins</h1>
 
 <!-- Success Banner -->
 <div class="success-banner alert alert-success" role="alert" v-if="successMessage">
@@ -8,10 +8,10 @@
 <!-- Navigation Tabs -->
 <ul class="nav nav-tabs mb-2">
     <li class="nav-item">
-        <a class="nav-link" :class="{ active: plugins.activeTab === 'installed' }" @click="changeTab('installed')" href="#">Installed</a>
+        <a class="nav-link  c-ho" :class="{ active: plugins.activeTab === 'installed' }" @click="changeTab('installed')" href="#">Installed</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" :class="{ active: plugins.activeTab === 'marketplace' }" @click="changeTab('marketplace')" href="#">Marketplace</a>
+        <a class="nav-link  c-ho" :class="{ active: plugins.activeTab === 'marketplace' }" @click="changeTab('marketplace')" href="#">Marketplace</a>
     </li>
 </ul>
 
@@ -37,6 +37,7 @@
                     <div class="right">
                         <a :href="plugin.homepage" v-if="plugin.homepage" class="btn btn-link" target="_blank"><i class="fas fa-home-alt"></i></a>
                         <a :href="plugin.github" v-if="plugin.github" class="btn btn-link" target="_blank"><i class="fab fa-github"></i></a>
+                        <a :href="plugin.gitlab" v-if="plugin.gitlab" class="btn btn-link" target="_blank"><i class="fab fa-gitlab"></i></a>
                         <button class="btn btn-danger btn-sm" @click="uninstallPlugin(plugin)">Uninstall</button>
                     </div>
                 </div>
@@ -71,6 +72,7 @@
                     </div>
                     <div class="right">
                         <a :href="plugin.homepage" v-if="plugin.homepage" class="btn btn-link" target="_blank"><i class="fas fa-home-alt"></i></a>
+                        <a :href="plugin.gitlab" v-if="plugin.gitlab" class="btn btn-link" target="_blank"><i class="fab fa-gitlab"></i></a>
                         <a :href="plugin.github" v-if="plugin.github" class="btn btn-link" target="_blank"><i class="fab fa-github"></i></a>
                         <button class="btn btn-success btn-sm" @click="installPlugin(plugin)">Install</button>
                     </div>

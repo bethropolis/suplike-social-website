@@ -4,11 +4,14 @@ require_once 'dbh.inc.php';
 require_once 'Auth/auth.php';
 require_once 'errors/error.inc.php';
 require_once 'extra/xss-clean.func.php';
+require_once 'extra/ratelimit.class.php';
 include_once '../plugins/load.php';
+
 use Bethropolis\PluginSystem\System;
 
 header('content-type: application/json');
-session_start();
+
+@session_start();
 
 // Auth check
 $un_ravel->_isAuth();
@@ -199,6 +202,7 @@ if (isset($_POST['upload'])) {
     $image_text = xss_clean($image_text);
     $image_text = htmlspecialchars($image_text);
     $image_text = trim($image_text);
+    $image_text  = preg_replace('~[\r\n]+~', '', $image_text);
 
     // Remove newlines from image text
     $image_text = preg_replace('~[\r\n]+~', '', $image_text);
@@ -237,7 +241,7 @@ if (isset($_POST['upload'])) {
             insertPostTags($conn, $id, $tags);
         } else {
             // Insert data into the stories table with image
-             $id = insert_story($conn, $image_text, $image, $type, $user);
+            $id = insert_story($conn, $image_text, $image, $type, $user);
         }
 
         if ($_POST['upload'] === 'post') {

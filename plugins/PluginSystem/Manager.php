@@ -68,7 +68,7 @@ class Manager
 
         // Register the plugin
         $pluginName = basename($pluginDirPath);
-        self::registerPlugin();
+        self::registerPlugin($pluginName);
         self::$lifeCycle->onInstallation($pluginName);
 
         // Clean up the temporary file and register the plugin
@@ -87,12 +87,12 @@ class Manager
             return;
         }
 
-        self::deactivatePlugin($pluginNamespace);
+        self::deactivatePlugin($pluginNamespace); // hard coding it for now
 
-        // if (self::isPluginActive($pluginNamespace)) {
-        //     Error::handleException(new \Exception("Cannot uninstall an active plugin. Deactivate it first."));
-        //     return;
-        // }
+        if (self::isPluginActive($pluginNamespace)) {
+            Error::handleException(new \Exception("Cannot uninstall an active plugin. Deactivate it first."));
+            return;
+        }
 
         $pluginDir = self::$pluginsDir . '/' . $pluginName;
         if (!is_dir($pluginDir)) {
@@ -108,7 +108,6 @@ class Manager
         self::unregisterPlugin($pluginNamespace);
         self::$lifeCycle->onUninstallation($pluginName);
 
-        unset(self::$config['plugins'][$pluginName]);
         self::saveConfig();
         return true;
     }
@@ -137,17 +136,17 @@ class Manager
     }
 
 
-    public static function registerPlugin()
+    public static function registerPlugin($pluginName)
     {
-        self::$config = self::initializeConfig();
+        $pluginName = __NAMESPACE__ . '\\' . $pluginName . "Plugin\\Load";
+        $pluginName = stripslashes(strtolower($pluginName));
+        self::$config['plugins'][$pluginName] = [];
+        self::$config['activated_plugins'][$pluginName] = true;
         self::saveConfig();
     }
 
     public static function unregisterPlugin($pluginName)
     {
-        // remove plugin from config file
-        $pluginName = __NAMESPACE__ . '\\' . $pluginName . "Plugin\\Load";
-        $pluginName = stripslashes(strtolower($pluginName));
         unset(self::$config['plugins'][$pluginName]);
         unset(self::$config['activated_plugins'][$pluginName]);
         self::saveConfig();

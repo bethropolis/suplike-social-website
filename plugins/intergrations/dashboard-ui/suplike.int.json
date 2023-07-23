@@ -1,9 +1,0 @@
-{
-    "author": "bethuel kipsang",
-    "name": "dashboard-ui",
-    "description":"this is the dashboard ui setter",
-    "version": "1.0.0",
-    "action": {
-        "css-root": "index.css" 
-    }
-}
