@@ -1,4 +1,4 @@
-![logo](https://github.com/bethropolis/suplike-social-website/blob/master/img/suplike.png)
+![logo](img/suplike.png)
 
 # hello welcome to suplike
 
