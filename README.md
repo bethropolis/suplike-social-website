@@ -271,6 +271,9 @@ other pages include comments page, post page, settings page, topics page, storie
 with plugins you can extend the functionality of the app and add more features to the app.
 
 
+the plugin ui is on the admin dashboard. 
+
+
 
 ## Admin dashboard
 <details  open>
@@ -290,6 +293,8 @@ The Admin Dashboard allows you to see analytics and perform moderation functions
 - view the app logs
 - email configuration
 - api configurations
+- Plugin support.
+
 
 
 </details>
