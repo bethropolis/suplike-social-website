@@ -241,6 +241,10 @@ The following page is where you can vue the users you follow (for now);
 
 </details>
 
+
+
+
+
 ## image and text post
 
 you can currently only post either an image or text
@@ -262,6 +266,11 @@ The Developer Page empowers you to create API keys and Bots, which can be utiliz
 
 ## other user pages
 other pages include comments page, post page, settings page, topics page, stories page and notifications page.
+
+## Plugins (beta feature)
+with plugins you can extend the functionality of the app and add more features to the app.
+
+
 
 ## Admin dashboard
 <details  open>
