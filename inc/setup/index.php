@@ -197,7 +197,18 @@ if ($setup->setup) {
                     success: function(data) {
                         // Handle the API response
                         if (data.success) {
-                            // display a sweetalert then load to the login page
+                            // display a sweetalert with button to load to the login page
+                            swal({
+                                title: data.msg,
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        text: "Login",
+                                        value: true,
+                                        visible: true,
+                                    }
+                                }
+                            })
 
                         } else {
                             // Handle setup errors

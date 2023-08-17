@@ -25,7 +25,7 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
 
 ?>
 
-<link rel="stylesheet" href="css/comment.min.css">
+<link rel="stylesheet" href="css/comment.min.css?v1.5">
 <div class="row mob-m-0 p-0">
   <div class="col-sm-3 nav-hide sidebar-sticky pt-3">
     <?php
@@ -45,7 +45,7 @@ $active = isset($_GET['comment']) ? $_GET['comment'] : '';
       }
       ?>
       <div class="box mt-4 px-4">
-        <input id="comm" class="text-dark" placeholder="Write a comment...">
+        <textarea id="comm" class="text-dark" rows="3" placeholder="Write a comment..."></textarea>
         <button type="submit" class="btn text-white" style="background: var(--ho); color: var(--white);" id="submit">Submit</button>
       </div>
       <main id="comments-section" class='mb-4'>

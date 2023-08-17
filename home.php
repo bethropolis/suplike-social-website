@@ -21,8 +21,8 @@ if (isset($_SESSION['userUid'])) {
     };
 </script>
 <main>
-    <link rel="stylesheet" href="./css/post.min.css">
-    <link rel="stylesheet" href="./css/story.min.css?v.15">
+    <link rel="stylesheet" href="./css/post.min.css?v.1.5.2">
+    <link rel="stylesheet" href="./css/story.min.css?v.1.5.2">
     <div class="p-0">
         <div class="row mob-m-0">
             <div class="col-sm-3 nav-hide sidebar-sticky pt-3">

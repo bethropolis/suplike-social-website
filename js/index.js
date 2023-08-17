@@ -74,8 +74,9 @@ async function mainload(url = './inc/post.inc.php?user=') {
  */
 function render(post) {
   // remove /n and /r from the string replace with space
-  let post_text = post.image_text.replace(/\n/g, " ");
-  let post_text_html = post_text.replace(/\r/g, " ");
+  let post_text = post.image_text.replace(/\r\n/g, '<br>');
+  post_text_html = post_text.replace(/\n/g, '<br>');
+
   post.image_text = post_text_html;
   post.liked ? (l = "fas like") : (l = "far");
   post.user === true
@@ -150,6 +151,7 @@ function render(post) {
             >
               <i class="fa fa-share-alt fa-fw"></i> Share
             </a>
+            
             <a class="dropdown-item mj-actions report" id="${post.id}" href="#report">
               <i class="fa fa-flag fa-fw"></i> Report
             </a>
@@ -169,7 +171,7 @@ function render(post) {
         ` :
         `
         <div class="px-1 py-3">
-          <p class="lone co px-2">${post.image_text}</p>
+          <p class="lone co">${post.image_text}</p>
         </div>
         `}
       <div class="social-opt">
