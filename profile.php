@@ -32,7 +32,7 @@ if ($login) {
   $user_id = $usrtk;
 } 
 ?>
-<link rel="stylesheet" href="css/post.min.css">
+<link rel="stylesheet" href="css/post.min.css?v1.5">
 <script type="text/javascript" src="./lib/jquery/jquery.js"></script>
 <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/index.min.js?v1.3"></script>

@@ -101,3 +101,11 @@
   margin-left: 20px;
   min-width: 200px;
 }
+
+@media screen and (max-width:600px)
+{
+div.box {
+  display: grid;
+  gap: 10px
+ }
+}

@@ -319,7 +319,7 @@ if (isset($_GET['user'])) {
                   )
               GROUP BY posts.id
               ORDER BY posts.id DESC
-              LIMIT 50";
+              LIMIT 100";
 
     $stmt = $conn->prepare($query);
     $stmt->bind_param("iiii", $user, $user, $user, $user);
