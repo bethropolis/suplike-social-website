@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.box input {
+.box textarea {
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
@@ -100,4 +100,12 @@
 .reply-form {
   margin-left: 20px;
   min-width: 200px;
+}
+
+@media screen and (max-width:600px)
+{
+div.box {
+  display: grid;
+  gap: 10px
+ }
 }

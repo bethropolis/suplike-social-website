@@ -13,8 +13,7 @@ header('content-type: application/json');
 
 @session_start();
 
-// Auth check
-$un_ravel->_isAuth();
+
 
 /**
  * Validates the input values for the post.
@@ -180,6 +179,10 @@ function insertPostTags($conn, $postId, $tags)
 
 // Check if upload is set
 if (isset($_POST['upload'])) {
+
+    // Auth check
+    $un_ravel->_isAuth();
+
     // Get the type, user, and tags from POST
     $type = $_POST['type'];
     $user = $_SESSION['userId'];
@@ -202,10 +205,9 @@ if (isset($_POST['upload'])) {
     $image_text = xss_clean($image_text);
     $image_text = htmlspecialchars($image_text);
     $image_text = trim($image_text);
-    $image_text  = preg_replace('~[\r\n]+~', '', $image_text);
+    $image_text = str_replace("\\r\\n", "<br>", $image_text);
+    $image_text = str_replace("\\n", "<br>", $image_text);
 
-    // Remove newlines from image text
-    $image_text = preg_replace('~[\r\n]+~', '', $image_text);
 
     // Get the check value from POST or false if not set
     $check = isset($_POST['community']) && $_POST['community'] === 'story';
@@ -276,7 +278,7 @@ if (isset($_POST['upload'])) {
         }
 
         if ($_POST['upload'] === 'post') {
-            System::executeHook("post_upload", null, ["user" => $user, "post_id" => $id]);
+            System::executeHook("post_upload", null, ["user" => $user, "post_id" => $id, "type"=>$type]);
             echo json_encode([
                 "type" => 'success',
                 "message" => "Post uploaded successfully to " . $_POST['community'],
@@ -317,7 +319,7 @@ if (isset($_GET['user'])) {
                   )
               GROUP BY posts.id
               ORDER BY posts.id DESC
-              LIMIT 50";
+              LIMIT 100";
 
     $stmt = $conn->prepare($query);
     $stmt->bind_param("iiii", $user, $user, $user, $user);
@@ -326,14 +328,12 @@ if (isset($_GET['user'])) {
     $result_array = $result->fetch_all(MYSQLI_ASSOC);
 
     foreach ($result_array as &$row) {
-        $text = $row['image_text'];
-        $text = trim(preg_replace('/\s+/', ' ', $text));
-        $text = trim(preg_replace('/\s\s+/', ' ', $text));
-        $row['image_text'] = $text;
         $row['user'] = ['id' => $un_ravel->_queryUser($row['userid'], 4), 'name' => $row['uidusers']];
         $row['comments'] = $row['comments_count'];
         unset($row['comments_count']);
     }
+
+
     unset($row);
 
     print_r(json_encode($result_array));
@@ -342,9 +342,8 @@ if (isset($_GET['user'])) {
 
 if (isset($_GET['id'])) {
     $result_array = [];
-    $user = $_SESSION['userId'];
+    $user = $_SESSION['userId'] ?? null;
     $post_id = $_GET['id'];
-
 
     $query = "SELECT posts.*, COUNT(comments.id) AS comments_count,
     users.uidusers, users.usersFirstname, users.usersSecondname, users.profile_picture,
@@ -364,10 +363,6 @@ if (isset($_GET['id'])) {
     $result_array = $result->fetch_all(MYSQLI_ASSOC);
 
     foreach ($result_array as &$row) {
-        $text = $row['image_text'];
-        $text = trim(preg_replace('/\s+/', ' ', $text));
-        $text = trim(preg_replace('/\s\s+/', ' ', $text));
-        $row['image_text'] = $text;
         $row['user'] = ['id' => $un_ravel->_queryUser($row['userid'], 4), 'name' => $row['uidusers']];
         $row['comments'] = $row['comments_count'];
         unset($row['comments_count']);

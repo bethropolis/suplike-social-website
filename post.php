@@ -8,12 +8,12 @@ if (isset($_GET['tag'])) {
 <?php
 if (isset($_GET['id'])) {
 ?>
-    <link rel="stylesheet" href="css/post.min.css">
+    <link rel="stylesheet" href="css/post.min.css?v.1">
 
 <?php } ?>
 
 
-<main>
+<main class="post-page">
 
     <style>
         .hide {

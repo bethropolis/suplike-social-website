@@ -21,7 +21,12 @@ if (!defined("USER_COMMENTS") || !USER_COMMENTS) {
 }
 
 if (isset($_POST['id'])) {
-    $comment = xss_clean($_POST['comment']);
+    $comment = xss_clean($_POST['comment']);  
+    $comment = htmlspecialchars($comment);
+    $comment = trim($comment);
+    $comment = str_replace("\r\n", "<br>", $comment);
+    $comment = str_replace("\n", "<br>", $comment);
+    $comment = str_replace("/\s+/", " ", $comment);
 
     if (empty($comment)) {
         $error->err("Comments", 22, "Comment cannot be empty");
@@ -49,7 +54,7 @@ if (isset($_POST['id'])) {
         $notify->notify($user, $text, 'post');
     }
 
-    System::executeHook("comment_created", null, ["post_id" => $post, "user_id" => $user]);
+    System::executeHook("comment_created", null, ["post_id" => $post, "comment_id" => $comment_id, "user_id" => $user]);
 
     print_r(json_encode([
         "type" => "success",

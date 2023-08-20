@@ -172,7 +172,7 @@ $user_id = $_SESSION['token'];
       // settings page
       if (isset($_GET["error"])) {
         echo '<div id="email-v" class="alert alert-danger text-center py-2 my-1  w-75 mx-auto" role="alert">
-        <p>An error occured, data not updated.</p>
+        <p>An error occured, data not updated. <b>ErrorType:</b> ' . $_GET["error"] . '</p>
       </div>';
       }
       if (isset($_GET["success"])) {

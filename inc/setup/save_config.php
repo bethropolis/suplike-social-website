@@ -29,7 +29,7 @@ $userPost = $_POST['userPost'] === 'true' ? true : false;
 $userComments = $_POST['userComments'] === 'true' ? true : false;
 
 // Read the existing env.php file
-$envContent = file_get_contents('env.php');
+$envContent = file_get_contents('env-sample.php');
 
 // Update the values if they have changed and are not empty
 if (!empty($dbDatabase) && $dbDatabase !== DB_DATABASE) {
