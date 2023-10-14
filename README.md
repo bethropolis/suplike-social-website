@@ -2,6 +2,7 @@
 
 # hello welcome to suplike
 
+
 ![suplike](https://img.shields.io/badge/project-suplike%20%F0%9F%92%9C-%236c5ce7)
 [![github](https://badgen.net/badge/icon/github?icon=github&label)](https://github.com/bethropolis/suplike-social-website)
 ![watch](https://img.shields.io/github/stars/bethropolis/suplike-social-website.svg)
@@ -324,4 +325,4 @@ check it out, all ideas aloud.
 
 # License
 
-it is licensed under my favourate License [MIT license](https://mit-license.org/) _(do what you want)_.
+it is licensed under my favourate License [MIT license](https://mit-license.org/) _(do what you want :)_.
