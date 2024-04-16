@@ -110,7 +110,7 @@ the GUI is a nicer interface which will automatically setup the database and cre
 
 ![GUI](_githubasserts/gui.png)
 <br>
-by default the GUI should open by default on the first time you run the app. If it doesn't then on the browser navigate to `{HOST_URL}/suplike/inc/setup/`.
+The GUI should open by default on the first time you run the app. If it doesn't then on the browser navigate to `{HOST_URL}/suplike/inc/setup/`.
 
 on the GUI you insert the credentials to your database and admin account after which you will automatically be logged in as admin.
 
