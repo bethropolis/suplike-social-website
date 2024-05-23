@@ -321,8 +321,6 @@ check it out, all ideas aloud.
 
 [bethropolis](https://github.com/bethropolis)
 
-> you can show support to this project by staring this repo, it really means alot to me.
-
 # License
 
 it is licensed under my favourate License [MIT license](https://mit-license.org/) _(do what you want :)_.
