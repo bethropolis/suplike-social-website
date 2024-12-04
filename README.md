@@ -19,8 +19,6 @@
 it's easy to install and [setup](#installation);
 
 
- check out [demo](https://bethro.alwaysdata.net)
-
 
 # Table of Contents
 
