@@ -1,3 +1,6 @@
+> [!NOTE]
+> fixing suplike bugs, issues and rewrite 
+
 ![logo](img/suplike.png)
 
 # hello welcome to suplike
